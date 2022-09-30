@@ -1,0 +1,17 @@
+.btnContainer {
+  border-radius: 8px;
+  margin: 5px;
+  padding: 5px;
+  background: #054f6e;
+  border-style: none;
+  color: #ffffff;
+}
+
+.btnContainer__disable {
+  border-radius: 8px;
+  margin: 5px;
+  padding: 5px;
+  background: #cbd5e1;
+  border-style: none;
+  color: #414c5b;
+}
