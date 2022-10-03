@@ -1,5 +1,15 @@
 // Settings
 @import 'settings';
 
+// //////////// COMMON
 // Components
-@import '../../modules/common/components/button/styles/index'
+/* Button */
+@import '../../modules/common/components/button/styles/index';
+
+
+// //////////// modules/AUTH
+// Pages
+@import '../../modules/auth/pages/login/styles/index';
+
+// Layouts
+@import '../../modules/auth/layouts/authLayout/styles/index.scss';

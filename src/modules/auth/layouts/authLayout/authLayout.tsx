@@ -2,11 +2,15 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 
 const Authlayout: React.FC<any> = (props) => {
-  const {} = props;
+  const { } = props;
   return (
-    <div>
-      <p>Bazar Layout</p>
-      <Outlet />
+    <div className="layoutContainer">
+      <section className="layoutContainer__content">
+        <Outlet />
+      </section>
+      <div className="layoutContainer__bg">
+        <img src="/assets/images/bg-login.png" alt="bazar Auth" />
+      </div>
     </div>
   );
 };

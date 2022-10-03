@@ -1,33 +1,23 @@
 import React from "react";
-import Button from "../../../common/components/button";
-import { EBtnVisibleType } from "../../../common/components/button/interfaces";
+import IconLogo from '../../../../assets/svg/icons/iconLogo';
+import useLogin from './hooks/useLogin';
 
 const Login: React.FC<any> = (props) => {
   const { } = props;
-
+  const { isTabletWidthOrLess } = useLogin();
   const handleButtonClick = (event: React.MouseEvent) => {
     console.log("Button click event!", event);
   };
 
   return (
-    <div>
-      <p>Login</p>
-      <Button onClick={ handleButtonClick }>Button</Button>
-      <br />
-      <br />
-      <Button isDisabled>Button Disabled</Button>
-      <br />
-      <br />
-      <Button visibleType={ EBtnVisibleType.outline }>Button Outline</Button>
-      <br />
-      <br />
-      <Button disabled visibleType={ EBtnVisibleType.outline }>Button Outline Disabled</Button>
-      <br />
-      <br />
-      <Button visibleType={ EBtnVisibleType.clear }>Button Outline</Button>
-      <br />
-      <br />
-      <Button disabled visibleType={ EBtnVisibleType.clear }>Button Outline Disabled</Button>
+    <div className="loginContainer">
+      <div className="loginContainer__logo">
+        <IconLogo color={ isTabletWidthOrLess() ? "#FFF" : undefined } />
+      </div>
+      <div className="loginContainer__titleAndSubTitle">
+        <h1 className="loginContainer__titleAndSubTitle-title">Login</h1>
+        <h2 className="loginContainer__titleAndSubTitle-subtitle">Welcome, please enter your credentials</h2>
+      </div>
     </div>
   );
 };
