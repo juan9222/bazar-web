@@ -11,5 +11,14 @@
     "typescript.format.insertSpaceAfterCommaDelimiter": true,
     "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyParenthesis": false,
     "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "extensions.ignoreRecommendations": false
+    "extensions.ignoreRecommendations": false,
+    "[scss]": {
+        "editor.defaultFormatter": "vscode.css-language-features"
+    },
+    "[typescript]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    },
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "vscode.typescript-language-features"
+    }
 }

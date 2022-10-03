@@ -1,26 +1,25 @@
-import React, { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
-import "./styles/index.css";
-
-export interface IButtonProps
-  extends DetailedHTMLProps<
-    ButtonHTMLAttributes<HTMLButtonElement>,
-    HTMLButtonElement
-  > {
-  isDisabled?: boolean;
-  onClick?: (event: React.MouseEvent) => void;
-}
+import React from "react";
+import { useButtonStyles } from "./hooks/useButtonStyles";
+import { IButtonProps } from "./interfaces";
 
 const Button: React.FC<IButtonProps> = (props) => {
-  const { children, isDisabled = false, onClick, ...rest } = props;
+  const { children, isDisabled = false, onClick, iconLeft, iconRight, ...rest } = props;
+  const { getClassNameByVisibleType } = useButtonStyles(props);
   return (
     <button
-      className={isDisabled ? "btnContainer__disable" : "btnContainer"}
+      className={ getClassNameByVisibleType() }
       data-testid="test-button"
-      disabled={isDisabled}
-      onClick={onClick}
-      {...rest}
+      disabled={ isDisabled }
+      onClick={ onClick }
+      { ...rest }
     >
-      {children}
+      { iconLeft && <div className="iconLeftContainer">
+        { iconLeft }
+      </div> }
+      { children }
+      { iconRight && <div className="iconRightContainer">
+        { iconRight }
+      </div> }
     </button>
   );
 };

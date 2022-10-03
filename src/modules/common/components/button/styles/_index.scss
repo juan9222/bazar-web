@@ -1,0 +1,84 @@
+@mixin btn {
+  padding: 14px 50px;
+  font-family: sfProDisplay;
+  font-size: 16.8;
+  border-style: none;
+  border-radius: 8px;
+  color: $primary_200;
+  font-size: 16.8px;
+  display: flex;
+  transition: all 0.3s;
+}
+
+.btnSolid {
+  @include btn;
+  background: $primary_300;
+  color: $white;
+  font-family: sfProDisplay;
+
+  &:disabled {
+    background-color: $neutral_100;
+    color: $neutral_400;
+
+    &:hover {
+      background-color: $neutral_100;
+    }
+  }
+
+  &:hover {
+    background-color: $primary_200;
+    cursor: pointer;
+  }
+}
+
+.btnOutline {
+  @include btn;
+  background: transparent;
+  color: $primary_300;
+  border: 1px solid $primary_300;
+  font-family: sfProDisplay;
+
+  &:disabled {
+    border: 1px solid $primary_100;
+    color: $neutral_400;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  &:hover {
+    background-color: rgba($neutral_200, 0.1);
+    cursor: pointer;
+  }
+
+}
+
+.btnClear {
+  @include btn;
+  background: transparent;
+  color: $primary_300;
+  font-family: sfProDisplay;
+
+  &:disabled {
+    color: $neutral_300;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  &:hover {
+    background-color: rgba($neutral_200, 0.1);
+    cursor: pointer;
+  }
+
+}
+
+.iconLeftContainer {
+  margin-right: 12px;
+}
+
+.iconRightContainer {
+  margin-left: 12px;
+}
