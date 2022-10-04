@@ -1,16 +1,21 @@
 import { lazy } from "react";
-import { Navigate, RouteObject, useRoutes } from "react-router-dom";
+import { RouteObject } from "react-router-dom";
+import ForgotPassword from "../../modules/auth/pages/forgotPassword";
+import Register from "../../modules/auth/pages/register";
 
 const LoginPage = lazy(() => import("../../modules/auth/pages/login"));
-const AuthLayout = lazy(() => import("../../modules/auth/layouts/authLayout"));
 const authRoutes: RouteObject[] = [
   {
     path: "login",
     element: <LoginPage />,
   },
   {
-    path: "neiro",
-    element: <p>Hola Soy Neiro</p>,
+    path: "register",
+    element: <Register />,
+  },
+  {
+    path: "forgot-password",
+    element: <ForgotPassword />,
   },
 ];
 

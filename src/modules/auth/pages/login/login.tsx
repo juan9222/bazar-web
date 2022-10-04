@@ -1,12 +1,14 @@
 import React from "react";
-import IconLogo from '../../../../assets/svg/icons/iconLogo';
+import { Link } from "react-router-dom";
 import Button from "../../../common/components/button";
 import InputText from "../../../common/components/inputText";
 import { ELarge } from "../../../common/interfaces";
+import AuthlayoutContent from "../../layouts/authLayoutContent";
 import useLogin from './hooks/useLogin';
 
 const Login: React.FC = () => {
-  const { isTabletWidthOrLess, register,
+  const {
+    register,
     handleSubmit,
     onSubmitForm,
     assignInputName,
@@ -16,14 +18,7 @@ const Login: React.FC = () => {
     handleToggleShowPassword, } = useLogin();
 
   return (
-    <div className="loginContainer">
-      <div className="loginContainer__logo">
-        <IconLogo color={ isTabletWidthOrLess() ? "#FFF" : undefined } />
-      </div>
-      <div className="loginContainer__titleAndSubTitle">
-        <h1 className="loginContainer__titleAndSubTitle-title">Login</h1>
-        <h2 className="loginContainer__titleAndSubTitle-subtitle">Welcome, please enter your credentials</h2>
-      </div>
+    <AuthlayoutContent title={ "Login" } subtitle={ "Welcome, please enter your credentials." }>
       <form onSubmit={ handleSubmit(onSubmitForm) }>
         <InputText
           register={ register }
@@ -50,14 +45,14 @@ const Login: React.FC = () => {
           }
           onClickIcon={ handleToggleShowPassword } />
         <p className="textAlignEnd">
-          <a href="/" className="textPrimary200 textLink">Forgot password</a>
+          <Link to="/auth/forgot-password" className="textPrimary200 textLink">Forgot password</Link>
         </p>
         <div className="loginContainer__buttonSubmit">
           <Button large={ ELarge.full } type="submit">Login</Button>
         </div>
         <div className="loginContainer__dontHaveAccount">
           <p className="defaultText textNeutral200 textAlignCenter">
-            Don't have an account? <a href="/" className="textPrimary200 textLink">Register</a>
+            Don't have an account? <Link to="/auth/register" className="textPrimary200 textLink">Register</Link>
           </p>
         </div>
         <div className="loginContainer__tAndC">
@@ -66,7 +61,7 @@ const Login: React.FC = () => {
           </p>
         </div>
       </form>
-    </div>
+    </AuthlayoutContent>
   );
 };
 
