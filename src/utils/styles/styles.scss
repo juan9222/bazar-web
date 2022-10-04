@@ -2,9 +2,13 @@
 @import 'settings';
 
 // //////////// COMMON
+// Styles
+@import "../../modules/common/styles/index";
 // Components
 /* Button */
 @import '../../modules/common/components/button/styles/index';
+/* InputText */
+@import '../../modules/common/components/inputText/styles/index';
 
 
 // //////////// modules/AUTH

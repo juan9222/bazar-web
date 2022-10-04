@@ -1,0 +1,35 @@
+.textPrimary200 {
+  color: $primary_200;
+}
+
+.textNeutral200 {
+  color: $neutral_200;
+}
+
+.defaultText {
+  font-weight: 400;
+  font-size: 16.8px;
+  line-height: 24px;
+  letter-spacing: 0.03em;
+}
+
+.smallText {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+
+.textLink {
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.textAlignEnd {
+  text-align: end;
+}
+
+.textAlignCenter {
+  text-align: center;
+}

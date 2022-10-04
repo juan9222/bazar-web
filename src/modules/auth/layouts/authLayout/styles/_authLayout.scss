@@ -35,5 +35,15 @@
       border-top-left-radius: 30px;
       height: 680px;
     }
+
+    &__bg {
+      flex: 1;
+
+      img {
+        width: 100%;
+        height: 45%;
+        object-fit: cover;
+      }
+    }
   }
 }

@@ -1,4 +1,5 @@
 import React, { ButtonHTMLAttributes, DetailedHTMLProps } from "react";
+import { ELarge } from "../../../interfaces";
 
 export enum EBtnVisibleType {
   solid = "solid",
@@ -11,6 +12,7 @@ export interface IButtonProps
     ButtonHTMLAttributes<HTMLButtonElement>,
     HTMLButtonElement
   > {
+  large?: ELarge;
   isDisabled?: boolean;
   visibleType?: EBtnVisibleType;
   iconLeft?: React.ReactNode;

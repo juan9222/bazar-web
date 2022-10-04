@@ -1,19 +1,20 @@
+import { ELarge } from "../../../interfaces";
 import { EBtnVisibleType, IButtonProps } from "../interfaces";
 
 export const useButtonStyles = (props: IButtonProps) => {
-  const { visibleType } = props;
+  const { visibleType, large } = props;
 
   const getClassNameByVisibleType = () => {
     switch (visibleType) {
       case EBtnVisibleType.solid:
-        return "btnSolid";
+        return large === ELarge.full ? "btnSolidFull" : "btnSolid";
       case EBtnVisibleType.outline:
-        return "btnOutline";
+        return large === ELarge.full ? "btnOutlineFull" : "btnOutline";
       case EBtnVisibleType.clear:
-        return "btnClear";
+        return large === ELarge.full ? "btnClearFull" : "btnClear";
 
       default:
-        return "btnSolid";
+        return large === ELarge.full ? "btnSolidFull" : "btnSolid";
     }
   };
   return {

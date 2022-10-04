@@ -10,9 +10,9 @@
   transition: all 0.3s;
 }
 
-.btnSolid {
-  @include btn;
-  background: $primary_300;
+@mixin btnDefaultSolid {
+  @include btn();
+  background: $primary_200;
   color: $white;
   font-family: sfProDisplay;
 
@@ -26,12 +26,26 @@
   }
 
   &:hover {
-    background-color: $primary_200;
+    background-color: $primary_300;
     cursor: pointer;
   }
 }
 
-.btnOutline {
+@mixin btnFullCenter {
+  width: 100%;
+  justify-content: center;
+}
+
+.btnSolid {
+  @include btnDefaultSolid();
+}
+
+.btnSolidFull {
+  @include btnFullCenter();
+  @include btnDefaultSolid();
+}
+
+@mixin btnDefaultOutline {
   @include btn;
   background: transparent;
   color: $primary_300;
@@ -54,8 +68,17 @@
 
 }
 
-.btnClear {
-  @include btn;
+.btnOutline {
+  @include btnDefaultOutline();
+}
+
+.btnOutlineFull {
+  @include btnFullCenter();
+  @include btnDefaultOutline();
+}
+
+@mixin btnDefaultClear {
+  @include btn();
   background: transparent;
   color: $primary_300;
   font-family: sfProDisplay;
@@ -73,6 +96,15 @@
     cursor: pointer;
   }
 
+}
+
+.btnClear {
+  @include btnDefaultClear();
+}
+
+.btnClearFull {
+  @include btnFullCenter();
+  @include btnDefaultClear();
 }
 
 .iconLeftContainer {
