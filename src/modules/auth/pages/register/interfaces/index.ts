@@ -8,7 +8,6 @@ export enum EProfile {
 export interface IRegisterFormProps {
   fullName: string;
   email: string;
-  countryCode: string;
   phoneNumber: string;
   whatsAppCommunication: boolean;
   profileType: EProfile;

@@ -9,7 +9,7 @@ const useRegister = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   // Form
-  const { register, handleSubmit, formState: { errors: registerErrors } } = useForm<IRegisterFormProps>({
+  const { handleSubmit, control, register, formState: { errors: registerErrors } } = useForm<IRegisterFormProps>({
     resolver: yupResolver(registerFormValidator),
     mode: "all",
   });
@@ -30,10 +30,11 @@ const useRegister = () => {
   };
 
   const onSubmitForm = (formData: IRegisterFormProps) => {
-    console.log(JSON.stringify(formData));
+    console.log(JSON.stringify(formData, null, 3));
   };
 
   return {
+    control,
     register,
     handleSubmit,
     onSubmitForm,
