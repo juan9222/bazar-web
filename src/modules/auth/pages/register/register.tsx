@@ -10,8 +10,10 @@ import { ELarge } from '../../../common/interfaces';
 import AuthlayoutContent from '../../layouts/authLayoutContent';
 import useRegister from './hooks/useRegister';
 import { EProfile } from './interfaces';
+import { FaUserTag, FaUserTie } from 'react-icons/fa';
 
-const Register: React.FC<any> = props => {
+
+const Verify: React.FC<any> = props => {
   const { } = props;
   const {
     control,
@@ -21,8 +23,10 @@ const Register: React.FC<any> = props => {
     assignInputName,
     hasErrorsInput,
     getMessageErrorInput,
-    showPassword,
-    handleToggleShowPassword,
+    showPassword1,
+    handleToggleShowPassword1,
+    showPassword2,
+    handleToggleShowPassword2,
   } = useRegister();
   return (
     <AuthlayoutContent title={ "Register" } subtitle={ "In order to open an account with us, we would like to know some details about you and your company." }>
@@ -61,33 +65,41 @@ const Register: React.FC<any> = props => {
         <div className="dFlex jcSpaceBetween">
           <label className="defaultText textNeutral400"><span className="textError100">*</span> Select your profile</label>
           <div className="dFlex">
-            <InputRadio register={ register } value={ EProfile.seller } name={ assignInputName("profileType") } label={ "Seller" } />
+            <InputRadio icon={ <FaUserTag /> } register={ register } value={ EProfile.seller } name={ assignInputName("profileType") } label={ "Seller" } />
             <div className="horizontalSpaceL" />
-            <InputRadio register={ register } value={ EProfile.buyer } name={ assignInputName("profileType") } label={ "Buyer" } />
+            <InputRadio icon={ <FaUserTie /> } register={ register } value={ EProfile.buyer } name={ assignInputName("profileType") } label={ "Buyer" } />
           </div>
         </div>
         <InputText
           control={ control }
           name={ assignInputName("password") }
           label={ "Password" }
-          type={ "password" }
+          type={ showPassword1 ? "text" : "password" }
           hasError={ hasErrorsInput("password") }
           errorMessage={ getMessageErrorInput("password") }
           autoCapitalize={ "off" }
           placeholder={ "Enter password" }
           autoComplete={ "off" }
-          required />
+          required
+          icon={
+            <p className="inputTextIconText">{ showPassword1 ? "Hide" : "Show" }</p>
+          }
+          onClickIcon={ handleToggleShowPassword1 } />
         <InputText
           control={ control }
           name={ assignInputName("confirmPassword") }
           label={ "Confirm password" }
-          type={ "password" }
+          type={ showPassword2 ? "text" : "password" }
           hasError={ hasErrorsInput("confirmPassword") }
           errorMessage={ getMessageErrorInput("confirmPassword") }
           autoCapitalize={ "off" }
           placeholder={ "Enter confirm password" }
           autoComplete={ "off" }
-          required />
+          required
+          icon={
+            <p className="inputTextIconText">{ showPassword2 ? "Hide" : "Show" }</p>
+          }
+          onClickIcon={ handleToggleShowPassword2 } />
         <Checkbox
           control={ control }
           label="I have read and agree to Terms of Use and Privacy Policy. "
@@ -106,4 +118,4 @@ const Register: React.FC<any> = props => {
   );
 };
 
-export default Register;
+export default Verify;

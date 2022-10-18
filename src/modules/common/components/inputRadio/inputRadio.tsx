@@ -1,7 +1,7 @@
 import React from 'react';
 import { IInputRadioProps } from './interfaces';
 const InputRadio: React.FC<IInputRadioProps> = (props) => {
-  const { name, label, register, value } = props;
+  const { name, label, register, value, icon } = props;
   return (
     <div className="radioButton">
       <input
@@ -11,7 +11,7 @@ const InputRadio: React.FC<IInputRadioProps> = (props) => {
         value={ value }
         id={ name }
       />
-      <label className="radioButton__label" htmlFor={ name }>{ label }</label>
+      <label className="radioButton__label" htmlFor={ name }>{ icon && <span className="radioButton__icon"> { icon } </span> }{ label }</label>
 
     </div>
   );

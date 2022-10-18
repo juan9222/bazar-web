@@ -30,8 +30,12 @@
 }
 
 .textLink {
-  font-weight: 700;
+  font-weight: 400;
   text-decoration: none;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
 }
 
 .textAlignEnd {

@@ -3,10 +3,15 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import { IRegisterFormProps, TRegisterFormKeys } from "../interfaces";
 import { useState } from "react";
 import { registerFormValidator } from "../validators";
+import { useNavigate } from "react-router-dom";
 
 const useRegister = () => {
   // States
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword1, setShowPassword1] = useState(false);
+  const [showPassword2, setShowPassword2] = useState(false);
+
+  // Hooks
+  const navigate = useNavigate();
 
   // Form
   const { handleSubmit, control, register, formState: { errors: registerErrors } } = useForm<IRegisterFormProps>({
@@ -15,7 +20,8 @@ const useRegister = () => {
   });
 
   // Methods
-  const handleToggleShowPassword = () => setShowPassword(!showPassword);
+  const handleToggleShowPassword1 = () => setShowPassword1(!showPassword1);
+  const handleToggleShowPassword2 = () => setShowPassword2(!showPassword2);
 
   const assignInputName = (inputName: TRegisterFormKeys): string => {
     return inputName.toString();
@@ -30,6 +36,7 @@ const useRegister = () => {
   };
 
   const onSubmitForm = (formData: IRegisterFormProps) => {
+    navigate("/auth/verify");
     console.log(JSON.stringify(formData, null, 3));
   };
 
@@ -41,8 +48,10 @@ const useRegister = () => {
     assignInputName,
     hasErrorsInput,
     getMessageErrorInput,
-    showPassword,
-    handleToggleShowPassword,
+    showPassword1,
+    handleToggleShowPassword1,
+    showPassword2,
+    handleToggleShowPassword2,
   };
 };
 
