@@ -11,7 +11,6 @@ const Button: React.FC<IButtonProps> = (props) => {
       data-testid="test-button"
       disabled={ isDisabled }
       onClick={ onClick }
-      { ...rest }
     >
       { iconLeft && <div className="iconLeftContainer">
         { iconLeft }

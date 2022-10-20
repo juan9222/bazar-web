@@ -11,6 +11,7 @@ import AuthlayoutContent from '../../layouts/authLayoutContent';
 import useRegister from './hooks/useRegister';
 import { EProfile } from './interfaces';
 import { FaUserTag, FaUserTie } from 'react-icons/fa';
+import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 
 
 const Verify: React.FC<any> = props => {
@@ -27,6 +28,7 @@ const Verify: React.FC<any> = props => {
     handleToggleShowPassword1,
     showPassword2,
     handleToggleShowPassword2,
+    loading,
   } = useRegister();
   return (
     <AuthlayoutContent title={ "Register" } subtitle={ "In order to open an account with us, we would like to know some details about you and your company." }>
@@ -105,7 +107,10 @@ const Verify: React.FC<any> = props => {
           label="I have read and agree to Terms of Use and Privacy Policy. "
           name={ assignInputName("iReadTermsAndPolicy") }
         />
-        <Button large={ ELarge.full } type="submit">Create account</Button>
+        <Button large={ ELarge.full } type="submit">{ loading ? (
+          <AiOutlineLoading3Quarters className="loaderIcon" />
+
+        ) : "Create account" }</Button>
         <div className="verticalSpaceL" />
         <Button visibleType={ EBtnVisibleType.clear } large={ ELarge.full } type="reset">Cancel</Button>
         <div className="verticalSpaceM" />

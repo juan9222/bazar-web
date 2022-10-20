@@ -1,9 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { RouterProvider, createBrowserRouter } from "react-router-dom";
+import App from "./app";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
-import rootRoutes from "./routers/root";
 import './utils/styles/styles.scss';
 
 const root = ReactDOM.createRoot(
@@ -11,9 +10,7 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <React.StrictMode>
-    <RouterProvider router={createBrowserRouter(rootRoutes)} />
-  </React.StrictMode>
+  <App />
 );
 
 // If you want to start measuring performance in your RouteProvider, pass a function

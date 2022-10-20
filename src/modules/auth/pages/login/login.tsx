@@ -1,4 +1,5 @@
 import React from "react";
+import { AiOutlineLoading3Quarters } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import Button from "../../../common/components/button";
 import InputText from "../../../common/components/inputText";
@@ -15,7 +16,8 @@ const Login: React.FC = () => {
     hasErrorsInput,
     getMessageErrorInput,
     showPassword,
-    handleToggleShowPassword, } = useLogin();
+    handleToggleShowPassword,
+    loading, } = useLogin();
 
   return (
     <AuthlayoutContent title={ "Login" } subtitle={ "Welcome, please enter your credentials." }>
@@ -48,7 +50,10 @@ const Login: React.FC = () => {
           <Link to="/auth/forgot-password" className="textPrimary200 textLink">Forgot password</Link>
         </p>
         <div className="loginContainer__buttonSubmit">
-          <Button large={ ELarge.full } type="submit">Login</Button>
+          <Button disabled={ loading } large={ ELarge.full } type="submit">{ loading ? (
+            <AiOutlineLoading3Quarters className="loaderIcon" />
+
+          ) : "Login" }</Button>
         </div>
         <div className="loginContainer__dontHaveAccount">
           <p className="defaultText textNeutral200 textAlignCenter">

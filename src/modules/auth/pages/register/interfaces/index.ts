@@ -21,3 +21,9 @@ export type TRegisterFormKeys = keyof IRegisterFormProps;
 export type TRegisterFormValidatorShapeKeys = {
   [type in TRegisterFormKeys]: AnySchema
 };
+
+export interface IRegisterResponse {
+  created: boolean;
+  verified: boolean;
+  uuid: string;
+}

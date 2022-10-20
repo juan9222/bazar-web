@@ -9,7 +9,7 @@ const InputRadio: React.FC<IInputRadioProps> = (props) => {
         { ...register(name) }
         type="radio"
         value={ value }
-        id={ name }
+        id={ value.toLocaleLowerCase() }
       />
       <label className="radioButton__label" htmlFor={ name }>{ icon && <span className="radioButton__icon"> { icon } </span> }{ label }</label>
 

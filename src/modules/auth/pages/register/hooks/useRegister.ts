@@ -4,14 +4,19 @@ import { IRegisterFormProps, TRegisterFormKeys } from "../interfaces";
 import { useState } from "react";
 import { registerFormValidator } from "../validators";
 import { useNavigate } from "react-router-dom";
+import useRegisterProviders from "../providers";
 
 const useRegister = () => {
   // States
   const [showPassword1, setShowPassword1] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   // Hooks
   const navigate = useNavigate();
+
+  // Providers
+  const { registerProvider } = useRegisterProviders();
 
   // Form
   const { handleSubmit, control, register, formState: { errors: registerErrors } } = useForm<IRegisterFormProps>({
@@ -35,9 +40,21 @@ const useRegister = () => {
     return registerErrors[inputName]?.message || "This field is required";
   };
 
+  const handleRegister = async (formData: IRegisterFormProps) => {
+    try {
+      const resp = await registerProvider(formData);
+      const { created, verified, uuid } = resp.data;
+      console.log("Success, register: ", { created, verified, uuid });
+      setLoading(false);
+      // navigate("/auth/verify");
+    } catch (error) {
+      console.log(error);
+      setLoading(false);
+    }
+  };
+
   const onSubmitForm = (formData: IRegisterFormProps) => {
-    navigate("/auth/verify");
-    console.log(JSON.stringify(formData, null, 3));
+    handleRegister(formData);
   };
 
   return {
@@ -52,6 +69,7 @@ const useRegister = () => {
     handleToggleShowPassword1,
     showPassword2,
     handleToggleShowPassword2,
+    loading,
   };
 };
 
