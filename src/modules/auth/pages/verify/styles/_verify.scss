@@ -1,0 +1,64 @@
+.otpInputSeparator {
+  width: 8px;
+}
+
+.otpInput input {
+  border: none;
+  border-bottom: 1px solid $neutral_200;
+  min-width: 47px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24.19px;
+  line-height: 40px;
+  outline: none;
+
+  &:focus {
+    border: none;
+    border-bottom: 2px solid $neutral_200;
+  }
+}
+
+.otpStatus {
+  // display: flex;
+  // align-items: center;
+  // justify-content: center;
+  text-align: center;
+  margin-top: 16px;
+
+  &__verified {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    &--label {
+      color: $success_200;
+      font-weight: 500;
+      font-size: 16.8px;
+      line-height: 24px;
+      letter-spacing: 0.03em;
+      margin-right: 12px;
+    }
+
+    &--icon {
+      width: 24px;
+      height: 24px;
+      color: $success_200;
+    }
+  }
+
+  &__wrongVerified {
+    color: $error_100;
+    font-weight: 400;
+    font-size: 16.8px;
+    line-height: 24px;
+    letter-spacing: 0.03em;
+  }
+
+  &__countdown {
+    color: $neutral_200;
+    font-weight: 300;
+    font-size: 16.8px;
+    line-height: 24px;
+    letter-spacing: 0.03em;
+  }
+}

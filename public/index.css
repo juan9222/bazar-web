@@ -1,0 +1,30 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+}
+
+@font-face {
+  font-family: sfProDisplay;
+  src: url('./assets/fonts/SFPRODISPLAYREGULAR.OTF');
+}
+
+body {
+  font-family: "sfProDisplay", sans-serif;
+}
+
+@keyframes spin {
+    from {
+        transform: scale(1) rotate(0deg);
+    }
+    to {
+        transform: scale(1) rotate(360deg);
+    }
+}
+
+.loaderIcon {
+  width: 25px;
+  height: 25px;
+    animation: spin 1s infinite linear;
+}

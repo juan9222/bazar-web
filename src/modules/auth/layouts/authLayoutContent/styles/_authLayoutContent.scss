@@ -1,0 +1,34 @@
+.layoutContainerContent {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+
+  &__logo {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__content {
+    width: 100%;
+  }
+}
+
+@media (max-width: $breakpoint_tablet) {
+  .layoutContainerContent {
+
+    &__logo {
+      width: 150px;
+      z-index: 1;
+      position: relative;
+      top: -75px;
+    }
+
+    &__content {
+      position: sticky;
+      top: 0;
+      z-index: 1;
+    }
+  }
+}

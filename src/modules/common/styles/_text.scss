@@ -1,0 +1,47 @@
+.textPrimary200 {
+  color: $primary_200;
+}
+
+.textNeutral200 {
+  color: $neutral_200;
+}
+
+.textNeutral400 {
+  color: $neutral_400;
+}
+
+.textError100 {
+  color: $error_100;
+}
+
+.defaultText {
+  font-weight: 400;
+  font-size: 16.8px;
+  line-height: 24px;
+  letter-spacing: 0.03em;
+}
+
+.smallText {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+
+.textLink {
+  font-weight: 400;
+  text-decoration: none;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.textAlignEnd {
+  text-align: end;
+}
+
+.textAlignCenter {
+  text-align: center;
+}

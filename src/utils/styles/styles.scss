@@ -1,0 +1,35 @@
+// Settings
+@import 'settings';
+
+// //////////// COMMON
+// Styles
+@import "../../modules/common/styles/index";
+// Components
+/* Button */
+@import '../../modules/common/components/button/styles/index';
+/* InputText */
+@import '../../modules/common/components/inputText/styles/index';
+/* InputPhoneNumber */
+@import '../../modules/common/components/inputPhoneNumber/styles/index';
+/* Checkbox */
+@import '../../modules/common/components/checkbox/styles/index';
+/* InputRadio */
+@import '../../modules/common/components/inputRadio/styles/index';
+
+
+// //////////// modules/AUTH
+// Components
+@import "../../modules/auth/components/heroAuth/styles/index";
+// Pages
+@import '../../modules/auth/pages/login/styles/index';
+@import '../../modules/auth/pages/verify/styles/index';
+
+// Layouts
+@import '../../modules/auth/layouts/authLayoutContent/styles/index';
+@import '../../modules/auth/layouts/authLayout/styles/index';
+
+// //////////// shared/DEMO
+@import "../../shared/styles/demo/index";
+
+// ///////// Layouts
+@import '../../modules/dashboard/layouts/dashboardLayout/styles/index';

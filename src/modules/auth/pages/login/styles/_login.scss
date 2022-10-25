@@ -1,0 +1,35 @@
+.loginContainer {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  &__logo {
+    display: flex;
+    justify-content: center;
+  }
+
+  &__buttonSubmit {
+    margin-top: 50px;
+  }
+
+  &__dontHaveAccount {
+    margin-top: 50px;
+  }
+
+  &__tAndC {
+    margin-top: 75px;
+  }
+
+}
+
+@media (max-width: $breakpoint_tablet) {
+  .loginContainer {
+
+    &__logo {
+      width: 150px;
+      margin: -85px auto;
+    }
+  }
+}

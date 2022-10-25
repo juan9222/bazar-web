@@ -1,0 +1,74 @@
+.dshLayout {
+  background-color: $primary-300;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+
+  &__nav {
+    width: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+
+    &--btnNav {
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 54px;
+      margin: 15px 0;
+
+      &--icon {
+        color: $white;
+        width: 24px;
+        height: 24px;
+        margin-bottom: 8px;
+      }
+
+      &--label {
+        font-size: 11.7px;
+        font-weight: 300;
+        color: $white;
+      }
+    }
+  }
+
+  &__body {
+    background-color: $white;
+    flex: 1;
+    border-radius: 8px 0 0 8px;
+    padding: 0 40px 0 65px;
+
+    &--header {
+      border-bottom: 1px solid $neutral-100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+
+      &--logo {
+        width: 123px;
+      }
+
+      &--right {
+        display: flex;
+        align-items: center;
+
+        &--icon {
+          color: $neutral-100;
+          width: 42px;
+          height: 42px;
+          margin-right: 8px;
+          cursor: pointer;
+        }
+
+        &--icon2 {
+          color: $neutral-300;
+          width: 24px;
+          height: 24px;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}

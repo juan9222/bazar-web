@@ -1,0 +1,116 @@
+@mixin btn {
+  padding: 14px 50px;
+  font-family: sfProDisplay;
+  font-size: 16.8;
+  border-style: none;
+  border-radius: 8px;
+  color: $primary_200;
+  font-size: 16.8px;
+  display: flex;
+  transition: all 0.3s;
+}
+
+@mixin btnDefaultSolid {
+  @include btn();
+  background: $primary_200;
+  color: $white;
+  font-family: sfProDisplay;
+
+  &:disabled {
+    background-color: $neutral_100;
+    color: $neutral_400;
+
+    &:hover {
+      background-color: $neutral_100;
+    }
+  }
+
+  &:hover {
+    background-color: $primary_300;
+    cursor: pointer;
+  }
+}
+
+@mixin btnFullCenter {
+  width: 100%;
+  justify-content: center;
+}
+
+.btnSolid {
+  @include btnDefaultSolid();
+}
+
+.btnSolidFull {
+  @include btnFullCenter();
+  @include btnDefaultSolid();
+}
+
+@mixin btnDefaultOutline {
+  @include btn;
+  background: transparent;
+  color: $primary_300;
+  border: 1px solid $primary_300;
+  font-family: sfProDisplay;
+
+  &:disabled {
+    border: 1px solid $primary_100;
+    color: $neutral_400;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  &:hover {
+    background-color: rgba($neutral_200, 0.1);
+    cursor: pointer;
+  }
+
+}
+
+.btnOutline {
+  @include btnDefaultOutline();
+}
+
+.btnOutlineFull {
+  @include btnFullCenter();
+  @include btnDefaultOutline();
+}
+
+@mixin btnDefaultClear {
+  @include btn();
+  background: transparent;
+  color: $primary_300;
+  font-family: sfProDisplay;
+
+  &:disabled {
+    color: $neutral_300;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  &:hover {
+    background-color: rgba($neutral_200, 0.1);
+    cursor: pointer;
+  }
+
+}
+
+.btnClear {
+  @include btnDefaultClear();
+}
+
+.btnClearFull {
+  @include btnFullCenter();
+  @include btnDefaultClear();
+}
+
+.iconLeftContainer {
+  margin-right: 12px;
+}
+
+.iconRightContainer {
+  margin-left: 12px;
+}
