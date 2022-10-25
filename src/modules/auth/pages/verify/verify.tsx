@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import OtpInput from "react-otp-input";
 import Button from "../../../common/components/button";
 import { EBtnVisibleType } from "../../../common/components/button/interfaces";
@@ -10,7 +10,7 @@ import { EVerifyStatus } from "./interfaces";
 
 const Verify: React.FC = () => {
 
-  const { otp, setOtp, verifyState, onSubmit } = useVerify();
+  const { otp, setOtp, verifyState, onSubmit, onResend, onVerify } = useVerify();
 
   return (
     <AuthlayoutContent title={ "Phone number verification" } subtitle={ "We take your security very seriously. Therefore, we need to validate your cell phone number, please enter the verification code that we send to your cell phone in the following field." }>
@@ -52,7 +52,7 @@ const Verify: React.FC = () => {
         separator={ <span className="otpInputSeparator"></span> }
       />
       <p className="defaultText textNeutral200 textAlignCenter">
-        Don't receive code? <button className="textPrimary200 defaultText textLink">Resend</button>
+        Don't receive code? <button onClick={ onResend } className="textPrimary200 defaultText textLink">Resend</button>
       </p>
       <div className="verticalSpaceXL" />
       <Button large={ ELarge.full } type="submit" onClick={ onSubmit } disabled={ otp.length < 6 }>Verify phone</Button>

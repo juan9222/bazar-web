@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./app";
+import Root from "./root";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 import './utils/styles/styles.scss';
@@ -10,7 +10,7 @@ const root = ReactDOM.createRoot(
 );
 
 root.render(
-  <App />
+  <Root />
 );
 
 // If you want to start measuring performance in your RouteProvider, pass a function

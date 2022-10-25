@@ -11,18 +11,21 @@ const useRegister = () => {
   const [showPassword1, setShowPassword1] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [errorMsg, setErrorMsg] = useState('');
 
   // Hooks
   const navigate = useNavigate();
 
   // Providers
-  const { registerProvider } = useRegisterProviders();
+  const { registerProvider, enrollSmsProvider } = useRegisterProviders();
 
   // Form
-  const { handleSubmit, control, register, formState: { errors: registerErrors } } = useForm<IRegisterFormProps>({
+  const { handleSubmit, control, register, watch, formState: { errors: registerErrors } } = useForm<IRegisterFormProps>({
     resolver: yupResolver(registerFormValidator),
     mode: "all",
   });
+
+  const watchWhatsAppCommunication = watch("whatsAppCommunication");
 
   // Methods
   const handleToggleShowPassword1 = () => setShowPassword1(!showPassword1);
@@ -41,25 +44,32 @@ const useRegister = () => {
   };
 
   const handleRegister = async (formData: IRegisterFormProps) => {
+    setErrorMsg("");
     try {
-      const resp = await registerProvider(formData);
-      const { created, verified, uuid } = resp.data;
-      console.log("Success, register: ", { created, verified, uuid });
+      await registerProvider(formData);
       setLoading(false);
-      // navigate("/auth/verify");
-    } catch (error) {
-      console.log(error);
+      navigate("/auth/verify", {
+        state: {
+          email: formData.email,
+          password: formData.password
+        }
+      });
+    } catch (error: any) {
+      const errorMessage = error.response.data.errorMessage;
+      setErrorMsg(errorMessage);
       setLoading(false);
     }
   };
 
   const onSubmitForm = (formData: IRegisterFormProps) => {
+    setLoading(true);
     handleRegister(formData);
   };
 
   return {
     control,
     register,
+    registerErrors,
     handleSubmit,
     onSubmitForm,
     assignInputName,
@@ -70,6 +80,8 @@ const useRegister = () => {
     showPassword2,
     handleToggleShowPassword2,
     loading,
+    errorMsg,
+    watchWhatsAppCommunication,
   };
 };
 

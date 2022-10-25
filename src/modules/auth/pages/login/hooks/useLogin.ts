@@ -4,6 +4,7 @@ import { ILoginFormProps, TLoginFormKeys } from "../interfaces";
 import { loginFormValidator } from "../validators";
 import { useState } from "react";
 import useLoginProviders from "../providers";
+import { useNavigate } from "react-router-dom";
 
 const useLogin = () => {
   const { innerWidth: viewPortWidth } = window;
@@ -11,6 +12,7 @@ const useLogin = () => {
   // States
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [haveError, setHaveError] = useState(false);
 
 
   // Form
@@ -18,6 +20,9 @@ const useLogin = () => {
     resolver: yupResolver(loginFormValidator),
     mode: "all",
   });
+
+  // Hooks
+  const navigate = useNavigate();
 
   // Providers
   const { loginProvider } = useLoginProviders();
@@ -40,13 +45,20 @@ const useLogin = () => {
   };
 
   const handleLogin = async (formData: ILoginFormProps) => {
+    setHaveError(false);
     try {
-      const resp = await loginProvider(formData);
-      const { accessToken } = resp.data;
-      console.log("Success, Token: ", accessToken);
+      const resp: any = await loginProvider(formData);
+      const { oobCode, mfaToken } = resp.data.data;
+      navigate("/auth/verify", {
+        state: {
+          oobCode,
+          mfaToken,
+        }
+      });
       setLoading(false);
+
     } catch (error) {
-      console.log(error);
+      setHaveError(true);
       setLoading(false);
     }
   };
@@ -67,6 +79,7 @@ const useLogin = () => {
     showPassword,
     handleToggleShowPassword,
     loading,
+    haveError,
   };
 };
 

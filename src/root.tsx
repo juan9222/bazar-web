@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import rootRoutes from "./routers/root";
 import useInterceptor from "./shared/config/interceptor";
 
-const App = () => {
+const Root = () => {
   useInterceptor();
   return (
     <React.StrictMode>
@@ -12,4 +12,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Root;

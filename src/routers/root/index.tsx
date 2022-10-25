@@ -1,12 +1,15 @@
-import { lazy } from "react";
-import { RouteObject } from "react-router-dom";
+import { RouteObject, Navigate } from "react-router-dom";
+import Authlayout from "../../modules/auth/layouts/authLayout";
 import authRoutes from "../auth";
 
-const AuthLayout = lazy(() => import("../../modules/auth/layouts/authLayout"));
 const rootRoutes: RouteObject[] = [
   {
+    path: "/",
+    element: <Navigate to="/auth/login" />
+  },
+  {
     path: "/auth",
-    element: <AuthLayout />,
+    element: <Authlayout />,
     children: authRoutes,
   },
 ];

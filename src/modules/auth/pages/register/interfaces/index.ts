@@ -9,6 +9,7 @@ export interface IRegisterFormProps {
   fullName: string;
   email: string;
   phoneNumber: string;
+  phoneNumberWhatsapp: string;
   whatsAppCommunication: boolean;
   profileType: EProfile;
   password: string;

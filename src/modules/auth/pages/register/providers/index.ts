@@ -12,34 +12,88 @@ const useRegisterProviders = () => {
     profileType,
     password,
     iReadTermsAndPolicy,
+    phoneNumberWhatsapp,
   }: IRegisterFormProps) => {
     axios.defaults.baseURL = `${ process.env.REACT_APP_BAZAR_AUTH_URL }/api/${ process.env.REACT_APP_BAZAR_AUTH_VERSION }`;
+    const dataWithoutPhones = {
+      personDTO: {
+        firstName: fullName.split(" ")[0],
+        lastName: fullName.split(" ")[1],
+        terms_accepted: iReadTermsAndPolicy,
+      },
+      emailDTO: {
+        email,
+      },
+      password,
+      rolName: profileType
+    };
+
     const request = axios<IRegisterResponse>({
       method: "POST",
       url: "/auth/signup",
+      data: whatsAppCommunication ?
+        {
+          ...dataWithoutPhones, phones: [
+            {
+              phoneNumber: phoneNumber,
+            },
+            {
+              phoneNumber: phoneNumber,
+              whatsappValidate: whatsAppCommunication
+            }
+          ],
+        } : {
+          ...dataWithoutPhones, phones: [
+            {
+              phoneNumber: phoneNumber,
+            },
+            {
+              phoneNumber: phoneNumberWhatsapp,
+              whatsappValidate: whatsAppCommunication
+            }
+          ],
+        }
+    });
+    return trackPromise(request);
+  };
+
+  const enrollSmsProvider = ({ email, password }: {
+    email: string; password: string;
+  }) => {
+    const request = axios({
+      method: "POST",
+      url: "/auth/enrollAuthenticator",
       data: {
-        personDTO: {
-          firstName: fullName,
-          terms_accepted: iReadTermsAndPolicy,
-        },
         emailDTO: {
           email,
-          phoneNumber: phoneNumber
         },
-        password: password,
-        phones: [
-          {
-            phoneNumber: phoneNumber,
-            whatsappValidate: whatsAppCommunication
-          }
-        ],
-        rolName: profileType
+        password,
       }
     });
     return trackPromise(request);
   };
+
+  const confirmEnrollProvider = ({ mfaToken, oobCode, bindingCode }: {
+    mfaToken: string; oobCode: string; bindingCode: string;
+  }) => {
+    const request = axios({
+      method: "POST",
+      url: "/auth/confirmEnrollment",
+      data: {
+        mfaToken,
+        oobCode,
+        bindingCode,
+      }
+    });
+    return trackPromise(request);
+  };
+
+
+
   return {
-    registerProvider
+    registerProvider,
+    enrollSmsProvider,
+    confirmEnrollProvider,
   };
 };
 

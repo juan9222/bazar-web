@@ -20,6 +20,7 @@ const Verify: React.FC<any> = props => {
     control,
     register,
     handleSubmit,
+    registerErrors,
     onSubmitForm,
     assignInputName,
     hasErrorsInput,
@@ -29,9 +30,16 @@ const Verify: React.FC<any> = props => {
     showPassword2,
     handleToggleShowPassword2,
     loading,
+    errorMsg,
+    watchWhatsAppCommunication,
   } = useRegister();
   return (
     <AuthlayoutContent title={ "Register" } subtitle={ "In order to open an account with us, we would like to know some details about you and your company." }>
+      { errorMsg && <>
+        <p className="textError100 textAlignCenter">{ errorMsg }</p>
+        <div className="verticalSpaceM"></div>
+      </>
+      }
       <form onSubmit={ handleSubmit(onSubmitForm) }>
         <InputText
           control={ control }
@@ -58,12 +66,20 @@ const Verify: React.FC<any> = props => {
         <InputPhoneNumber
           control={ control }
           name={ assignInputName("phoneNumber") }
+          labelCountry={ "Country code" }
+          labelPhone={ "Phone number" }
         />
         <Checkbox
           control={ control }
           label="Use this number for WhatsApp communication"
           name={ assignInputName("whatsAppCommunication") }
         />
+        { !watchWhatsAppCommunication && <InputPhoneNumber
+          control={ control }
+          name={ assignInputName("phoneNumberWhatsapp") }
+          labelCountry={ "Country code" }
+          labelPhone={ "Phone number WhatsApp" }
+        /> }
         <div className="dFlex jcSpaceBetween">
           <label className="defaultText textNeutral400"><span className="textError100">*</span> Select your profile</label>
           <div className="dFlex">
@@ -107,7 +123,7 @@ const Verify: React.FC<any> = props => {
           label="I have read and agree to Terms of Use and Privacy Policy. "
           name={ assignInputName("iReadTermsAndPolicy") }
         />
-        <Button large={ ELarge.full } type="submit">{ loading ? (
+        <Button large={ ELarge.full } type="submit" onClick={ () => console.log(registerErrors) }>{ loading ? (
           <AiOutlineLoading3Quarters className="loaderIcon" />
 
         ) : "Create account" }</Button>

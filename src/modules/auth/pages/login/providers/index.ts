@@ -10,7 +10,7 @@ const useLoginProviders = () => {
     axios.defaults.baseURL = `${ process.env.REACT_APP_BAZAR_AUTH_URL }/api/${ process.env.REACT_APP_BAZAR_AUTH_VERSION }`;
     const request = axios<ILoginResponse>({
       method: "POST",
-      url: "/auth/login",
+      url: "/auth/login-mfa",
       data: {
         emailDTO: {
           email,

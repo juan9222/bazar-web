@@ -12,6 +12,7 @@ export const registerFormValidator = Yup.object().shape<TRegisterFormValidatorSh
     .oneOf([Yup.ref('password'), null], 'Passwords must match'),
   profileType: Yup.string().required().oneOf([EProfile.seller, EProfile.buyer,], "This field is required"),
   phoneNumber: Yup.string().trim().required("This field is required"),
+  phoneNumberWhatsapp: Yup.string().nullable().notRequired(),
   iReadTermsAndPolicy: Yup.bool().oneOf([true], "This field is required"),
-  whatsAppCommunication: Yup.bool().oneOf([true], "This field is required")
+  whatsAppCommunication: Yup.bool().oneOf([true, false], "This field is required")
 });
