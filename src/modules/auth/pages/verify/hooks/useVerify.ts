@@ -36,18 +36,21 @@ const useVerify = () => {
 
   const onVerify = async () => {
     const { mfaToken, oobCode } = state;
+    // Login OTP
     if (mfaToken) {
       try {
-        await confirmEnrollProvider({ oobCode, mfaToken, bindingCode: otp });
+        const resp: any = await confirmEnrollProvider({ oobCode, mfaToken, bindingCode: otp });
+        const { accessToken, tokenType } = resp.data.data;
         setVerifyState(EVerifyStatus.verified);
         setTimeout(() => {
-          navigate("/auth/login");
+          navigate("/dashboard/login");
         }, 3000);
       } catch (error) {
         setVerifyState(EVerifyStatus.wrongVerified);
       }
 
     } else {
+      // Register OTP
       setVerifyState(EVerifyStatus.loading);
       try {
         await confirmEnrollProvider({ oobCode: tokens.oobCode, mfaToken: tokens.mfaToken, bindingCode: otp });

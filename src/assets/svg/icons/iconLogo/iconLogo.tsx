@@ -4,7 +4,7 @@ import { IIconProps } from "../../../../shared/interfaces";
 const IconLogo: React.FC<IIconProps> = (props) => {
   const { color } = props;
   return (
-    <svg width="258" height="63" viewBox="0 0 258 63" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <svg width="258" height="63" viewBox="0 0 258 63" fill="none" xmlns="http://www.w3.org/2000/svg" { ...props }>
       <path fillRule="evenodd" clipRule="evenodd" d="M233.71 36.5921V62.6077H244.534V36.5921C244.534 29.6626 249.442 24.0705 256.616 24.0705H258V14.5881H256.616C244.03 14.5881 233.71 24.4352 233.71 36.5921Z" fill={ color ?? "#054F6E" } />
       <mask id="mask0_135_191" maskUnits="userSpaceOnUse" x="172" y="14" width="52" height="49">
         <path fillRule="evenodd" clipRule="evenodd" d="M172.545 14.5881H223.139V62.6077H172.545V14.5881Z" fill="white" />
