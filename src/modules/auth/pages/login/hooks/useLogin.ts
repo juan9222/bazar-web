@@ -2,9 +2,10 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ILoginFormProps, TLoginFormKeys } from "../interfaces";
 import { loginFormValidator } from "../validators";
-import { useState } from "react";
+import { useState, useEffect } from 'react';
 import useLoginProviders from "../providers";
 import { useNavigate } from "react-router-dom";
+import { setDefaultAuthorizationToken } from '../../../../common/helpers/index';
 
 const useLogin = () => {
   const { innerWidth: viewPortWidth } = window;
@@ -48,11 +49,12 @@ const useLogin = () => {
     setHaveError(false);
     try {
       const resp: any = await loginProvider(formData);
-      const { oobCode, mfaToken } = resp.data.data;
+      const { oobCode, mfaToken, userDTO } = resp.data.data;
       navigate("/auth/verify", {
         state: {
           oobCode,
           mfaToken,
+          uuid: userDTO.uuid
         }
       });
       setLoading(false);
@@ -67,6 +69,10 @@ const useLogin = () => {
     setLoading(true);
     handleLogin(formData);
   };
+
+  useEffect(() => {
+    setDefaultAuthorizationToken();
+  }, []);
 
   return {
     isTabletWidthOrLess,

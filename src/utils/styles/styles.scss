@@ -15,6 +15,10 @@
 @import '../../modules/common/components/checkbox/styles/index';
 /* InputRadio */
 @import '../../modules/common/components/inputRadio/styles/index';
+/* ProfilePhoto */
+@import '../../modules/common/components/profilePhoto/styles/index';
+/* InputFile */
+@import '../../modules/common/components/inputFile/styles/index';
 /* Modal */
 @import '../../modules/common/components/modal/styles/index';
 
@@ -30,8 +34,8 @@
 @import '../../modules/auth/layouts/authLayoutContent/styles/index';
 @import '../../modules/auth/layouts/authLayout/styles/index';
 
-// //////////// shared/DEMO
-@import "../../shared/styles/demo/index";
 
-// ///////// Layouts
-@import '../../modules/dashboard/layouts/dashboardLayout/styles/index';
+// //////////// shared/DASHBOARD
+// Layouts
+@import '../../modules/dashboard/layouts/dashboardLayout/styles/index.scss';
+@import '../../modules/dashboard/screens/companyCreation/styles/index.scss';

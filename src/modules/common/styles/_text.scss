@@ -6,6 +6,10 @@
   color: $neutral_200;
 }
 
+.textNeutral300 {
+  color: $neutral_300;
+}
+
 .textNeutral400 {
   color: $neutral_400;
 }
@@ -44,4 +48,35 @@
 
 .textAlignCenter {
   text-align: center;
+}
+
+.formTitle {
+  font-size: 24.2px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.65;
+  letter-spacing: 0.73px;
+  text-align: left;
+  color: $neutral-400;
+  margin-bottom: 15px;
+}
+
+.formText {
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.71;
+  letter-spacing: 0.42px;
+  text-align: left;
+  color: $neutral-400;
+}
+
+.labelInput {
+  color: $neutral_400;
+  font-weight: 400;
+  font-size: 16.8px;
+  line-height: 24px;
+  letter-spacing: 0.03em;
 }

@@ -1,0 +1,65 @@
+.profilePhoto {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+
+  &__container {
+    position: relative;
+    margin-bottom: 12px;
+
+    &--imgEmpty {
+      width: 120px;
+      height: 120px;
+      color: $neutral-100;
+    }
+
+    &--icon {
+      width: 30px;
+      height: 30px;
+      border: 1px solid $white;
+      background-color: $white;
+      position: absolute;
+      bottom: 4px;
+      right: 4px;
+      padding: 1px;
+      border-radius: 15px;
+
+      &--bg {
+        background-color: $secondary-100;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        * {
+          color: $white;
+        }
+      }
+    }
+  }
+
+  &__name {
+    font-size: 20.2px;
+    font-weight: 600;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.59;
+    letter-spacing: 0.61px;
+    text-align: left;
+    color: $primary-300;
+  }
+
+  &__role {
+    font-size: 16.8px;
+    font-weight: normal;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.43;
+    letter-spacing: 0.5px;
+    text-align: left;
+    color: $neutral-300;
+  }
+}

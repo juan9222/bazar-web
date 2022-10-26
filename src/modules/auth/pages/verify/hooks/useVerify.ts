@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { EVerifyStatus } from '../interfaces/index';
 import useRegisterProviders from '../../register/providers/index';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { setDefaultAuthorizationToken } from "../../../../common/helpers";
 
 const useVerify = () => {
   const [otp, setOtp] = useState("");
@@ -35,15 +36,18 @@ const useVerify = () => {
   };
 
   const onVerify = async () => {
-    const { mfaToken, oobCode } = state;
+    const { mfaToken, oobCode, uuid } = state;
     // Login OTP
     if (mfaToken) {
       try {
         const resp: any = await confirmEnrollProvider({ oobCode, mfaToken, bindingCode: otp });
-        const { accessToken, tokenType } = resp.data.data;
+        const { accessToken } = resp.data.data;
+        localStorage.setItem("uuid", uuid);
+        localStorage.setItem("accessToken", accessToken);
+        setDefaultAuthorizationToken(accessToken);
         setVerifyState(EVerifyStatus.verified);
         setTimeout(() => {
-          navigate("/dashboard/login");
+          navigate("/dashboard/complete-registration");
         }, 3000);
       } catch (error) {
         setVerifyState(EVerifyStatus.wrongVerified);
