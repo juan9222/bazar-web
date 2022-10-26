@@ -12,7 +12,7 @@ const Select: React.FC<ISelectProps> = (props) => {
 
       {
         register ? (
-          <>
+          <div className="inputTextContainer__input">
             <select className={ getClassNameInputTextByError() } { ...register(name) } { ...rest }>
               <option disabled selected>{ rest.placeholder }</option>
               { options.map(op => (
@@ -23,7 +23,7 @@ const Select: React.FC<ISelectProps> = (props) => {
             </select>
             { hasError && <span className="inputTextContainer__errorMessage">{ errorMessage }</span> }
 
-          </>
+          </div>
         ) : (
 
           <select className={ getClassNameInputTextByError() } name={ name } { ...rest }>

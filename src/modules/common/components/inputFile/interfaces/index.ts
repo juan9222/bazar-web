@@ -7,5 +7,6 @@ export interface IInputFilesProps extends React.DetailedHTMLProps<React.InputHTM
   label?: string;
   hasError?: boolean;
   errorMessage?: string;
+  multiple?: boolean;
   onChangeFile: (fileObj: any) => void;
 }
