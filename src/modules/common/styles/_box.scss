@@ -2,6 +2,10 @@
   display: flex;
 }
 
+.f1 {
+  flex: 1;
+}
+
 .aICenter {
   align-items: center;
 }
@@ -16,6 +20,10 @@
 
 .jcSpaceBetween {
   justify-content: space-between;
+}
+
+.dNone {
+  display: none;
 }
 
 .horizontalSpaceS {
