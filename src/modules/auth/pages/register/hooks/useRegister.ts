@@ -17,7 +17,7 @@ const useRegister = () => {
   const navigate = useNavigate();
 
   // Providers
-  const { registerProvider, enrollSmsProvider } = useRegisterProviders();
+  const { registerProvider } = useRegisterProviders();
 
   // Form
   const { handleSubmit, control, register, watch, formState: { errors: registerErrors } } = useForm<IRegisterFormProps>({
@@ -62,6 +62,7 @@ const useRegister = () => {
   };
 
   const onSubmitForm = (formData: IRegisterFormProps) => {
+    if (loading) return;
     setLoading(true);
     handleRegister(formData);
   };

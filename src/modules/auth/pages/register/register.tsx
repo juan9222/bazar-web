@@ -12,10 +12,10 @@ import useRegister from './hooks/useRegister';
 import { EProfile } from './interfaces';
 import { FaUserTag, FaUserTie } from 'react-icons/fa';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
+import { useNavigate } from 'react-router-dom';
 
 
-const Verify: React.FC<any> = props => {
-  const { } = props;
+const Verify: React.FC<any> = () => {
   const {
     control,
     register,
@@ -33,13 +33,11 @@ const Verify: React.FC<any> = props => {
     errorMsg,
     watchWhatsAppCommunication,
   } = useRegister();
+
+  const navigate = useNavigate();
+
   return (
     <AuthlayoutContent title={ "Register" } subtitle={ "In order to open an account with us, we would like to know some details about you and your company." }>
-      { errorMsg && <>
-        <p className="textError100 textAlignCenter">{ errorMsg }</p>
-        <div className="verticalSpaceM"></div>
-      </>
-      }
       <form onSubmit={ handleSubmit(onSubmitForm) }>
         <InputText
           control={ control }
@@ -119,22 +117,28 @@ const Verify: React.FC<any> = props => {
           }
           onClickIcon={ handleToggleShowPassword2 } />
         <Checkbox
+          required
           control={ control }
           label="I have read and agree to Terms of Use and Privacy Policy. "
           name={ assignInputName("iReadTermsAndPolicy") }
         />
+        { errorMsg && <>
+            <p className="textError100 textAlignCenter">{ errorMsg }</p>
+            <div className="verticalSpaceM"></div>
+          </>
+        }
         <Button large={ ELarge.full } type="submit" onClick={ () => console.log(registerErrors) }>{ loading ? (
           <AiOutlineLoading3Quarters className="loaderIcon" />
 
         ) : "Create account" }</Button>
-        <div className="verticalSpaceL" />
-        <Button visibleType={ EBtnVisibleType.clear } large={ ELarge.full } type="reset">Cancel</Button>
-        <div className="verticalSpaceM" />
-        <p className="defaultText textNeutral200 textAlignCenter">
-          Already have an account? <Link to="/auth/login" className="textPrimary200 textLink">Log in</Link>
-        </p>
-        <div className="verticalSpaceXL" />
       </form>
+      <div className="verticalSpaceL" />
+      <Button visibleType={ EBtnVisibleType.clear } large={ ELarge.full } onClick={() => {navigate('/auth/login')}}>Cancel</Button>
+      <div className="verticalSpaceM" />
+      <p className="defaultText textNeutral200 textAlignCenter">
+        Already have an account? <Link to="/auth/login" className="textPrimary200 textLink">Log in</Link>
+      </p>
+      <div className="verticalSpaceXL" />
     </AuthlayoutContent>
   );
 };

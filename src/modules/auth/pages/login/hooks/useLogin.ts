@@ -66,6 +66,7 @@ const useLogin = () => {
   };
 
   const onSubmitForm = (formData: ILoginFormProps) => {
+    if (loading) return;
     setLoading(true);
     handleLogin(formData);
   };

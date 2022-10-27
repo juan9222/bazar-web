@@ -7,10 +7,13 @@ import AuthlayoutContent from "../../layouts/authLayoutContent";
 import { AiOutlineLoading3Quarters, AiFillCheckCircle } from 'react-icons/ai';
 import useVerify from './hooks/useVerify';
 import { EVerifyStatus } from "./interfaces";
+import { useNavigate } from 'react-router-dom';
 
 const Verify: React.FC = () => {
 
-  const { otp, setOtp, verifyState, onSubmit, onResend, onVerify } = useVerify();
+  const { otp, setOtp, verifyState, onSubmit, onResend } = useVerify();
+
+  const navigate = useNavigate();
 
   return (
     <AuthlayoutContent title={ "Phone number verification" } subtitle={ "We take your security very seriously. Therefore, we need to validate your cell phone number, please enter the verification code that we send to your cell phone in the following field." }>
@@ -57,7 +60,7 @@ const Verify: React.FC = () => {
       <div className="verticalSpaceXL" />
       <Button large={ ELarge.full } type="submit" onClick={ onSubmit } disabled={ otp.length < 6 }>Verify phone</Button>
       <div className="verticalSpaceL" />
-      <Button visibleType={ EBtnVisibleType.clear } large={ ELarge.full } type="reset">Cancel</Button>
+      <Button visibleType={ EBtnVisibleType.clear } large={ ELarge.full } onClick={() => {navigate('/auth/login')}}>Cancel</Button>
 
     </AuthlayoutContent>
   );

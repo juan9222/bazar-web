@@ -19,20 +19,19 @@ const useVerify = () => {
 
 
   const onInit = async () => {
-    const { mfaToken } = state;
+    const mfaToken = state?.mfaToken;
     if (!mfaToken) {
       try {
         const resp = await enrollSmsProvider({ email: state.email, password: state.password });
-        setVerifyState(EVerifyStatus.none);
         const { mfaToken, oobCode } = resp.data.data;
         setTokens({
           mfaToken, oobCode
         });
       } catch (error) {
         setVerifyState(EVerifyStatus.none);
-
       }
     }
+    setVerifyState(EVerifyStatus.none);
   };
 
   const onVerify = async () => {
@@ -76,6 +75,7 @@ const useVerify = () => {
   };
 
   const onSubmit = () => {
+    if (verifyState === EVerifyStatus.loading) return;
     onVerify();
   };
 
