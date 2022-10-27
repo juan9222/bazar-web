@@ -5,11 +5,10 @@ import { IAuthLayoutContentProps } from "./interfaces";
 
 const AuthlayoutContent: React.FC<IAuthLayoutContentProps> = (props) => {
   const { title, subtitle, children } = props;
-  const { innerWidth } = window;
   return (
     <div className="layoutContainerContent">
       <div className="layoutContainerContent__logo">
-        <IconLogo color={ innerWidth <= 768 ? "#FFF" : undefined } />
+        <IconLogo/>
       </div>
       <HeroAuth
         title={ title }

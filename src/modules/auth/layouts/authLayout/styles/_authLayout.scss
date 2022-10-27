@@ -1,18 +1,25 @@
 .layoutContainer {
   display: flex;
-  height: 100vh;
+  min-height: 100vh;
   width: 100vw;
+  overflow: hidden;
 
   &__content {
-    width: 720px;
+    min-width: 720px;
+    width: 50vw;
     background-color: $white;
     padding: 44px;
-    display: flex;
-    justify-content: center;
+    display: grid;
+    place-items: center;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 100vh;
   }
 
   &__bg {
     flex: 1;
+    width: 50vw;
+    height: 100vh;
 
     img {
       width: 100%;
@@ -26,18 +33,22 @@
   .layoutContainer {
     flex-direction: column-reverse;
     position: relative;
+    overflow: scroll;
 
     &__content {
-      width: 100%;
+      min-width: 100vw;
       padding: 0 44px 44px 44px;
       position: absolute;
       border-top-right-radius: 30px;
       border-top-left-radius: 30px;
       height: 680px;
+      overflow: visible;
+      height: auto;
     }
 
     &__bg {
       flex: 1;
+      width: 100vw;
 
       img {
         width: 100%;
