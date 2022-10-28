@@ -15,7 +15,8 @@ const Modal: React.FC<IModalProps> = (props) => {
     maxHeight, 
     maxWidth,
     onClose,
-    onContinue
+    onContinue,
+    cancelHidden,
   } = props;
 
   if (closed) return null;
@@ -30,7 +31,9 @@ const Modal: React.FC<IModalProps> = (props) => {
           { children }
         </div>
         <div className="modal-footer">
-          <Button visibleType={EBtnVisibleType.clear} type="button" onClick={(event) => onClose(event)}>Cancel</Button>
+          {!cancelHidden && (
+            <Button visibleType={EBtnVisibleType.clear} type="button" onClick={(event) => onClose(event)}>Cancel</Button>
+          )}
           <Button disabled={continueDisabled} type="button" onClick={(event) => onContinue(event)}>Continue</Button>
         </div>
       </div>

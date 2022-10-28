@@ -2,10 +2,9 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ILoginFormProps, TLoginFormKeys } from "../interfaces";
 import { loginFormValidator } from "../validators";
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import useLoginProviders from "../providers";
-import { useNavigate } from "react-router-dom";
-import { setDefaultAuthorizationToken } from '../../../../common/helpers/index';
+import { useNavigate, useLocation } from "react-router-dom";
 
 const useLogin = () => {
   const { innerWidth: viewPortWidth } = window;
@@ -14,6 +13,7 @@ const useLogin = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [haveError, setHaveError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
 
 
   // Form
@@ -24,6 +24,7 @@ const useLogin = () => {
 
   // Hooks
   const navigate = useNavigate();
+  const defaultEmail = new URLSearchParams(useLocation().search).get('email');
 
   // Providers
   const { loginProvider } = useLoginProviders();
@@ -46,11 +47,15 @@ const useLogin = () => {
   };
 
   const handleLogin = async (formData: ILoginFormProps) => {
-    setHaveError(false);
     try {
       const resp: any = await loginProvider(formData);
       const { oobCode, mfaToken, userDTO } = resp.data.data;
-      navigate("/auth/verify", {
+
+      navigate(`/auth/verify?${new URLSearchParams({
+        origin: 'login', 
+        email: formData.email,
+        password: formData.password
+      })}`, {
         state: {
           oobCode,
           mfaToken,
@@ -59,8 +64,9 @@ const useLogin = () => {
       });
       setLoading(false);
 
-    } catch (error) {
+    } catch (error: any) {
       setHaveError(true);
+      setErrorMessage(error?.response?.data?.errorMessage);
       setLoading(false);
     }
   };
@@ -68,12 +74,10 @@ const useLogin = () => {
   const onSubmitForm = (formData: ILoginFormProps) => {
     if (loading) return;
     setLoading(true);
+    setHaveError(false);
+    setErrorMessage('');
     handleLogin(formData);
   };
-
-  useEffect(() => {
-    setDefaultAuthorizationToken();
-  }, []);
 
   return {
     isTabletWidthOrLess,
@@ -87,6 +91,8 @@ const useLogin = () => {
     handleToggleShowPassword,
     loading,
     haveError,
+    defaultEmail,
+    errorMessage,
   };
 };
 

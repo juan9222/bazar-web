@@ -10,78 +10,111 @@ const useVerify = () => {
   const [tokens, setTokens] = useState({
     mfaToken: "", oobCode: ""
   });
+  const [errorMessage, setErrorMessage] = useState('');
 
-  const { enrollSmsProvider, confirmEnrollProvider } = useRegisterProviders();
+  const searchParams = new URLSearchParams(useLocation().search);
+  const origin = searchParams.get('origin');
+  const email = searchParams.get('email');
+  const password = searchParams.get('password');
+
+  const [isSuccessModalClosed, setIsSuccessModalClosed] = useState(true);
+
+
+  const { enrollSmsProvider, confirmEnrollProvider, confirmLoginChallengeProvider } = useRegisterProviders();
 
   const { state } = useLocation();
   // Hooks
   const navigate = useNavigate();
 
+  const getRolesToStorage = (roles: any) => {
+    return JSON.stringify(
+      roles.map((role:any) => role.name)
+    );
+  };
 
   const onInit = async () => {
-    const mfaToken = state?.mfaToken;
-    if (!mfaToken) {
+    const { mfaToken: existToken } = tokens;
+
+    if (!existToken && origin !== 'login') {
       try {
-        const resp = await enrollSmsProvider({ email: state.email, password: state.password });
-        const { mfaToken, oobCode } = resp.data.data;
+        const response = await enrollSmsProvider({
+          email: email || '',
+          password: password || ''
+        });
+        const { mfaToken, oobCode } = response.data.data;
         setTokens({
           mfaToken, oobCode
         });
-      } catch (error) {
-        setVerifyState(EVerifyStatus.none);
+      } catch (error: any) {
+        setErrorMessage(error?.response?.data?.errorMessage);
+        setVerifyState(EVerifyStatus.wrongVerified);
       }
     }
     setVerifyState(EVerifyStatus.none);
   };
 
   const onVerify = async () => {
-    const { mfaToken, oobCode, uuid } = state;
-    // Login OTP
-    if (mfaToken) {
+    const { mfaToken, oobCode } = tokens;
+    setVerifyState(EVerifyStatus.loading);
+    if (mfaToken && origin !== 'login') {
+      // Register OTP
       try {
-        const resp: any = await confirmEnrollProvider({ oobCode, mfaToken, bindingCode: otp });
-        const { accessToken } = resp.data.data;
-        localStorage.setItem("uuid", uuid);
+        await confirmEnrollProvider({ oobCode, mfaToken, bindingCode: otp });
+        setVerifyState(EVerifyStatus.verified);
+        setIsSuccessModalClosed(false);
+      } catch (error: any) {
+        setErrorMessage(error?.response?.data?.errorMessage);
+        setVerifyState(EVerifyStatus.wrongVerified);
+      }
+    } else {
+      // Login OTP
+      if (origin !== 'login') navigate("/auth/login");
+      const uuid = state?.uuid;
+      try {
+        const response: any = await confirmLoginChallengeProvider({
+          oobCode: tokens.oobCode,
+          mfaToken: tokens.mfaToken,
+          bindingCode: otp,
+          uuid
+        });
+        const { accessToken, userDTO: {roles}, userDTO: {uuid: newUuid} } = response.data.data;
+        localStorage.setItem("uuid", newUuid);
         localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("roles", getRolesToStorage(roles));
         setDefaultAuthorizationToken(accessToken);
         setVerifyState(EVerifyStatus.verified);
         setTimeout(() => {
           navigate("/dashboard/complete-registration");
-        }, 3000);
-      } catch (error) {
+        }, 2000);
+      } catch (error: any) {
+        setErrorMessage(error?.response?.data?.errorMessage);
         setVerifyState(EVerifyStatus.wrongVerified);
       }
-
-    } else {
-      // Register OTP
-      setVerifyState(EVerifyStatus.loading);
-      try {
-        await confirmEnrollProvider({ oobCode: tokens.oobCode, mfaToken: tokens.mfaToken, bindingCode: otp });
-        setVerifyState(EVerifyStatus.verified);
-        setTimeout(() => {
-          navigate("/auth/login");
-        }, 3000);
-      } catch (error) {
-        setVerifyState(EVerifyStatus.wrongVerified);
-
-      }
-
     }
   };
 
-  const onResend = () => {
-    setVerifyState(EVerifyStatus.countdown);
+  const start = () => {
+    setVerifyState(EVerifyStatus.loading);
+    if (origin === 'login') setTokens({
+      mfaToken: state?.mfaToken, 
+      oobCode: state?.oobCode
+    });
     onInit();
+  }
+
+  const onResend = () => {
+    start();
   };
 
   const onSubmit = () => {
     if (verifyState === EVerifyStatus.loading) return;
+    setVerifyState(EVerifyStatus.none);
     onVerify();
   };
+  
 
   useEffect(() => {
-    setVerifyState(EVerifyStatus.loading);
-    onInit();
+    start();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -92,6 +125,10 @@ const useVerify = () => {
     onSubmit,
     onResend,
     onVerify,
+    origin,
+    isSuccessModalClosed,
+    setIsSuccessModalClosed,
+    errorMessage,
   };
 };
 

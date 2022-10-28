@@ -38,6 +38,11 @@ const Verify: React.FC<any> = () => {
 
   return (
     <AuthlayoutContent title={ "Register" } subtitle={ "In order to open an account with us, we would like to know some details about you and your company." }>
+      { errorMsg && <>
+        <p className="textError100 textAlignCenter">{ errorMsg }</p>
+          <div className="verticalSpaceM"></div>
+        </>
+      }
       <form onSubmit={ handleSubmit(onSubmitForm) }>
         <InputText
           control={ control }
@@ -122,11 +127,6 @@ const Verify: React.FC<any> = () => {
           label="I have read and agree to Terms of Use and Privacy Policy. "
           name={ assignInputName("iReadTermsAndPolicy") }
         />
-        { errorMsg && <>
-            <p className="textError100 textAlignCenter">{ errorMsg }</p>
-            <div className="verticalSpaceM"></div>
-          </>
-        }
         <Button large={ ELarge.full } type="submit" onClick={ () => console.log(registerErrors) }>{ loading ? (
           <AiOutlineLoading3Quarters className="loaderIcon" />
 

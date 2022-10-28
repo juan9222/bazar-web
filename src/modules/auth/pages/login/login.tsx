@@ -18,17 +18,21 @@ const Login: React.FC = () => {
     showPassword,
     handleToggleShowPassword,
     loading,
-    haveError, } = useLogin();
+    haveError,
+    defaultEmail,
+    errorMessage,
+  } = useLogin();
 
   return (
     <AuthlayoutContent title={ "Login" } subtitle={ "Welcome, please enter your credentials." }>
       { haveError && <>
-        <p className="textError100 textAlignCenter">Email or password incorrect</p>
+        <p className="textError100 textAlignCenter">{ errorMessage }</p>
         <div className="verticalSpaceM"></div>
       </>
       }
       <form onSubmit={ handleSubmit(onSubmitForm) }>
         <InputText
+          defaultValue={defaultEmail || ''}
           register={ register }
           name={ assignInputName("email") }
           label={ "Email" }

@@ -48,12 +48,10 @@ const useRegister = () => {
     try {
       await registerProvider(formData);
       setLoading(false);
-      navigate("/auth/verify", {
-        state: {
-          email: formData.email,
-          password: formData.password
-        }
-      });
+      navigate(`/auth/verify?${new URLSearchParams({
+        email: formData.email,
+        password: formData.password
+      })}`);
     } catch (error: any) {
       const errorMessage = error.response.data.errorMessage;
       setErrorMsg(errorMessage);

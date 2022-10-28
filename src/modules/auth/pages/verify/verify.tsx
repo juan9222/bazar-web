@@ -7,16 +7,45 @@ import AuthlayoutContent from "../../layouts/authLayoutContent";
 import { AiOutlineLoading3Quarters, AiFillCheckCircle } from 'react-icons/ai';
 import useVerify from './hooks/useVerify';
 import { EVerifyStatus } from "./interfaces";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
+import Modal from "../../../common/components/modal";
+
 
 const Verify: React.FC = () => {
 
-  const { otp, setOtp, verifyState, onSubmit, onResend } = useVerify();
+  const { 
+    otp,
+    setOtp,
+    verifyState,
+    onSubmit,
+    onResend,
+    origin,
+    isSuccessModalClosed,
+    errorMessage,
+  } = useVerify();
 
   const navigate = useNavigate();
+  const defaultEmail = new URLSearchParams(useLocation().search).get('email');
+
+  const onSuccessModalContinue = () => {
+    navigate(`/auth/login?${new URLSearchParams({
+      email: defaultEmail || '',
+    })}`);
+  };
+
+  const getLayoutSubTiltle = () => {
+    if (origin === 'login') return `Check out your phone!  We’ve sent a temporary  
+    verification code to your registered phone.`
+
+    return `We take your security very seriously. Therefore, we need to 
+    validate your cell phone number, please enter the verification code that we
+    send to your cell phone in the following field.`;
+  }
 
   return (
-    <AuthlayoutContent title={ "Phone number verification" } subtitle={ "We take your security very seriously. Therefore, we need to validate your cell phone number, please enter the verification code that we send to your cell phone in the following field." }>
+    <AuthlayoutContent
+      title={ "Phone number verification" }
+      subtitle={getLayoutSubTiltle()}>
       <div className="otpStatus">
         {
           verifyState === EVerifyStatus.loading && (
@@ -34,7 +63,7 @@ const Verify: React.FC = () => {
         {
           verifyState === EVerifyStatus.wrongVerified && (
             <p className="otpStatus__wrongVerified">
-              Please enter a valid code
+              { errorMessage }
             </p>
           )
         }
@@ -61,6 +90,18 @@ const Verify: React.FC = () => {
       <Button large={ ELarge.full } type="submit" onClick={ onSubmit } disabled={ otp.length < 6 }>Verify phone</Button>
       <div className="verticalSpaceL" />
       <Button visibleType={ EBtnVisibleType.clear } large={ ELarge.full } onClick={() => {navigate('/auth/login')}}>Cancel</Button>
+
+      <Modal
+        title="Verified phone number"
+        closed={isSuccessModalClosed}
+        onContinue={onSuccessModalContinue}
+        onClose={onSuccessModalContinue}
+        width="580px"
+        cancelHidden={true}
+      >
+        Thank you for verifying your phone number, you are now closer to enjoying Bazar. 
+        Please help us to verify your email so we can log you in and be closer to you.
+      </Modal>
 
     </AuthlayoutContent>
   );
