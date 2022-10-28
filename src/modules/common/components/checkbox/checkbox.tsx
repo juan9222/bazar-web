@@ -11,7 +11,7 @@ const Checkbox: React.FC<ICheckboxProps> = (props) => {
       render={ ({ field: { name, onBlur, onChange, value, ref } }) => {
         return (
           <div className="checkboxContainer">
-            <input name={ name } onBlur={ onBlur } onChange={ onChange } value={ value } ref={ ref } type="checkbox" { ...rest } />
+            <input id={ name } name={ name } onBlur={ onBlur } onChange={ onChange } value={ value } ref={ ref } type="checkbox" { ...rest } />
             { children ? children : <label className="inputTextContainer__label" htmlFor={ name }>{ label }</label> }
           </div>
         );

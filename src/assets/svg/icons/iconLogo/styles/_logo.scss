@@ -1,0 +1,9 @@
+.logo {
+  fill: $primary_200;
+}
+
+@media (max-width: $breakpoint_tablet) {
+  .logo {
+    fill: $white;
+  }
+}

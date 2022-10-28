@@ -18,7 +18,8 @@ const Modal: React.FC<IModalProps> = (props) => {
     onClose,
     onContinue,
     hideFooter,
-    showCloseIcon
+    showCloseIcon,
+    cancelHidden,
   } = props;
 
   if (closed) return null;
@@ -35,15 +36,18 @@ const Modal: React.FC<IModalProps> = (props) => {
         <div className="modal-body">
           { children }
         </div>
-        { !hideFooter &&
+        {
+          !hideFooter &&
           <>
             <div className="modal-footer">
-              <Button visibleType={ EBtnVisibleType.clear } type="button" onClick={ (event) => onClose(event) }>Cancel</Button>
+              { !cancelHidden && (
+                <Button visibleType={ EBtnVisibleType.clear } type="button" onClick={ (event) => onClose(event) }>Cancel</Button>
+              ) }
               <Button disabled={ continueDisabled } type="button" onClick={ (event) => onContinue && onContinue(event) }>Continue</Button>
             </div>
           </>
         }
-      </div>
+      </div >
     </div >
   );
 };
