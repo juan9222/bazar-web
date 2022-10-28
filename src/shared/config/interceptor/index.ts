@@ -6,7 +6,9 @@ const useInterceptor = () => {
     request.timeout = 10000;
     const { headers } = request;
     if (headers) {
-      headers["Content-Type"] = "application/json";
+      headers["access-control-allow-origin"] = "*";
+      headers["access-control-allow-methods"] = "GET, PUT, POST, DELETE, OPTIONS";
+      headers["content-type"] = "application/json";
       headers.accept = "application/json";
     }
     return request;
@@ -25,7 +27,6 @@ const useInterceptor = () => {
   };
 
   useEffect(() => {
-    // axios.defaults.baseURL = '';
     axios.defaults.params = {};
     axios.interceptors.request.use(handleRequestSuccess, handleRequestError);
     axios.interceptors.response.use(handleResponseSuccess, handleResponseError);

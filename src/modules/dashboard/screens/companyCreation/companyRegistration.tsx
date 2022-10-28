@@ -1,7 +1,9 @@
 import React from 'react';
 import Button from '../../../common/components/button';
+import { EBtnVisibleType } from '../../../common/components/button/interfaces';
 import InputFile from '../../../common/components/inputFile';
 import InputText from '../../../common/components/inputText';
+import Modal from '../../../common/components/modal';
 import ProfilePhoto from '../../../common/components/profilePhoto';
 import Select from '../../../common/components/select';
 import { ELarge } from '../../../common/interfaces';
@@ -13,13 +15,19 @@ const CompanyCreation: React.FC<any> = props => {
     yearsOperations,
     incrementYO,
     decrementYO,
-    userName,
+    user,
     countries,
     register,
     assignInputName,
     hasErrorsInput,
     getMessageErrorInput,
     cities,
+    showAvatars,
+    onShowAvatars,
+    onHideAvatars,
+    avatars,
+    avatar,
+    onSelectAvatar,
   } = useCompanyCreation();
   return (
     <div className="cc">
@@ -29,9 +37,9 @@ const CompanyCreation: React.FC<any> = props => {
       <div className="cc__content">
         <div className="cc__content--form">
           <h1 className="formTitle">Complete your registration</h1>
-          <p className="formText">Hi Hector, your company and your security is very important to us, that's why we need you to fill in some additional information.</p>
+          <p className="formText">Hi { user.firstName }, your company and your security is very important to us, that's why we need you to fill in some additional information.</p>
           <div className="verticalSpaceL"></div>
-          <ProfilePhoto fullname={ userName } />
+          <ProfilePhoto url={ avatar.imageUrl } fullname={ user.fullName } onPressEdit={ onShowAvatars } />
           <div className="verticalSpaceM"></div>
           <h2 className="cc__content--form--subTitle">About your company</h2>
           <div className="verticalSpaceL"></div>
@@ -156,6 +164,32 @@ const CompanyCreation: React.FC<any> = props => {
             </Button>
             <div className="verticalSpaceXL"></div>
           </form>
+          <Modal title='Selet your avatar' width='503px' closed={ !showAvatars } continueDisabled hideFooter showCloseIcon onClose={ () => {
+            onHideAvatars();
+            if (!avatar.uuid) {
+              onSelectAvatar({
+                imageName: "",
+                imageUrl: "",
+                uuid: ""
+              });
+            }
+          } }>
+            <div className="avatars">
+              {
+                avatars.map((av: any) => {
+                  return (
+                    <ProfilePhoto avatar={ av } url={ av.imageUrl } selected={ av.uuid === avatar.uuid } onlyPhoto onSelectAvatar={ onSelectAvatar } />
+                  );
+                })
+              }
+            </div>
+            <div className="dFlex f1 jcCenter">
+              <Button onClick={ () => {
+                onHideAvatars();
+                onSelectAvatar(avatar);
+              } } visibleType={ EBtnVisibleType.outline } >Select avatar</Button>
+            </div>
+          </Modal>
         </div>
       </div>
     </div>
