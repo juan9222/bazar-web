@@ -32,6 +32,7 @@ const useCommonProviders = () => {
 
   const getAvatars = () => {
     const request = axios({
+      method: "GET",
       baseURL: process.env.REACT_APP_BAZAR_URL,
       url: "/avatars",
     });
