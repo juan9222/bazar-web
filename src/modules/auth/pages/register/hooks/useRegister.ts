@@ -17,7 +17,7 @@ const useRegister = () => {
   const navigate = useNavigate();
 
   // Providers
-  const { registerProvider, enrollSmsProvider } = useRegisterProviders();
+  const { registerProvider } = useRegisterProviders();
 
   // Form
   const { handleSubmit, control, register, watch, formState: { errors: registerErrors } } = useForm<IRegisterFormProps>({
@@ -48,12 +48,10 @@ const useRegister = () => {
     try {
       await registerProvider(formData);
       setLoading(false);
-      navigate("/auth/verify", {
-        state: {
-          email: formData.email,
-          password: formData.password
-        }
-      });
+      navigate(`/auth/verify?${new URLSearchParams({
+        email: formData.email,
+        password: formData.password
+      })}`);
     } catch (error: any) {
       const errorMessage = error.response.data.errorMessage;
       setErrorMsg(errorMessage);
@@ -62,6 +60,7 @@ const useRegister = () => {
   };
 
   const onSubmitForm = (formData: IRegisterFormProps) => {
+    if (loading) return;
     setLoading(true);
     handleRegister(formData);
   };

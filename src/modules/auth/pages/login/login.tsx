@@ -18,17 +18,21 @@ const Login: React.FC = () => {
     showPassword,
     handleToggleShowPassword,
     loading,
-    haveError, } = useLogin();
+    haveError,
+    defaultEmail,
+    errorMessage,
+  } = useLogin();
 
   return (
     <AuthlayoutContent title={ "Login" } subtitle={ "Welcome, please enter your credentials." }>
       { haveError && <>
-        <p className="textError100 textAlignCenter">Email or password incorrect</p>
+        <p className="textError100 textAlignCenter">{ errorMessage }</p>
         <div className="verticalSpaceM"></div>
       </>
       }
       <form onSubmit={ handleSubmit(onSubmitForm) }>
         <InputText
+          defaultValue={defaultEmail || ''}
           register={ register }
           name={ assignInputName("email") }
           label={ "Email" }
@@ -53,7 +57,7 @@ const Login: React.FC = () => {
           }
           onClickIcon={ handleToggleShowPassword } />
         <p className="textAlignEnd">
-          <Link to="/auth/forgot-password" className="textPrimary200 textLink">Forgot password</Link>
+          <Link to="/auth/forgot-password" className="textPrimary200 textLink">Forgot password?</Link>
         </p>
         <div className="loginContainer__buttonSubmit">
           <Button disabled={ loading } large={ ELarge.full } type="submit">{ loading ? (
@@ -68,7 +72,9 @@ const Login: React.FC = () => {
         </div>
         <div className="loginContainer__tAndC">
           <p className="smallText textNeutral200 textAlignCenter">
-            By continuing, I confirm that I agree to the <a href="/" className="textPrimary200 textLink">Terms of Use</a> and <a href="/" className="textPrimary200 textLink">Privacy Policy</a> .
+            By continuing, I confirm that I agree to the 
+            <a href="/" className="textPrimary200 textLink"> Terms of Use</a> and 
+            <a href="/" className="textPrimary200 textLink"> Privacy Policy</a>.
           </p>
         </div>
       </form>

@@ -88,12 +88,29 @@ const useRegisterProviders = () => {
     return trackPromise(request);
   };
 
+  const confirmLoginChallengeProvider = ({ mfaToken, oobCode, bindingCode, uuid }: {
+    mfaToken: string; oobCode: string; bindingCode:string; uuid: string;
+  }) => {
+    const request = axios({
+      method: "POST",
+      url: "/auth/confirmLoginChallenge",
+      data: {
+        mfaToken,
+        oobCode,
+        bindingCode,
+        uuid,
+      }
+    });
+    return trackPromise(request);
+  };
+
 
 
   return {
     registerProvider,
     enrollSmsProvider,
     confirmEnrollProvider,
+    confirmLoginChallengeProvider,
   };
 };
 
