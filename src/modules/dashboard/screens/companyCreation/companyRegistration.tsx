@@ -15,6 +15,7 @@ const CompanyCreation: React.FC<any> = props => {
     yearsOperations,
     incrementYO,
     decrementYO,
+    onChangeY0,
     user,
     countries,
     register,
@@ -28,6 +29,8 @@ const CompanyCreation: React.FC<any> = props => {
     avatars,
     avatar,
     onSelectAvatar,
+    setAvatarModal,
+    avatarModal,
   } = useCompanyCreation();
   return (
     <div className="cc">
@@ -104,7 +107,7 @@ const CompanyCreation: React.FC<any> = props => {
               </p>
               <div className="counter">
                 <div onClick={ decrementYO } className="counter__btn">-</div>
-                <p>{ yearsOperations }</p>
+                <input { ...register("yearsInOperations") } value={ yearsOperations } onChange={ (event) => onChangeY0(event.target.value) } type="text" />
                 <div onClick={ incrementYO } className="counter__btn">+</div>
               </div>
             </div>
@@ -178,7 +181,7 @@ const CompanyCreation: React.FC<any> = props => {
               {
                 avatars.map((av: any) => {
                   return (
-                    <ProfilePhoto avatar={ av } url={ av.imageUrl } selected={ av.uuid === avatar.uuid } onlyPhoto onSelectAvatar={ onSelectAvatar } />
+                    <ProfilePhoto key={ av.id } avatar={ av } url={ av.imageUrl } selected={ av.uuid === avatarModal.uuid } onlyPhoto onSelectAvatar={ () => setAvatarModal(av) } />
                   );
                 })
               }
@@ -186,7 +189,7 @@ const CompanyCreation: React.FC<any> = props => {
             <div className="dFlex f1 jcCenter">
               <Button onClick={ () => {
                 onHideAvatars();
-                onSelectAvatar(avatar);
+                onSelectAvatar(avatarModal);
               } } visibleType={ EBtnVisibleType.outline } >Select avatar</Button>
             </div>
           </Modal>

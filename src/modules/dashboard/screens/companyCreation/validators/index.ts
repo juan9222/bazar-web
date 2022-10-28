@@ -20,4 +20,5 @@ export const companyCreationFormValidator = Yup.object().shape<TCompanyCreationV
   city: Yup.string()
     .trim()
     .required("This field is required"),
+  yearsInOperations: Yup.string().required("This field is required")
 });

@@ -5,10 +5,12 @@ const useInterceptor = () => {
   const handleRequestSuccess = (request: AxiosRequestConfig): AxiosRequestConfig => {
     request.timeout = 10000;
     const { headers } = request;
+    const token = localStorage.getItem("accessToken");
     if (headers) {
-      headers["access-control-allow-origin"] = "*";
-      headers["access-control-allow-methods"] = "GET, PUT, POST, DELETE, OPTIONS";
-      headers["content-type"] = "application/json";
+      if (token !== null) {
+        headers['Authorization'] = `Bearer ${ token }`;
+      }
+      headers["Content-Type"] = "application/json";
       headers.accept = "application/json";
     }
     return request;
