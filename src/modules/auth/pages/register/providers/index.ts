@@ -30,6 +30,7 @@ const useRegisterProviders = () => {
 
     const request = axios<IRegisterResponse>({
       method: "POST",
+      baseURL: process.env.REACT_APP_BAZAR_AUTH_URL,
       url: "/auth/signup",
       data: whatsAppCommunication ?
         {
@@ -62,6 +63,7 @@ const useRegisterProviders = () => {
   }) => {
     const request = axios({
       method: "POST",
+      baseURL: process.env.REACT_APP_BAZAR_AUTH_URL,
       url: "/auth/enrollAuthenticator",
       data: {
         emailDTO: {
@@ -78,6 +80,7 @@ const useRegisterProviders = () => {
   }) => {
     const request = axios({
       method: "POST",
+      baseURL: process.env.REACT_APP_BAZAR_AUTH_URL,
       url: "/auth/confirmEnrollment",
       data: {
         mfaToken,
@@ -93,6 +96,7 @@ const useRegisterProviders = () => {
   }) => {
     const request = axios({
       method: "POST",
+      baseURL: process.env.REACT_APP_BAZAR_AUTH_URL,
       url: "/auth/confirmLoginChallenge",
       data: {
         mfaToken,
