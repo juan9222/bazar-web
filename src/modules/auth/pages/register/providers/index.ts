@@ -14,7 +14,7 @@ const useRegisterProviders = () => {
     iReadTermsAndPolicy,
     phoneNumberWhatsapp,
   }: IRegisterFormProps) => {
-    axios.defaults.baseURL = `${ process.env.REACT_APP_BAZAR_AUTH_URL }/api/${ process.env.REACT_APP_BAZAR_AUTH_VERSION }`;
+    axios.defaults.baseURL = process.env.REACT_APP_BAZAR_AUTH_URL;
     const dataWithoutPhones = {
       personDTO: {
         firstName: fullName.split(" ")[0],
@@ -89,7 +89,7 @@ const useRegisterProviders = () => {
   };
 
   const confirmLoginChallengeProvider = ({ mfaToken, oobCode, bindingCode, uuid }: {
-    mfaToken: string; oobCode: string; bindingCode:string; uuid: string;
+    mfaToken: string; oobCode: string; bindingCode: string; uuid: string;
   }) => {
     const request = axios({
       method: "POST",

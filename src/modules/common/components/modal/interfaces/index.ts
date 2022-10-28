@@ -7,8 +7,10 @@ export interface IModalProps extends React.DetailedHTMLProps<React.InputHTMLAttr
   height?: string;
   maxHeight?: string;
   closed: boolean;
+  hideFooter?: boolean;
+  showCloseIcon?: boolean;
   continueDisabled?: boolean;
   cancelHidden?: boolean;
   onClose: (event: React.MouseEvent) => void;
-  onContinue: (event: React.MouseEvent) => void;
+  onContinue?: (event: React.MouseEvent) => void;
 }

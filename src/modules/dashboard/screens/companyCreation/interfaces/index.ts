@@ -7,6 +7,7 @@ export interface ICompanyCreationProps {
   legalRepresentative: string;
   country: string;
   city: string;
+  yearsInOperations: string | number;
 }
 
 export type TCompanyCreationKeys = keyof ICompanyCreationProps;

@@ -7,14 +7,45 @@ import { useForm } from 'react-hook-form';
 
 const useCompanyCreation = () => {
   const [yearsOperations, setYearsOperations] = useState(0);
-  const [userName, setUserName] = useState("");
+  const [user, setUser] = useState({
+    firstName: "",
+    lastName: "",
+    fullName: ""
+  });
   const [countries, setCountries] = useState<Array<{ label: string; value: string; }>>([]);
   const [cities, setCities] = useState<Array<{ label: string; value: string; }>>([]);
+  const [showAvatars, setShowAvatars] = useState(false);
+  const [avatarModal, setAvatarModal] = useState({
+    imageName: "",
+    imageUrl: "",
+    uuid: ""
+  });
+  const [avatar, setAvatar] = useState({
+    imageName: "",
+    imageUrl: "",
+    uuid: ""
+  });
+
+  const [avatars, setAvatars] = useState<any>([]);
   const incrementYO = () => setYearsOperations(yO => yO += 1);
   const decrementYO = () => yearsOperations !== 0 && setYearsOperations(yO => yO -= 1);
+  const onChangeY0 = (value: any) => {
+    const valueIsNaN = Number.isNaN(Number(value));
+    if (valueIsNaN) {
+      const returnValue = "0";
+      setYearsOperations(parseInt(returnValue));
+    } else {
+      const num = Number(value);
+      const returnValue = num >= 0 ? num : 0;
+      setYearsOperations(returnValue);
+    }
+  };
+  const onHideAvatars = () => setShowAvatars(false);
+  const onShowAvatars = () => setShowAvatars(true);
+  const onSelectAvatar = (avatar: any) => setAvatar(avatar);
 
   // Providers
-  const { getUserInfoByUuid, getCountries, getCitiesByCountryId } = useCommonProviders();
+  const { getUserInfoByUuid, getCountries, getCitiesByCountryId, getAvatars } = useCommonProviders();
 
 
   // Form
@@ -42,8 +73,12 @@ const useCompanyCreation = () => {
   const onGetUserInfo = async () => {
     const resp = await getUserInfoByUuid();
     const { firstName, lastName } = resp.data.data;
-    const fullname = `${ firstName } ${ lastName }`;
-    setUserName(fullname);
+    const fullName = `${ firstName } ${ lastName }`;
+    setUser({
+      firstName,
+      lastName,
+      fullName
+    });
   };
 
   const onGetCountries = async () => {
@@ -66,9 +101,25 @@ const useCompanyCreation = () => {
     setCities(cityListMutate);
   };
 
+  const onGetAvatars = async () => {
+    try {
+      const resp = await getAvatars();
+      const avatarsResp = resp.data.results;
+      const avatarsMutate = avatarsResp.filter((obj: any) => obj.image_name.includes("-m")).map((avatar: any) => ({
+        imageName: avatar.image_name,
+        imageUrl: avatar.image_url,
+        uuid: avatar.uuid
+      }));
+      setAvatars(avatarsMutate);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   useEffect(() => {
     onGetUserInfo();
     onGetCountries();
+    onGetAvatars();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -77,17 +128,27 @@ const useCompanyCreation = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watchCountry]);
 
+
   return {
     yearsOperations,
     incrementYO,
     decrementYO,
-    userName,
+    user,
     countries,
     register,
     assignInputName,
     hasErrorsInput,
     getMessageErrorInput,
     cities,
+    showAvatars,
+    onShowAvatars,
+    onHideAvatars,
+    avatars,
+    avatar,
+    onSelectAvatar,
+    setAvatarModal,
+    avatarModal,
+    onChangeY0,
   };
 };
 

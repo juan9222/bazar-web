@@ -1,14 +1,20 @@
 .dshLayout {
   background-color: $primary-300;
-  height: 100vh;
-  width: 100vw;
   display: flex;
+  flex: 1;
+  position: relative;
 
   &__nav {
+    background-color: $primary-300;
     width: 70px;
     display: flex;
     flex-direction: column;
     justify-content: center;
+    position: fixed;
+    left: 0;
+    top: 0;
+    bottom: 0;
+
 
     &--btnNav {
       cursor: pointer;
@@ -35,6 +41,7 @@
   }
 
   &__body {
+    margin-left: 70px;
     background-color: $white;
     flex: 1;
     border-radius: 8px 0 0 8px;

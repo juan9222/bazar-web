@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { ILoginFormProps, TLoginFormKeys } from "../interfaces";
 import { loginFormValidator } from "../validators";
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import useLoginProviders from "../providers";
 import { useNavigate, useLocation } from "react-router-dom";
 
@@ -51,11 +51,11 @@ const useLogin = () => {
       const resp: any = await loginProvider(formData);
       const { oobCode, mfaToken, userDTO } = resp.data.data;
 
-      navigate(`/auth/verify?${new URLSearchParams({
-        origin: 'login', 
+      navigate(`/auth/verify?${ new URLSearchParams({
+        origin: 'login',
         email: formData.email,
         password: formData.password
-      })}`, {
+      }) }`, {
         state: {
           oobCode,
           mfaToken,
@@ -78,6 +78,10 @@ const useLogin = () => {
     setErrorMessage('');
     handleLogin(formData);
   };
+
+  useEffect(() => {
+    localStorage.removeItem("accessToken");
+  }, []);
 
   return {
     isTabletWidthOrLess,

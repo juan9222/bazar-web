@@ -5,7 +5,11 @@ const useInterceptor = () => {
   const handleRequestSuccess = (request: AxiosRequestConfig): AxiosRequestConfig => {
     request.timeout = 10000;
     const { headers } = request;
+    const token = localStorage.getItem("accessToken");
     if (headers) {
+      if (token !== null) {
+        headers['Authorization'] = `Bearer ${ token }`;
+      }
       headers["Content-Type"] = "application/json";
       headers.accept = "application/json";
     }
@@ -25,7 +29,6 @@ const useInterceptor = () => {
   };
 
   useEffect(() => {
-    // axios.defaults.baseURL = '';
     axios.defaults.params = {};
     axios.interceptors.request.use(handleRequestSuccess, handleRequestError);
     axios.interceptors.response.use(handleResponseSuccess, handleResponseError);
