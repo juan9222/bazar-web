@@ -8,6 +8,8 @@ export interface ICompanyCreationProps {
   country: string;
   city: string;
   yearsInOperations: string | number;
+  profileImage: string | undefined | null;
+  uuid?: string;
 }
 
 export type TCompanyCreationKeys = keyof ICompanyCreationProps;

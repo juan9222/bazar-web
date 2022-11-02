@@ -1,7 +1,7 @@
 import React from "react";
 
 export interface IModalProps extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
-  title: string;
+  title?: string;
   width?: string;
   maxWidth?: string;
   height?: string;
@@ -13,4 +13,8 @@ export interface IModalProps extends React.DetailedHTMLProps<React.InputHTMLAttr
   cancelHidden?: boolean;
   onClose: (event: React.MouseEvent) => void;
   onContinue?: (event: React.MouseEvent) => void;
+  onCancel?: (event: React.MouseEvent) => void;
+  continueText?: string;
+  cancelText?: string;
+  loading?: boolean;
 }

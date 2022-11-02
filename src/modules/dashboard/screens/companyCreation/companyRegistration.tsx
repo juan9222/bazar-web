@@ -1,4 +1,5 @@
 import React from 'react';
+import { AiFillCheckCircle, AiOutlineLoading3Quarters } from 'react-icons/ai';
 import Button from '../../../common/components/button';
 import { EBtnVisibleType } from '../../../common/components/button/interfaces';
 import InputFile from '../../../common/components/inputFile';
@@ -31,6 +32,17 @@ const CompanyCreation: React.FC<any> = props => {
     onSelectAvatar,
     setAvatarModal,
     avatarModal,
+    handleSubmit,
+    submitForm,
+    setCompanyByLawsFile,
+    setOptFile,
+    setPurchaseOrderFile,
+    loading,
+    showConfirmationModal,
+    setShowConfirmationModal,
+    showCongratulationsModal,
+    onCreateProduct,
+    onCreateProductLater,
   } = useCompanyCreation();
   return (
     <div className="cc">
@@ -46,7 +58,7 @@ const CompanyCreation: React.FC<any> = props => {
           <div className="verticalSpaceM"></div>
           <h2 className="cc__content--form--subTitle">About your company</h2>
           <div className="verticalSpaceL"></div>
-          <form onSubmit={ () => { } }>
+          <form>
             <InputText
               register={ register }
               name={ assignInputName("companyName") }
@@ -147,12 +159,14 @@ const CompanyCreation: React.FC<any> = props => {
               label={ "The company By-Laws or equivalent document" }
               name={ "companyByLaws" }
               placeholder={ "Add document" }
+              onChangeFile={ setCompanyByLawsFile }
             />
             <div className="verticalSpaceL"></div>
             <InputFile
               label={ "Authentication of the legal representative (opt)" }
               name={ "opt" }
               placeholder={ "Add document" }
+              onChangeFile={ setOptFile }
             />
             <div className="verticalSpaceL"></div>
             <InputFile
@@ -160,13 +174,16 @@ const CompanyCreation: React.FC<any> = props => {
               label={ "The latest purchase order of your product" }
               name={ "purchaseOrder" }
               placeholder={ "Add document" }
+              onChangeFile={ setPurchaseOrderFile }
+
             />
             <div className="verticalSpaceL"></div>
-            <Button large={ ELarge.full }>
-              Save
-            </Button>
-            <div className="verticalSpaceXL"></div>
           </form>
+          <Button type='button' onClick={ () => setShowConfirmationModal(true) } large={ ELarge.full } disabled={ loading }>
+            { loading ? <AiOutlineLoading3Quarters className="loaderIcon" /> : "Save" }
+          </Button>
+          <div className="verticalSpaceXL"></div>
+          {/* Modal Avatar */ }
           <Modal title='Selet your avatar' width='503px' closed={ !showAvatars } continueDisabled hideFooter showCloseIcon onClose={ () => {
             onHideAvatars();
             if (!avatar.uuid) {
@@ -187,11 +204,28 @@ const CompanyCreation: React.FC<any> = props => {
               }
             </div>
             <div className="dFlex f1 jcCenter">
-              <Button onClick={ () => {
-                onHideAvatars();
-                onSelectAvatar(avatarModal);
-              } } visibleType={ EBtnVisibleType.outline } >Select avatar</Button>
+              <Button
+
+                onClick={ () => {
+                  onHideAvatars();
+                  onSelectAvatar(avatarModal);
+                } } visibleType={ EBtnVisibleType.outline } >Select avatar</Button>
             </div>
+          </Modal>
+          {/* Modal Confirmation */ }
+          <Modal title="" continueText='Save' width='560px' closed={ !showConfirmationModal } showCloseIcon={ false } onClose={ () => setShowConfirmationModal(false) } onContinue={ handleSubmit(submitForm) } loading={ loading }>
+            <div className="verticalSpaceS"></div>
+            <h3 className='textPrimary300 textModalTitle'>Do you want to continue?</h3>
+            <div className="verticalSpaceL"></div>
+            <p className='textModalDesc'>Are yo sure to save your changes? Once submitted you will not be able to modify them until they have been reviewed by our Bazar team.</p>
+          </Modal>
+          {/* Modal Congratulations */ }
+          <Modal title="" continueText='Create product now' cancelText='Create product later' width='590px' closed={ !showCongratulationsModal } showCloseIcon={ false } onClose={ () => setShowConfirmationModal(false) } onContinue={ onCreateProduct } onCancel={ onCreateProductLater } loading={ loading }>
+            <div className="verticalSpaceS"></div>
+            <h3 className='textPrimary300 textModalTitle dFlex aICenter'> <AiFillCheckCircle className='textSuccess200' />             <div className="horizontalSpaceS"></div>
+              Congratulations</h3>
+            <div className="verticalSpaceL"></div>
+            <p className='textModalDesc'>Your profile is almost ready, it just needs a verification by our team, it won't take long! <b>You can create your product list, while waiting for our validation.</b></p>
           </Modal>
         </div>
       </div>
