@@ -2,7 +2,7 @@ import React from "react";
 import type { IModalProps } from "./interfaces";
 import Button from "../button";
 import { EBtnVisibleType } from "../button/interfaces";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineClose, AiOutlineLoading3Quarters } from "react-icons/ai";
 
 
 const Modal: React.FC<IModalProps> = (props) => {
@@ -20,6 +20,10 @@ const Modal: React.FC<IModalProps> = (props) => {
     hideFooter,
     showCloseIcon,
     cancelHidden,
+    continueText,
+    loading,
+    cancelText,
+    onCancel,
   } = props;
 
   if (closed) return null;
@@ -27,12 +31,12 @@ const Modal: React.FC<IModalProps> = (props) => {
   return (
     <div className="modal-overlay">
       <div className="modal" style={ { width, height, maxHeight, maxWidth } }>
-        <div className="modal-title">
+        { title && <div className="modal-title">
           <p className="modal-title-text">
             { title }
           </p>
           { showCloseIcon && < AiOutlineClose onClick={ (event) => onClose(event) } className="modal-title-icon" /> }
-        </div>
+        </div> }
         <div className="modal-body">
           { children }
         </div>
@@ -41,9 +45,9 @@ const Modal: React.FC<IModalProps> = (props) => {
           <>
             <div className="modal-footer">
               { !cancelHidden && (
-                <Button visibleType={ EBtnVisibleType.clear } type="button" onClick={ (event) => onClose(event) }>Cancel</Button>
+                <Button visibleType={ EBtnVisibleType.clear } type="button" onClick={ (event) => onClose(event) }>{ loading ? <AiOutlineLoading3Quarters className="loaderIcon" /> : cancelText ? cancelText : "Cancel" }</Button>
               ) }
-              <Button disabled={ continueDisabled } type="button" onClick={ (event) => onContinue && onContinue(event) }>Continue</Button>
+              <Button disabled={ continueDisabled || loading } type="button" onClick={ (event) => onContinue && onContinue(event) }>{ loading ? <AiOutlineLoading3Quarters className="loaderIcon" /> : continueText ? continueText : "Continue" }</Button>
             </div>
           </>
         }

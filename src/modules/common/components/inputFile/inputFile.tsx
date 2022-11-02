@@ -7,7 +7,7 @@ import { useState } from 'react';
 import { AiFillFile, AiOutlineClose } from 'react-icons/ai';
 
 const InputFile: React.FC<IInputFilesProps> = (props) => {
-  const { name, register, children, hasError, errorMessage, label, ...rest } = props;
+  const { name, register, children, hasError, errorMessage, onChangeFile, label, ...rest } = props;
   const hiddenFileInput = React.useRef<any>();
 
   const [fileObj, setFileObj] = useState<any>(null);
@@ -15,6 +15,7 @@ const InputFile: React.FC<IInputFilesProps> = (props) => {
   const onChangeInputFile = (event: any) => {
     const fileObj = event.target.files && event.target.files[0];
     setFileObj(fileObj);
+    onChangeFile(fileObj);
   };
 
   const clearFileObj = () => setFileObj(null);

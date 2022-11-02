@@ -10,8 +10,6 @@ const useInterceptor = () => {
       if (token !== null) {
         headers['Authorization'] = `Bearer ${ token }`;
       }
-      headers["Content-Type"] = "application/json";
-      headers.accept = "application/json";
     }
     return request;
   };

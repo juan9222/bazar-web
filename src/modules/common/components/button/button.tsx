@@ -9,7 +9,7 @@ const Button: React.FC<IButtonProps> = (props) => {
     <button
       className={ getClassNameByVisibleType() }
       data-testid="test-button"
-      disabled={ isDisabled }
+      disabled={ isDisabled || rest.disabled }
       onClick={ onClick }
     >
       { iconLeft && <div className="iconLeftContainer">
