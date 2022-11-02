@@ -4,6 +4,7 @@ import useCommonProviders from "../../../../common/providers";
 import { companyCreationFormValidator } from '../validators/index';
 import { ICompanyCreationProps, TCompanyCreationKeys } from '../interfaces/index';
 import { useForm } from 'react-hook-form';
+import useAuthenticator from '../../../../auth/hooks/useAuthenticator';
 
 const useCompanyCreation = () => {
   const [yearsOperations, setYearsOperations] = useState(0);
@@ -45,7 +46,9 @@ const useCompanyCreation = () => {
   const onSelectAvatar = (avatar: any) => setAvatar(avatar);
 
   // Providers
-  const { getUserInfoByUuid, getCountries, getCitiesByCountryId, getAvatars } = useCommonProviders();
+  const { getCountries, getCitiesByCountryId, getAvatars } = useCommonProviders();
+
+  const { getAuthenticatedUser } = useAuthenticator();
 
 
   // Form
@@ -71,8 +74,7 @@ const useCompanyCreation = () => {
 
 
   const onGetUserInfo = async () => {
-    const resp = await getUserInfoByUuid();
-    const { firstName, lastName } = resp.data.data;
+    const { firstName, lastName } = await getAuthenticatedUser();
     const fullName = `${ firstName } ${ lastName }`;
     setUser({
       firstName,

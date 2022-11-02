@@ -1,33 +1,35 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { ILoginFormProps, TLoginFormKeys } from "../interfaces";
+import { ILoginFormProps, TLoginFormKeys } from "../../../interfaces";
 import { loginFormValidator } from "../validators";
-import { useState, useEffect } from 'react';
-import useLoginProviders from "../providers";
+import { useState } from 'react';
+import useAuthenticator from '../../../hooks/useAuthenticator'
 import { useNavigate, useLocation } from "react-router-dom";
 
 const useLogin = () => {
   const { innerWidth: viewPortWidth } = window;
+  const defaultEmail = new URLSearchParams(useLocation().search).get('email');
+  const defaultErrorMessage = new URLSearchParams(useLocation().search).get('errorMessage');
 
   // States
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [haveError, setHaveError] = useState(false);
-  const [errorMessage, setErrorMessage] = useState('');
+  const [haveError, setHaveError] = useState(defaultErrorMessage ? true : false);
+  const [errorMessage, setErrorMessage] = useState(defaultErrorMessage);
 
 
   // Form
-  const { register, handleSubmit, formState: { errors: loginErrors } } = useForm<ILoginFormProps>({
+  const { register, handleSubmit, watch, formState: { errors: loginErrors } } = useForm<ILoginFormProps>({
     resolver: yupResolver(loginFormValidator),
     mode: "all",
   });
 
+  const emailInputValue = watch("email");
+  const passwordInputValue = watch("password");
+
   // Hooks
   const navigate = useNavigate();
-  const defaultEmail = new URLSearchParams(useLocation().search).get('email');
-
-  // Providers
-  const { loginProvider } = useLoginProviders();
+  const {requestAuthentication} = useAuthenticator();
 
   // Methods
   const isTabletWidthOrLess = () => viewPortWidth <= 768;
@@ -48,23 +50,37 @@ const useLogin = () => {
 
   const handleLogin = async (formData: ILoginFormProps) => {
     try {
-      const resp: any = await loginProvider(formData);
-      const { oobCode, mfaToken, userDTO } = resp.data.data;
+      const { oobCode, mfaToken, userDTO, phoneNumber } = await requestAuthentication(formData);
 
-      navigate(`/auth/verify?${ new URLSearchParams({
+      navigate(`/auth/verify?${new URLSearchParams({
         origin: 'login',
         email: formData.email,
-        password: formData.password
-      }) }`, {
+      })}`, {
         state: {
           oobCode,
           mfaToken,
-          uuid: userDTO.uuid
+          phoneNumber,
+          uuid: userDTO?.uuid,
+          email: formData.email,
+          password: formData.password,
         }
       });
-      setLoading(false);
 
+      setLoading(false);
     } catch (error: any) {
+      // User must complete the MFA enrollemnt if erroCode === "E1142"
+      if (error?.response?.data?.erroCode === "E1142") {
+        navigate(`/auth/verify?${new URLSearchParams({
+          email: formData.email,
+        })}`, {
+          state: {
+            email: formData.email,
+            password: formData.password,
+          }
+        });
+        return;
+      }
+      
       setHaveError(true);
       setErrorMessage(error?.response?.data?.errorMessage);
       setLoading(false);
@@ -78,10 +94,6 @@ const useLogin = () => {
     setErrorMessage('');
     handleLogin(formData);
   };
-
-  useEffect(() => {
-    localStorage.removeItem("accessToken");
-  }, []);
 
   return {
     isTabletWidthOrLess,
@@ -97,6 +109,8 @@ const useLogin = () => {
     haveError,
     defaultEmail,
     errorMessage,
+    emailInputValue,
+    passwordInputValue
   };
 };
 

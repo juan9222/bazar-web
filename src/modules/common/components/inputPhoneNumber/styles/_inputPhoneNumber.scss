@@ -1,7 +1,6 @@
 .phoneInputCountry {
   display: flex;
   position: relative;
-  margin-bottom: 24px;
 }
 
 .PhoneInputCountrySelect {
@@ -62,6 +61,7 @@
 .phoneInputContainer {
   position: relative;
   margin-top: 45px;
+  margin-bottom: 24px;
 
   &__label {
     position: absolute;
@@ -70,6 +70,10 @@
 
     p {
       margin-right: 35px;
+    }
+
+    &--required {
+      color: $error_100
     }
   }
 
@@ -90,5 +94,13 @@
     top: 15px;
     left: 145px;
     z-index: 1;
+  }
+
+  &__errorMessage {
+    padding: 4px 0;
+    color: $error_100;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 24px;
   }
 }

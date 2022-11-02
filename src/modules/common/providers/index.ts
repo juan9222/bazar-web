@@ -2,16 +2,6 @@ import axios from "axios";
 import { trackPromise } from "react-promise-tracker";
 
 const useCommonProviders = () => {
-  const getUserInfoByUuid = () => {
-    const uuid = localStorage.getItem("uuid");
-    const request = axios({
-      method: "GET",
-      baseURL: process.env.REACT_APP_BAZAR_AUTH_URL,
-      url: `/user/person/uuid/${ uuid }`
-    });
-    return trackPromise(request);
-  };
-
   const getCountries = () => {
     const request = axios({
       method: "GET",
@@ -40,7 +30,6 @@ const useCommonProviders = () => {
   };
 
   return {
-    getUserInfoByUuid,
     getCountries,
     getCitiesByCountryId,
     getAvatars,
