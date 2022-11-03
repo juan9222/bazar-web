@@ -4,11 +4,6 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 const useInterceptor = () => {
   const handleRequestSuccess = (request: AxiosRequestConfig): AxiosRequestConfig => {
     request.timeout = 10000;
-    const { headers } = request;
-    if (headers) {
-      headers["Content-Type"] = "application/json";
-      headers.accept = "application/json";
-    }
     return request;
   };
 
