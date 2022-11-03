@@ -11,4 +11,5 @@ export interface ISelectProps extends React.DetailedHTMLProps<React.SelectHTMLAt
   label?: string;
   hasError?: boolean;
   errorMessage?: string;
+  valueIsLabel?: boolean;
 }

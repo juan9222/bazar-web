@@ -7,6 +7,10 @@ const dashboardRoutes: RouteObject[] = [
     path: "complete-registration",
     element: <CompanyCreation />,
   },
+  {
+    path: "home",
+    element: <h1>Home</h1>,
+  },
 ];
 
 export default dashboardRoutes;

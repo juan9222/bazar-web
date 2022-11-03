@@ -5,8 +5,14 @@ import { companyCreationFormValidator } from '../validators/index';
 import { ICompanyCreationProps, TCompanyCreationKeys } from '../interfaces/index';
 import { useForm } from 'react-hook-form';
 import useAuthenticator from '../../../../auth/hooks/useAuthenticator';
+import { capitalizeFirstLetter } from '../../../../common/helpers';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const useCompanyCreation = () => {
+  const [loading, setLoading] = useState(false);
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false);
+  const [showCongratulationsModal, setShowCongratulationsModal] = useState(false);
   const [yearsOperations, setYearsOperations] = useState(0);
   const [user, setUser] = useState({
     firstName: "",
@@ -27,35 +33,58 @@ const useCompanyCreation = () => {
     uuid: ""
   });
 
+  const [companyByLawsFile, setCompanyByLawsFile] = useState<any>(null);
+  const [optFile, setOptFile] = useState<any>(null);
+  const [purchaseOrderFile, setPurchaseOrderFile] = useState<any>(null);
+
   const [avatars, setAvatars] = useState<any>([]);
-  const incrementYO = () => setYearsOperations(yO => yO += 1);
-  const decrementYO = () => yearsOperations !== 0 && setYearsOperations(yO => yO -= 1);
+  const navigate = useNavigate();
+
+
+  // Form
+  const { register, handleSubmit, watch, setValue, formState: { errors: loginErrors } } = useForm<ICompanyCreationProps>({
+    resolver: yupResolver(companyCreationFormValidator),
+    mode: "all",
+  });
+  const incrementYO = () => {
+    setYearsOperations(yO => {
+      const newValue = yO += 1;
+      setValue("yearsInOperations", newValue);
+      return newValue;
+    });
+  };
+  const decrementYO = () => {
+    yearsOperations !== 0 && setYearsOperations(yO => {
+      const newValue = yO -= 1;
+      setValue("yearsInOperations", newValue);
+      return newValue;
+    });
+  };
   const onChangeY0 = (value: any) => {
     const valueIsNaN = Number.isNaN(Number(value));
     if (valueIsNaN) {
       const returnValue = "0";
-      setYearsOperations(parseInt(returnValue));
+      setYearsOperations(Number(returnValue));
+      setValue("yearsInOperations", Number(returnValue));
     } else {
       const num = Number(value);
       const returnValue = num >= 0 ? num : 0;
       setYearsOperations(returnValue);
+      setValue("yearsInOperations", returnValue);
     }
   };
   const onHideAvatars = () => setShowAvatars(false);
   const onShowAvatars = () => setShowAvatars(true);
-  const onSelectAvatar = (avatar: any) => setAvatar(avatar);
+  const onSelectAvatar = (avatar: any) => {
+    setValue("profileImage", avatar.imageUrl);
+    setAvatar(avatar);
+  };
 
   // Providers
   const { getCountries, getCitiesByCountryId, getAvatars } = useCommonProviders();
 
   const { getAuthenticatedUser } = useAuthenticator();
 
-
-  // Form
-  const { register, handleSubmit, watch, formState: { errors: loginErrors } } = useForm<ICompanyCreationProps>({
-    resolver: yupResolver(companyCreationFormValidator),
-    mode: "all",
-  });
 
   const watchCountry = watch("country");
 
@@ -87,7 +116,7 @@ const useCompanyCreation = () => {
     const resp = await getCountries();
     const countryList = resp.data.data;
     const countryListMutate = countryList.map((country: any) => ({
-      label: country.name,
+      label: capitalizeFirstLetter(country.name),
       value: country.id
     }));
     setCountries(countryListMutate);
@@ -118,6 +147,55 @@ const useCompanyCreation = () => {
     }
   };
 
+  const submitForm = async (data: ICompanyCreationProps) => {
+    setLoading(true);
+    data.city = cities.find(city => city.value.toString() === data.city.toString())?.label || "";
+    data.country = countries.find(country => country.value.toString() === data.country.toString())?.label || "";
+    data.uuid = localStorage.getItem("uuid") || "";
+    try {
+      const files = [companyByLawsFile, optFile, purchaseOrderFile];
+      let formData = new FormData();
+      const body = {
+        company_name: data.companyName,
+        address: data.companyAddress,
+        chamber_commerce: data.chamberOfCommerce,
+        legal_representative: data.legalRepresentative,
+        operative_years: Number(data.yearsInOperations),
+        country: data.country,
+        city: data.city,
+        uuid_user: data.uuid,
+        profile_image: data.profileImage,
+      };
+      formData.append("body", JSON.stringify(body));
+      for (let i = 0; i < files.length; i++) {
+        formData.append("files", files[i]);
+      }
+      const resp = await axios.post(`${ process.env.REACT_APP_BAZAR_URL }/companies`, formData, {
+        headers: {
+        }
+      });
+      console.log(JSON.stringify(resp, null, 3));
+      setLoading(false);
+      setShowConfirmationModal(false);
+      setShowCongratulationsModal(true);
+    } catch (error) {
+      console.warn(error);
+      setLoading(false);
+      setShowConfirmationModal(false);
+    }
+
+  };
+
+  const onCreateProduct = () => {
+    setShowCongratulationsModal(false);
+    navigate("/dashboard/create-product");
+  };
+
+  const onCreateProductLater = () => {
+    setShowCongratulationsModal(false);
+    navigate("/dashboard/home");
+
+  };
   useEffect(() => {
     onGetUserInfo();
     onGetCountries();
@@ -151,6 +229,18 @@ const useCompanyCreation = () => {
     setAvatarModal,
     avatarModal,
     onChangeY0,
+    handleSubmit,
+    submitForm,
+    setCompanyByLawsFile,
+    setOptFile,
+    setPurchaseOrderFile,
+    loading,
+    showConfirmationModal,
+    setShowConfirmationModal,
+    showCongratulationsModal,
+    setShowCongratulationsModal,
+    onCreateProduct,
+    onCreateProductLater,
   };
 };
 

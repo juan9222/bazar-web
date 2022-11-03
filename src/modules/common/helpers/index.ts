@@ -20,3 +20,7 @@ export const getRolesToStorage = (roles: any) => {
     roles.map((role:any) => role.name)
   );
 };
+
+export const capitalizeFirstLetter = (string: string) => {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+};

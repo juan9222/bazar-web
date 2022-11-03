@@ -3,7 +3,7 @@ import useInputTextStyles from '../inputText/hooks/useInputTextStyles';
 import { ISelectProps } from './interfaces';
 
 const Select: React.FC<ISelectProps> = (props) => {
-  const { name, register, options, children, hasError, errorMessage, label, ...rest } = props;
+  const { name, register, options, children, hasError, errorMessage, valueIsLabel, label, ...rest } = props;
   const { getClassNameInputTextByError } = useInputTextStyles({ hasError: hasError ?? false });
 
   return (
@@ -16,7 +16,7 @@ const Select: React.FC<ISelectProps> = (props) => {
             <select className={ getClassNameInputTextByError() } { ...register(name) } { ...rest }>
               <option disabled selected>{ rest.placeholder }</option>
               { options.map(op => (
-                <option key={ op.value } value={ op.value }>
+                <option key={ op.value } value={ valueIsLabel ? op.label : op.value }>
                   { op.label }
                 </option>
               )) }
@@ -29,7 +29,7 @@ const Select: React.FC<ISelectProps> = (props) => {
           <select className={ getClassNameInputTextByError() } name={ name } { ...rest }>
             <option disabled selected>{ rest.placeholder }</option>
             { options.map(op => (
-              <option key={ op.value } value={ op.value }>
+              <option key={ op.value } value={ valueIsLabel ? op.label : op.value }>
                 { op.label }
               </option>
             )) }
