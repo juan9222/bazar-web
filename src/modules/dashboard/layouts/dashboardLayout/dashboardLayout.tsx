@@ -6,9 +6,10 @@ import IconLogo from "../../../../assets/svg/icons/iconLogo";
 import { AiFillHome } from "react-icons/ai";
 import { ImLeaf } from "react-icons/im";
 import { MdAccountBalanceWallet, MdLocalOffer } from "react-icons/md";
+import useAuthenticator from "../../../auth/hooks/useAuthenticator";
 
-const Dashboardlayout: React.FC<any> = (props) => {
-  const { } = props;
+const Dashboardlayout: React.FC<any> = () => {
+  const { onLogout } = useAuthenticator();
   return (
     <div className="dshLayout">
       <nav className="dshLayout__nav">
@@ -36,7 +37,7 @@ const Dashboardlayout: React.FC<any> = (props) => {
           </div>
           <div className="dshLayout__body--header--right">
             <FaUserCircle className="dshLayout__body--header--right--icon" />
-            <BiDotsVerticalRounded className="dshLayout__body--header--right--icon2" />
+            <BiDotsVerticalRounded className="dshLayout__body--header--right--icon2" onClick={ onLogout }/>
           </div>
         </header>
         <Outlet />

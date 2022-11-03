@@ -1,7 +1,8 @@
-import { useState } from "react";
-import useAuthenticator from '../../../hooks/useAuthenticator'
+import { useState, useRef, useEffect } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
+import useAuthenticator from '../../../hooks/useAuthenticator'
 import { EVerifyStatus, IVerifyLoginState } from "../interfaces";
+import { getRolesToStorage } from "../../../../common/helpers";
 
 const useVerify = () => {
   const [otpCode, setOtpCode] = useState("");
@@ -23,15 +24,12 @@ const useVerify = () => {
     confirmEnrollment,
     confirmAuthentication,
     onLogin,
-    requestAuthentication
+    requestAuthentication,
+    goToLogin,
   } = useAuthenticator();
   const { state } = useLocation();
   const navigate = useNavigate();
-
-  const goToLogin = (params?: any) => {
-    if (params) navigate(`/auth/login?${new URLSearchParams(params)}`)
-    else navigate(`/auth/login`)
-  }
+  const shouldInit = useRef(true);
 
   const setVerifyLoginState = ({mfaToken, oobCode, uuid, phoneNumber, email = "", password = ""}: IVerifyLoginState) => {
     setUuid(uuid);
@@ -121,7 +119,7 @@ const useVerify = () => {
           uuid
         });
         
-        onLogin({uuid, accessToken, roles});
+        onLogin({uuid, accessToken, roles: getRolesToStorage(roles)});
         setVerifyState(EVerifyStatus.verified);
 
         setTimeout(() => {
@@ -156,6 +154,15 @@ const useVerify = () => {
     if (verifyState === EVerifyStatus.loading) return;
     onVerify();
   };
+
+  useEffect(() => {
+    // Prevents onInit function from being called twice or on each mount
+    if (shouldInit.current){
+      shouldInit.current = false;
+      onInit();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return {
     onInit,

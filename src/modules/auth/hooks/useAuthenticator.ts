@@ -1,10 +1,10 @@
 
+import { useNavigate } from 'react-router-dom';
 import useAuthenticationProviders from "../providers";
 import {
   getLocalStorageItem,
   setLocalStorageItem,
   removeLocalStorageItem,
-  getRolesToStorage,
   setDefaultAuthorizationToken,
 } from "../../common/helpers"
 import {ILoginProvider, IAuthConfirmationRequest, IRegisterFormProps} from "../interfaces";
@@ -19,6 +19,7 @@ const useAuthenticator = () => {
     confirmLoginChallengeProvider,
     registerProvider,
   } = useAuthenticationProviders();
+  const navigate = useNavigate();
 
   const requestAuthentication = async (credentials: ILoginProvider) => {
     const response: any = await loginProvider(credentials);
@@ -53,9 +54,7 @@ const useAuthenticator = () => {
   };
 
   const getAccessToken = () => {
-    const accessToken = getLocalStorageItem('accessToken');
-    if(accessToken) return `Bearer ${accessToken}`;
-    return accessToken;
+    return getLocalStorageItem('accessToken');
   };
 
   const getAuthenticatedUser = async () => {
@@ -67,11 +66,16 @@ const useAuthenticator = () => {
     return response?.data?.data;
   };
 
-  const onLogin = async ({uuid, accessToken, roles}: {uuid: string, accessToken: string, roles: any}) => {
+  const onLogin = async ({uuid, accessToken, roles}: {uuid: string, accessToken: string, roles: string}) => {
     setLocalStorageItem('uuid', uuid);
     setLocalStorageItem('accessToken', accessToken);
-    setLocalStorageItem('roles', getRolesToStorage(roles));
+    setLocalStorageItem('roles', roles);
     setDefaultAuthorizationToken(accessToken);
+  }
+
+  const goToLogin = (params?: any) => {
+    if (params) navigate(`/auth/login?${new URLSearchParams(params)}`)
+    else navigate(`/auth/login`)
   }
 
   const onLogout = async () => {
@@ -79,7 +83,16 @@ const useAuthenticator = () => {
     removeLocalStorageItem('accessToken');
     removeLocalStorageItem('roles');
     setDefaultAuthorizationToken('');
+    goToLogin();
   }
+
+  const getAuthenticatedUserUuid = () => {
+    return getLocalStorageItem('uuid');
+  };
+
+  const getAuthenticatedUserRoles = () => {
+    return getLocalStorageItem('roles');
+  };
 
   return {
     requestAuthentication,
@@ -91,6 +104,9 @@ const useAuthenticator = () => {
     requestUserRegister,
     onLogin,
     onLogout,
+    goToLogin,
+    getAuthenticatedUserUuid,
+    getAuthenticatedUserRoles,
   }
 }
 

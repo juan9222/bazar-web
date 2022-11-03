@@ -1,4 +1,4 @@
-import React, {useEffect} from "react";
+import React from "react";
 import OtpInput from "react-otp-input";
 import Button from "../../../common/components/button";
 import { EBtnVisibleType } from "../../../common/components/button/interfaces";
@@ -23,7 +23,6 @@ const Verify: React.FC = () => {
     isSuccessModalClosed,
     errorMessage,
     phoneNumber,
-    onInit,
   } = useVerify();
 
   const navigate = useNavigate();
@@ -55,16 +54,6 @@ const Verify: React.FC = () => {
 
     return `Verify phone number`;
   }
-
-  useEffect(() => {
-    onInit();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
-    onInit();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   return (
     <AuthlayoutContent

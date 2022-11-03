@@ -1,24 +1,27 @@
-import { RouteObject, Navigate } from "react-router-dom";
+import { Navigate, RouteObject } from "react-router-dom";
 import Authlayout from "../../modules/auth/layouts/authLayout";
 import Dashboardlayout from "../../modules/dashboard/layouts/dashboardLayout";
 import authRoutes from "../auth";
 import dashboardRoutes from '../dashboard/index';
+import PrivateRoutes from "../../modules/auth/components/privateRoutes";
 
-const rootRoutes: RouteObject[] = [
+
+export const publicRoutes: RouteObject[] = [
   {
     path: "/",
-    element: <Navigate to="/auth/login" />
+    element: <Navigate to="/dashboard/complete-registration" />,
   },
   {
     path: "/auth",
     element: <Authlayout />,
     children: authRoutes,
   },
+];
+
+export const privateRoutes: RouteObject[] = [
   {
     path: "/dashboard",
-    element: <Dashboardlayout />,
+    element: <PrivateRoutes><Dashboardlayout /></PrivateRoutes>,
     children: dashboardRoutes,
   },
 ];
-
-export default rootRoutes;
