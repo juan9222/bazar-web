@@ -1,8 +1,7 @@
 import React from "react";
 import { Outlet } from "react-router-dom";
 
-const Authlayout: React.FC<any> = (props) => {
-  const { } = props;
+const Authlayout: React.FC<any> = () => {
   return (
     <div className="layoutContainer">
       <section className="layoutContainer__content">

@@ -4,6 +4,7 @@ import useCommonProviders from "../../../../common/providers";
 import { companyCreationFormValidator } from '../validators/index';
 import { ICompanyCreationProps, TCompanyCreationKeys } from '../interfaces/index';
 import { useForm } from 'react-hook-form';
+import useAuthenticator from '../../../../auth/hooks/useAuthenticator';
 import { capitalizeFirstLetter } from '../../../../common/helpers';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -80,7 +81,9 @@ const useCompanyCreation = () => {
   };
 
   // Providers
-  const { getUserInfoByUuid, getCountries, getCitiesByCountryId, getAvatars } = useCommonProviders();
+  const { getCountries, getCitiesByCountryId, getAvatars } = useCommonProviders();
+
+  const { getAuthenticatedUser } = useAuthenticator();
 
 
   const watchCountry = watch("country");
@@ -100,8 +103,7 @@ const useCompanyCreation = () => {
 
 
   const onGetUserInfo = async () => {
-    const resp = await getUserInfoByUuid();
-    const { firstName, lastName } = resp.data.data;
+    const { firstName, lastName } = await getAuthenticatedUser();
     const fullName = `${ firstName } ${ lastName }`;
     setUser({
       firstName,

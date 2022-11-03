@@ -23,7 +23,6 @@ const Modal: React.FC<IModalProps> = (props) => {
     continueText,
     loading,
     cancelText,
-    onCancel,
   } = props;
 
   if (closed) return null;

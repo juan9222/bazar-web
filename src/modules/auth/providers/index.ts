@@ -1,8 +1,40 @@
 import axios from "axios";
 import { trackPromise } from "react-promise-tracker";
-import { IRegisterFormProps, IRegisterResponse } from "../interfaces";
+import {
+  ILoginProvider,
+  ILoginResponse,
+  IRegisterFormProps,
+  IRegisterResponse,
+  IAuthConfirmationRequest
+} from "../interfaces";
 
-const useRegisterProviders = () => {
+const useAuthenticationProviders = () => {
+
+  const loginProvider = ({
+    email, password
+  }: ILoginProvider) => {
+    const request = axios<ILoginResponse>({
+      method: "POST",
+      baseURL: process.env.REACT_APP_BAZAR_AUTH_URL,
+      url: "/auth/login-mfa",
+      data: {
+        emailDTO: {
+          email,
+        },
+        password
+      }
+    });
+    return trackPromise(request);
+  };
+  
+  const getUserByUuid = (uuid: string) => {
+    const request = axios({
+      method: "GET",
+      baseURL: process.env.REACT_APP_BAZAR_AUTH_URL,
+      url: `/user/person/uuid/${uuid}`
+    });
+    return trackPromise(request);
+  };
 
   const registerProvider = ({
     fullName,
@@ -32,35 +64,23 @@ const useRegisterProviders = () => {
       method: "POST",
       baseURL: process.env.REACT_APP_BAZAR_AUTH_URL,
       url: "/auth/signup",
-      data: whatsAppCommunication ?
-        {
-          ...dataWithoutPhones, phones: [
-            {
-              phoneNumber: phoneNumber,
-            },
-            {
-              phoneNumber: phoneNumber,
-              whatsappValidate: whatsAppCommunication
-            }
-          ],
-        } : {
-          ...dataWithoutPhones, phones: [
-            {
-              phoneNumber: phoneNumber,
-            },
-            {
-              phoneNumber: phoneNumberWhatsapp,
-              whatsappValidate: whatsAppCommunication
-            }
-          ],
-        }
+      data:{
+        ...dataWithoutPhones,
+        phones: [
+          {
+            phoneNumber: phoneNumber,
+          },
+          {
+            phoneNumber: whatsAppCommunication ? phoneNumber : phoneNumberWhatsapp,
+            whatsappValidate: whatsAppCommunication
+          }
+        ],
+      }
     });
     return trackPromise(request);
   };
 
-  const enrollSmsProvider = ({ email, password }: {
-    email: string; password: string;
-  }) => {
+  const enrollSmsProvider = ({ email, password }: ILoginProvider) => {
     const request = axios({
       method: "POST",
       baseURL: process.env.REACT_APP_BAZAR_AUTH_URL,
@@ -75,9 +95,7 @@ const useRegisterProviders = () => {
     return trackPromise(request);
   };
 
-  const confirmEnrollProvider = ({ mfaToken, oobCode, bindingCode }: {
-    mfaToken: string; oobCode: string; bindingCode: string;
-  }) => {
+  const confirmEnrollProvider = ({ mfaToken, oobCode, bindingCode }: IAuthConfirmationRequest) => {
     const request = axios({
       method: "POST",
       baseURL: process.env.REACT_APP_BAZAR_AUTH_URL,
@@ -91,9 +109,7 @@ const useRegisterProviders = () => {
     return trackPromise(request);
   };
 
-  const confirmLoginChallengeProvider = ({ mfaToken, oobCode, bindingCode, uuid }: {
-    mfaToken: string; oobCode: string; bindingCode: string; uuid: string;
-  }) => {
+  const confirmLoginChallengeProvider = ({ mfaToken, oobCode, bindingCode, uuid }: IAuthConfirmationRequest) => {
     const request = axios({
       method: "POST",
       baseURL: process.env.REACT_APP_BAZAR_AUTH_URL,
@@ -108,14 +124,14 @@ const useRegisterProviders = () => {
     return trackPromise(request);
   };
 
-
-
   return {
+    loginProvider,
+    getUserByUuid,
     registerProvider,
     enrollSmsProvider,
     confirmEnrollProvider,
     confirmLoginChallengeProvider,
-  };
+  }
 };
 
-export default useRegisterProviders;
+export default useAuthenticationProviders;

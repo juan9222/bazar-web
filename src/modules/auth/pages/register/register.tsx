@@ -9,7 +9,7 @@ import InputText from '../../../common/components/inputText';
 import { ELarge } from '../../../common/interfaces';
 import AuthlayoutContent from '../../layouts/authLayoutContent';
 import useRegister from './hooks/useRegister';
-import { EProfile } from './interfaces';
+import { EProfile } from '../../interfaces';
 import { FaUserTag, FaUserTie } from 'react-icons/fa';
 import { AiOutlineLoading3Quarters } from 'react-icons/ai';
 import { useNavigate } from 'react-router-dom';
@@ -71,6 +71,9 @@ const Verify: React.FC<any> = () => {
           name={ assignInputName("phoneNumber") }
           labelCountry={ "Country code" }
           labelPhone={ "Phone number" }
+          hasError={ hasErrorsInput("phoneNumber") }
+          errorMessage={ getMessageErrorInput("phoneNumber")}
+          required
         />
         <Checkbox
           control={ control }
@@ -82,6 +85,9 @@ const Verify: React.FC<any> = () => {
           name={ assignInputName("phoneNumberWhatsapp") }
           labelCountry={ "Country code" }
           labelPhone={ "Phone number WhatsApp" }
+          hasError={ hasErrorsInput("phoneNumberWhatsapp") }
+          errorMessage={ getMessageErrorInput("phoneNumberWhatsapp")}
+          required
         /> }
         <div className="dFlex jcSpaceBetween">
           <label className="defaultText textNeutral400"><span className="textError100">*</span> Select your profile</label>
@@ -126,7 +132,13 @@ const Verify: React.FC<any> = () => {
           control={ control }
           label="I have read and agree to Terms of Use and Privacy Policy. "
           name={ assignInputName("iReadTermsAndPolicy") }
-        />
+        >
+          <label className="inputTextContainer__label" htmlFor={ assignInputName("iReadTermsAndPolicy") }>
+            I have read and agree to the
+            <a href="/" className="textPrimary200 textLink"> Terms of Use</a> and 
+            <a href="/" className="textPrimary200 textLink"> Privacy Policy</a>.
+          </label>
+        </Checkbox>
         <Button large={ ELarge.full } type="submit" onClick={ () => console.log(registerErrors) }>{ loading ? (
           <AiOutlineLoading3Quarters className="loaderIcon" />
 

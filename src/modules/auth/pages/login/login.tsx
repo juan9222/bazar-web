@@ -21,6 +21,8 @@ const Login: React.FC = () => {
     haveError,
     defaultEmail,
     errorMessage,
+    emailInputValue,
+    passwordInputValue,
   } = useLogin();
 
   return (
@@ -60,7 +62,7 @@ const Login: React.FC = () => {
           <Link to="/auth/forgot-password" className="textPrimary200 textLink">Forgot password?</Link>
         </p>
         <div className="loginContainer__buttonSubmit">
-          <Button disabled={ loading } large={ ELarge.full } type="submit">{ loading ? (
+          <Button disabled={ loading || !emailInputValue || !passwordInputValue } large={ ELarge.full } type="submit">{ loading ? (
             <AiOutlineLoading3Quarters className="loaderIcon" />
 
           ) : "Login" }</Button>

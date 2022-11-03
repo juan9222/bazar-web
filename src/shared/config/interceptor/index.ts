@@ -4,13 +4,6 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 const useInterceptor = () => {
   const handleRequestSuccess = (request: AxiosRequestConfig): AxiosRequestConfig => {
     request.timeout = 10000;
-    const { headers } = request;
-    const token = localStorage.getItem("accessToken");
-    if (headers) {
-      if (token !== null) {
-        headers['Authorization'] = `Bearer ${ token }`;
-      }
-    }
     return request;
   };
 

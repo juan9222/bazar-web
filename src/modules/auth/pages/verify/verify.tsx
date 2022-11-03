@@ -14,14 +14,15 @@ import Modal from "../../../common/components/modal";
 const Verify: React.FC = () => {
 
   const { 
-    otp,
-    setOtp,
+    otpCode,
+    setOtpCode,
     verifyState,
     onSubmit,
     onResend,
     origin,
     isSuccessModalClosed,
     errorMessage,
+    phoneNumber,
   } = useVerify();
 
   const navigate = useNavigate();
@@ -33,19 +34,31 @@ const Verify: React.FC = () => {
     })}`);
   };
 
-  const getLayoutSubTiltle = () => {
-    if (origin === 'login') return `Check out your phone!  We’ve sent a temporary  
-    verification code to your registered phone.`
+  const getLayoutSubTitle = () => {
+    if (origin === 'login') return `Check out your phone!  We've sent a temporary  
+    verification code to your phone *******${phoneNumber?.substring(phoneNumber.length - 3)}`
 
     return `We take your security very seriously. Therefore, we need to 
     validate your cell phone number, please enter the verification code that we
     send to your cell phone in the following field.`;
   }
 
+  const getLayoutTitle = () => {
+    if (origin === 'login') return `Verification code`
+
+    return `Phone number verification`;
+  }
+
+  const getVerifyButtonTitle = () => {
+    if (origin === 'login') return `Verify code`;
+
+    return `Verify phone number`;
+  }
+
   return (
     <AuthlayoutContent
-      title={ "Phone number verification" }
-      subtitle={getLayoutSubTiltle()}>
+      title={ getLayoutTitle() }
+      subtitle={getLayoutSubTitle()}>
       <div className="otpStatus">
         {
           verifyState === EVerifyStatus.loading && (
@@ -78,18 +91,31 @@ const Verify: React.FC = () => {
       <OtpInput
         containerStyle={ { justifyContent: "center", marginTop: 50, marginBottom: 50 } }
         className="otpInput"
-        value={ otp }
-        onChange={ setOtp }
+        value={ otpCode }
+        onChange={ setOtpCode }
         numInputs={ 6 }
-        separator={ <span className="otpInputSeparator"></span> }
+        separator={ <span className="otpInputSeparator"></span>}
+        isInputNum={ true }
+        shouldAutoFocus= { true }
+        isDisabled={verifyState === EVerifyStatus.loading}
       />
       <p className="defaultText textNeutral200 textAlignCenter">
         Don't receive code? <button onClick={ onResend } className="textPrimary200 defaultText textLink">Resend</button>
       </p>
       <div className="verticalSpaceXL" />
-      <Button large={ ELarge.full } type="submit" onClick={ onSubmit } disabled={ otp.length < 6 }>Verify phone</Button>
+      <Button large={ ELarge.full } type="submit" onClick={ onSubmit } disabled={ otpCode.length < 6 }>
+        { getVerifyButtonTitle() }
+      </Button>
       <div className="verticalSpaceL" />
       <Button visibleType={ EBtnVisibleType.clear } large={ ELarge.full } onClick={() => {navigate('/auth/login')}}>Cancel</Button>
+
+      <div className="loginContainer__tAndC">
+        <p className="smallText textNeutral200 textAlignCenter">
+          Are you having problems with this method?
+          <br/>
+          Please contact <a href="mailto:support@bazar.com" className="textPrimary200 textLink">support@email.com</a>
+        </p>
+      </div>
 
       <Modal
         title="Verified phone number"

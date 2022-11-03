@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { IRegisterFormProps, TRegisterFormKeys } from "../interfaces";
+import { IRegisterFormProps, TRegisterFormKeys } from "../../../interfaces";
 import { useState } from "react";
 import { registerFormValidator } from "../validators";
 import { useNavigate } from "react-router-dom";
-import useRegisterProviders from "../providers";
+import useAuthenticator from "../../../hooks/useAuthenticator";
 
 const useRegister = () => {
   // States
@@ -17,7 +17,7 @@ const useRegister = () => {
   const navigate = useNavigate();
 
   // Providers
-  const { registerProvider } = useRegisterProviders();
+  const { requestUserRegister } = useAuthenticator();
 
   // Form
   const { handleSubmit, control, register, watch, formState: { errors: registerErrors } } = useForm<IRegisterFormProps>({
@@ -46,12 +46,16 @@ const useRegister = () => {
   const handleRegister = async (formData: IRegisterFormProps) => {
     setErrorMsg("");
     try {
-      await registerProvider(formData);
+      await requestUserRegister(formData);
       setLoading(false);
       navigate(`/auth/verify?${new URLSearchParams({
         email: formData.email,
-        password: formData.password
-      })}`);
+      })}`, {
+        state: {
+          email: formData.email,
+          password: formData.password,
+        }
+      });
     } catch (error: any) {
       const errorMessage = error.response.data.errorMessage;
       setErrorMsg(errorMessage);
