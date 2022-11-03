@@ -3,7 +3,7 @@ import { useButtonStyles } from "./hooks/useButtonStyles";
 import { IButtonProps } from "./interfaces";
 
 const Button: React.FC<IButtonProps> = (props) => {
-  const { children, disabled = false, onClick, iconLeft, iconRight, large, ...rest } = props;
+  const { children, disabled = false, onClick, iconLeft, iconRight } = props;
   const { getClassNameByVisibleType } = useButtonStyles(props);
   return (
     <button

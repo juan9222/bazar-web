@@ -10,8 +10,7 @@ import Select from '../../../common/components/select';
 import { ELarge } from '../../../common/interfaces';
 import useCompanyCreation from './hooks/useCompanyCreation';
 
-const CompanyCreation: React.FC<any> = props => {
-  const { } = props;
+const CompanyCreation: React.FC<any> = () => {
   const {
     yearsOperations,
     incrementYO,
