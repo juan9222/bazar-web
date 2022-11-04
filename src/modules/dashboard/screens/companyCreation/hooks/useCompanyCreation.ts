@@ -166,6 +166,9 @@ const useCompanyCreation = () => {
         uuid_user: data.uuid,
         profile_image: data.profileImage,
       };
+      if (data.profileImage === "") {
+        delete body.profile_image;
+      }
       formData.append("body", JSON.stringify(body));
       for (let i = 0; i < files.length; i++) {
         formData.append("files", files[i]);
