@@ -1,5 +1,5 @@
 .not-found {
-  background-image: url("../../../../../../public/assets/images/bg-not-found.png");
+  background-image: url("../../../../../../public/assets/images/bg-not-found.jpg");
   width: 100vw;
   height: 100vh;
   background-size: cover;
@@ -31,7 +31,7 @@
 
 @media (max-width: $breakpoint_tablet) {
   .not-found {
-    background-image: url("../../../../../../public/assets/images/bg-not-found-mobile.png");
+    background-image: url("../../../../../../public/assets/images/bg-not-found-mobile.jpg");
     min-width: 100vw;
     min-height: 100vh;
     background-size: cover;
