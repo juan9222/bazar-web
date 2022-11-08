@@ -77,6 +77,26 @@
   @include btnDefaultOutline();
 }
 
+@mixin btnDefaultOutlineWhite {
+  @include btnDefaultOutline;
+  background: $white;
+  color: $primary_300;
+  margin: auto;
+  margin-top: 1rem;
+  width: 18rem;
+  justify-content: center;
+
+  &:hover {
+    background-color: $primary_200;
+    color: $white;
+    cursor: pointer;
+  }
+}
+
+.btnOutlineWhite {
+  @include btnDefaultOutlineWhite();
+}
+
 @mixin btnDefaultClear {
   @include btn();
   background: transparent;
