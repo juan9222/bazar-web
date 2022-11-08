@@ -12,6 +12,8 @@ export const useButtonStyles = (props: IButtonProps) => {
         return large === ELarge.full ? "btnOutlineFull" : "btnOutline";
       case EBtnVisibleType.clear:
         return large === ELarge.full ? "btnClearFull" : "btnClear";
+      case EBtnVisibleType.outlineWhite:
+        return "btnOutlineWhite";
 
       default:
         return large === ELarge.full ? "btnSolidFull" : "btnSolid";

@@ -4,6 +4,7 @@ import { ELarge } from "../../../interfaces";
 export enum EBtnVisibleType {
   solid = "solid",
   outline = "outline",
+  outlineWhite = "outline-white",
   clear = "clear"
 }
 
