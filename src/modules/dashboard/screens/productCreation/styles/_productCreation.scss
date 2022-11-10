@@ -1,0 +1,55 @@
+.productLabel {
+  display: block;
+  color: $neutral_400;
+  font-weight: 400;
+  font-size: 16.8px;
+  line-height: 24px;
+  letter-spacing: 0.03em;
+}
+
+.gridAuto {
+  display: grid;
+  grid-template-areas: "a a";
+  gap: 10px;
+  grid-auto-rows: 1.2rem;
+}
+
+.required {
+  color: $error_100;
+  width: 0.1rem;
+}
+
+hr {
+  margin: auto;
+  height: 1px;
+  width: 75%;
+  align-self: stretch;
+  flex-grow: 0;
+  background-color: $neutral-100;
+}
+
+.form-row {
+  padding: 0.3vw;
+  display: flex;
+  flex-direction: row;
+  flex: 1;
+
+  &__input {
+    padding: 0.2vw;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex: 1;
+
+    input {
+      &:focus {
+        border: 1px solid $primary_200;
+        filter: drop-shadow(0px 2px 4px rgba(5, 79, 110, 0.25));
+      }
+
+      &::placeholder {
+        color: $neutral_100;
+      }
+    }
+  }
+}

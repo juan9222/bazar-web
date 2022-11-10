@@ -19,8 +19,14 @@
 @import '../../modules/common/components/profilePhoto/styles/index';
 /* InputFile */
 @import '../../modules/common/components/inputFile/styles/index';
+/* InputTextarea */
+@import '../../modules/common/components/inputTextarea/styles/index';
 /* Modal */
 @import '../../modules/common/components/modal/styles/index';
+/* Toggle */
+@import '../../modules/common/components/toggle/styles/index';
+/* TabGroup */
+@import '../../modules/common/components/tab/styles/index';
 /* Logo */
 @import '../../assets/svg/icons/iconLogo/styles/index';
 
@@ -40,5 +46,6 @@
 
 // //////////// shared/DASHBOARD
 // Layouts
-@import '../../modules/dashboard/layouts/dashboardLayout/styles/index.scss';
-@import '../../modules/dashboard/screens/companyCreation/styles/index.scss';
+@import '../../modules/dashboard/layouts/dashboardLayout/styles/index';
+@import '../../modules/dashboard/screens/companyCreation/styles/index';
+@import '../../modules/dashboard/screens/productCreation/styles/index';
