@@ -5,6 +5,7 @@ export interface IInputFilesProps extends React.DetailedHTMLProps<React.InputHTM
   placeholder: string;
   name: string;
   label?: string;
+  footer?: string;
   hasError?: boolean;
   errorMessage?: string;
   multiple?: boolean;

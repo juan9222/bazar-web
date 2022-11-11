@@ -173,10 +173,7 @@ const useCompanyCreation = () => {
       for (let i = 0; i < files.length; i++) {
         formData.append("files", files[i]);
       }
-      const resp = await axios.post(`${ process.env.REACT_APP_BAZAR_URL }/companies`, formData, {
-        headers: {
-        }
-      });
+      const resp = await axios.post(`${ process.env.REACT_APP_BAZAR_URL }/companies`, formData, {});
       console.log(JSON.stringify(resp, null, 3));
       setLoading(false);
       setShowConfirmationModal(false);

@@ -1,8 +1,10 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { IPrivateRouteProps } from './interfaces';
 import useAuthenticator from '../../hooks/useAuthenticator';
-const PrivateRoute: React.FC<IPrivateRouteProps> = (props) => {
-  const { children } = props;
+import { Outlet } from 'react-router-dom';
+const PrivateRoute: React.FC<IPrivateRouteProps> = () => {
+  const [isLoginReady, setIsLoginReady] = useState(false);
+
   const {
     goToLogin,
     getAccessToken,
@@ -13,18 +15,19 @@ const PrivateRoute: React.FC<IPrivateRouteProps> = (props) => {
   } = useAuthenticator();
 
   const shouldInit = useRef(true);
-  
-  const onInit = () => {
+
+  const onInit = async () => {
     const accessToken = getAccessToken();
     const uuid = getAuthenticatedUserUuid();
     const roles = getAuthenticatedUserRoles();
 
     if (accessToken && uuid && roles) {
-      onLogin({
+      await onLogin({
         accessToken,
         uuid,
         roles,
       });
+      setIsLoginReady(true);
     } else {
       onLogout();
       goToLogin();
@@ -37,12 +40,14 @@ const PrivateRoute: React.FC<IPrivateRouteProps> = (props) => {
       shouldInit.current = false;
       onInit();
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
-      { children} 
+      { isLoginReady && (
+        <Outlet />
+      ) }
     </>
   );
 };
