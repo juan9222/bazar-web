@@ -43,6 +43,14 @@ const CompanyCreation: React.FC<any> = () => {
     onCreateProduct,
     onCreateProductLater,
   } = useCompanyCreation();
+
+
+  const FilePlaceHolder = () => (
+    <>
+      <div className="verticalSpaceS" />
+      <p className='textNeutral200 '>This form accepts PDF, JPEG, JPG, PNG files up to 10 MB.</p>
+    </>
+  );
   return (
     <div className="cc">
       <div className="cc__banner">
@@ -160,6 +168,7 @@ const CompanyCreation: React.FC<any> = () => {
               placeholder={ "Add document" }
               onChangeFile={ setCompanyByLawsFile }
             />
+            <FilePlaceHolder />
             <div className="verticalSpaceL"></div>
             <InputFile
               label={ "Authentication of the legal representative (opt)" }
@@ -167,6 +176,7 @@ const CompanyCreation: React.FC<any> = () => {
               placeholder={ "Add document" }
               onChangeFile={ setOptFile }
             />
+            <FilePlaceHolder />
             <div className="verticalSpaceL"></div>
             <InputFile
               required
@@ -176,6 +186,7 @@ const CompanyCreation: React.FC<any> = () => {
               onChangeFile={ setPurchaseOrderFile }
 
             />
+            <FilePlaceHolder />
             <div className="verticalSpaceL"></div>
           </form>
           <Button type='button' onClick={ () => setShowConfirmationModal(true) } large={ ELarge.full } disabled={ loading }>

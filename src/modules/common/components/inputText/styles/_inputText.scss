@@ -22,6 +22,9 @@
     font-size: 16.8px;
     line-height: 24px;
     letter-spacing: 0.03em;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 
     &--required {
       color: $error_100
