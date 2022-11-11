@@ -3,12 +3,16 @@
   max-height: 90vh;
 
   &__banner {
-    min-width: 473px;
-    height: 870px;
+    width: 100%;
+    overflow: hidden;
+    display: flex;
+    justify-content: flex-start;
 
     img {
-      width: 100%;
-      object-fit: cover;
+      width: 500px;
+      height: 100%;
+      object-fit: contain;
+
     }
   }
 
