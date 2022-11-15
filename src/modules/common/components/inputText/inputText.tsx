@@ -4,11 +4,11 @@ import useInputTextStyles from './hooks/useInputTextStyles';
 import { Controller } from "react-hook-form";
 
 const InputText: React.FC<IInputTextProps> = (props) => {
-  const { name, label, icon, required, onClickIcon, register, hasError, errorMessage, onChange, value, control, type, ...rest } = props;
+  const { name, label, hasTooltip, icon, required, onClickIcon, register, hasError, errorMessage, onChange, value, control, type, ...rest } = props;
   const { getClassNameInputTextByError } = useInputTextStyles({ hasError: hasError ?? false });
   return (
     <div className="inputTextContainer">
-      <label className="inputTextContainer__label" htmlFor={ name }>{ label ? <span>{ required && <span className="inputTextContainer__label--required">* </span> }{ label }</span> : "" }</label>
+      <label className="inputTextContainer__label" htmlFor={ name }>{ label ? <span>{ required && <span className="inputTextContainer__label--required">* </span> }{ label } { hasTooltip && <img src="/assets/images/tooltip.png" alt="tooltip img" /> }</span> : "" }</label>
       <div className="inputTextContainer__input">
         { register ? (
           <input className={ getClassNameInputTextByError() } type={ type ?? "text" } { ...register(name) } id={ name }  { ...rest } />
@@ -24,7 +24,6 @@ const InputText: React.FC<IInputTextProps> = (props) => {
           />
         ) : (
           <input className={ getClassNameInputTextByError() } onChange={ onChange } value={ value } type={ type ?? "text" } name={ name } id={ name } { ...rest } />
-
         )
         }
         { icon &&

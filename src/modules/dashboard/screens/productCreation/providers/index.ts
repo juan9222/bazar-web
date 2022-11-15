@@ -9,7 +9,6 @@ const useProductCreationProviders = () => {
       method: "GET",
       baseURL: process.env.REACT_APP_BAZAR_URL,
       url: "/products/basic-products",
-      headers: {},
     });
     return trackPromise(request);
   };
@@ -19,7 +18,6 @@ const useProductCreationProviders = () => {
       method: "GET",
       baseURL: process.env.REACT_APP_BAZAR_URL,
       url: `/products/product-types/${ productvalue }`,
-      headers: {},
     });
     return trackPromise(request);
   };
@@ -29,7 +27,6 @@ const useProductCreationProviders = () => {
       method: "GET",
       baseURL: process.env.REACT_APP_BAZAR_URL,
       url: `/products/varieties/${ productvalue }`,
-      headers: {},
     });
     return trackPromise(request);
   };
@@ -39,7 +36,6 @@ const useProductCreationProviders = () => {
       method: "GET",
       baseURL: process.env.REACT_APP_BAZAR_URL,
       url: "/products/sustainability-certifications",
-      headers: {},
     });
     return trackPromise(request);
   };
@@ -49,7 +45,6 @@ const useProductCreationProviders = () => {
       method: "GET",
       baseURL: process.env.REACT_APP_BAZAR_URL,
       url: "/products/incoterms",
-      headers: {},
     });
     return trackPromise(request);
   };
@@ -59,7 +54,6 @@ const useProductCreationProviders = () => {
       method: "GET",
       baseURL: process.env.REACT_APP_BAZAR_URL,
       url: "/products/minimum-orders",
-      headers: {},
     });
     return trackPromise(request);
   };

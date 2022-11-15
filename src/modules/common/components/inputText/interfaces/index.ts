@@ -9,6 +9,7 @@ export interface IInputTextProps
   value?: string;
   onChange?: (event: any) => void;
   label?: string;
+  hasTooltip?: boolean;
   icon?: React.ReactNode;
   onClickIcon?: () => void;
   hasError?: boolean;

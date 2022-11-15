@@ -17,7 +17,7 @@ const useCreateProduct = () => {
 
   const [displayPicture, setDisplayPicture] = useState<string>();
   const [assistanceNeeded, setAssistanceNeeded] = useState<boolean>(false);
-  const [productPictures, setProductPictures] = useState<Blob>();
+  const [productPictures, setProductPictures] = useState<any>();
   const [certifications, setCertifications] = useState<any>([]);
   const [incoterms, setIncoterms] = useState<Array<string>>([]);
   const [certificationsFiles, setCertificationsFiles] = useState<any>([]);
@@ -87,9 +87,7 @@ const useCreateProduct = () => {
         if (productPictures)
           formData.append("images[]", productPictures);
         // });
-        const resp = await axios.post(`${ process.env.REACT_APP_BAZAR_URL }/products`, formData, {
-          headers: {}
-        });
+        const resp = await axios.post(`${ process.env.REACT_APP_BAZAR_URL }/products`, formData, {});
         console.log(JSON.stringify(resp, null, 3));
         alert("Product created successfully!");
       } catch (error) {
@@ -210,7 +208,7 @@ const useCreateProduct = () => {
 
   useEffect(() => {
     if (productPictures)
-      setDisplayPicture(URL.createObjectURL(productPictures));
+      setDisplayPicture(URL.createObjectURL(productPictures.item(0)));
   }, [productPictures]);
 
   return {

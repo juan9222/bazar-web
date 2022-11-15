@@ -54,7 +54,7 @@ const ProductCreation: React.FC<any> = (props) => {
   return (
     <div className="cc">
       <div className="cc__banner">
-        <img src="/assets/images/create-product.png" alt="bazar Auth" />
+        <img src="/assets/images/banner-product-creation.png" alt="bazar Auth" />
       </div>
       <div className="cc__content">
         <div className="cc__content--form">
@@ -75,11 +75,13 @@ const ProductCreation: React.FC<any> = (props) => {
                 <section className={ `panel__${ activeTabIndex === 0 ? "active" : "inactive" }` }>
                   { displayPicture && <img src={ displayPicture } /> }
                   <InputFile
-                    label={ "This form accepts JPEG, JPG, PNG files up to 10 MB." }
+                    label={ "Select your product photos." }
                     name={ assignInputName("productPictures") }
                     placeholder={ "Select your product photos" }
                     accept={ ".jpg, .png, .jpeg" }
                     onChangeFile={ setProductPictures }
+                    footer="This form accepts JPEG, JPG, PNG files up to 10 MB."
+                    multiple
                     required
                   />
                   <div className="verticalSpaceL" />
@@ -137,6 +139,7 @@ const ProductCreation: React.FC<any> = (props) => {
                     type={ "date" }
                     hasError={ hasErrorsInput("dateInPort") }
                     errorMessage={ getMessageErrorInput("dateInPort") }
+                    hasTooltip
                     required />
                   <div className='dFlex'>
                     <div className="f1">
@@ -165,7 +168,8 @@ const ProductCreation: React.FC<any> = (props) => {
                     type={ "text" }
                     hasError={ hasErrorsInput("companyAssociation") }
                     errorMessage={ getMessageErrorInput("companyAssociation") }
-                    placeholder={ "Write your associations" } />
+                    placeholder={ "Write your associations" }
+                    hasTooltip />
                   <div className="verticalSpaceS" />
                   <hr />
                   <div className="verticalSpaceL" />
