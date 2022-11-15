@@ -81,6 +81,7 @@ const ProductCreation: React.FC<any> = (props) => {
                     accept={ ".jpg, .png, .jpeg" }
                     onChangeFile={ setProductPictures }
                     footer="This form accepts JPEG, JPG, PNG files up to 10 MB."
+                    multiple
                     required
                   />
                   <div className="verticalSpaceL" />

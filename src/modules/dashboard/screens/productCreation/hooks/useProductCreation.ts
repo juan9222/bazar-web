@@ -208,7 +208,7 @@ const useCreateProduct = () => {
 
   useEffect(() => {
     if (productPictures)
-      setDisplayPicture(URL.createObjectURL(productPictures));
+      setDisplayPicture(URL.createObjectURL(productPictures.item(0)));
   }, [productPictures]);
 
   return {
