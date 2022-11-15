@@ -171,7 +171,7 @@ const useCompanyCreation = () => {
       }
       formData.append("body", JSON.stringify(body));
       for (let i = 0; i < files.length; i++) {
-        formData.append("files", files[i]);
+        formData.append("files[]", files[i]);
       }
       const resp = await axios.post(`${ process.env.REACT_APP_BAZAR_URL }/companies`, formData, {
         headers: {
