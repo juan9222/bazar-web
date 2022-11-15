@@ -9,7 +9,6 @@ const Select: React.FC<ISelectProps> = (props) => {
   return (
     <div className="">
       <label className="inputTextContainer__label" htmlFor={ name }>{ label ? <span>{ rest.required && <span className="inputTextContainer__label--required">* </span> }{ label }</span> : "" }</label>
-
       {
         register ? (
           <div className="inputTextContainer__input">

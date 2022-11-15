@@ -10,7 +10,8 @@ import Toggle from "../../../common/components/toggle";
 import { ELarge } from "../../../common/interfaces";
 import useCreateProduct from "./hooks/useProductCreation";
 
-const ProductCreation: React.FC<any> = (props) => {
+
+const ProductCreation: React.FC<any> = () => {
   const {
     control,
     register,
