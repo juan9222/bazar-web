@@ -25,7 +25,7 @@ const InputFile: React.FC<IInputFilesProps> = (props) => {
       <label className="inputTextContainer__label" htmlFor={ name }>{ label ? <span>{ rest.required && <span className="inputTextContainer__label--required">* </span> }{ label }</span> : "" }</label>
       {
         register ? (
-          <>
+          <div className="inputTextContainer__input">
             <input
               { ...register(name) }
               ref={ hiddenFileInput }
@@ -50,6 +50,7 @@ const InputFile: React.FC<IInputFilesProps> = (props) => {
                   </div>
                 ) : (
                   <Button
+                    className='inputTextContainer__input--field'
                     onClick={ () => {
                       hiddenFileInput?.current && hiddenFileInput.current.click();
                     } }
@@ -62,9 +63,9 @@ const InputFile: React.FC<IInputFilesProps> = (props) => {
             }
             { hasError && <span className="inputTextContainer__errorMessage">{ errorMessage }</span> }
 
-          </>
+          </div>
         ) : (
-          <>
+          <div className="inputTextContainer__input">
             <input
               name={ name }
               type="file"
@@ -100,6 +101,7 @@ const InputFile: React.FC<IInputFilesProps> = (props) => {
                   </div>
                 ) : (
                   <Button
+                    className='inputTextContainer__input--field'
                     onClick={ () => {
                       hiddenFileInput?.current && hiddenFileInput.current.click();
                     } }
@@ -110,7 +112,7 @@ const InputFile: React.FC<IInputFilesProps> = (props) => {
                 )
             }
             { hasError && <span className="inputTextContainer__errorMessage">{ errorMessage }</span> }
-          </>
+          </div>
         )
       }
     </div>

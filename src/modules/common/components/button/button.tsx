@@ -3,11 +3,11 @@ import { useButtonStyles } from "./hooks/useButtonStyles";
 import { IButtonProps } from "./interfaces";
 
 const Button: React.FC<IButtonProps> = (props) => {
-  const { children, disabled = false, onClick, iconLeft, iconRight } = props;
+  const { children, disabled = false, onClick, iconLeft, iconRight, className, } = props;
   const { getClassNameByVisibleType } = useButtonStyles(props);
   return (
     <button
-      className={ getClassNameByVisibleType() }
+      className={ className ?? getClassNameByVisibleType() }
       data-testid="test-button"
       disabled={ disabled }
       onClick={ onClick }

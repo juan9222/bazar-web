@@ -19,4 +19,5 @@ export interface IButtonProps
   iconLeft?: React.ReactNode;
   iconRight?: React.ReactNode;
   onClick?: (event: React.MouseEvent) => void;
+  className?: string;
 }

@@ -6,7 +6,7 @@ export const registerFormValidator = Yup.object().shape<TRegisterFormValidatorSh
   email: Yup.string()
     .trim()
     .required("This field is required")
-    .matches(/^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g, "Invalid format"),
+    .matches(/^[\w]+@([\w]+\.)+[\w]/g, "Invalid format"),
   password: Yup.string().trim().required("This field is required"),
   confirmPassword: Yup.string()
     .oneOf([Yup.ref('password'), null], 'Passwords must match'),
