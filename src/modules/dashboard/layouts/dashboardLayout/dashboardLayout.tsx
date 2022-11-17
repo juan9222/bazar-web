@@ -37,7 +37,7 @@ const Dashboardlayout: React.FC<any> = () => {
           </div>
           <div className="dshLayout__body--header--right">
             <FaUserCircle className="dshLayout__body--header--right--icon" />
-            <BiDotsVerticalRounded className="dshLayout__body--header--right--icon2" onClick={ onLogout }/>
+            <BiDotsVerticalRounded className="dshLayout__body--header--right--icon2" onClick={ onLogout } />
           </div>
         </header>
         <Outlet />

@@ -5,12 +5,15 @@ import useProductCreationProviders from "../providers";
 import { IProductCreationProps, TProductCreationFormKeys } from "../interfaces";
 import { productCreationFormValidator } from "../validators";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const useCreateProduct = () => {
   const [activeTabIndex, setActiveTabIndex] = useState<number>(0);
   const [showCancellationModal, setShowCancellationModal] = useState<boolean>(false);
   const [showConfirmationModal, setShowConfirmationModal] = useState<boolean>(false);
   const [showConfirmationNoCertModal, setShowConfirmationNoCertModal] = useState<boolean>(false);
+  const [showCongratulationsModal, setShowCongratulationsModal] = useState(false);
+  const [showCongratulationsNoCertModal, setShowCongratulationsNoCertModal] = useState(false);
   const [products, setProducts] = useState<Array<{ label: string; value: string; }>>([]);
   const [productTypes, setProductTypes] = useState<Array<{ label: string; value: string; }>>([]);
   const [varieties, setVarieties] = useState<Array<{ label: string; value: string; }>>([]);
@@ -25,6 +28,8 @@ const useCreateProduct = () => {
   const [incoterms, setIncoterms] = useState<Array<string>>([]);
   const [certificationsFiles, setCertificationsFiles] = useState<any>([]);
   const [hasError, setHasError] = useState(false);
+
+  const navigate = useNavigate();
 
   //Providers
   const { getProducts, getProductTypesByProduct, getVarietiesByProduct, getSustainabilityCertificationsItems, getMinimumOrders, getIncoterms } = useProductCreationProviders();
@@ -85,17 +90,19 @@ const useCreateProduct = () => {
         Object.values(certificationsFiles).forEach((file: any) => {
           formData.append("files[]", file);
         });
-        //TO-DO multiple pictures
-        // productPictures?.forEach(picture => {
         if (productPictures)
           formData.append("images[]", productPictures);
-        // });
         const resp = await axios.post(`${ process.env.REACT_APP_BAZAR_URL }/products`, formData, {});
         console.log(JSON.stringify(resp, null, 3));
-        alert("Product created successfully!");
+        if (showConfirmationModal) {
+          setShowConfirmationModal(false);
+          setShowCongratulationsModal(true);
+        } else if (showConfirmationNoCertModal) {
+          setShowConfirmationNoCertModal(false);
+          setShowCongratulationsNoCertModal(true);
+        }
       } catch (error) {
-        console.log(`Failed: ${ error }`);
-        alert("There's been an error: " + error);
+        console.warn(error);
         setHasError(true);
       }
     }
@@ -204,6 +211,12 @@ const useCreateProduct = () => {
     setCertificationsFiles(newCertificationsFiles);
   };
 
+  const onCreateProduct = () => {
+    setShowCongratulationsModal(false);
+    setShowCongratulationsNoCertModal(false);
+    navigate("/dashboard/home");
+  };
+
   useEffect(() => {
     onGetProducts();
     onGetsustainabilityCertificationsItems();
@@ -243,6 +256,10 @@ const useCreateProduct = () => {
     setShowConfirmationModal,
     showConfirmationNoCertModal,
     setShowConfirmationNoCertModal,
+    showCongratulationsModal,
+    setShowCongratulationsModal,
+    showCongratulationsNoCertModal,
+    setShowCongratulationsNoCertModal,
     products,
     productTypes,
     varieties,
@@ -258,6 +275,7 @@ const useCreateProduct = () => {
     onChangeCertificationCheckbox,
     onChangeIncotermCheckbox,
     onChangeCertificationFile,
+    onCreateProduct,
   };
 };
 

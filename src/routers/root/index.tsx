@@ -30,7 +30,7 @@ export const publicRoutes: RouteObject[] = [
 export const privateRoutes: RouteObject[] = [
   {
     path: "/dashboard",
-    element: <PrivateRoutes><Dashboardlayout /></PrivateRoutes>,
+    element: <PrivateRoutes />,
     children: dashboardRoutes,
   },
 ];

@@ -1,3 +1,4 @@
+import { AiFillCheckCircle } from "react-icons/ai";
 import Button from "../../../common/components/button/button";
 import { EBtnVisibleType } from "../../../common/components/button/interfaces";
 import Checkbox from "../../../common/components/checkbox/checkbox";
@@ -29,6 +30,8 @@ const ProductCreation: React.FC<any> = () => {
     setShowConfirmationModal,
     showConfirmationNoCertModal,
     setShowConfirmationNoCertModal,
+    showCongratulationsModal,
+    showCongratulationsNoCertModal,
     products,
     productTypes,
     varieties,
@@ -43,6 +46,7 @@ const ProductCreation: React.FC<any> = () => {
     displayPicture,
     setProductPictures,
     onChangeCertificationFile,
+    onCreateProduct,
   } = useCreateProduct();
 
   const tabStyle = {
@@ -256,19 +260,21 @@ const ProductCreation: React.FC<any> = () => {
                   <div className="verticalSpaceL" />
                   <h1>Sustainability certifications</h1>
                   { certifications.map((certification: string) => {
-                    return (
-                      <>
-                        <div className="verticalSpaceL" />
-                        <InputFile
-                          required
-                          label={ sustainabilityCertificationsItems.find(certificationItem => certificationItem?.value === certification)!.label }
-                          name={ certification }
-                          key={ certification }
-                          placeholder={ "Add document" }
-                          onChangeFile={ onChangeCertificationFile(certification) }
-                        />
-                      </>
-                    );
+                    const label = sustainabilityCertificationsItems.find(certificationItem => certificationItem?.value === certification)!.label;
+                    if (label !== "No certificate")
+                      return (
+                        <>
+                          <div className="verticalSpaceL" />
+                          <InputFile
+                            required
+                            label={ label }
+                            name={ certification }
+                            key={ certification }
+                            placeholder={ "Add document" }
+                            onChangeFile={ onChangeCertificationFile(certification) }
+                          />
+                        </>
+                      );
                   }) }
                 </section>
               ) }
@@ -304,6 +310,37 @@ const ProductCreation: React.FC<any> = () => {
             <h3 className='textPrimary300 textModalTitle'>Do you want to continue ?</h3>
             <div className="verticalSpaceL"></div>
             <p className='textModalDesc'>Are you sure the information is complete? If you don't have a sustainability certificate, don't worry, your products will be published without a sustainability seal.</p>
+          </Modal>
+          {/* Modal Contratulations */ }
+          <Modal title="" continueText='Continue' width='560px' closed={ !showCongratulationsModal } cancelHidden={ true } showCloseIcon={ false } onClose={ () => { } } onContinue={ onCreateProduct }>
+            <div className="verticalSpaceS"></div>
+            <h3 className='textPrimary300 textModalTitle'><AiFillCheckCircle className='textSuccess200' /> Congratulations</h3>
+            <div className="verticalSpaceL"></div>
+            <p className='textModalDesc'>
+              Once the documents are reviewed and approved you will be notified and the buyers will see the score in their accounts after our review we will assign you a level of Sustainability.
+            </p>
+            <div className="verticalSpaceS"></div>
+            <ul>
+              <li>
+                <p className='textModalDesc'><b>Level 1:</b>More than 1 sustainability practices (SP) seals.</p>
+              </li>
+              <li>
+                <p className='textModalDesc'><b>Level 2:</b>Agriculture Guild Member with SP seals.</p>
+              </li>
+              <li>
+                <p className='textModalDesc'><b>Level 3:</b>Carbon credits provider.</p>
+              </li>
+            </ul>
+          </Modal>
+          {/* Modal Congratulations no Certificates */ }
+          <Modal title="" continueText='Continue' width='560px' closed={ !showCongratulationsNoCertModal } cancelHidden={ true } showCloseIcon={ false } onClose={ () => { } } onContinue={ onCreateProduct }>
+            <div className="verticalSpaceS"></div>
+            <h3 className='textPrimary300 textModalTitle'><AiFillCheckCircle className='textSuccess200' /> Do you want to continue ?</h3>
+            <div className="verticalSpaceL"></div>
+            <p className='textModalDesc'>
+              You have successfully created your product!
+              Remember that to improve the quality of your product and visibility in <b>Bazar</b> and have your profile verified by our team we invite you to get your sustainability certificates.
+            </p>
           </Modal>
         </div >
       </div >

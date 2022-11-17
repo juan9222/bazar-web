@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { IPrivateRouteProps } from './interfaces';
 import useAuthenticator from '../../hooks/useAuthenticator';
 import { Outlet } from 'react-router-dom';
+import Dashboardlayout from '../../../dashboard/layouts/dashboardLayout';
 const PrivateRoute: React.FC<IPrivateRouteProps> = () => {
   const [isLoginReady, setIsLoginReady] = useState(false);
 
@@ -46,7 +47,9 @@ const PrivateRoute: React.FC<IPrivateRouteProps> = () => {
   return (
     <>
       { isLoginReady && (
-        <Outlet />
+        <Dashboardlayout>
+          <Outlet />
+        </Dashboardlayout>
       ) }
     </>
   );
