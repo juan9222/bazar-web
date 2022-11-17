@@ -1,13 +1,16 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import useProductCreationProviders, { token } from "../providers";
+import useProductCreationProviders from "../providers";
 import { IProductCreationProps, TProductCreationFormKeys } from "../interfaces";
 import { productCreationFormValidator } from "../validators";
 import axios from "axios";
 
 const useCreateProduct = () => {
-  const [activeTabIndex, setActiveTabIndex] = useState(0);
+  const [activeTabIndex, setActiveTabIndex] = useState<number>(0);
+  const [showCancellationModal, setShowCancellationModal] = useState<boolean>(false);
+  const [showConfirmationModal, setShowConfirmationModal] = useState<boolean>(false);
+  const [showConfirmationNoCertModal, setShowConfirmationNoCertModal] = useState<boolean>(false);
   const [products, setProducts] = useState<Array<{ label: string; value: string; }>>([]);
   const [productTypes, setProductTypes] = useState<Array<{ label: string; value: string; }>>([]);
   const [varieties, setVarieties] = useState<Array<{ label: string; value: string; }>>([]);
@@ -99,10 +102,17 @@ const useCreateProduct = () => {
   };
 
   const handleTabSwitch = (index: number) => {
-    if (index === 0) {
-      setActiveTabIndex(1);
+    const nextTab = activeTabIndex + index;
+    if (nextTab < 0) {
+      setShowCancellationModal(true);
+    } else if (nextTab > 1) {
+      if (Object.keys(certificationsFiles).length > 0) {
+        setShowConfirmationModal(true);
+      } else {
+        setShowConfirmationNoCertModal(true);
+      }
     } else {
-      setActiveTabIndex(0);
+      setActiveTabIndex(nextTab);
     }
   };
 
@@ -199,11 +209,13 @@ const useCreateProduct = () => {
     onGetsustainabilityCertificationsItems();
     onGetIncotermsItems();
     onGetMinimumOrders();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    watchProduct !== (null || undefined) && onGetProductTypes();
-    watchProduct !== (null || undefined) && onGetVarieties();
+    watchProduct !== (null || undefined) && watchProduct.indexOf("Select Product") === -1 && onGetProductTypes();
+    watchProduct !== (null || undefined) && watchProduct.indexOf("Select Product") === -1 && onGetVarieties();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [watchProduct]);
 
   useEffect(() => {
@@ -224,6 +236,13 @@ const useCreateProduct = () => {
     hasError,
     handleTabSwitch,
     activeTabIndex,
+    setActiveTabIndex,
+    showCancellationModal,
+    setShowCancellationModal,
+    showConfirmationModal,
+    setShowConfirmationModal,
+    showConfirmationNoCertModal,
+    setShowConfirmationNoCertModal,
     products,
     productTypes,
     varieties,

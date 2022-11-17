@@ -4,12 +4,12 @@ import Checkbox from "../../../common/components/checkbox/checkbox";
 import InputFile from "../../../common/components/inputFile";
 import InputText from "../../../common/components/inputText/inputText";
 import InputTextarea from "../../../common/components/inputTextarea";
+import Modal from "../../../common/components/modal";
 import Select from "../../../common/components/select";
 import TabGroup from "../../../common/components/tab";
 import Toggle from "../../../common/components/toggle";
 import { ELarge } from "../../../common/interfaces";
 import useCreateProduct from "./hooks/useProductCreation";
-
 
 const ProductCreation: React.FC<any> = () => {
   const {
@@ -22,6 +22,13 @@ const ProductCreation: React.FC<any> = () => {
     getMessageErrorInput,
     handleTabSwitch,
     activeTabIndex,
+    setActiveTabIndex,
+    showCancellationModal,
+    setShowCancellationModal,
+    showConfirmationModal,
+    setShowConfirmationModal,
+    showConfirmationNoCertModal,
+    setShowConfirmationNoCertModal,
     products,
     productTypes,
     varieties,
@@ -33,7 +40,6 @@ const ProductCreation: React.FC<any> = () => {
     onChangeIncotermCheckbox,
     assistanceNeeded,
     OnChangeAssistanceNeeded,
-    productPictures,
     displayPicture,
     setProductPictures,
     onChangeCertificationFile,
@@ -74,7 +80,7 @@ const ProductCreation: React.FC<any> = () => {
             <div className="panels">
               { activeTabIndex === 0 && (
                 <section className={ `panel__${ activeTabIndex === 0 ? "active" : "inactive" }` }>
-                  { displayPicture && <img src={ displayPicture } /> }
+                  { displayPicture && <img src={ displayPicture } alt="preview" /> }
                   <InputFile
                     label={ "Select your product photos." }
                     name={ assignInputName("productPictures") }
@@ -255,7 +261,7 @@ const ProductCreation: React.FC<any> = () => {
                         <div className="verticalSpaceL" />
                         <InputFile
                           required
-                          label={ sustainabilityCertificationsItems[certifications.indexOf(certification)].label }
+                          label={ sustainabilityCertificationsItems.find(certificationItem => certificationItem?.value === certification)!.label }
                           name={ certification }
                           key={ certification }
                           placeholder={ "Add document" }
@@ -267,22 +273,38 @@ const ProductCreation: React.FC<any> = () => {
                 </section>
               ) }
             </div>
-            <div className="verticalSpaceL" />
-            <div className="dFlex">
-              <div className="f1">
-                <Button visibleType={ EBtnVisibleType.clear } large={ ELarge.full } type="button" onClick={ () => handleTabSwitch(activeTabIndex) }>{ activeTabIndex === 0 ? 'Cancel' : 'Back' }</Button>
-              </div>
-              <div className="horizontalSpaceS"></div>
-              <div className="f1">
-                { activeTabIndex === 0 && (
-                  <Button visibleType={ EBtnVisibleType.solid } large={ ELarge.full } type={ 'button' } onClick={ () => handleTabSwitch(activeTabIndex) }>Next</Button>
-                ) }
-                { activeTabIndex === 1 && (
-                  <Button visibleType={ EBtnVisibleType.solid } large={ ELarge.full } type={ 'button' } onClick={ handleSubmit(submitForm, (errors, e) => console.log(errors, e)) }>Create</Button>
-                ) }
-              </div>
-            </div>
           </form>
+          <div className="verticalSpaceL" />
+          <div className="dFlex">
+            <div className="f1">
+              <Button visibleType={ EBtnVisibleType.clear } large={ ELarge.full } type="button" onClick={ () => handleTabSwitch(-1) }>{ activeTabIndex === 0 ? 'Cancel' : 'Back' }</Button>
+            </div>
+            <div className="horizontalSpaceS"></div>
+            <div className="f1">
+              <Button visibleType={ EBtnVisibleType.solid } large={ ELarge.full } type="button" onClick={ () => handleTabSwitch(1) }>{ activeTabIndex === 0 ? 'Next' : 'Save' }</Button>
+            </div>
+          </div>
+          {/* Modal Cancellation */ }
+          <Modal title="" continueText='Leave' width='560px' closed={ !showCancellationModal } showCloseIcon={ false } onClose={ () => setShowCancellationModal(false) } onContinue={ () => alert("Undo") }>
+            <div className="verticalSpaceS"></div>
+            <h3 className='textPrimary300 textModalTitle'>You are sure you want to leave ?</h3>
+            <div className="verticalSpaceL"></div>
+            <p className='textModalDesc'>The changes will not be saved and you will have to create the product from scratch.</p>
+          </Modal>
+          {/* Modal Confirmation */ }
+          <Modal title="" continueText='Continue' width='560px' closed={ !showConfirmationModal } showCloseIcon={ false } onClose={ () => setShowConfirmationModal(false) } onContinue={ handleSubmit(submitForm, () => setActiveTabIndex(0)) }>
+            <div className="verticalSpaceS"></div>
+            <h3 className='textPrimary300 textModalTitle'>Do you want to continue ?</h3>
+            <div className="verticalSpaceL"></div>
+            <p className='textModalDesc'>Are yo sure to create your product? Once submitted you will not be able to modify them until they have been reviewed by our <b>Bazar</b> team.</p>
+          </Modal>
+          {/* Modal Confirmation no Certificates */ }
+          <Modal title="" continueText='Continue' width='560px' closed={ !showConfirmationNoCertModal } showCloseIcon={ false } onClose={ () => setShowConfirmationNoCertModal(false) } onContinue={ handleSubmit(submitForm, () => setActiveTabIndex(0)) }>
+            <div className="verticalSpaceS"></div>
+            <h3 className='textPrimary300 textModalTitle'>Do you want to continue ?</h3>
+            <div className="verticalSpaceL"></div>
+            <p className='textModalDesc'>Are you sure the information is complete? If you don't have a sustainability certificate, don't worry, your products will be published without a sustainability seal.</p>
+          </Modal>
         </div >
       </div >
     </div >
@@ -290,4 +312,3 @@ const ProductCreation: React.FC<any> = () => {
 };
 
 export default ProductCreation;
-

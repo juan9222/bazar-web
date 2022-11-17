@@ -3,7 +3,7 @@ import useInputTextStyles from "./hooks/useInputTextareaStyles";
 import { IInputTextareaProps } from "./interfaces";
 
 const InputTextarea: React.FC<IInputTextareaProps> = (props) => {
-  const { name, label, rows, icon, onClickIcon, register, hasError, errorMessage, onChange, value, control, required, placeholder, } = props;
+  const { name, label, rows, icon, onClickIcon, register, hasError, errorMessage, control, required, placeholder, } = props;
   const { getClassNameInputTextByError } = useInputTextStyles(props);
   return (
     <div className="inputTextareaContainer">
