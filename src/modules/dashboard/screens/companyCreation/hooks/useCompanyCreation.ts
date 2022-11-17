@@ -100,8 +100,6 @@ const useCompanyCreation = () => {
     return loginErrors[inputName]?.message || "This field is required";
   };
 
-
-
   const onGetUserInfo = async () => {
     const { firstName, lastName } = await getAuthenticatedUser();
     const fullName = `${ firstName } ${ lastName }`;
