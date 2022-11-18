@@ -25,6 +25,7 @@ const useCreateProduct = () => {
   const [assistanceNeeded, setAssistanceNeeded] = useState<boolean>(false);
   const [productPictures, setProductPictures] = useState<any>();
   const [certifications, setCertifications] = useState<any>([]);
+  const [noCertificatesSelected, setNoCertificatesSelected] = useState<boolean>(false);
   const [incoterms, setIncoterms] = useState<Array<string>>([]);
   const [certificationsFiles, setCertificationsFiles] = useState<any>([]);
   const [hasError, setHasError] = useState(false);
@@ -179,14 +180,21 @@ const useCreateProduct = () => {
 
   const onChangeCertificationCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    const newCertifications = [...certifications];
-    const index = newCertifications.indexOf(value);
-    if (index === -1) {
-      newCertifications.push(value);
-    } else {
-      newCertifications.splice(index, 1);
+    if (sustainabilityCertificationsItems.find(certificationItem => certificationItem?.value === value)?.label !== "No certificate") {
+      const newCertifications = [...certifications];
+      const index = newCertifications.indexOf(value);
+      if (index === -1) {
+        newCertifications.push(value);
+      } else {
+        newCertifications.splice(index, 1);
+      }
+      setCertifications(newCertifications);
+      setNoCertificatesSelected(false);
     }
-    setCertifications(newCertifications);
+    else {
+      setCertifications([]);
+      setNoCertificatesSelected(true);
+    }
   };
 
   const onChangeIncotermCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -267,6 +275,7 @@ const useCreateProduct = () => {
     incoterms: incotermsItems,
     minimumOrders,
     certifications,
+    noCertificatesSelected,
     assistanceNeeded,
     OnChangeAssistanceNeeded,
     productPictures,

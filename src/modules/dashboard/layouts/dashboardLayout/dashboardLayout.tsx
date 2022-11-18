@@ -1,15 +1,18 @@
 import React from "react";
 import { FaUserCircle } from "react-icons/fa";
 import { BiDotsVerticalRounded } from "react-icons/bi";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import IconLogo from "../../../../assets/svg/icons/iconLogo";
 import { AiFillHome } from "react-icons/ai";
 import { ImLeaf } from "react-icons/im";
 import { MdAccountBalanceWallet, MdLocalOffer } from "react-icons/md";
 import useAuthenticator from "../../../auth/hooks/useAuthenticator";
 
+
+
 const Dashboardlayout: React.FC<any> = () => {
   const { onLogout } = useAuthenticator();
+  const navigate = useNavigate();
   return (
     <div className="dshLayout">
       <nav className="dshLayout__nav">
@@ -18,7 +21,7 @@ const Dashboardlayout: React.FC<any> = () => {
           <p className="dshLayout__nav--btnNav--label">Home</p>
         </div>
         <div className="dshLayout__nav--btnNav">
-          <ImLeaf className="dshLayout__nav--btnNav--icon" />
+          <ImLeaf className="dshLayout__nav--btnNav--icon" onClick={ () => navigate("/dashboard/create-product") } />
           <p className="dshLayout__nav--btnNav--label">Products</p>
         </div>
         <div className="dshLayout__nav--btnNav">
