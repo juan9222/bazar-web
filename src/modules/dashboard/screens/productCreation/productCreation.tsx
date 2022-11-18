@@ -1,3 +1,4 @@
+import { Key } from "react";
 import { AiFillCheckCircle } from "react-icons/ai";
 import Button from "../../../common/components/button/button";
 import { EBtnVisibleType } from "../../../common/components/button/interfaces";
@@ -39,6 +40,7 @@ const ProductCreation: React.FC<any> = () => {
     incoterms,
     minimumOrders,
     certifications,
+    noCertificatesSelected,
     onChangeCertificationCheckbox,
     onChangeIncotermCheckbox,
     assistanceNeeded,
@@ -158,14 +160,14 @@ const ProductCreation: React.FC<any> = () => {
                     </div>
                   </div>
                   <div className="gridAuto">
-                    { sustainabilityCertificationsItems.map(certification => {
+                    { sustainabilityCertificationsItems.map((certification: { label: string; value: string; }) => {
                       return (
                         <Checkbox
                           control={ control }
                           label={ certification.label }
                           value={ certification.value }
                           key={ certification.value }
-                          checked={ certifications.indexOf(certification.value) >= 0 }
+                          checked={ certifications.indexOf(certification.value) >= 0 || (certification.label === "No certificate" && noCertificatesSelected) }
                           name={ assignInputName("sustainabilityCertifications") }
                           onChange={ onChangeCertificationCheckbox } />
                       );
@@ -260,14 +262,13 @@ const ProductCreation: React.FC<any> = () => {
                   <div className="verticalSpaceL" />
                   <h1>Sustainability certifications</h1>
                   { certifications.map((certification: string) => {
-                    const label = sustainabilityCertificationsItems.find(certificationItem => certificationItem?.value === certification)!.label;
-                    if (label !== "No certificate")
+                    if (noCertificatesSelected)
                       return (
                         <>
                           <div className="verticalSpaceL" />
                           <InputFile
                             required
-                            label={ label }
+                            label={ sustainabilityCertificationsItems.find(certificationItem => certificationItem?.value === certification)?.label }
                             name={ certification }
                             key={ certification }
                             placeholder={ "Add document" }
@@ -335,10 +336,10 @@ const ProductCreation: React.FC<any> = () => {
           {/* Modal Congratulations no Certificates */ }
           <Modal title="" continueText='Continue' width='560px' closed={ !showCongratulationsNoCertModal } cancelHidden={ true } showCloseIcon={ false } onClose={ () => { } } onContinue={ onCreateProduct }>
             <div className="verticalSpaceS"></div>
-            <h3 className='textPrimary300 textModalTitle'><AiFillCheckCircle className='textSuccess200' /> Do you want to continue ?</h3>
+            <h3 className='textPrimary300 textModalTitle'><AiFillCheckCircle className='textSuccess200' /> Congratulations</h3>
             <div className="verticalSpaceL"></div>
             <p className='textModalDesc'>
-              You have successfully created your product!
+              You have successfully created your product!<br />
               Remember that to improve the quality of your product and visibility in <b>Bazar</b> and have your profile verified by our team we invite you to get your sustainability certificates.
             </p>
           </Modal>
