@@ -5,12 +5,14 @@ import { IInputFilesProps } from './interfaces';
 import { EBtnVisibleType } from '../button/interfaces/index';
 import { useState } from 'react';
 import { AiFillFile, AiOutlineClose } from 'react-icons/ai';
+import ModalFile from '../modalFile';
 
 const InputFile: React.FC<IInputFilesProps> = (props) => {
   const { name, register, children, hasError, errorMessage, multiple, onChangeFile, label, ...rest } = props;
   const hiddenFileInput = React.useRef<any>();
 
   const [fileObj, setFileObj] = useState<any>(null);
+  const [showModalFile, setShowModalFile] = useState<any>(false);
 
   const onChangeInputFile = (event: any) => {
     const fileObj = event.target.files && multiple ? event.target.files : event.target.files[0];
@@ -31,7 +33,7 @@ const InputFile: React.FC<IInputFilesProps> = (props) => {
               ref={ hiddenFileInput }
               type="file"
               id={ name }
-              accept={ "*" }
+              accept={ ".pdf,.jpeg,.jpg,.png" }
               onChange={ onChangeInputFile }
               { ...rest }
               multiple={ multiple }
@@ -103,7 +105,7 @@ const InputFile: React.FC<IInputFilesProps> = (props) => {
                   <Button
                     className='inputTextContainer__input--field'
                     onClick={ () => {
-                      hiddenFileInput?.current && hiddenFileInput.current.click();
+                      setShowModalFile(true);
                     } }
                     large={ ELarge.full }
                     visibleType={ EBtnVisibleType.outline }>
@@ -112,6 +114,16 @@ const InputFile: React.FC<IInputFilesProps> = (props) => {
                 )
             }
             { hasError && <span className="inputTextContainer__errorMessage">{ errorMessage }</span> }
+            { showModalFile && <ModalFile
+              onPressSelectDocument={ () => {
+                hiddenFileInput?.current && hiddenFileInput.current.click();
+              } }
+              title={ label }
+              fileName={ fileObj?.name }
+              onClearFile={ clearFileObj }
+              setFileObj={ setFileObj }
+              hideModal={ () => setShowModalFile(false) } />
+            }
           </div>
         )
       }

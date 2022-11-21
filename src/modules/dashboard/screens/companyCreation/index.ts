@@ -1,2 +1,2 @@
-import CompanyCreation from "./companyRegistration";
-export default CompanyCreation;
+import companyCreation from "./companyCreation";
+export default companyCreation;
