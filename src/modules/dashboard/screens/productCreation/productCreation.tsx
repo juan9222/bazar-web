@@ -262,7 +262,7 @@ const ProductCreation: React.FC<any> = () => {
                   <div className="verticalSpaceL" />
                   <h1>Sustainability certifications</h1>
                   { certifications.map((certification: string) => {
-                    if (noCertificatesSelected)
+                    if (!noCertificatesSelected)
                       return (
                         <>
                           <div className="verticalSpaceL" />
