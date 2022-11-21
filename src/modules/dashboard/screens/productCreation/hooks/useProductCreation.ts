@@ -91,8 +91,11 @@ const useCreateProduct = () => {
         Object.values(certificationsFiles).forEach((file: any) => {
           formData.append("files[]", file);
         });
-        if (productPictures)
-          formData.append("images[]", productPictures);
+        if (productPictures) {
+          Array.from(productPictures).forEach((file: any) => {
+            formData.append("images[]", file);
+          });
+        }
         const resp = await axios.post(`${ process.env.REACT_APP_BAZAR_URL }/products`, formData, {});
         console.log(JSON.stringify(resp, null, 3));
         if (showConfirmationModal) {
