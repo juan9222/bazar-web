@@ -165,10 +165,10 @@ const ProductCreation: React.FC<any> = () => {
                         <Checkbox
                           control={ control }
                           label={ certification.label }
+                          name={ certification.value }
                           value={ certification.value }
                           key={ certification.value }
                           checked={ certifications.indexOf(certification.value) >= 0 || (certification.label === "No certificate" && noCertificatesSelected) }
-                          name={ assignInputName("sustainabilityCertifications") }
                           onChange={ onChangeCertificationCheckbox } />
                       );
                     }) }
