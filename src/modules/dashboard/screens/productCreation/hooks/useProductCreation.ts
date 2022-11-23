@@ -186,6 +186,7 @@ const useCreateProduct = () => {
     Array.from(fileObj).forEach(file => {
       newProductPictures.push(file);
     });
+    newProductPictures.length = 5;
     setProductPictures(newProductPictures);
   };
 
