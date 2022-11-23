@@ -1,3 +1,4 @@
+import React from "react";
 import { Key } from "react";
 import { AiFillCheckCircle } from "react-icons/ai";
 import Button from "../../../common/components/button/button";
@@ -45,8 +46,9 @@ const ProductCreation: React.FC<any> = () => {
     onChangeIncotermCheckbox,
     assistanceNeeded,
     OnChangeAssistanceNeeded,
-    displayPicture,
-    setProductPictures,
+    displayPictures,
+    onChangeProductPictures,
+    onRemoveProductPicture,
     onChangeCertificationFile,
     onCreateProduct,
   } = useCreateProduct();
@@ -62,6 +64,26 @@ const ProductCreation: React.FC<any> = () => {
     alignItems: "center",
     justifyContent: "center",
     textAlign: "center",
+  };
+
+  const dropHandler = (ev: any) => {
+    // console.log('File(s) dropped');
+
+    // Prevent default behavior (Prevent file from being opened)
+    ev.preventDefault();
+    onChangeProductPictures(ev.dataTransfer.files);
+
+  };
+  const dragOverHandler = (ev: any) => {
+    // Prevent default behavior (Prevent file from being opened)
+    ev.preventDefault();
+  };
+
+  const hiddenFileInput = React.useRef<any>();
+
+  const onChangeInputFile = (event: any) => {
+    const fileObj = event.target.files && event.target.files;
+    onChangeProductPictures(fileObj);
   };
 
   return (
@@ -86,7 +108,45 @@ const ProductCreation: React.FC<any> = () => {
             <div className="panels">
               { activeTabIndex === 0 && (
                 <section className={ `panel__${ activeTabIndex === 0 ? "active" : "inactive" }` }>
-                  { displayPicture && <img src={ displayPicture } alt="preview" /> }
+                  <div>
+                    <div className="scroll-container">
+                      <div className="gridscroll">
+                        { displayPictures && displayPictures?.length > 0 &&
+                          displayPictures.map((picture, index) => (
+                            <div className="image-wrapper">
+                              <img src={ picture } alt="preview" />
+                              <span className="close" onClick={ () => { onRemoveProductPicture(index); } }></span>
+                            </div>
+                          ))
+                        }
+                        { displayPictures && displayPictures?.length < 5 && (
+                          <div className="modal-file--content">
+                            <input
+                              ref={ hiddenFileInput }
+                              type="file"
+                              accept={ ".pdf,.jpeg,.jpg,.png" }
+                              onChange={ onChangeInputFile }
+                              multiple
+                              hidden
+                            />
+                            <div
+                              onClick={ () => {
+                                hiddenFileInput?.current && hiddenFileInput.current.click();
+                              } }
+                              className="input"
+                              onDrop={ dropHandler }
+                              onDragOver={ dragOverHandler }>
+                              <b>Add photos</b>
+                            </div>
+                          </div>) }
+                      </div>
+                    </div>
+                    <p>Select your product photos { displayPictures?.length }/5</p>
+                    <p className="label"> This form accepts JPEG, JPG, PNG files up to 10 MB.</p>
+                  </div>
+
+
+                  {/* { displayPictures && displayPictures.map(picture => <img src={ picture } alt="preview" />) }
                   <InputFile
                     label={ "Select your product photos." }
                     name={ assignInputName("productPictures") }
@@ -96,7 +156,7 @@ const ProductCreation: React.FC<any> = () => {
                     footer="This form accepts JPEG, JPG, PNG files up to 10 MB."
                     multiple
                     required
-                  />
+                  /> */}
                   <div className="verticalSpaceL" />
                   <hr />
                   <div className="verticalSpaceL" />

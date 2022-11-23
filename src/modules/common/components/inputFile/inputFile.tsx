@@ -8,7 +8,7 @@ import { AiFillFile, AiOutlineClose } from 'react-icons/ai';
 import ModalFile from '../modalFile';
 
 const InputFile: React.FC<IInputFilesProps> = (props) => {
-  const { name, register, children, hasError, errorMessage, multiple, onChangeFile, label, ...rest } = props;
+  const { name, register, children, hasError, errorMessage, onChangeFile, label, footer, ...rest } = props;
   const hiddenFileInput = React.useRef<any>();
 
   const [fileObj, setFileObj] = useState<any>(null);
@@ -17,7 +17,7 @@ const InputFile: React.FC<IInputFilesProps> = (props) => {
 
   const getFileSizeInMb = (file: any) => ((file.size / 1024) / 1024).toFixed(4);
   const onChangeInputFile = (event: any) => {
-    const fileObj = event.target.files && multiple ? event.target.files : event.target.files[0];
+    const fileObj = event.target.files && event.target.files[0];
     setFileObj(fileObj);
     onChangeFile(fileObj);
     setHasTenOrLessMb(Number(getFileSizeInMb(fileObj)) < 10);
@@ -43,16 +43,10 @@ const InputFile: React.FC<IInputFilesProps> = (props) => {
               accept={ ".pdf,.jpeg,.jpg,.png" }
               onChange={ onChangeInputFile }
               { ...rest }
-              multiple={ multiple }
             />
             {
-              multiple ? Array.from(fileObj).map((file: any) => (
-                <div className="file" >
-                  <p className="file__name">{ file.name }</p>
-                  <div onClick={ clearFileObj } className="file__icon">X</div>
-                </div>
-              )) :
-                fileObj ? (
+              fileObj ?
+                (
                   <div className="file">
                     <p className="file__name">{ fileObj.name }</p>
                     <div onClick={ clearFileObj } className="file__icon">X</div>
@@ -84,21 +78,10 @@ const InputFile: React.FC<IInputFilesProps> = (props) => {
               onChange={ onChangeInputFile }
               className="dNone"
               { ...rest }
-              multiple={ multiple }
             />
             {
               fileObj ?
-                multiple ? Array.from(fileObj).map((file: any) => (
-                  <div className="file">
-                    <div className="file__name">
-                      <AiFillFile />
-                      <p className="file__name--text textNeutral300 smallText">{ file.name }</p>
-                    </div>
-                    <div onClick={ clearFileObj } className="file__icon">
-                      <AiOutlineClose />
-                    </div>
-                  </div>
-                )) : (
+                (
                   <div className="file">
                     <div className="file__name">
                       <AiFillFile />
