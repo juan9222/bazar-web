@@ -1,5 +1,4 @@
-import { useState } from "react";
-import { AiFillCheckCircle } from "react-icons/ai";
+import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
 import { MdClose, MdPictureAsPdf } from "react-icons/md";
 import Button from "../button";
 import { EBtnVisibleType } from "../button/interfaces";
@@ -11,6 +10,10 @@ const ModalFile: React.FC<{
   onClearFile?: () => void;
   hideModal?: () => void;
   setFileObj?: (file: any) => void;
+  getFileSizeInMb?: (file: any) => any;
+  setHasTenOrLessMb?: (bool: boolean) => void;
+  hasTenOrLessMb?: boolean;
+
 }> = (props) => {
   const {
     title,
@@ -19,7 +22,11 @@ const ModalFile: React.FC<{
     onClearFile,
     setFileObj,
     hideModal,
+    setHasTenOrLessMb,
+    hasTenOrLessMb,
+    getFileSizeInMb,
   } = props;
+
 
   const dropHandler = (ev: any) => {
     // console.log('File(s) dropped');
@@ -35,6 +42,7 @@ const ModalFile: React.FC<{
           const file = item.getAsFile();
           // console.log(`… file[${ i }].name = ${ file.name }`);
           setFileObj && setFileObj(file);
+          setHasTenOrLessMb && setHasTenOrLessMb(Number(getFileSizeInMb && getFileSizeInMb(file)) < 10);
         }
       });
     } else {
@@ -65,12 +73,13 @@ const ModalFile: React.FC<{
             className="input"
             onDrop={ dropHandler }
             onDragOver={ dragOverHandler }>
-            { fileName === undefined ? <MdPictureAsPdf className="icon-pdf" /> : <AiFillCheckCircle className="icon-check" />
+            { fileName === undefined ? <MdPictureAsPdf className="icon-pdf" /> : hasTenOrLessMb ? <AiFillCheckCircle className="icon-check" /> : <AiFillCloseCircle className="icon-close" />
             }
             <b>
               { fileName === undefined ? "Select a document" : fileName }
               { fileName !== undefined && <MdClose onClick={ onClearFile } className="close" /> }</b>
-            <p>Or drag and drop here</p>
+            <p>{ hasTenOrLessMb ? fileName !== undefined ? "Document uploaded successfully" : "Or drag and drop here" : "We are sorry, please try again" }</p>
+            { !hasTenOrLessMb && <p><small>{ "check the format and size of the document" }</small></p> }
           </div>
         </div>
         <div className="dFlex jcRight modal-file--footer">
@@ -79,7 +88,7 @@ const ModalFile: React.FC<{
             hideModal && hideModal();
           } } >Cancel</Button>
           <div className="horizontalSpaceM"></div>
-          <Button visibleType={ EBtnVisibleType.solid } onClick={ hideModal }>Save</Button>
+          <Button disabled={ !hasTenOrLessMb } visibleType={ EBtnVisibleType.solid } onClick={ hideModal }>Save</Button>
         </div>
       </div>
     </div>

@@ -13,14 +13,21 @@ const InputFile: React.FC<IInputFilesProps> = (props) => {
 
   const [fileObj, setFileObj] = useState<any>(null);
   const [showModalFile, setShowModalFile] = useState<any>(false);
+  const [hasTenOrLessMb, setHasTenOrLessMb] = useState(true);
 
+  const getFileSizeInMb = (file: any) => ((file.size / 1024) / 1024).toFixed(4);
   const onChangeInputFile = (event: any) => {
     const fileObj = event.target.files && multiple ? event.target.files : event.target.files[0];
     setFileObj(fileObj);
     onChangeFile(fileObj);
+    setHasTenOrLessMb(Number(getFileSizeInMb(fileObj)) < 10);
   };
 
-  const clearFileObj = () => setFileObj(null);
+  const clearFileObj = () => {
+    setFileObj(null);
+    setHasTenOrLessMb(true);
+  };
+
 
   return (
     <div className="">
@@ -73,11 +80,11 @@ const InputFile: React.FC<IInputFilesProps> = (props) => {
               type="file"
               id={ name }
               ref={ hiddenFileInput }
-              accept={ "*" }
+              accept={ ".pdf,.jpeg,.jpg,.png" }
               onChange={ onChangeInputFile }
               className="dNone"
-              multiple={ multiple }
               { ...rest }
+              multiple={ multiple }
             />
             {
               fileObj ?
@@ -122,7 +129,10 @@ const InputFile: React.FC<IInputFilesProps> = (props) => {
               fileName={ fileObj?.name }
               onClearFile={ clearFileObj }
               setFileObj={ setFileObj }
-              hideModal={ () => setShowModalFile(false) } />
+              hideModal={ () => setShowModalFile(false) }
+              hasTenOrLessMb={ hasTenOrLessMb }
+              setHasTenOrLessMb={ setHasTenOrLessMb }
+              getFileSizeInMb={ getFileSizeInMb } />
             }
           </div>
         )
