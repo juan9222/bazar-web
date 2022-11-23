@@ -21,9 +21,9 @@ const useCreateProduct = () => {
   const [incotermsItems, setIncotermsItems] = useState<Array<{ label: string; value: string; }>>([]);
   const [minimumOrders, setMinimumOrders] = useState<Array<{ label: string; value: string; }>>([]);
 
-  const [displayPicture, setDisplayPicture] = useState<string>();
+  const [displayPictures, setDisplayPictures] = useState<Array<string>>([]);
   const [assistanceNeeded, setAssistanceNeeded] = useState<boolean>(false);
-  const [productPictures, setProductPictures] = useState<any>();
+  const [productPictures, setProductPictures] = useState<any>([]);
   const [certifications, setCertifications] = useState<any>([]);
   const [noCertificatesSelected, setNoCertificatesSelected] = useState<boolean>(false);
   const [incoterms, setIncoterms] = useState<Array<string>>([]);
@@ -181,6 +181,20 @@ const useCreateProduct = () => {
     setMinimumOrders(minimumOrderList);
   };
 
+  const onChangeProductPictures = (fileObj: any) => {
+    const newProductPictures = [...productPictures];
+    Array.from(fileObj).forEach(file => {
+      newProductPictures.push(file);
+    });
+    setProductPictures(newProductPictures);
+  };
+
+  const onRemoveProductPicture = (index: number) => {
+    const newDisplayPictures = [...displayPictures];
+    newDisplayPictures.splice(index, 1);
+    setDisplayPictures(newDisplayPictures);
+  };
+
   const onChangeCertificationCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     if (sustainabilityCertificationsItems.find(certificationItem => certificationItem?.value === value)?.label !== "No certificate") {
@@ -243,8 +257,9 @@ const useCreateProduct = () => {
   }, [watchProduct]);
 
   useEffect(() => {
-    if (productPictures)
-      setDisplayPicture(URL.createObjectURL(productPictures.item(0)));
+    if (productPictures.length > 0)
+      setDisplayPictures(productPictures.map((picture: any) => URL.createObjectURL(picture)));
+    else setDisplayPictures([]);
   }, [productPictures]);
 
   return {
@@ -282,8 +297,9 @@ const useCreateProduct = () => {
     assistanceNeeded,
     OnChangeAssistanceNeeded,
     productPictures,
-    displayPicture,
-    setProductPictures,
+    displayPictures,
+    onChangeProductPictures,
+    onRemoveProductPicture,
     onChangeCertificationCheckbox,
     onChangeIncotermCheckbox,
     onChangeCertificationFile,
