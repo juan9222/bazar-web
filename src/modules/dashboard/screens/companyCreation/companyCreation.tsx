@@ -5,7 +5,6 @@ import { EBtnVisibleType } from '../../../common/components/button/interfaces';
 import InputFile from '../../../common/components/inputFile';
 import InputText from '../../../common/components/inputText';
 import Modal from '../../../common/components/modal';
-import ModalFile from '../../../common/components/modalFile';
 import ProfilePhoto from '../../../common/components/profilePhoto';
 import Select from '../../../common/components/select';
 import { ELarge } from '../../../common/interfaces';

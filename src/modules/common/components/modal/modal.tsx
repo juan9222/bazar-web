@@ -29,8 +29,8 @@ const Modal: React.FC<IModalProps> = (props) => {
 
   return (
     <div className="modal-overlay">
-      <div className="modal" style={ { width, height, maxHeight, maxWidth } }>
-        { title && <div className="modal-title">
+      <div className="modal" style={ { height, maxHeight, maxWidth: width } }>
+        { title && <div className="modal-title" style={ {} }>
           <p className="modal-title-text">
             { title }
           </p>

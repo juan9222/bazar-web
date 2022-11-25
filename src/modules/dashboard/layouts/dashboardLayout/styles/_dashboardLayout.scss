@@ -79,3 +79,19 @@
     }
   }
 }
+
+@media (max-width: $breakpoint_tablet) {
+  .dshLayout {
+    background-color: transparent;
+
+    &__nav {
+      display: none;
+    }
+
+    &__body {
+      padding: 0 40px;
+      margin-left: 0px;
+    }
+  }
+
+}
