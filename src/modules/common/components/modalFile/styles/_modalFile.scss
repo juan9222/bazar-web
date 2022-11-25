@@ -6,12 +6,14 @@
   border-radius: 8px;
   background-color: #ffffff;
 
+
   &--title {
     border-bottom: 1px solid $neutral_50;
     height: 65px;
     display: flex;
     align-items: center;
     justify-content: center;
+    text-align: center;
 
     h3 {
       font-size: 20.2px;
@@ -104,5 +106,17 @@
 
   &--footer {
     margin: 0 30px;
+  }
+}
+
+@media (max-width: $breakpoint_tablet) {
+  .modal-file {
+    height: auto;
+    padding-bottom: 15px;
+
+    &--title {
+      padding: 10px;
+      height: auto;
+    }
   }
 }
