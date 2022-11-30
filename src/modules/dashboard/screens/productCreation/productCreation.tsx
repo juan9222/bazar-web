@@ -1,5 +1,4 @@
 import React from "react";
-import { Key } from "react";
 import { AiFillCheckCircle } from "react-icons/ai";
 import Button from "../../../common/components/button/button";
 import { EBtnVisibleType } from "../../../common/components/button/interfaces";
@@ -322,7 +321,7 @@ const ProductCreation: React.FC<any> = () => {
                   <div className="verticalSpaceL" />
                   <h1>Sustainability certifications</h1>
                   { certifications.map((certification: string) => {
-                    if (!noCertificatesSelected)
+                    if (!noCertificatesSelected) {
                       return (
                         <>
                           <div className="verticalSpaceL" />
@@ -336,6 +335,8 @@ const ProductCreation: React.FC<any> = () => {
                           />
                         </>
                       );
+                    }
+                    return null;
                   }) }
                 </section>
               ) }

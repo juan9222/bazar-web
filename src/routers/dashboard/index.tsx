@@ -1,7 +1,7 @@
 import { RouteObject } from "react-router-dom";
 import CompanyCreation from "../../modules/dashboard/screens/companyCreation";
 import ProductCreation from "../../modules/dashboard/screens/productCreation";
-
+import UserApprovals from "../../modules/dashboard/screens/userApprovals";
 
 const dashboardRoutes: RouteObject[] = [
   {
@@ -15,6 +15,10 @@ const dashboardRoutes: RouteObject[] = [
   {
     path: "create-product",
     element: <ProductCreation />
+  },
+  {
+    path: "user-approvals",
+    element: <UserApprovals />
   }
 ];
 
