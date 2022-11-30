@@ -14,7 +14,6 @@ const Modal: React.FC<IModalProps> = (props) => {
     children,
     continueDisabled,
     maxHeight,
-    maxWidth,
     onClose,
     onContinue,
     hideFooter,
