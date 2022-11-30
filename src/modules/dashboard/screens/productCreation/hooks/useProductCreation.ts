@@ -186,14 +186,19 @@ const useCreateProduct = () => {
     Array.from(fileObj).forEach(file => {
       newProductPictures.push(file);
     });
-    newProductPictures.length = 5;
+    if (newProductPictures.length > 5) {
+      newProductPictures.length = 5;
+    }
     setProductPictures(newProductPictures);
   };
 
   const onRemoveProductPicture = (index: number) => {
-    const newDisplayPictures = [...displayPictures];
-    newDisplayPictures.splice(index, 1);
-    setDisplayPictures(newDisplayPictures);
+    const newProductPictures = [...productPictures];
+    newProductPictures.splice(index, 1);
+    setProductPictures(newProductPictures);
+    // const newDisplayPictures = [...displayPictures];
+    // newDisplayPictures.splice(index, 1);
+    // setDisplayPictures(newDisplayPictures);
   };
 
   const onChangeCertificationCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
