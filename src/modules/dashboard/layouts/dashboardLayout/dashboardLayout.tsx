@@ -6,6 +6,7 @@ import IconLogo from "../../../../assets/svg/icons/iconLogo";
 import { AiFillHome } from "react-icons/ai";
 import { ImLeaf } from "react-icons/im";
 import { MdAccountBalanceWallet, MdLocalOffer } from "react-icons/md";
+import { FaUserAlt } from "react-icons/fa";
 import useAuthenticator from "../../../auth/hooks/useAuthenticator";
 
 
@@ -31,6 +32,10 @@ const Dashboardlayout: React.FC<any> = () => {
         <div className="dshLayout__nav--btnNav">
           <MdAccountBalanceWallet className="dshLayout__nav--btnNav--icon" />
           <p className="dshLayout__nav--btnNav--label">Wallet</p>
+        </div>
+        <div className="dshLayout__nav--btnNav">
+          <FaUserAlt className="dshLayout__nav--btnNav--icon" onClick={ () => navigate("/dashboard/user-approvals") } />
+          <p className="dshLayout__nav--btnNav--label" onClick={ () => navigate("/dashboard/user-approvals") }>Users</p>
         </div>
       </nav>
       <nav className="dshLayout__body">
