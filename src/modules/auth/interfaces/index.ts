@@ -61,3 +61,14 @@ export interface IAuthConfirmationRequest {
   bindingCode: string,
   uuid?: string,
 }
+
+export interface IForgotPasswordFormProps {
+  password: string;
+  confirmPassword: string;
+}
+
+export type TForgotPasswordFormKeys = keyof IForgotPasswordFormProps;
+
+export type TForgotPasswordFormValidatorShapeKeys = {
+  [type in TForgotPasswordFormKeys]: AnySchema
+};
