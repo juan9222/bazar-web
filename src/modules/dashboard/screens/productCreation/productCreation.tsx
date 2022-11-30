@@ -110,7 +110,7 @@ const ProductCreation: React.FC<any> = () => {
                   <div>
                     <div className="scroll-container">
                       <div className="gridscroll">
-                        { displayPictures && displayPictures?.length > 0 &&
+                        { displayPictures.length > 0 &&
                           displayPictures.map((picture, index) => (
                             <div className="image-wrapper">
                               <img src={ picture } alt="preview" />
@@ -118,7 +118,7 @@ const ProductCreation: React.FC<any> = () => {
                             </div>
                           ))
                         }
-                        { displayPictures && displayPictures?.length < 5 && (
+                        { displayPictures.length < 5 && (
                           <div className="modal-file--content">
                             <input
                               ref={ hiddenFileInput }
