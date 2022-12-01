@@ -10,7 +10,6 @@ import Select from '../../../common/components/select';
 import { ELarge } from '../../../common/interfaces';
 import useCompanyCreation from './hooks/useCompanyCreation';
 import { Container, Row, Col } from 'react-bootstrap';
-import '../../../../utils/styles/_settings.scss';
 
 const CompanyCreation: React.FC<any> = () => {
   const {
