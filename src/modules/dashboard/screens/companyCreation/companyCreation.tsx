@@ -52,7 +52,6 @@ const CompanyCreation: React.FC<any> = () => {
           <img src="/assets/images/banner-company-creation.png" alt="company creation" />
         </Col>
         <Col md={ 8 } className='block__right'>
-
           <div className="cc__content">
             <div className="cc__content--form">
               <Row>
@@ -78,7 +77,6 @@ const CompanyCreation: React.FC<any> = () => {
                 </Col>
                 <div className="verticalSpaceL"></div>
               </Row>
-
               <form>
                 <Row>
                   <Col>
@@ -97,7 +95,7 @@ const CompanyCreation: React.FC<any> = () => {
                   <div className="verticalSpaceL"></div>
                 </Row>
                 <Row>
-                  <Col>
+                  <Col className="form__select">
                     <InputText
                       register={ register }
                       name={ assignInputName("companyAddress") }
@@ -158,7 +156,7 @@ const CompanyCreation: React.FC<any> = () => {
                   <div className="verticalSpaceL"></div>
                 </Row>
                 <Row>
-                  <Col>
+                  <Col className="form__select" >
                     <Select
                       register={ register }
                       label={ "Country" }
@@ -170,7 +168,7 @@ const CompanyCreation: React.FC<any> = () => {
                       options={ countries }
                     />
                   </Col>
-                  <Col>
+                  <Col md>
                     <Select
                       register={ register }
                       label={ "City" }
@@ -182,8 +180,8 @@ const CompanyCreation: React.FC<any> = () => {
                       options={ cities }
                     />
                   </Col>
-                  <div className="verticalSpaceL"></div>
                 </Row>
+                <div className="verticalSpaceL"></div>
                 <Row>
                   <Col>
                     <h2 className="cc__content--form--subTitle">Company Documents</h2>
@@ -236,7 +234,6 @@ const CompanyCreation: React.FC<any> = () => {
                   </Button>
                 </Col>
               </Row>
-
               <div className="verticalSpaceXL"></div>
               {/* Modal Avatar */ }
               <Modal title='Selet your avatar' width='503px' closed={ !showAvatars } continueDisabled hideFooter showCloseIcon onClose={ () => {
@@ -260,7 +257,6 @@ const CompanyCreation: React.FC<any> = () => {
                 </div>
                 <div className="dFlex f1 jcCenter">
                   <Button
-
                     onClick={ () => {
                       onHideAvatars();
                       onSelectAvatar(avatarModal);
@@ -286,7 +282,6 @@ const CompanyCreation: React.FC<any> = () => {
           </div>
         </Col>
       </Row>
-
     </Container>
   );
 };
