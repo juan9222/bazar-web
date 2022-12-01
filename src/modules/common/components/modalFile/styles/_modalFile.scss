@@ -1,10 +1,13 @@
 .modal-file {
-  max-width: 580px;
-  height: 400px;
+  width: 26%;
+  padding: 3%;
   margin: 0 auto;
   margin-top: 25vh;
   border-radius: 8px;
-  background-color: #ffffff;
+  background-color: #fff;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 
 
   &--title {
@@ -41,7 +44,8 @@
 
     .input {
       width: 100%;
-      height: 200px;
+      height: 100%;
+      padding: 5%;
       border: 2px dashed $neutral_100;
       border-radius: 8px;
       margin-top: 10px;
@@ -109,14 +113,10 @@
   }
 }
 
-@media (max-width: $breakpoint_tablet) {
+@media (max-width: 1280px) {
   .modal-file {
-    height: auto;
-    padding-bottom: 15px;
-
-    &--title {
-      padding: 10px;
-      height: auto;
-    }
+    width: 80%;
+    margin-left: 2%;
+    margin-right: 2%;
   }
 }
