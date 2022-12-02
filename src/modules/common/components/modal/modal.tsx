@@ -26,22 +26,23 @@ const Modal: React.FC<IModalProps> = (props) => {
 
   if (closed) return null;
 
+
   return (
-    <div className="modal-overlay">
-      <div className="modal" style={ { height, maxHeight, maxWidth: width } }>
-        { title && <div className="modal-title" style={ {} }>
-          <p className="modal-title-text">
+    <div className="custom-modal-overlay">
+      <div className="custom-modal" style={ { height, maxHeight, maxWidth: width } }>
+        { title && <div className="custom-modal-title" style={ {} }>
+          <p className="custom-modal-title-text">
             { title }
           </p>
-          { showCloseIcon && < AiOutlineClose onClick={ (event) => onClose(event) } className="modal-title-icon" /> }
+          { showCloseIcon && < AiOutlineClose onClick={ (event) => onClose(event) } className="custom-modal-title-icon" /> }
         </div> }
-        <div className="modal-body">
+        <div className="custom-modal-body">
           { children }
         </div>
         {
           !hideFooter &&
           <>
-            <div className="modal-footer">
+            <div className="custom-modal-footer">
               { !cancelHidden && (
                 <Button visibleType={ EBtnVisibleType.clear } type="button" onClick={ (event) => onClose(event) }>{ loading ? <AiOutlineLoading3Quarters className="loaderIcon" /> : cancelText ? cancelText : "Cancel" }</Button>
               ) }
