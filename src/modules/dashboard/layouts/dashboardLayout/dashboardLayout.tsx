@@ -22,7 +22,7 @@ const Dashboardlayout: React.FC<any> = () => {
           <p className="dshLayout__nav--btnNav--label">Home</p>
         </div>
         <div className="dshLayout__nav--btnNav">
-          <ImLeaf className="dshLayout__nav--btnNav--icon" onClick={ () => navigate("/dashboard/create-product") } />
+          <ImLeaf className="dshLayout__nav--btnNav--icon" onClick={ () => navigate("/dashboard/product-list") } />
           <p className="dshLayout__nav--btnNav--label">Products</p>
         </div>
         <div className="dshLayout__nav--btnNav">

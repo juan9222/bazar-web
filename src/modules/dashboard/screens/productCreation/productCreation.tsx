@@ -143,19 +143,6 @@ const ProductCreation: React.FC<any> = () => {
                     <p>Select your product photos { displayPictures?.length }/5</p>
                     <p className="label"> This form accepts JPEG, JPG, PNG files up to 10 MB.</p>
                   </div>
-
-
-                  {/* { displayPictures && displayPictures.map(picture => <img src={ picture } alt="preview" />) }
-                  <InputFile
-                    label={ "Select your product photos." }
-                    name={ assignInputName("productPictures") }
-                    placeholder={ "Select your product photos" }
-                    accept={ ".jpg, .png, .jpeg" }
-                    onChangeFile={ setProductPictures }
-                    footer="This form accepts JPEG, JPG, PNG files up to 10 MB."
-                    multiple
-                    required
-                  /> */}
                   <div className="verticalSpaceL" />
                   <hr />
                   <div className="verticalSpaceL" />

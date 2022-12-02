@@ -8,8 +8,40 @@ import { BiSlider } from 'react-icons/bi';
 import IconAvocado from "../../../../assets/svg/icons/iconAvocado";
 import InputText from "../../../common/components/inputText";
 import Card from "../../../common/components/card";
+import useProductList from "./hooks/useProductList";
+import { Status } from "../../../common/components/card/interfaces";
 
 const ProductList: React.FC<any> = () => {
+  const { basicProducts, productMap, avatarUrl, onFilterProducts, filteredProducts, } = useProductList();
+
+  const getIcon = (label: string) => {
+    switch (label) {
+      case "Coffee":
+        return <GiCoffeeBeans />;
+      case "Cocoa":
+        return <TbPlant2 />;
+      default:
+        return <IconAvocado className={ 'icon-av' } />;
+    }
+  };
+
+  const getMappedStatus = (status: string): Status => {
+    switch (status) {
+      case "Approved":
+        return Status.public;
+      case "Pending review":
+        return Status.review;
+      case "Hide":
+        return Status.hidden;
+      default:
+        return Status.rejected;
+    }
+  };
+
+  const isFilteredOut = (product: string) => {
+    return filteredProducts.indexOf(product) === -1;
+  };
+
   return (
     <Container className="pl">
       <Row>
@@ -24,40 +56,45 @@ const ProductList: React.FC<any> = () => {
         </Col>
         <Col className="pl__col-buttons" md={ 7 }>
           <div className="pl__col-buttons__list">
-            <Button className={ 'btn-second active' } iconLeft={ <GiCoffeeBeans /> }>
-              Coffe
-            </Button>
-            <Button className={ 'btn-second' } iconLeft={ <TbPlant2 /> }>
-              Cacao
-            </Button>
-            <Button className={ 'btn-second' } iconLeft={ <IconAvocado className={ 'icon-av' } /> }>
-              Avocado
-            </Button>
+            { basicProducts.map(({ label }) => (
+              <Button className={ `btn-second ${ isFilteredOut(label) ? '' : 'active' }` } iconLeft={ getIcon(label) } onClick={ () => onFilterProducts(label) }>
+                { label }
+              </Button>
+            )) }
           </div>
         </Col>
       </Row>
-      <Row className="mb-4">
-        <div className="pl__content-card">
-          <h3 className="titlePrimary">Coffe</h3>
-        </div>
-        <div className="content-cards-list">
-          <Row xs={ 1 } sm={ 2 } lg={ 3 }>
-            <Col className="mb-3"><Card icon={ <GiCoffeeBeans /> } /></Col>
-            <Col className="mb-3"><Card icon={ <GiCoffeeBeans /> } /></Col>
-            <Col className="mb-3"><Card icon={ <GiCoffeeBeans /> } /></Col>
+      { productMap && Object.entries(productMap).map(([product, productList]) => {
+        return isFilteredOut(product) ? <></> : (
+          <Row className="mb-4">
+            <div className="pl__content-card">
+              <h3 className="titlePrimary">{ product }</h3>
+            </div>
+            <div className="content-cards-list">
+              <Row xs={ 1 } sm={ 2 } lg={ 3 }>
+                { productList.map((product: any) => {
+                  return (
+                    <Col className="mb-3">
+                      <Card
+                        status={ getMappedStatus(product.status) }
+                        productImage={ product.url_images ?? "" }
+                        avatar={ avatarUrl } //To-do Servicio que nos de el avatar del usuario ???
+                        icon={ getIcon(product.basic_product) }
+                        product={ product.basic_product }
+                        hasCertificates={ product.sustainability_certifications && product.sustainability_certifications.length > 0 }
+                        productType={ product.product_type }
+                        variety={ product.variety }
+                        pricePerKg={ product.expected_price_per_kg }
+                        availableForSale={ product.available_for_sale }
+                      />
+                    </Col>
+                  );
+                }) }
+              </Row>
+            </div>
           </Row>
-        </div>
-      </Row>
-      <Row className="mb-4">
-        <div className="pl__content-card">
-          <h3 className="titlePrimary">Cocoa</h3>
-        </div>
-        <div className="content-cards-list">
-          <Row xs={ 1 } sm={ 2 } lg={ 3 }>
-            <Col className="mb-3"><Card icon={ <GiCoffeeBeans /> } /></Col>
-          </Row>
-        </div>
-      </Row>
+        );
+      }) }
     </Container>
   );
 };
