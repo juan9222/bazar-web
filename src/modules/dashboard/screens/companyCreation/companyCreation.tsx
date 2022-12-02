@@ -263,21 +263,23 @@ const CompanyCreation: React.FC<any> = () => {
                     } } visibleType={ EBtnVisibleType.outline } >Select avatar</Button>
                 </div>
               </Modal>
-              {/* Modal Confirmation */ }
-              <Modal title="" continueText='Save' width='560px' closed={ !showConfirmationModal } showCloseIcon={ false } onClose={ () => setShowConfirmationModal(false) } onContinue={ handleSubmit(submitForm) } loading={ loading }>
-                <div className="verticalSpaceS"></div>
-                <h3 className='textPrimary300 textModalTitle'>Do you want to continue?</h3>
-                <div className="verticalSpaceL"></div>
-                <p className='textModalDesc'>Are yo sure to save your changes? Once submitted you will not be able to modify them until they have been reviewed by our Bazar team.</p>
-              </Modal>
-              {/* Modal Congratulations */ }
-              <Modal title="" continueText='Create product now' cancelText='Create product later' width='590px' closed={ !showCongratulationsModal } showCloseIcon={ false } onClose={ () => setShowConfirmationModal(false) } onContinue={ onCreateProduct } onCancel={ onCreateProductLater } loading={ loading }>
-                <div className="verticalSpaceS"></div>
-                <h3 className='textPrimary300 textModalTitle dFlex aICenter'> <AiFillCheckCircle className='textSuccess200' />             <div className="horizontalSpaceS"></div>
-                  Congratulations</h3>
-                <div className="verticalSpaceL"></div>
-                <p className='textModalDesc'>Your profile is almost ready, it just needs a verification by our team, it won't take long! <b>You can create your product list, while waiting for our validation.</b></p>
-              </Modal>
+              <div className='modal__position'>
+                {/* Modal Confirmation */ }
+                <Modal title="" continueText='Save' width='560px' closed={ !showConfirmationModal } showCloseIcon={ false } onClose={ () => setShowConfirmationModal(false) } onContinue={ handleSubmit(submitForm) } loading={ loading }>
+                  <div className="verticalSpaceS"></div>
+                  <h3 className='textPrimary300 textModalTitle'>Do you want to continue?</h3>
+                  <div className="verticalSpaceL"></div>
+                  <p className='textModalDesc'>Are yo sure to save your changes? Once submitted you will not be able to modify them until they have been reviewed by our Bazar team.</p>
+                </Modal>
+                {/* Modal Congratulations */ }
+                <Modal title="" continueText='Create product now' cancelText='Create product later' width='590px' closed={ !showCongratulationsModal } showCloseIcon={ false } onClose={ () => setShowConfirmationModal(false) } onContinue={ onCreateProduct } onCancel={ onCreateProductLater } loading={ loading }>
+                  <div className="verticalSpaceS"></div>
+                  <h3 className='textPrimary300 textModalTitle dFlex aICenter'> <AiFillCheckCircle className='textSuccess200' />             <div className="horizontalSpaceS"></div>
+                    Congratulations</h3>
+                  <div className="verticalSpaceL"></div>
+                  <p className='textModalDesc'>Your profile is almost ready, it just needs a verification by our team, it won't take long! <b>You can create your product list, while waiting for our validation.</b></p>
+                </Modal>
+              </div>
             </div>
           </div>
         </Col>
