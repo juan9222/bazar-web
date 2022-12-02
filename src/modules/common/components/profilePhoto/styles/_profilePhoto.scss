@@ -82,3 +82,9 @@
     color: $neutral-300;
   }
 }
+
+@media (max-width: 992px) {
+  .custom-modal {
+    margin-top: 0vh !important;
+  }
+}
