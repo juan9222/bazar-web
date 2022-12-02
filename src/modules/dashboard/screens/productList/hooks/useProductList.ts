@@ -53,6 +53,7 @@ const useProductList = () => {
     onGetBasicProducts();
     onGetSellerProducts();
     onGetUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return {
