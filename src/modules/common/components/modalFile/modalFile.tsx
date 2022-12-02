@@ -57,7 +57,7 @@ const ModalFile: React.FC<{
     ev.preventDefault();
   };
   return (
-    <div className="modal-overlay">
+    <div className="custom-modal-overlay">
       <div className="modal-file">
         <div className="modal-file--title">
           <h3>{ title }</h3>
