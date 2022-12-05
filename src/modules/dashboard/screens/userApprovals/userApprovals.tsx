@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -12,8 +12,10 @@ import { FaUserTag, FaUserTie, FaTruckMoving } from "react-icons/fa";
 import { BiSlider } from 'react-icons/bi';
 import { BsFillCaretDownFill } from 'react-icons/bs';
 import UnknownAvatar from "../../../../assets/svg/icons/unknownAvatar";
+import Modal from "../../../common/components/modal";
 
 const UserApprovals: React.FC<any> = () => {
+  const [manageUserModal, setManageUserModal] = useState(false);
   return (
     <>
       <Container fluid>
@@ -82,7 +84,7 @@ const UserApprovals: React.FC<any> = () => {
                 <Col xs={ 2 }>Seller</Col>
                 <Col xs={ 3 }>Cafeto Software</Col>
                 <Col xs={ 2 }><div className="userApprovals__review">Review</div></Col>
-                <Col className="userApprovals__viewDetail" xs={ 2 }>View detail</Col>
+                <Col className="userApprovals__viewDetail" xs={ 2 }><div onClick={ () => setManageUserModal(true) }>Manage User</div></Col>
               </Row>
               <hr className="m-0" />
               <Row className="userApprovals__tableRow">
@@ -90,7 +92,7 @@ const UserApprovals: React.FC<any> = () => {
                 <Col xs={ 2 }>Buyer</Col>
                 <Col xs={ 3 }>Cafe cafe</Col>
                 <Col xs={ 2 }><div className="userApprovals__inProcess">In Process</div></Col>
-                <Col className="userApprovals__viewDetail" xs={ 2 }>View detail</Col>
+                <Col className="userApprovals__viewDetail" xs={ 2 }><div onClick={ () => setManageUserModal(true) }>Manage User</div></Col>
               </Row>
               <hr className="m-0" />
               <Row className="userApprovals__tableRow">
@@ -98,7 +100,7 @@ const UserApprovals: React.FC<any> = () => {
                 <Col xs={ 2 }>Seller</Col>
                 <Col xs={ 3 }>Mi Tierra</Col>
                 <Col xs={ 2 }><div className="userApprovals__approved">Approved</div></Col>
-                <Col className="userApprovals__viewDetail" xs={ 2 }>View detail</Col>
+                <Col className="userApprovals__viewDetail" xs={ 2 }><div onClick={ () => setManageUserModal(true) }>Manage User</div></Col>
               </Row>
               <hr className="m-0" />
               <Row className="userApprovals__tableRow">
@@ -106,7 +108,7 @@ const UserApprovals: React.FC<any> = () => {
                 <Col xs={ 2 }>Seller</Col>
                 <Col xs={ 3 }>Coffee Lab</Col>
                 <Col xs={ 2 }><div className="userApprovals__rejected">Rejected</div></Col>
-                <Col className="userApprovals__viewDetail" xs={ 2 }>View detail</Col>
+                <Col className="userApprovals__viewDetail" xs={ 2 }><div onClick={ () => setManageUserModal(true) }>Manage User</div></Col>
               </Row>
               <hr className="m-0" />
             </Row>
@@ -143,7 +145,7 @@ const UserApprovals: React.FC<any> = () => {
               <hr className="m-0 mw-100 w-100" />
               <Row className="userApprovals__viewDetail py-2">
                 <Col className="d-flex justify-content-end">
-                  View detail
+                  <div onClick={ () => setManageUserModal(true) }>Manage User</div>
                 </Col>
               </Row>
             </Col>
@@ -177,7 +179,7 @@ const UserApprovals: React.FC<any> = () => {
               <hr className="m-0 mw-100 w-100" />
               <Row className="userApprovals__viewDetail py-2">
                 <Col className="d-flex justify-content-end">
-                  View detail
+                  <div onClick={ () => setManageUserModal(true) }>Manage User</div>
                 </Col>
               </Row>
             </Col>
@@ -211,7 +213,7 @@ const UserApprovals: React.FC<any> = () => {
               <hr className="m-0 mw-100 w-100" />
               <Row className="userApprovals__viewDetail py-2">
                 <Col className="d-flex justify-content-end">
-                  View detail
+                  <div onClick={ () => setManageUserModal(true) }>Manage User</div>
                 </Col>
               </Row>
             </Col>
@@ -245,7 +247,7 @@ const UserApprovals: React.FC<any> = () => {
               <hr className="m-0 mw-100 w-100" />
               <Row className="userApprovals__viewDetail py-2">
                 <Col className="d-flex justify-content-end">
-                  View detail
+                  <div onClick={ () => setManageUserModal(true) }>Manage User</div>
                 </Col>
               </Row>
             </Col>
@@ -263,6 +265,40 @@ const UserApprovals: React.FC<any> = () => {
           </Pagination>
         </div>
       </Container>
+      { manageUserModal &&
+        <Modal title="Manage User" width='541px' continueText="Save" closed={ !manageUserModal } cancelHidden={ true } showCloseIcon onClose={ () => setManageUserModal(false) }>
+          <div className="userApprovals__paragraphText">
+            <p className="userApprovals__colorNeutral"><span className="userApprovals__colorRed">*</span> Select what you want to Manage</p>
+            <div className="userApprovals__manageUserSubtitle">User</div>
+            <hr className="w-100 mt-0" />
+            <div className="d-flex align-items-center justify-content-between px-4 py-3">
+              <div className="d-flex gap-4">
+                <div className="userApprovals__userAttribute">Profile</div>
+                <div className="userApprovals__reviewModal">Review</div>
+              </div>
+              <div className="userApprovals__ellipsis">...</div>
+            </div>
+            <div className="userApprovals__manageUserSubtitle">Products</div>
+            <hr className="w-100 mt-0" />
+            <div className="d-flex align-items-center justify-content-between px-4 py-3">
+              <div className="d-flex gap-4">
+                <div className="userApprovals__userAttribute">Coffee</div>
+                <div className="userApprovals__reviewModal">Review</div>
+              </div>
+              <div className="userApprovals__ellipsis">...</div>
+            </div>
+            <div className="d-flex align-items-center justify-content-between px-4 py-3">
+              <div className="d-flex gap-4">
+                <div className="userApprovals__userAttribute">Cocoa</div>
+                <div className="userApprovals__reviewModal">Review</div>
+              </div>
+              <div className="userApprovals__ellipsis">...</div>
+            </div>
+            <div className="userApprovals__additionalCommentsTitle">Additional Comments</div>
+            <textarea placeholder="write additional comments" className="userApprovals__textArea" />
+          </div>
+        </Modal>
+      }
     </>
   );
 };
