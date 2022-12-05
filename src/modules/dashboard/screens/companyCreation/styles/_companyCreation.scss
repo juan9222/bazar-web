@@ -84,9 +84,8 @@
 }
 
 @media (max-width: 992px) {
-  .modal__position .custom-modal {
-    margin-top: 50% !important;
-
+  .modal-avatars .custom-modal-overlay .custom-modal {
+    margin-top: 0% !important;
   }
 
   .dshLayout__body {

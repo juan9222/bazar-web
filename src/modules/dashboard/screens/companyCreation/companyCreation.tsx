@@ -235,51 +235,52 @@ const CompanyCreation: React.FC<any> = () => {
                 </Col>
               </Row>
               <div className="verticalSpaceXL"></div>
-              {/* Modal Avatar */ }
-              <Modal title='Selet your avatar' width='503px' closed={ !showAvatars } continueDisabled hideFooter showCloseIcon onClose={ () => {
-                onHideAvatars();
-                if (!avatar.uuid) {
-                  onSelectAvatar({
-                    imageName: "",
-                    imageUrl: "",
-                    uuid: ""
-                  });
-                }
-              } }>
-                <div className="avatars">
-                  {
-                    avatars.map((av: any) => {
-                      return (
-                        <ProfilePhoto key={ av.id } avatar={ av } url={ av.imageUrl } selected={ av.uuid === avatarModal.uuid } onlyPhoto onSelectAvatar={ () => setAvatarModal(av) } />
-                      );
-                    })
+              <div className='modal-avatars'>
+                {/* Modal Avatar */ }
+                <Modal title='Selet your avatar' width='503px' closed={ !showAvatars } continueDisabled hideFooter showCloseIcon onClose={ () => {
+                  onHideAvatars();
+                  if (!avatar.uuid) {
+                    onSelectAvatar({
+                      imageName: "",
+                      imageUrl: "",
+                      uuid: ""
+                    });
                   }
-                </div>
-                <div className="dFlex f1 jcCenter">
-                  <Button
-                    onClick={ () => {
-                      onHideAvatars();
-                      onSelectAvatar(avatarModal);
-                    } } visibleType={ EBtnVisibleType.outline } >Select avatar</Button>
-                </div>
-              </Modal>
-              <div className='modal__position'>
-                {/* Modal Confirmation */ }
-                <Modal title="" continueText='Save' width='560px' closed={ !showConfirmationModal } showCloseIcon={ false } onClose={ () => setShowConfirmationModal(false) } onContinue={ handleSubmit(submitForm) } loading={ loading }>
-                  <div className="verticalSpaceS"></div>
-                  <h3 className='textPrimary300 textModalTitle'>Do you want to continue?</h3>
-                  <div className="verticalSpaceL"></div>
-                  <p className='textModalDesc'>Are yo sure to save your changes? Once submitted you will not be able to modify them until they have been reviewed by our Bazar team.</p>
-                </Modal>
-                {/* Modal Congratulations */ }
-                <Modal title="" continueText='Create product now' cancelText='Create product later' width='590px' closed={ !showCongratulationsModal } showCloseIcon={ false } onClose={ () => setShowConfirmationModal(false) } onContinue={ onCreateProduct } onCancel={ onCreateProductLater } loading={ loading }>
-                  <div className="verticalSpaceS"></div>
-                  <h3 className='textPrimary300 textModalTitle dFlex aICenter'> <AiFillCheckCircle className='textSuccess200' />             <div className="horizontalSpaceS"></div>
-                    Congratulations</h3>
-                  <div className="verticalSpaceL"></div>
-                  <p className='textModalDesc'>Your profile is almost ready, it just needs a verification by our team, it won't take long! <b>You can create your product list, while waiting for our validation.</b></p>
+                } }>
+                  <div className="avatars">
+                    {
+                      avatars.map((av: any) => {
+                        return (
+                          <ProfilePhoto key={ av.id } avatar={ av } url={ av.imageUrl } selected={ av.uuid === avatarModal.uuid } onlyPhoto onSelectAvatar={ () => setAvatarModal(av) } />
+                        );
+                      })
+                    }
+                  </div>
+                  <div className="dFlex f1 jcCenter">
+                    <Button
+                      onClick={ () => {
+                        onHideAvatars();
+                        onSelectAvatar(avatarModal);
+                      } } visibleType={ EBtnVisibleType.outline } >Select avatar</Button>
+                  </div>
                 </Modal>
               </div>
+
+              {/* Modal Confirmation */ }
+              <Modal title="" continueText='Save' width='560px' closed={ !showConfirmationModal } showCloseIcon={ false } onClose={ () => setShowConfirmationModal(false) } onContinue={ handleSubmit(submitForm) } loading={ loading }>
+                <div className="verticalSpaceS"></div>
+                <h3 className='textPrimary300 textModalTitle'>Do you want to continue?</h3>
+                <div className="verticalSpaceL"></div>
+                <p className='textModalDesc'>Are yo sure to save your changes? Once submitted you will not be able to modify them until they have been reviewed by our Bazar team.</p>
+              </Modal>
+              {/* Modal Congratulations */ }
+              <Modal title="" continueText='Create product now' cancelText='Create product later' width='590px' closed={ !showCongratulationsModal } showCloseIcon={ false } onClose={ () => setShowConfirmationModal(false) } onContinue={ onCreateProduct } onCancel={ onCreateProductLater } loading={ loading }>
+                <div className="verticalSpaceS"></div>
+                <h3 className='textPrimary300 textModalTitle dFlex aICenter'> <AiFillCheckCircle className='textSuccess200' />             <div className="horizontalSpaceS"></div>
+                  Congratulations</h3>
+                <div className="verticalSpaceL"></div>
+                <p className='textModalDesc'>Your profile is almost ready, it just needs a verification by our team, it won't take long! <b>You can create your product list, while waiting for our validation.</b></p>
+              </Modal>
             </div>
           </div>
         </Col>
