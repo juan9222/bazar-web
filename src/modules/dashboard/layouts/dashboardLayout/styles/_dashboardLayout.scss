@@ -264,6 +264,7 @@
 }
 
 @media (max-width: $breakpoint_tablet) {
+
   .dshLayout {
     background-color: transparent;
 
@@ -292,5 +293,11 @@
         }
       }
     }
+  }
+}
+
+@media (max-width: 992px) {
+  .dshLayout__body {
+    width: 100%;
   }
 }
