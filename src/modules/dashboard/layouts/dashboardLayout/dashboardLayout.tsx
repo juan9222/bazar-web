@@ -30,17 +30,23 @@ const Dashboardlayout: React.FC<any> = () => {
           <AiFillHome className="dshLayout__nav--btnNav--icon" />
           <p className="dshLayout__nav--btnNav--label">Home</p>
         </NavLink>
-        <NavLink className="dshLayout__nav--btnNav"
+        <NavLink className={ ({ isActive }) =>
+          `dshLayout__nav--btnNav ${ isActive ? 'active' : '' }`
+        }
           to="/dashboard/create-product">
           <ImLeaf className="dshLayout__nav--btnNav--icon" />
           <p className="dshLayout__nav--btnNav--label">Products</p>
         </NavLink>
-        <NavLink className="dshLayout__nav--btnNav"
+        <NavLink className={ ({ isActive }) =>
+          `dshLayout__nav--btnNav ${ isActive ? 'active' : '' }`
+        }
           to="/">
           <HiShoppingCart className="dshLayout__nav--btnNav--icon" />
           <p className="dshLayout__nav--btnNav--label">Purchases</p>
         </NavLink>
-        <NavLink className="dshLayout__nav--btnNav"
+        <NavLink className={ ({ isActive }) =>
+          `dshLayout__nav--btnNav ${ isActive ? 'active' : '' }`
+        }
           to="/">
           <MdAccountBalanceWallet className="dshLayout__nav--btnNav--icon" />
           <p className="dshLayout__nav--btnNav--label">Wallet</p>
@@ -75,7 +81,9 @@ const Dashboardlayout: React.FC<any> = () => {
               </Offcanvas.Header>
               <Offcanvas.Body className="mobile-bazar-nav__body">
                 <div className="mobile-bazar-nav__body--primary">
-                  <NavLink className="item"
+                  <NavLink className={ ({ isActive }) =>
+                    `item ${ isActive ? 'active' : '' }`
+                  }
                     to="/">
                     <AiFillHome className="item--icon" />
                     <p className="item--label">Home</p>
@@ -87,12 +95,16 @@ const Dashboardlayout: React.FC<any> = () => {
                     <ImLeaf className="item--icon" />
                     <p className="item--label">Products</p>
                   </NavLink>
-                  <NavLink className="item"
+                  <NavLink className={ ({ isActive }) =>
+                    `item ${ isActive ? 'active' : '' }`
+                  }
                     to="/">
                     <HiShoppingCart className="item--icon" />
                     <p className="item--label">Purchases</p>
                   </NavLink>
-                  <NavLink className="item"
+                  <NavLink className={ ({ isActive }) =>
+                    `item ${ isActive ? 'active' : '' }`
+                  }
                     to="/">
                     <MdAccountBalanceWallet className="item--icon" />
                     <p className="item--label">Wallet</p>
@@ -119,7 +131,9 @@ const Dashboardlayout: React.FC<any> = () => {
             </Offcanvas>
           </div>
         </header>
-        <Outlet />
+        <div className="dshLayout__body--main">
+          <Outlet />
+        </div>
       </nav>
     </div>
   );

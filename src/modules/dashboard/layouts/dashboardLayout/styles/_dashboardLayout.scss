@@ -61,6 +61,15 @@
     flex: 1;
     border-radius: 8px 0 0 8px;
     padding: 0 40px 0 65px;
+    min-height: 100vh;
+
+    &--main {
+      margin-top: 63px;
+
+      @include respond-below(sm) {
+        margin-top: 93px;
+      }
+    }
 
     &--header {
       position: fixed;
@@ -284,5 +293,4 @@
       }
     }
   }
-
 }

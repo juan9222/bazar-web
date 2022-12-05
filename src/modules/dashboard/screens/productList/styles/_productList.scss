@@ -1,5 +1,5 @@
 .pl {
-  margin: 23px 0;
+  padding: 23px 0;
 
   .titlePrimary {
     font-size: 24.2px;
@@ -101,6 +101,40 @@
   &__content-card {
     h3.titlePrimary {
       border-bottom: 1px solid $neutral_75;
+    }
+  }
+
+  .btn-create-product {
+    position: fixed;
+    bottom: 32px;
+    right: 60px;
+
+    @include respond-below(sm) {
+      right: 30px;
+      bottom: 25px;
+    }
+
+    &__content {
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      gap: 6px;
+
+      @include respond-below(sm) {
+        flex-direction: column-reverse;
+      }
+
+      p {
+        font-size: 11.7px;
+        font-weight: 500;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.37;
+        letter-spacing: 0.35px;
+        color: $primary-200;
+        margin-bottom: 0;
+        text-align: center;
+      }
     }
   }
 }
