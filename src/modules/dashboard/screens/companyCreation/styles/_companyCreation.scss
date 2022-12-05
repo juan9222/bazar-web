@@ -84,12 +84,12 @@
 }
 
 @media (max-width: 992px) {
-  .modal-avatars .custom-modal-overlay .custom-modal {
-    margin-top: 0% !important;
+  .cc {
+    padding-top: 30%;
   }
 
-  .dshLayout__body {
-    width: 100% !important;
+  .modal-avatars .custom-modal-overlay .custom-modal {
+    margin-top: 0% !important;
   }
 
   .block__left {
@@ -101,11 +101,8 @@
   }
 
   .block__right {
-    width: 100% !important;
     align-items: center;
     justify-content: center;
-    padding-left: 0% !important;
-    padding-right: 0% !important;
   }
 
   .form__select {
