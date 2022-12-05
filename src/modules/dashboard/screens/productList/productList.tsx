@@ -10,6 +10,8 @@ import InputText from "../../../common/components/inputText";
 import Card from "../../../common/components/card";
 import useProductList from "./hooks/useProductList";
 import { Status } from "../../../common/components/card/interfaces";
+import IconNewProduct from "../../../../assets/svg/icons/iconNewProduct";
+import { NavLink } from "react-router-dom";
 
 const ProductList: React.FC<any> = () => {
   const { basicProducts, productMap, avatarUrl, onFilterProducts, filteredProducts, } = useProductList();
@@ -95,6 +97,13 @@ const ProductList: React.FC<any> = () => {
           </Row>
         );
       }) }
+      <div className="btn-create-product">
+        <NavLink className="btn-create-product__content"
+          to="/dashboard/create-product">
+          <IconNewProduct />
+          <p>New product</p>
+        </NavLink>
+      </div>
     </Container>
   );
 };
