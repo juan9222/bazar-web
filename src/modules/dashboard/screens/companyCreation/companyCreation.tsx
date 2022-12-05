@@ -235,34 +235,37 @@ const CompanyCreation: React.FC<any> = () => {
                 </Col>
               </Row>
               <div className="verticalSpaceXL"></div>
-              {/* Modal Avatar */ }
-              <Modal title='Selet your avatar' width='503px' closed={ !showAvatars } continueDisabled hideFooter showCloseIcon onClose={ () => {
-                onHideAvatars();
-                if (!avatar.uuid) {
-                  onSelectAvatar({
-                    imageName: "",
-                    imageUrl: "",
-                    uuid: ""
-                  });
-                }
-              } }>
-                <div className="avatars">
-                  {
-                    avatars.map((av: any) => {
-                      return (
-                        <ProfilePhoto key={ av.id } avatar={ av } url={ av.imageUrl } selected={ av.uuid === avatarModal.uuid } onlyPhoto onSelectAvatar={ () => setAvatarModal(av) } />
-                      );
-                    })
+              <div className='modal-avatars'>
+                {/* Modal Avatar */ }
+                <Modal title='Selet your avatar' width='503px' closed={ !showAvatars } continueDisabled hideFooter showCloseIcon onClose={ () => {
+                  onHideAvatars();
+                  if (!avatar.uuid) {
+                    onSelectAvatar({
+                      imageName: "",
+                      imageUrl: "",
+                      uuid: ""
+                    });
                   }
-                </div>
-                <div className="dFlex f1 jcCenter">
-                  <Button
-                    onClick={ () => {
-                      onHideAvatars();
-                      onSelectAvatar(avatarModal);
-                    } } visibleType={ EBtnVisibleType.outline } >Select avatar</Button>
-                </div>
-              </Modal>
+                } }>
+                  <div className="avatars">
+                    {
+                      avatars.map((av: any) => {
+                        return (
+                          <ProfilePhoto key={ av.id } avatar={ av } url={ av.imageUrl } selected={ av.uuid === avatarModal.uuid } onlyPhoto onSelectAvatar={ () => setAvatarModal(av) } />
+                        );
+                      })
+                    }
+                  </div>
+                  <div className="dFlex f1 jcCenter">
+                    <Button
+                      onClick={ () => {
+                        onHideAvatars();
+                        onSelectAvatar(avatarModal);
+                      } } visibleType={ EBtnVisibleType.outline } >Select avatar</Button>
+                  </div>
+                </Modal>
+              </div>
+
               {/* Modal Confirmation */ }
               <Modal title="" continueText='Save' width='560px' closed={ !showConfirmationModal } showCloseIcon={ false } onClose={ () => setShowConfirmationModal(false) } onContinue={ handleSubmit(submitForm) } loading={ loading }>
                 <div className="verticalSpaceS"></div>

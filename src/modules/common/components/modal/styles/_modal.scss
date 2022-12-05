@@ -1,4 +1,4 @@
-.modal-overlay {
+.custom-modal-overlay {
   // height: 100vh;
   //width: 100vw;
   position: fixed;
@@ -12,7 +12,7 @@
   padding: 16px;
 }
 
-.modal {
+.custom-modal {
   margin: 0 auto;
   margin-top: 25vh;
   border-radius: 8px;
@@ -56,5 +56,13 @@
     align-items: center;
     gap: 10px;
     padding: 0px 2.5rem 0rem;
+  }
+}
+
+@media (max-width: 992px) {
+  .custom-modal {
+    height: auto !important;
+    overflow-y: scroll;
+    margin-top: 50%;
   }
 }

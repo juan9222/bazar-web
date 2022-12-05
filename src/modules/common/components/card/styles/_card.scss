@@ -30,7 +30,7 @@
 
       &.status-public {
         background-color: $success-200;
-        color: #FFFFFF;
+        color: $white;
       }
 
       &.status-review {
@@ -40,7 +40,12 @@
 
       &.status-hidden {
         background-color: $neutral_400;
-        color: #FFFFFF;
+        color: $white;
+      }
+
+      &.status-rejected {
+        background-color: $error_25;
+        color: $error_75;
       }
     }
 
