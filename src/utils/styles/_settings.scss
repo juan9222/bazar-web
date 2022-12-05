@@ -6,8 +6,10 @@ $neutral_400: #414C5B;
 $neutral_300: #64748B;
 $neutral_200: #94A3B8;
 $neutral_100: #CBD5E1;
+$neutral_75: #E2E8F0;
 $neutral_50: #F1F5F9;
 $neutral_25: #F8FAFC;
+$neutral_75: #e2e8f0;
 
 // Primary
 $primary_300: #023047;
@@ -19,12 +21,31 @@ $primary_50: #8ECAE6;
 $secondary_100: #FB8500;
 $secondary_50: #FD9E02;
 
+// Warning
+$warning_25: #fffbeb;
+$warning_50: #fcd34d;
+$warning_75: #f59e0b;
+
 // Error
+$error_25: #fef2f2;
+$error_50: #ff9a9a;
+$error_75: #ef4444;
 $error_100: #B91C1C;
 $error_200: #890000;
 
 // Success
+$success_25: #f7ffdc;
+$success_50: #b5e48c;
+$success_75: #99d98c;
+$success_75: #76c893;
 $success_200: #52B69A;
+
+// Warning
+$warning-25: #fffbeb;
+$warning-75: #f59e0b;
+// Shades
+$shades_100: #000;
+$shades_0: #fff;
 
 // Breakpoints
 $breakpoint_tablet: 768px;

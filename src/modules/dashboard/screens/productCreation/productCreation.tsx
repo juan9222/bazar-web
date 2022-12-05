@@ -1,5 +1,4 @@
 import React from "react";
-import { Key } from "react";
 import { AiFillCheckCircle } from "react-icons/ai";
 import Button from "../../../common/components/button/button";
 import { EBtnVisibleType } from "../../../common/components/button/interfaces";
@@ -111,7 +110,7 @@ const ProductCreation: React.FC<any> = () => {
                   <div>
                     <div className="scroll-container">
                       <div className="gridscroll">
-                        { displayPictures && displayPictures?.length > 0 &&
+                        { displayPictures.length > 0 &&
                           displayPictures.map((picture, index) => (
                             <div className="image-wrapper">
                               <img src={ picture } alt="preview" />
@@ -119,7 +118,7 @@ const ProductCreation: React.FC<any> = () => {
                             </div>
                           ))
                         }
-                        { displayPictures && displayPictures?.length < 5 && (
+                        { displayPictures.length < 5 && (
                           <div className="modal-file--content">
                             <input
                               ref={ hiddenFileInput }
@@ -144,19 +143,6 @@ const ProductCreation: React.FC<any> = () => {
                     <p>Select your product photos { displayPictures?.length }/5</p>
                     <p className="label"> This form accepts JPEG, JPG, PNG files up to 10 MB.</p>
                   </div>
-
-
-                  {/* { displayPictures && displayPictures.map(picture => <img src={ picture } alt="preview" />) }
-                  <InputFile
-                    label={ "Select your product photos." }
-                    name={ assignInputName("productPictures") }
-                    placeholder={ "Select your product photos" }
-                    accept={ ".jpg, .png, .jpeg" }
-                    onChangeFile={ setProductPictures }
-                    footer="This form accepts JPEG, JPG, PNG files up to 10 MB."
-                    multiple
-                    required
-                  /> */}
                   <div className="verticalSpaceL" />
                   <hr />
                   <div className="verticalSpaceL" />
@@ -322,7 +308,7 @@ const ProductCreation: React.FC<any> = () => {
                   <div className="verticalSpaceL" />
                   <h1>Sustainability certifications</h1>
                   { certifications.map((certification: string) => {
-                    if (!noCertificatesSelected)
+                    if (!noCertificatesSelected) {
                       return (
                         <>
                           <div className="verticalSpaceL" />
@@ -336,6 +322,8 @@ const ProductCreation: React.FC<any> = () => {
                           />
                         </>
                       );
+                    }
+                    return null;
                   }) }
                 </section>
               ) }

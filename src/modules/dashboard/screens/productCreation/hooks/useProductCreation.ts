@@ -6,6 +6,7 @@ import { IProductCreationProps, TProductCreationFormKeys } from "../interfaces";
 import { productCreationFormValidator } from "../validators";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import useProductListProviders from "../../productList/providers";
 
 const useCreateProduct = () => {
   const [activeTabIndex, setActiveTabIndex] = useState<number>(0);
@@ -33,7 +34,8 @@ const useCreateProduct = () => {
   const navigate = useNavigate();
 
   //Providers
-  const { getProducts, getProductTypesByProduct, getVarietiesByProduct, getSustainabilityCertificationsItems, getMinimumOrders, getIncoterms } = useProductCreationProviders();
+  const { getBasicProducts } = useProductListProviders();
+  const { getProductTypesByProduct, getVarietiesByProduct, getSustainabilityCertificationsItems, getMinimumOrders, getIncoterms } = useProductCreationProviders();
 
   // Form
   const methods = useForm<IProductCreationProps>({
@@ -62,7 +64,7 @@ const useCreateProduct = () => {
       setHasError(false);
       alert("Uploaded certification files doesn't match # of selected certifications.");
     } else {
-      data.uuid = localStorage.getItem("uuid") || "fd2e9e21-3c18-4bd2-bf81-1e0956ec5bfd";
+      data.uuid = localStorage.getItem("uuid") || "";
       data.sustainabilityCertifications = certifications;
       data.incoterms = incoterms;
       data.assistanceNeeded = assistanceNeeded;
@@ -128,7 +130,7 @@ const useCreateProduct = () => {
   };
 
   const onGetProducts = async () => {
-    const resp = await getProducts();
+    const resp = await getBasicProducts();
     const productList = resp.data.results.map((product: any) => ({
       label: product.basic_product,
       value: product.uuid,
@@ -186,14 +188,16 @@ const useCreateProduct = () => {
     Array.from(fileObj).forEach(file => {
       newProductPictures.push(file);
     });
-    newProductPictures.length = 5;
+    if (newProductPictures.length > 5) {
+      newProductPictures.length = 5;
+    }
     setProductPictures(newProductPictures);
   };
 
   const onRemoveProductPicture = (index: number) => {
-    const newDisplayPictures = [...displayPictures];
-    newDisplayPictures.splice(index, 1);
-    setDisplayPictures(newDisplayPictures);
+    const newProductPictures = [...productPictures];
+    newProductPictures.splice(index, 1);
+    setProductPictures(newProductPictures);
   };
 
   const onChangeCertificationCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {

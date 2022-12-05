@@ -6,7 +6,7 @@
 
   &__nav {
     background-color: $primary-300;
-    width: 70px;
+    width: 80px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -14,6 +14,7 @@
     left: 0;
     top: 0;
     bottom: 0;
+    z-index: 20000;
 
 
     &--btnNav {
@@ -22,36 +23,69 @@
       flex-direction: column;
       justify-content: center;
       align-items: center;
-      height: 54px;
-      margin: 15px 0;
+      padding: 15px 0 12px;
+      text-decoration: none;
+
+      &.active,
+      &:hover {
+        background-color: $white;
+        border-radius: 8px 0 0 8px;
+
+        .dshLayout__nav--btnNav {
+
+          &--icon,
+          &--label {
+            color: $primary-300;
+          }
+        }
+      }
 
       &--icon {
         color: $white;
-        width: 24px;
-        height: 24px;
+        font-size: 24px;
         margin-bottom: 8px;
       }
 
       &--label {
-        font-size: 11.7px;
+        font-size: 12.5px;
         font-weight: 300;
         color: $white;
+        margin: 0;
       }
     }
   }
 
   &__body {
-    margin-left: 70px;
+    margin-left: 80px;
     background-color: $white;
     flex: 1;
     border-radius: 8px 0 0 8px;
     padding: 0 40px 0 65px;
+    min-height: 100vh;
+
+    &--main {
+      margin-top: 63px;
+
+      @include respond-below(sm) {
+        margin-top: 93px;
+      }
+    }
 
     &--header {
-      border-bottom: 1px solid $neutral-100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
+      position: fixed;
+      width: 100%;
+      left: 0;
+      padding: 0 40px 0 145px;
+      background-color: #fff;
+      z-index: 10000;
+
+      &--content {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        position: relative;
+        border-bottom: 1px solid $neutral-100;
+      }
 
       &--logo {
         width: 123px;
@@ -76,11 +110,161 @@
           cursor: pointer;
         }
       }
+
+      .btn-header-mobile {
+        display: none;
+        padding: 0;
+        background-color: rgba(0, 0, 0, 0);
+        border: none;
+        font-size: 34px;
+
+        &:hover {
+          background: none;
+          border: none
+        }
+      }
+
+      &--left.mobile-bazar-nav {
+        background-color: $primary-300;
+        width: 300px !important;
+        z-index: 100000;
+
+        .mobile-bazar-nav {
+
+          &__header {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            padding: 1rem 25px;
+
+            .btn-close {
+              position: absolute;
+              top: 10%;
+              right: 5%;
+              color: $white;
+            }
+
+            .limiter-line {
+              position: absolute;
+              border-bottom: 1px solid rgba(255, 255, 255, 0.21);
+              bottom: 0;
+              left: 10%;
+              width: 80%;
+            }
+
+            .user-picture {
+              width: 110;
+              height: 110px;
+              margin-top: 75px;
+              margin-bottom: 10px;
+            }
+
+            .user-name {
+              font-size: 16.8px;
+              font-weight: normal;
+              font-stretch: normal;
+              font-style: normal;
+              line-height: 1.43;
+              letter-spacing: 0.5px;
+              text-align: left;
+              color: $neutral_25;
+              margin-bottom: 6px;
+            }
+
+            .user-type {
+              font-size: 14px;
+              font-weight: normal;
+              font-stretch: normal;
+              font-style: normal;
+              line-height: 1.71;
+              letter-spacing: 0.42px;
+              text-align: left;
+              color: $neutral_25;
+              margin-bottom: 31px;
+            }
+          }
+
+          &__body {
+            padding: 0;
+
+            &--primary,
+            &--secondary {
+              position: relative;
+              display: flex;
+              flex-direction: column;
+              padding: 5px 0 20px;
+
+              .item {
+                display: flex;
+                text-decoration: none;
+                align-items: center;
+                padding: 12.5px 45px 12.5px 42px;
+
+                &--icon,
+                &--label {
+                  color: $white;
+                  margin-bottom: 0;
+                }
+
+                &--icon {
+                  margin-right: 12px;
+                }
+
+                &.active,
+                &:hover {
+                  background-color: $white;
+
+                  .item--icon,
+                  .item--label {
+                    color: $primary-300;
+                  }
+                }
+              }
+
+              .limiter-line {
+                position: absolute;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.21);
+                bottom: -10px;
+                left: 10%;
+                width: 80%;
+              }
+            }
+
+            &--closed {
+              .btn-logout-closed {
+                display: flex;
+                align-items: center;
+                border: none;
+                background-color: $primary-300;
+                padding: 12.5px 45px 12.5px 42px;
+
+                .item--icon {
+                  margin-right: 12px;
+                }
+
+                .item--label {
+                  margin-bottom: 0;
+                }
+
+                &:hover {
+                  background-color: $white;
+
+                  .item--icon,
+                  .item--label {
+                    color: $primary-300;
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   }
 }
 
 @media (max-width: $breakpoint_tablet) {
+
   .dshLayout {
     background-color: transparent;
 
@@ -89,9 +273,31 @@
     }
 
     &__body {
-      padding: 0 40px;
+      padding: 0;
       margin-left: 0px;
+
+      &--header {
+        background-color: $primary-300;
+        padding: 15px 25px;
+
+        .btn-header-mobile {
+          display: inline-block;
+        }
+
+        &--content {
+          border: none;
+        }
+
+        &--right {
+          display: none;
+        }
+      }
     }
   }
+}
 
+@media (max-width: 992px) {
+  .dshLayout__body {
+    width: 100%;
+  }
 }

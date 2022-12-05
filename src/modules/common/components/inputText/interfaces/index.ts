@@ -11,6 +11,7 @@ export interface IInputTextProps
   label?: string;
   hasTooltip?: boolean;
   icon?: React.ReactNode;
+  iconLeft?: React.ReactNode;
   onClickIcon?: () => void;
   hasError?: boolean;
   errorMessage?: string;

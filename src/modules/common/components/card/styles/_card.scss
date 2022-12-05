@@ -1,0 +1,287 @@
+.content-card {
+  border-radius: 4px;
+  box-shadow: 0 3px 4px 0 rgba(197, 202, 209, 0.4);
+  background-color: #FFFFFF;
+  max-width: 367px;
+
+  &__header {
+    position: relative;
+
+    img {
+      max-height: 180px;
+      width: 100%;
+      object-fit: cover;
+      object-position: center;
+    }
+
+    .header-status {
+      position: absolute;
+      left: 0;
+      top: 10px;
+      padding: 2px 7px;
+      font-size: 11.7px;
+      font-weight: 500;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.37;
+      letter-spacing: 0.35px;
+      text-align: left;
+      border-radius: 0 4px 4px 0;
+
+      &.status-public {
+        background-color: $success-200;
+        color: $white;
+      }
+
+      &.status-review {
+        background-color: $warning-25;
+        color: $warning-75;
+      }
+
+      &.status-hidden {
+        background-color: $neutral_400;
+        color: $white;
+      }
+
+      &.status-rejected {
+        background-color: $error_25;
+        color: $error_75;
+      }
+    }
+
+    .header-data {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      display: grid;
+      grid-auto-columns: 1fr;
+      grid-template-columns: 12% 78% 10%;
+      grid-template-areas:
+        ". . .";
+      gap: 0;
+      padding: 7px;
+      -webkit-backdrop-filter: blur(44px);
+      backdrop-filter: blur(44px);
+      background-color: rgba(0, 0, 0, 0.12);
+
+      &__img {
+        height: 38px;
+        width: 38px;
+      }
+
+      &__title {
+        h4 {
+          font-size: 16.8px;
+          font-weight: bold;
+          font-stretch: normal;
+          font-style: normal;
+          letter-spacing: 0.5px;
+          text-align: left;
+          color: #FFFFFF;
+          margin-bottom: 0;
+          display: flex;
+          gap: 5px;
+          align-items: center;
+
+          .message {
+            position: relative;
+            display: inline-flex;
+            cursor: pointer;
+
+            &:hover>.message__info {
+              display: flex;
+            }
+
+            &__info {
+              position: absolute;
+              top: 100%;
+              left: 0;
+              padding: 5px 13px;
+              display: none;
+              border-radius: 4px;
+              background-color: $neutral_400;
+              font-size: 11.7px;
+              font-weight: normal;
+              font-stretch: normal;
+              font-style: normal;
+              line-height: 1.37;
+              letter-spacing: 0.35px;
+              text-align: left;
+              color: $neutral_25;
+              width: max-content;
+              z-index: 100;
+            }
+          }
+
+          .icon-certificate {
+            cursor: pointer;
+            border-radius: 50px;
+
+            &:hover {
+              border: 1px solid #000000;
+            }
+          }
+        }
+
+        span {
+          font-size: 11.7px;
+          font-weight: 300;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: 1.37;
+          letter-spacing: 0.35px;
+          text-align: left;
+          color: #FFFFFF;
+        }
+      }
+
+      &__options {
+
+        .icon {
+          color: #FFFFFF;
+          font-size: 24px;
+        }
+
+        &.options-hover {
+          position: relative;
+          display: inline-flex;
+          cursor: pointer;
+          align-items: center;
+
+          &:hover>.data {
+            display: flex;
+          }
+
+          & .data {
+            position: absolute;
+            top: 65%;
+            right: 30%;
+            width: 225px;
+            display: none;
+            flex-direction: column;
+            padding: 16px 0;
+            border-radius: 6px;
+            box-shadow: 0 3px 4px 0 rgba(197, 202, 209, 0.4);
+            background-color: #FFFFFF;
+
+            .btn-data-option {
+              background-color: #FFFFFF;
+              font-size: 14px;
+              font-weight: 300;
+              font-stretch: normal;
+              font-style: normal;
+              line-height: 1.71;
+              letter-spacing: 0.42px;
+              text-align: left;
+              color: $primary-300;
+              width: 100%;
+              margin: 0;
+              border: none;
+              display: flex;
+              padding: 10px 20px;
+
+              svg {
+                font-size: 20px;
+              }
+
+              &:hover {
+                border-radius: 6px;
+                background-color: $neutral_50;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+  &__body {
+    display: grid;
+    grid-auto-columns: 1fr;
+    grid-template-columns: 75% 25%;
+    grid-template-areas:
+      ". .";
+    gap: 0;
+    padding: 14px 12.5px;
+
+    & .left-data {
+      border-right: 1px solid $neutral_75;
+      padding-right: 15px;
+
+      &__first {
+        font-size: 16.8px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.43;
+        letter-spacing: 0.5px;
+        text-align: left;
+        color: $success-200;
+        margin-bottom: 0;
+
+        span {
+          font-size: 14px;
+          font-weight: normal;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: 1.71;
+          letter-spacing: 0.42px;
+          text-align: left;
+          color: $neutral_100;
+        }
+      }
+
+      &__second {
+        font-size: 11.7px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.37;
+        letter-spacing: 0.35px;
+        text-align: left;
+        color: $neutral_200;
+        margin-bottom: 0;
+      }
+    }
+
+    & .right-data {
+      padding-left: 15px;
+
+      &__first {
+        font-size: 16.8px;
+        font-weight: bold;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.43;
+        letter-spacing: 0.5px;
+        text-align: left;
+        color: $neutral_400;
+        margin-bottom: 0;
+
+        span {
+          font-size: 11.7px;
+          font-weight: 300;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: 1.37;
+          letter-spacing: 0.35px;
+          text-align: left;
+          color: $neutral_200;
+        }
+      }
+
+      &__second {
+        font-size: 11.7px;
+        font-weight: 300;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.37;
+        letter-spacing: 0.35px;
+        text-align: left;
+        color: $neutral_400;
+        margin-bottom: 0;
+      }
+    }
+  }
+}
