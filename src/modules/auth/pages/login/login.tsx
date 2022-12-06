@@ -34,7 +34,7 @@ const Login: React.FC = () => {
       }
       <form onSubmit={ handleSubmit(onSubmitForm) }>
         <InputText
-          defaultValue={defaultEmail || ''}
+          defaultValue={ defaultEmail || '' }
           register={ register }
           name={ assignInputName("email") }
           label={ "Email" }
@@ -74,8 +74,8 @@ const Login: React.FC = () => {
         </div>
         <div className="loginContainer__tAndC">
           <p className="smallText textNeutral200 textAlignCenter">
-            By continuing, I confirm that I agree to the 
-            <a href="/" className="textPrimary200 textLink"> Terms of Use</a> and 
+            By continuing, I confirm that I agree to the
+            <a href="/" className="textPrimary200 textLink"> Terms of Use</a> and
             <a href="/" className="textPrimary200 textLink"> Privacy Policy</a>.
           </p>
         </div>

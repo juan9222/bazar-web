@@ -15,7 +15,7 @@ const Button: React.FC<IButtonProps> = (props) => {
       { iconLeft && <div className="iconLeftContainer">
         { iconLeft }
       </div> }
-      { children }
+      <p>{ children }</p>
       { iconRight && <div className="iconRightContainer">
         { iconRight }
       </div> }
