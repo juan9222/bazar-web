@@ -237,7 +237,7 @@ const CompanyCreation: React.FC<any> = () => {
               <div className="verticalSpaceXL"></div>
               <div className='modal-avatars'>
                 {/* Modal Avatar */ }
-                <Modal title='Selet your avatar' width='503px' closed={ !showAvatars } continueDisabled hideFooter showCloseIcon onClose={ () => {
+                <Modal title='Select your avatar' width='503px' closed={ !showAvatars } continueDisabled hideFooter showCloseIcon onClose={ () => {
                   onHideAvatars();
                   if (!avatar.uuid) {
                     onSelectAvatar({
