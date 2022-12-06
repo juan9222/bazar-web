@@ -64,10 +64,10 @@
     min-height: 100vh;
 
     &--main {
-      margin-top: 63px;
+      margin-top: 5%;
 
       @include respond-below(sm) {
-        margin-top: 93px;
+        margin-top: 0%;
       }
     }
 
