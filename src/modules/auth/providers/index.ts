@@ -5,7 +5,8 @@ import {
   ILoginResponse,
   IRegisterFormProps,
   IRegisterResponse,
-  IAuthConfirmationRequest
+  IAuthConfirmationRequest,
+  IAuthResetPasswordRequest
 } from "../interfaces";
 
 const useAuthenticationProviders = () => {
@@ -26,12 +27,12 @@ const useAuthenticationProviders = () => {
     });
     return trackPromise(request);
   };
-  
+
   const getUserByUuid = (uuid: string) => {
     const request = axios({
       method: "GET",
       baseURL: process.env.REACT_APP_BAZAR_AUTH_URL,
-      url: `/user/person/uuid/${uuid}`
+      url: `/user/person/uuid/${ uuid }`
     });
     return trackPromise(request);
   };
@@ -64,7 +65,7 @@ const useAuthenticationProviders = () => {
       method: "POST",
       baseURL: process.env.REACT_APP_BAZAR_AUTH_URL,
       url: "/auth/signup",
-      data:{
+      data: {
         ...dataWithoutPhones,
         phones: [
           {
@@ -124,6 +125,18 @@ const useAuthenticationProviders = () => {
     return trackPromise(request);
   };
 
+  const resetPasswordProvider = ({ email }: IAuthResetPasswordRequest) => {
+    const request = axios({
+      method: "POST",
+      baseURL: process.env.REACT_APP_BAZAR_AUTH_URL,
+      url: "/auth/resetPassword",
+      data: {
+        email,
+      }
+    });
+    return trackPromise(request);
+  };
+
   return {
     loginProvider,
     getUserByUuid,
@@ -131,7 +144,8 @@ const useAuthenticationProviders = () => {
     enrollSmsProvider,
     confirmEnrollProvider,
     confirmLoginChallengeProvider,
-  }
+    resetPasswordProvider,
+  };
 };
 
 export default useAuthenticationProviders;
