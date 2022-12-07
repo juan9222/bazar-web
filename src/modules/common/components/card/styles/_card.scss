@@ -6,6 +6,7 @@
 
   &__header {
     position: relative;
+    min-height: 180px;
 
     img {
       max-height: 180px;
@@ -141,56 +142,6 @@
         .icon {
           color: #FFFFFF;
           font-size: 24px;
-        }
-
-        &.options-hover {
-          position: relative;
-          display: inline-flex;
-          cursor: pointer;
-          align-items: center;
-
-          &:hover>.data {
-            display: flex;
-          }
-
-          & .data {
-            position: absolute;
-            top: 65%;
-            right: 30%;
-            width: 225px;
-            display: none;
-            flex-direction: column;
-            padding: 16px 0;
-            border-radius: 6px;
-            box-shadow: 0 3px 4px 0 rgba(197, 202, 209, 0.4);
-            background-color: #FFFFFF;
-
-            .btn-data-option {
-              background-color: #FFFFFF;
-              font-size: 14px;
-              font-weight: 300;
-              font-stretch: normal;
-              font-style: normal;
-              line-height: 1.71;
-              letter-spacing: 0.42px;
-              text-align: left;
-              color: $primary-300;
-              width: 100%;
-              margin: 0;
-              border: none;
-              display: flex;
-              padding: 10px 20px;
-
-              svg {
-                font-size: 20px;
-              }
-
-              &:hover {
-                border-radius: 6px;
-                background-color: $neutral_50;
-              }
-            }
-          }
         }
       }
     }

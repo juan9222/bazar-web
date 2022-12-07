@@ -55,8 +55,12 @@
 @import '../../modules/dashboard/screens/companyCreation/styles/index';
 @import '../../modules/dashboard/screens/productCreation/styles/index';
 @import '../../modules/dashboard/screens/productList/styles/index';
+@import '../../modules/dashboard/screens/productDetails/styles/index';
 @import '../../modules/dashboard/screens/userApprovals/styles/index';
 
 
 // ////////// Bootstrap
 @import "~bootstrap/scss/bootstrap";
+
+// ////////// Image Gallery
+@import "~react-image-gallery/styles/scss/image-gallery.scss";
