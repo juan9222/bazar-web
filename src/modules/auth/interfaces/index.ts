@@ -61,3 +61,34 @@ export interface IAuthConfirmationRequest {
   bindingCode: string,
   uuid?: string,
 }
+
+export interface IAuthResetPasswordRequest {
+  email: string,
+}
+
+export interface IFPStep3FormProps {
+  password: string;
+  confirmPassword: string;
+}
+
+export enum EForgotPasswordSteps {
+  step1 = "step1",
+  step2 = "step2",
+  step3 = "step3",
+
+}
+
+export type TFPStep3FormKeys = keyof IFPStep3FormProps;
+
+export type TFPStep3FormValidatorShapeKeys = {
+  [type in TFPStep3FormKeys]: AnySchema
+};
+export interface IFPStep1FormProps {
+  email: string;
+}
+
+export type TFPStep1FormKeys = keyof IFPStep1FormProps;
+
+export type TFPStep1FormValidatorShapeKeys = {
+  [type in TFPStep1FormKeys]: AnySchema
+};

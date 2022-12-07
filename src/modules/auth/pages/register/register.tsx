@@ -40,8 +40,8 @@ const Verify: React.FC<any> = () => {
     <AuthlayoutContent title={ "Register" } subtitle={ "In order to open an account with us, we would like to know some details about you and your company." }>
       { errorMsg && <>
         <p className="textError100 textAlignCenter">{ errorMsg }</p>
-          <div className="verticalSpaceM"></div>
-        </>
+        <div className="verticalSpaceM"></div>
+      </>
       }
       <form onSubmit={ handleSubmit(onSubmitForm) }>
         <InputText
@@ -72,7 +72,7 @@ const Verify: React.FC<any> = () => {
           labelCountry={ "Country code" }
           labelPhone={ "Phone number" }
           hasError={ hasErrorsInput("phoneNumber") }
-          errorMessage={ getMessageErrorInput("phoneNumber")}
+          errorMessage={ getMessageErrorInput("phoneNumber") }
           required
         />
         <Checkbox
@@ -86,7 +86,7 @@ const Verify: React.FC<any> = () => {
           labelCountry={ "Country code" }
           labelPhone={ "Phone number WhatsApp" }
           hasError={ hasErrorsInput("phoneNumberWhatsapp") }
-          errorMessage={ getMessageErrorInput("phoneNumberWhatsapp")}
+          errorMessage={ getMessageErrorInput("phoneNumberWhatsapp") }
           required
         /> }
         <div className="dFlex jcSpaceBetween">
@@ -135,7 +135,7 @@ const Verify: React.FC<any> = () => {
         >
           <label className="inputTextContainer__label" htmlFor={ assignInputName("iReadTermsAndPolicy") }>
             I have read and agree to the
-            <a href="/" className="textPrimary200 textLink"> Terms of Use</a> and 
+            <a href="/" className="textPrimary200 textLink"> Terms of Use</a> and
             <a href="/" className="textPrimary200 textLink"> Privacy Policy</a>.
           </label>
         </Checkbox>
@@ -145,7 +145,7 @@ const Verify: React.FC<any> = () => {
         ) : "Create account" }</Button>
       </form>
       <div className="verticalSpaceL" />
-      <Button visibleType={ EBtnVisibleType.clear } large={ ELarge.full } onClick={() => {navigate('/auth/login')}}>Cancel</Button>
+      <Button visibleType={ EBtnVisibleType.clear } large={ ELarge.full } onClick={ () => { navigate('/auth/login'); } }>Cancel</Button>
       <div className="verticalSpaceM" />
       <p className="defaultText textNeutral200 textAlignCenter">
         Already have an account? <Link to="/auth/login" className="textPrimary200 textLink">Log in</Link>
