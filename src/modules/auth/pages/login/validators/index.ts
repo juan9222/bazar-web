@@ -5,6 +5,6 @@ export const loginFormValidator = Yup.object().shape<TLoginFormValidatorShapeKey
   email: Yup.string()
     .trim()
     .required("This field is required")
-    .matches(/^[\w-.]+@([\w-]+\.)+[\w-]{2,4}$/g, "Invalid format"),
+    .matches(/^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$/, "Invalid format"),
   password: Yup.string().trim().required("This field is required")
 });
