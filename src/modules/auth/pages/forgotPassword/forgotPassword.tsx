@@ -1,4 +1,4 @@
-import { AiFillCheckCircle, AiOutlineLoading3Quarters, AiOutlineMail } from "react-icons/ai";
+import { AiFillCheckCircle, AiOutlineLoading3Quarters } from "react-icons/ai";
 import Button from "../../../common/components/button";
 import InputText from "../../../common/components/inputText";
 import { ELarge } from "../../../common/interfaces";
