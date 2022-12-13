@@ -81,4 +81,20 @@ body {
       }
     }
   }
+
+  .btn-desktop {
+    display: inline-block;
+
+    @include respond-below(sm) {
+      display: none;
+    }
+  }
+
+  .btn-mobile {
+    display: none;
+
+    @include respond-below(sm) {
+      display: inline-block;
+    }
+  }
 }
