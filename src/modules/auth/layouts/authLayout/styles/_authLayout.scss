@@ -4,6 +4,32 @@
   width: 100vw;
   overflow: hidden;
 
+  @include respond-below(sm) {
+    background-color: $primary_300;
+
+    .layoutContainer__content {
+      margin-top: 120px;
+      display: block;
+      padding: 0 20px 44px;
+    }
+
+    .form-register-users {
+      .layoutContainerContent__logo {
+        position: absolute;
+        top: -95px;
+        width: 182px;
+      }
+
+      .titleAndSubTitle {
+        margin-top: 30px;
+      }
+
+      .verticalSpaceXL {
+        display: none;
+      }
+    }
+  }
+
   &__content {
     min-width: 720px;
     width: 50vw;
@@ -41,7 +67,6 @@
       position: absolute;
       border-top-right-radius: 30px;
       border-top-left-radius: 30px;
-      height: 680px;
       overflow: visible;
       height: auto;
     }
