@@ -12,6 +12,7 @@ import useProductList from "./hooks/useProductList";
 import { Status } from "../../../common/components/card/interfaces";
 import IconNewProduct from "../../../../assets/svg/icons/iconNewProduct";
 import { NavLink } from "react-router-dom";
+import { BrowserView, MobileView } from 'react-device-detect';
 
 const ProductList: React.FC<any> = () => {
   const { basicProducts, productMap, avatarUrl, onFilterProducts, filteredProducts, } = useProductList();
@@ -49,15 +50,16 @@ const ProductList: React.FC<any> = () => {
       <Row>
         <h2 className="titlePrimary">My products</h2>
       </Row>
-      <Row className="mb-5">
+      <Row>
         <Col className="pl__col-search" md={ 5 }>
           <div className="pl__col-search__inputs">
             <InputText name={ 'productSearch' } iconLeft={ <GoSearch /> } />
-            <Button className={ 'btn-search-ad' } iconLeft={ <BiSlider /> }></Button>
+            <Button className={ 'btn-search-ad btn-desktop' } iconLeft={ <BiSlider /> }></Button>
           </div>
         </Col>
         <Col className="pl__col-buttons" md={ 7 }>
           <div className="pl__col-buttons__list">
+            <Button className={ 'btn-search-ad btn-mobile' } iconLeft={ <BiSlider /> }></Button>
             { basicProducts.map(({ label }) => (
               <Button className={ `btn-second ${ isFilteredOut(label) ? '' : 'active' }` } iconLeft={ getIcon(label) } onClick={ () => onFilterProducts(label) }>
                 { label }
@@ -66,37 +68,68 @@ const ProductList: React.FC<any> = () => {
           </div>
         </Col>
       </Row>
-      { productMap && Object.entries(productMap).map(([product, productList]) => {
-        return isFilteredOut(product) ? <></> : (
-          <Row className="mb-4">
-            <div className="pl__content-card">
-              <h3 className="titlePrimary">{ product }</h3>
-            </div>
-            <div className="content-cards-list">
-              <Row xs={ 1 } sm={ 2 } lg={ 3 }>
+      <BrowserView>
+        { productMap && Object.entries(productMap).map(([product, productList]) => {
+          return isFilteredOut(product) ? <></> : (
+            <Row className="mb-4 flex-column">
+              <div className="pl__content-card">
+                <h3 className="titlePrimary">{ product }</h3>
+              </div>
+              <div className="content-cards-list">
+                <Row xs={ 1 } sm={ 2 } lg={ 3 }>
+                  { productList.map((product: any) => {
+                    return (
+                      <Col className="mb-3">
+                        <Card
+                          status={ getMappedStatus(product.status) }
+                          productImage={ product.url_images ?? "" }
+                          avatar={ avatarUrl } //To-do Servicio que nos de el avatar del usuario ???
+                          icon={ getIcon(product.basic_product) }
+                          product={ product.basic_product }
+                          hasCertificates={ product.sustainability_certifications && product.sustainability_certifications.length > 0 }
+                          productType={ product.product_type }
+                          variety={ product.variety }
+                          pricePerKg={ product.expected_price_per_kg }
+                          availableForSale={ product.available_for_sale }
+                        />
+                      </Col>
+                    );
+                  }) }
+                </Row>
+              </div>
+            </Row>
+          );
+        }) }
+      </BrowserView>
+      <MobileView className="products-mobile-view mt-4">
+        { productMap && Object.entries(productMap).map(([product, productList]) => {
+          return isFilteredOut(product) ? <></> : (
+            <div className="products-row mb-2">
+              <div className="products-title">
+                <h3 className="titlePrimary">{ product }</h3>
+              </div>
+              <div className={ `content-cards-list ${ filteredProducts.length === 1 && 'cards-list-column' }` }>
                 { productList.map((product: any) => {
                   return (
-                    <Col className="mb-3">
-                      <Card
-                        status={ getMappedStatus(product.status) }
-                        productImage={ product.url_images ?? "" }
-                        avatar={ avatarUrl } //To-do Servicio que nos de el avatar del usuario ???
-                        icon={ getIcon(product.basic_product) }
-                        product={ product.basic_product }
-                        hasCertificates={ product.sustainability_certifications && product.sustainability_certifications.length > 0 }
-                        productType={ product.product_type }
-                        variety={ product.variety }
-                        pricePerKg={ product.expected_price_per_kg }
-                        availableForSale={ product.available_for_sale }
-                      />
-                    </Col>
+                    <Card
+                      status={ getMappedStatus(product.status) }
+                      productImage={ product.url_images ?? "" }
+                      avatar={ avatarUrl } //To-do Servicio que nos de el avatar del usuario ???
+                      icon={ getIcon(product.basic_product) }
+                      product={ product.basic_product }
+                      hasCertificates={ product.sustainability_certifications && product.sustainability_certifications.length > 0 }
+                      productType={ product.product_type }
+                      variety={ product.variety }
+                      pricePerKg={ product.expected_price_per_kg }
+                      availableForSale={ product.available_for_sale }
+                    />
                   );
                 }) }
-              </Row>
+              </div>
             </div>
-          </Row>
-        );
-      }) }
+          );
+        }) }
+      </MobileView>
       <div className="btn-create-product">
         <NavLink className="btn-create-product__content"
           to="/dashboard/create-product">
