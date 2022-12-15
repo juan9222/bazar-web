@@ -3,7 +3,6 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import InputGroup from 'react-bootstrap/InputGroup';
-import Table from 'react-bootstrap/Table';
 import Form from 'react-bootstrap/Form';
 import Pagination from 'react-bootstrap/Pagination';
 import Button from 'react-bootstrap/Button';
@@ -13,8 +12,10 @@ import { BiSlider } from 'react-icons/bi';
 import { BsFillCaretDownFill } from 'react-icons/bs';
 import UnknownAvatar from "../../../../assets/svg/icons/unknownAvatar";
 import Modal from "../../../common/components/modal";
+import useProductList from "./hooks/useUserApprovals";
 
 const UserApprovals: React.FC<any> = () => {
+  const { userList } = useProductList();
   const [manageUserModal, setManageUserModal] = useState(false);
   return (
     <>
@@ -65,7 +66,7 @@ const UserApprovals: React.FC<any> = () => {
         </Row>
         {/* Table Row */ }
         <Row className="d-lg-block d-none">
-          <Table responsive>
+          <div className="mb-4">
             {/* Table Head */ }
             <Row className="userApprovals__tableHead">
               <Col xs={ 3 } className="userApprovals__tableHeadName">
@@ -79,189 +80,66 @@ const UserApprovals: React.FC<any> = () => {
             </Row>
             {/* Table Body */ }
             <Row xs={ 12 } className="userApprovals__tableBody">
-              <Row className="userApprovals__tableRow">
-                <Col xs={ 3 }><UnknownAvatar />Hector Hernandez</Col>
-                <Col xs={ 2 }>Seller</Col>
-                <Col xs={ 3 }>Cafeto Software</Col>
-                <Col xs={ 2 }><div className="userApprovals__review">Review</div></Col>
-                <Col className="userApprovals__viewDetail" xs={ 2 }><div onClick={ () => setManageUserModal(true) }>Manage User</div></Col>
-              </Row>
-              <hr className="m-0" />
-              <Row className="userApprovals__tableRow">
-                <Col xs={ 3 }><UnknownAvatar />Angela Tafur</Col>
-                <Col xs={ 2 }>Buyer</Col>
-                <Col xs={ 3 }>Cafe cafe</Col>
-                <Col xs={ 2 }><div className="userApprovals__inProcess">In Process</div></Col>
-                <Col className="userApprovals__viewDetail" xs={ 2 }><div onClick={ () => setManageUserModal(true) }>Manage User</div></Col>
-              </Row>
-              <hr className="m-0" />
-              <Row className="userApprovals__tableRow">
-                <Col xs={ 3 }><UnknownAvatar />Pablo Pérez</Col>
-                <Col xs={ 2 }>Seller</Col>
-                <Col xs={ 3 }>Mi Tierra</Col>
-                <Col xs={ 2 }><div className="userApprovals__approved">Approved</div></Col>
-                <Col className="userApprovals__viewDetail" xs={ 2 }><div onClick={ () => setManageUserModal(true) }>Manage User</div></Col>
-              </Row>
-              <hr className="m-0" />
-              <Row className="userApprovals__tableRow">
-                <Col xs={ 3 }><UnknownAvatar />Angie Osorio</Col>
-                <Col xs={ 2 }>Seller</Col>
-                <Col xs={ 3 }>Coffee Lab</Col>
-                <Col xs={ 2 }><div className="userApprovals__rejected">Rejected</div></Col>
-                <Col className="userApprovals__viewDetail" xs={ 2 }><div onClick={ () => setManageUserModal(true) }>Manage User</div></Col>
-              </Row>
-              <hr className="m-0" />
+              { userList.map((user: any) => {
+                return <>
+                  <Row key={ user.id } className="userApprovals__tableRow">
+                    <Col xs={ 3 }><UnknownAvatar />{ user.userName }</Col>
+                    <Col xs={ 2 }>{ user.profile }</Col>
+                    <Col xs={ 3 }>{ user.companyName }</Col>
+                    <Col xs={ 2 }><div className={ user.statusClass }>{ user.status }</div></Col>
+                    <Col className="userApprovals__viewDetail" xs={ 2 }><div className="cursor-pointer" onClick={ () => setManageUserModal(true) }>Manage User</div></Col>
+                  </Row>
+                  <hr className="m-0" />
+                </>;
+              }) }
             </Row>
-          </Table>
+          </div>
         </Row>
         {/* Card Row */ }
         <Col className="d-lg-none d-block">
-          <Row className="shadow-sm rounded-lg px-3 my-3 border-box userApprovals__cardBody">
-            <Col className="border-box">
-              <Row className="d-flex align-items-center" xs={ 12 }>
-                <Col className="p-0" xs={ 2 } sm={ 2 } md={ 1 }>
-                  <UnknownAvatar className="p-0" />
-                </Col>
-                <Col className="p-0">
-                  <p className="p-0 mb-0"> Hector Hernandez</p>
-                </Col>
-              </Row>
-              <Row className="py-2">
-                <Col>Profile</Col>
-                <Col className="text-end">Seller</Col>
-              </Row>
-              <hr className="m-0 mw-100 w-100" />
-              <Row className="py-2">
-                <Col>Company</Col>
-                <Col className="text-end">Cafeto Software</Col>
-              </Row>
-              <hr className="m-0 mw-100 w-100" />
-              <Row className="py-2">
-                <Col>Status</Col>
-                <Col className="d-flex justify-content-end">
-                  <div className="userApprovals__review">Review</div>
-                </Col>
-              </Row>
-              <hr className="m-0 mw-100 w-100" />
-              <Row className="userApprovals__viewDetail py-2">
-                <Col className="d-flex justify-content-end">
-                  <div onClick={ () => setManageUserModal(true) }>Manage User</div>
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-          <Row className="shadow-sm rounded-lg px-3 my-3 border-box userApprovals__cardBody">
-            <Col className="border-box">
-              <Row className="d-flex align-items-center" xs={ 12 }>
-                <Col className="p-0" xs={ 2 } sm={ 2 } md={ 1 }>
-                  <UnknownAvatar className="p-0" />
-                </Col>
-                <Col className="p-0">
-                  <p className="p-0 mb-0">Angela Tafur</p>
+          { userList.map((user: any) => {
+            return <>
+              <Row key={ user.id } className="shadow-sm rounded-lg px-3 my-3 border-box userApprovals__cardBody">
+                <Col className="border-box">
+                  <Row className="d-flex align-items-center" xs={ 12 }>
+                    <Col className="p-0" xs={ 2 } sm={ 2 } md={ 1 }>
+                      <UnknownAvatar className="p-0" />
+                    </Col>
+                    <Col className="p-0">
+                      <p className="p-0 mb-0">{ user.userName }r</p>
+                    </Col>
+                  </Row>
+                  <Row className="py-2">
+                    <Col>Profile</Col>
+                    <Col className="text-end">{ user.profile }</Col>
+                  </Row>
+                  <hr className="m-0 mw-100 w-100" />
+                  <Row className="py-2">
+                    <Col>Company</Col>
+                    <Col className="text-end">{ user.companyName }</Col>
+                  </Row>
+                  <hr className="m-0 mw-100 w-100" />
+                  <Row className="py-2">
+                    <Col>Status</Col>
+                    <Col className="d-flex justify-content-end">
+                      <div className={ user.statusClass }>{ user.status }</div>
+                    </Col>
+                  </Row>
+                  <hr className="m-0 mw-100 w-100" />
+                  <Row className="userApprovals__viewDetail py-2">
+                    <Col className="d-flex justify-content-end">
+                      <div className="cursor-pointer" onClick={ () => setManageUserModal(true) }>Manage User</div>
+                    </Col>
+                  </Row>
                 </Col>
               </Row>
-              <Row className="py-2">
-                <Col>Profile</Col>
-                <Col className="text-end">Buyer</Col>
-              </Row>
-              <hr className="m-0 mw-100 w-100" />
-              <Row className="py-2">
-                <Col>Company</Col>
-                <Col className="text-end">Cafe cafe</Col>
-              </Row>
-              <hr className="m-0 mw-100 w-100" />
-              <Row className="py-2">
-                <Col>Status</Col>
-                <Col className="d-flex justify-content-end">
-                  <div className="userApprovals__inProcess">In Process</div>
-                </Col>
-              </Row>
-              <hr className="m-0 mw-100 w-100" />
-              <Row className="userApprovals__viewDetail py-2">
-                <Col className="d-flex justify-content-end">
-                  <div onClick={ () => setManageUserModal(true) }>Manage User</div>
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-          <Row className="shadow-sm rounded-lg px-3 my-3 border-box userApprovals__cardBody">
-            <Col className="border-box">
-              <Row className="d-flex align-items-center" xs={ 12 }>
-                <Col className="p-0" xs={ 2 } sm={ 2 } md={ 1 }>
-                  <UnknownAvatar className="p-0" />
-                </Col>
-                <Col className="p-0">
-                  <p className="p-0 mb-0">Pablo Pérez</p>
-                </Col>
-              </Row>
-              <Row className="py-2">
-                <Col>Profile</Col>
-                <Col className="text-end">Seller</Col>
-              </Row>
-              <hr className="m-0 mw-100 w-100" />
-              <Row className="py-2">
-                <Col>Company</Col>
-                <Col className="text-end">Mi Tierra</Col>
-              </Row>
-              <hr className="m-0 mw-100 w-100" />
-              <Row className="py-2">
-                <Col>Status</Col>
-                <Col className="d-flex justify-content-end">
-                  <div className="userApprovals__approved">Approved</div>
-                </Col>
-              </Row>
-              <hr className="m-0 mw-100 w-100" />
-              <Row className="userApprovals__viewDetail py-2">
-                <Col className="d-flex justify-content-end">
-                  <div onClick={ () => setManageUserModal(true) }>Manage User</div>
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-          <Row className="shadow-sm rounded-lg px-3 my-3 border-box userApprovals__cardBody">
-            <Col className="border-box">
-              <Row className="d-flex align-items-center" xs={ 12 }>
-                <Col className="p-0" xs={ 2 } sm={ 2 } md={ 1 }>
-                  <UnknownAvatar className="p-0" />
-                </Col>
-                <Col className="p-0">
-                  <p className="p-0 mb-0">Angie Osorio</p>
-                </Col>
-              </Row>
-              <Row className="py-2">
-                <Col>Profile</Col>
-                <Col className="text-end">Seller</Col>
-              </Row>
-              <hr className="m-0 mw-100 w-100" />
-              <Row className="py-2">
-                <Col>Company</Col>
-                <Col className="text-end">Coffee Lab</Col>
-              </Row>
-              <hr className="m-0 mw-100 w-100" />
-              <Row className="py-2">
-                <Col>Status</Col>
-                <Col className="d-flex justify-content-end">
-                  <div className="userApprovals__rejected">Rejected</div>
-                </Col>
-              </Row>
-              <hr className="m-0 mw-100 w-100" />
-              <Row className="userApprovals__viewDetail py-2">
-                <Col className="d-flex justify-content-end">
-                  <div onClick={ () => setManageUserModal(true) }>Manage User</div>
-                </Col>
-              </Row>
-            </Col>
-          </Row>
+            </>;
+          }) }
         </Col>
         {/* Pagination Row */ }
         <div className="d-flex justify-content-end">
           <Pagination>
             <Pagination.Item active>{ 1 }</Pagination.Item>
-            <Pagination.Item >{ 2 }</Pagination.Item>
-            <Pagination.Item >{ 3 }</Pagination.Item>
-            <Pagination.Ellipsis />
-            <Pagination.Item>{ 6 }</Pagination.Item>
-            <Pagination.Next />
           </Pagination>
         </div>
       </Container>

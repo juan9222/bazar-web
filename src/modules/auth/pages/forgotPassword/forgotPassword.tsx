@@ -1,4 +1,4 @@
-import { AiFillCheckCircle, AiOutlineLoading3Quarters, AiOutlineMail } from "react-icons/ai";
+import { AiFillCheckCircle, AiOutlineLoading3Quarters } from "react-icons/ai";
 import Button from "../../../common/components/button";
 import InputText from "../../../common/components/inputText";
 import { ELarge } from "../../../common/interfaces";
@@ -6,7 +6,7 @@ import AuthlayoutContent from "../../layouts/authLayoutContent";
 import useForgotPassword from "./hooks/useForgotPassword";
 import { useNavigate } from 'react-router-dom';
 import { EBtnVisibleType } from "../../../common/components/button/interfaces";
-import { EForgotPasswordSteps } from '../../interfaces/index';
+import { EForgotPasswordSteps } from '../../interfaces';
 import { BiMailSend } from "react-icons/bi";
 import { RiMailCloseLine } from "react-icons/ri";
 

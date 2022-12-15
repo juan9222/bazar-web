@@ -121,18 +121,6 @@
   padding: 0.8rem 0rem !important;
 }
 
-.userApprovals__review {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  width: 94px;
-  height: 26px;
-  border-radius: 6px;
-  color: $white;
-  background-color: $warning_75;
-}
-
 .userApprovals__inProcess {
   display: flex;
   align-items: center;
@@ -142,7 +130,7 @@
   height: 26px;
   border-radius: 6px;
   color: $white;
-  background-color: $neutral-400;
+  background-color: $neutral_400;
 }
 
 .userApprovals__approved {
@@ -166,7 +154,43 @@
   height: 26px;
   border-radius: 6px;
   color: $white;
-  background-color: $error_100  !important;
+  background-color: $error_100;
+}
+
+.userApprovals__published {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  width: 94px;
+  height: 26px;
+  border-radius: 6px;
+  color: $white;
+  background-color: $success_200;
+}
+
+.userApprovals__hidden {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  width: 94px;
+  height: 26px;
+  border-radius: 6px;
+  color: $white;
+  background-color: $neutral_400;
+}
+
+.userApprovals__deleted {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  width: 94px;
+  height: 26px;
+  border-radius: 6px;
+  color: $white;
+  background-color: $error_200;
 }
 
 .border-box {
@@ -262,4 +286,8 @@
 .custom-modal {
   margin: 0;
   width: 541px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
 }
