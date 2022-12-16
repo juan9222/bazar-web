@@ -16,7 +16,7 @@
 }
 
 .userApprovals__searchIconBackground {
-  background-color: $white  !important;
+  background-color: $white !important;
   border-right: none !important;
 }
 
@@ -30,20 +30,20 @@
 }
 
 .userApprovals__filterButton {
-  background-color: $neutral-75  !important;
-  border: 1px solid $neutral-75  !important;
+  background-color: $neutral-75 !important;
+  border: 1px solid $neutral-75 !important;
 }
 
 .userApprovals__filterIcon {
-  color: $neutral-400  !important;
+  color: $neutral-400 !important;
   width: 21.15px !important;
   height: 21.15px !important;
 }
 
 .userApprovals__seller {
-  color: $primary_200  !important;
-  border: 1px solid $neutral_100  !important;
-  background-color: $white  !important;
+  color: $primary_200 !important;
+  border: 1px solid $neutral_100 !important;
+  background-color: $white !important;
   display: flex !important;
   gap: 10px;
   align-items: center;
@@ -63,9 +63,9 @@
 }
 
 .userApprovals__buyer {
-  color: $primary_200  !important;
-  border: 1px solid $neutral_100  !important;
-  background-color: $white  !important;
+  color: $primary_200 !important;
+  border: 1px solid $neutral_100 !important;
+  background-color: $white !important;
   display: flex !important;
   gap: 10px;
   align-items: center;
@@ -73,15 +73,15 @@
 }
 
 .userApprovals__buyerIcon {
-  color: $primary_200  !important;
+  color: $primary_200 !important;
   width: 18px !important;
   height: 20px !important;
 }
 
 .userApprovals__forwarders {
-  color: $primary_200  !important;
-  border: 1px solid $neutral_100  !important;
-  background-color: $white  !important;
+  color: $primary_200 !important;
+  border: 1px solid $neutral_100 !important;
+  background-color: $white !important;
   display: flex !important;
   gap: 10px;
   align-items: center;
@@ -89,7 +89,7 @@
 }
 
 .userApprovals__forwardersIcon {
-  color: $primary_200  !important;
+  color: $primary_200 !important;
   width: 24px !important;
   height: 18px !important;
 }
@@ -113,7 +113,7 @@
 
 .userApprovals__tableBody {
   padding: 0rem 0rem;
-  color: $primary_200  !important;
+  color: $primary_200 !important;
 }
 
 .userApprovals__tableRow {
@@ -198,7 +198,7 @@
 }
 
 .userApprovals__cardBody {
-  color: $primary_200  !important;
+  color: $primary_200 !important;
 }
 
 .page-item.active .page-link {
@@ -259,6 +259,7 @@
   font-size: 32px;
   height: 24px;
   line-height: 0.2;
+  cursor: pointer;
 }
 
 .userApprovals__textArea {
@@ -289,5 +290,34 @@
 }
 
 .cursor-pointer {
+  cursor: pointer;
+}
+
+.popover-body {
+  width: 8rem;
+}
+
+.popover-arrow {
+  display: none !important;
+}
+
+.userApprovals__list {
+  margin: 0;
+  padding: 0;
+}
+
+.userApprovals__approve {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+  cursor: pointer;
+}
+
+.userApprovals__reject {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
   cursor: pointer;
 }
