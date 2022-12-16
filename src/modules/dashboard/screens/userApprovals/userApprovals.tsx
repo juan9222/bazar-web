@@ -6,13 +6,17 @@ import InputGroup from 'react-bootstrap/InputGroup';
 import Form from 'react-bootstrap/Form';
 import Pagination from 'react-bootstrap/Pagination';
 import Button from 'react-bootstrap/Button';
+import OverlayTrigger from 'react-bootstrap/OverlayTrigger';
+import Popover from 'react-bootstrap/Popover';
 import { AiOutlineSearch } from "react-icons/ai";
 import { FaUserTag, FaUserTie, FaTruckMoving } from "react-icons/fa";
+import { AiFillCheckCircle, AiFillCloseCircle } from "react-icons/ai";
 import { BiSlider } from 'react-icons/bi';
 import { BsFillCaretDownFill } from 'react-icons/bs';
 import UnknownAvatar from "../../../../assets/svg/icons/unknownAvatar";
 import Modal from "../../../common/components/modal";
 import useProductList from "./hooks/useUserApprovals";
+
 
 const UserApprovals: React.FC<any> = () => {
   const { userList } = useProductList();
@@ -154,7 +158,23 @@ const UserApprovals: React.FC<any> = () => {
                 <div className="userApprovals__userAttribute">Profile</div>
                 <div className="userApprovals__reviewModal">Review</div>
               </div>
-              <div className="userApprovals__ellipsis">...</div>
+              <OverlayTrigger
+                trigger="click"
+                key="bottom"
+                placement="bottom"
+                overlay={
+                  <Popover id="popover-positioned-bottom">
+                    <Popover.Body>
+                      <ul className="userApprovals__list">
+                        <li className="userApprovals__approve"><AiFillCheckCircle /> Approve</li>
+                        <li className="userApprovals__reject"><AiFillCloseCircle /> Reject</li>
+                      </ul>
+                    </Popover.Body>
+                  </Popover>
+                }
+              >
+                <div className="userApprovals__ellipsis">...</div>
+              </OverlayTrigger>
             </div>
             <div className="userApprovals__manageUserSubtitle">Products</div>
             <hr className="w-100 mt-0" />
@@ -163,14 +183,46 @@ const UserApprovals: React.FC<any> = () => {
                 <div className="userApprovals__userAttribute">Coffee</div>
                 <div className="userApprovals__reviewModal">Review</div>
               </div>
-              <div className="userApprovals__ellipsis">...</div>
+              <OverlayTrigger
+                trigger="click"
+                key="bottom"
+                placement="bottom"
+                overlay={
+                  <Popover id="popover-positioned-bottom">
+                    <Popover.Body>
+                      <ul className="userApprovals__list">
+                        <li className="userApprovals__approve"><AiFillCheckCircle /> Approve</li>
+                        <li className="userApprovals__reject"><AiFillCloseCircle /> Reject</li>
+                      </ul>
+                    </Popover.Body>
+                  </Popover>
+                }
+              >
+                <div className="userApprovals__ellipsis">...</div>
+              </OverlayTrigger>
             </div>
             <div className="d-flex align-items-center justify-content-between px-4 py-3">
               <div className="d-flex gap-4">
                 <div className="userApprovals__userAttribute">Cocoa</div>
                 <div className="userApprovals__reviewModal">Review</div>
               </div>
-              <div className="userApprovals__ellipsis">...</div>
+              <OverlayTrigger
+                trigger="click"
+                key="bottom"
+                placement="bottom"
+                overlay={
+                  <Popover id="popover-positioned-bottom">
+                    <Popover.Body>
+                      <ul className="userApprovals__list">
+                        <li className="userApprovals__approve"><AiFillCheckCircle /> Approve</li>
+                        <li className="userApprovals__reject"><AiFillCloseCircle /> Reject</li>
+                      </ul>
+                    </Popover.Body>
+                  </Popover>
+                }
+              >
+                <div className="userApprovals__ellipsis">...</div>
+              </OverlayTrigger>
             </div>
             <div className="userApprovals__additionalCommentsTitle">Additional Comments</div>
             <textarea placeholder="write additional comments" className="userApprovals__textArea" />
