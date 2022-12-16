@@ -6,7 +6,7 @@ import AuthlayoutContent from "../../layouts/authLayoutContent";
 import useForgotPassword from "./hooks/useForgotPassword";
 import { useNavigate } from 'react-router-dom';
 import { EBtnVisibleType } from "../../../common/components/button/interfaces";
-import { EForgotPasswordSteps } from '../../interfaces/index';
+import { EForgotPasswordSteps } from '../../interfaces';
 import { BiMailSend } from "react-icons/bi";
 import { RiMailCloseLine } from "react-icons/ri";
 
