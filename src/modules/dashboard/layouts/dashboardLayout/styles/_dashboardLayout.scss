@@ -64,7 +64,7 @@
     min-height: 100vh;
 
     &--main {
-      margin-top: 5%;
+      margin-top: 65px;
 
       @include respond-below(sm) {
         margin-top: 0%;

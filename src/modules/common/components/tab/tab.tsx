@@ -11,7 +11,7 @@ const TabGroup: React.FC<ITabGroupProps> = (props) => {
             id={ tab }
             key={ index }
             value={ index }
-            className={ `tab__${ currentTabIndex === index ? "active" : "inactive" }` }
+            className={ `tab--bazar tab__${ currentTabIndex === index ? "active" : "inactive" }` }
             onClick={ () => handleTabSwitch(index) }
             disabled={ disabled }
             style={ style }>
