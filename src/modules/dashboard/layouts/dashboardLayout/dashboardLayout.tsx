@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { FaUserCircle, FaUserAlt } from "react-icons/fa";
+import React, { useEffect, useState } from "react";
+import { FaUserAlt } from "react-icons/fa";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { HiShoppingCart } from "react-icons/hi";
 import { Outlet, NavLink } from "react-router-dom";
@@ -10,15 +10,41 @@ import { MdAccountBalanceWallet, MdLogout } from "react-icons/md";
 import { Button, Offcanvas } from "react-bootstrap";
 import { IoMenu } from "react-icons/io5";
 import useAuthenticator from "../../../auth/hooks/useAuthenticator";
+import useCommonProviders from "../../../common/providers";
 
 
 
 const Dashboardlayout: React.FC<any> = () => {
-  const { onLogout } = useAuthenticator();
+  const { onLogout, getAuthenticatedUser } = useAuthenticator();
+
   const [show, setShow] = useState(false);
+  const [authenticatedUser, setAuthenticatedUser] = useState<{
+    firstName: "",
+    lastName: "",
+    role: "",
+    profileImage: "",
+  }>();
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  const { getUser } = useCommonProviders();
+
+  const onGetAuthenticatedUser = async () => {
+    const { data: { rol: role, company } } = await getUser(localStorage.getItem("uuid") || "");
+    const { firstName, lastName } = await getAuthenticatedUser();
+    setAuthenticatedUser({
+      firstName,
+      lastName,
+      role,
+      profileImage: company[0].profile_image_url,
+    });
+  };
+
+  useEffect(() => {
+    onGetAuthenticatedUser();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div className="dshLayout">
@@ -33,7 +59,7 @@ const Dashboardlayout: React.FC<any> = () => {
         <NavLink className={ ({ isActive }) =>
           `dshLayout__nav--btnNav ${ isActive ? 'active' : '' }`
         }
-          to="/dashboard/create-product">
+          to="/dashboard/product-list">
           <ImLeaf className="dshLayout__nav--btnNav--icon" />
           <p className="dshLayout__nav--btnNav--label">Products</p>
         </NavLink>
@@ -69,14 +95,14 @@ const Dashboardlayout: React.FC<any> = () => {
               <IconLogo width={ 123 } />
             </div>
             <div className="dshLayout__body--header--right">
-              <FaUserCircle className="dshLayout__body--header--right--icon" />
+              <img className="dshLayout__body--header--right--icon" src={ authenticatedUser?.profileImage || "/assets/images/default-avatar.png" } alt="card product" />
               <BiDotsVerticalRounded className="dshLayout__body--header--right--icon2" onClick={ onLogout } />
             </div>
             <Offcanvas className="dshLayout__body--header--left mobile-bazar-nav" show={ show } onHide={ handleClose }>
               <Offcanvas.Header className="mobile-bazar-nav__header" closeButton closeVariant="white">
-                <img className="user-picture" src="/assets/images/default-avatar.png" alt="card product" />
-                <p className="user-name">User Name</p>
-                <p className="user-type">Buyer</p>
+                <img className="user-picture" src={ authenticatedUser?.profileImage || "/assets/images/default-avatar.png" } alt="card product" />
+                <p className="user-name">{ `${ authenticatedUser?.firstName } ${ authenticatedUser?.lastName }` }</p>
+                <p className="user-type">{ authenticatedUser?.role }</p>
                 <hr className="limiter-line" />
               </Offcanvas.Header>
               <Offcanvas.Body className="mobile-bazar-nav__body">
@@ -91,7 +117,7 @@ const Dashboardlayout: React.FC<any> = () => {
                   <NavLink className={ ({ isActive }) =>
                     `item ${ isActive ? 'active' : '' }`
                   }
-                    to="/dashboard/create-product">
+                    to="/dashboard/product-list">
                     <ImLeaf className="item--icon" />
                     <p className="item--label">Products</p>
                   </NavLink>

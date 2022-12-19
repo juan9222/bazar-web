@@ -83,7 +83,7 @@ const ProductList: React.FC<any> = () => {
                         <Card
                           status={ getMappedStatus(product.status) }
                           productImage={ product.url_images ?? "" }
-                          avatar={ avatarUrl } //To-do Servicio que nos de el avatar del usuario ???
+                          avatar={ avatarUrl }
                           icon={ getIcon(product.basic_product) }
                           product={ product.basic_product }
                           hasCertificates={ product.sustainability_certifications && product.sustainability_certifications.length > 0 }

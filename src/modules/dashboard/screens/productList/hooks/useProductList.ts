@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import useCommonProviders from "../../../../common/providers";
 import useProductListProviders from "../providers";
 
 const useProductList = () => {
@@ -9,7 +10,8 @@ const useProductList = () => {
   const [filteredProducts, setFilteredProducts] = useState<Array<string>>([]);
 
   //Providers
-  const { getBasicProducts, getSellerProducts, getUser } = useProductListProviders();
+  const { getUser } = useCommonProviders();
+  const { getBasicProducts, getSellerProducts } = useProductListProviders();
 
   const onGetBasicProducts = async () => {
     const resp = await getBasicProducts();
