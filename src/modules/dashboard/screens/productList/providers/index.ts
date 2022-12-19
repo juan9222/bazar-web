@@ -20,19 +20,9 @@ const useProductListProviders = () => {
     return trackPromise(request);
   };
 
-  const getUser = (userUuid: string) => {
-    const request = axios({
-      method: "GET",
-      baseURL: process.env.REACT_APP_BAZAR_URL,
-      url: `/users/${ userUuid }`,
-    });
-    return trackPromise(request);
-  };
-
   return {
     getBasicProducts,
     getSellerProducts,
-    getUser,
   };
 };
 
