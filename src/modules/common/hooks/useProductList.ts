@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import useCommonProviders from "../../../../common/providers";
-import useProductListProviders from "../providers";
+import useCommonProviders from "../providers";
+import useProductListProviders from "../../dashboard/screens/productList/providers";
 
 const useProductList = () => {
   const [basicProducts, setBasicProducts] = useState<Array<{ label: string; value: string; }>>([]);

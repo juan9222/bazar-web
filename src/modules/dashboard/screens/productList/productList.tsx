@@ -8,7 +8,7 @@ import { BiSlider } from 'react-icons/bi';
 import IconAvocado from "../../../../assets/svg/icons/iconAvocado";
 import InputText from "../../../common/components/inputText";
 import Card from "../../../common/components/card";
-import useProductList from "./hooks/useProductList";
+import useProductList from "../../../common/hooks/useProductList";
 import { Status } from "../../../common/components/card/interfaces";
 import IconNewProduct from "../../../../assets/svg/icons/iconNewProduct";
 import { NavLink } from "react-router-dom";

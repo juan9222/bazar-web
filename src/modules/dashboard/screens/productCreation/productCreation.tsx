@@ -54,7 +54,11 @@ const ProductCreation: React.FC<any> = () => {
   } = useCreateProduct();
 
   const tabStyle = {
+    padding: "0.5rem",
     margin: "0.5rem",
+    borderTop: "none",
+    borderRight: "none",
+    borderLeft: "none",
     background: "none",
     color: "#023047",
     alignItems: "center",
@@ -83,12 +87,12 @@ const ProductCreation: React.FC<any> = () => {
   };
 
   return (
-    <Container fluid className="product-cc">
-      <Row className="product-cc--row">
-        <Col md={ 5 } className='product-block_left'>
+    <Container className="product-cc">
+      <Row>
+        <Col md={ 4 } className='product-block_left'>
           <img className="img-left" src="/assets/images/banner-product-creation.png" alt="bazar Auth" />
         </Col>
-        <Col md={ 7 } className='product-block_right'>
+        <Col me={ 8 } className='product-block_right'>
           <div className="cc__content">
             <div className="cc__content--form">
               <Row>
@@ -105,7 +109,7 @@ const ProductCreation: React.FC<any> = () => {
               <form>
                 <Row>
                   <Col>
-                    <div className="product-tab--images">
+                    <div className="">
                       <TabGroup
                         tabs={ ['1. Create product', '2. Upload certificates'] }
                         currentTabIndex={ activeTabIndex }
@@ -115,52 +119,68 @@ const ProductCreation: React.FC<any> = () => {
                     </div>
                   </Col>
                 </Row>
+                <Row>
+
+                </Row>
                 <div className="panels">
                   { activeTabIndex === 0 && (
                     <section className={ `panel__${ activeTabIndex === 0 ? "active" : "inactive" }` }>
-                      <Row>
-                        <Col>
-                          <div className="scroll-container">
-                            { displayPictures.length > 0 &&
-                              displayPictures.map((picture, index) => (
-                                <div className="image-wrapper">
-                                  <img src={ picture } alt="preview" />
-                                  <span className="close" onClick={ () => { onRemoveProductPicture(index); } }></span>
-                                </div>
-                              ))
-                            }
-                            { displayPictures.length < 5 && (
-                              <div className="modal-file--content">
-                                <input
-                                  ref={ hiddenFileInput }
-                                  type="file"
-                                  accept={ ".pdf,.jpeg,.jpg,.png" }
-                                  onChange={ onChangeInputFile }
-                                  multiple
-                                  hidden
-                                />
-                                <div
-                                  onClick={ () => {
-                                    hiddenFileInput?.current && hiddenFileInput.current.click();
-                                  } }
-                                  className="input"
-                                  onDrop={ dropHandler }
-                                  onDragOver={ dragOverHandler }>
-                                  <b>Add photos</b>
-                                </div>
-                              </div>) }
-                          </div>
-                        </Col>
-                      </Row>
-                      <Row>
-                        <Col>
-                          <div className="select-photos-count">
+                      <div>
+                        <Row>
+                          <Col>
+                            <div className="scroll-container">
+                              <div className="gridscroll">
+                                { displayPictures.length > 0 &&
+                                  displayPictures.map((picture, index) => (
+                                    <div className="image-wrapper">
+                                      <Row>
+                                        <Col>
+                                          <img src={ picture } alt="preview" />
+                                          <span className="close" onClick={ () => { onRemoveProductPicture(index); } }></span>
+                                        </Col>
+                                      </Row>
+                                    </div>
+                                  ))
+                                }
+                                { displayPictures.length < 5 && (
+                                  <div className="modal-file--content">
+                                    <input
+                                      ref={ hiddenFileInput }
+                                      type="file"
+                                      accept={ ".pdf,.jpeg,.jpg,.png" }
+                                      onChange={ onChangeInputFile }
+                                      multiple
+                                      hidden
+                                    />
+                                    <div
+                                      onClick={ () => {
+                                        hiddenFileInput?.current && hiddenFileInput.current.click();
+                                      } }
+                                      className="input"
+                                      onDrop={ dropHandler }
+                                      onDragOver={ dragOverHandler }>
+                                      <b>Add photos</b>
+                                    </div>
+                                  </div>) }
+                              </div>
+                            </div>
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col>
                             <p>Select your product photos</p>
-                            <p>Photos: { displayPictures?.length }/5</p>
-                          </div>
-                          <p className="label-image-requirements"> This form accepts JPEG, JPG, PNG files up to 10 MB.</p>
-                        </Col>
-                      </Row>
+                          </Col>
+                          <Col>
+                            <p>{ displayPictures?.length }/5</p>
+                          </Col>
+                        </Row>
+                        <Row>
+                          <Col>
+                            <p className="label"> This form accepts JPEG, JPG, PNG files up to 10 MB.</p>
+                          </Col>
+                        </Row>
+                      </div>
+                      <div className="verticalSpaceL" />
                       <Row>
                         <Col>
                           <hr className="product-separation" />
@@ -299,7 +319,7 @@ const ProductCreation: React.FC<any> = () => {
                             placeholder={ "Select option" }
                             options={ minimumOrders } />
                         </Col>
-                        <Col md>
+                        <Col>
                           <InputText
                             register={ register }
                             name={ assignInputName("pricePerKg") }
