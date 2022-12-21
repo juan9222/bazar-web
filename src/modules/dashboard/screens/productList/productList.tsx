@@ -1,8 +1,6 @@
 import React from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import Button from "../../../common/components/button";
-import { GiCoffeeBeans } from 'react-icons/gi';
-import { TbPlant2 } from 'react-icons/tb';
 import { GoSearch } from 'react-icons/go';
 import { BiSlider } from 'react-icons/bi';
 import IconAvocado from "../../../../assets/svg/icons/iconAvocado";
@@ -13,20 +11,10 @@ import { Status } from "../../../common/components/card/interfaces";
 import IconNewProduct from "../../../../assets/svg/icons/iconNewProduct";
 import { NavLink } from "react-router-dom";
 import { BrowserView, MobileView } from 'react-device-detect';
+import { getProductIcon } from "../../../common/components/productIcon";
 
 const ProductList: React.FC<any> = () => {
-  const { basicProducts, productMap, avatarUrl, onFilterProducts, filteredProducts, } = useProductList();
-
-  const getIcon = (label: string) => {
-    switch (label) {
-      case "Coffee":
-        return <GiCoffeeBeans />;
-      case "Cocoa":
-        return <TbPlant2 />;
-      default:
-        return <IconAvocado className={ 'icon-av' } />;
-    }
-  };
+  const { basicProducts, productMap, avatarUrl, onFilterProducts, filteredProducts, onClickProductCard } = useProductList();
 
   const getMappedStatus = (status: string): Status => {
     switch (status) {
@@ -34,7 +22,7 @@ const ProductList: React.FC<any> = () => {
         return Status.public;
       case "Pending review":
         return Status.review;
-      case "Hide":
+      case "Hidden":
         return Status.hidden;
       default:
         return Status.rejected;
@@ -61,7 +49,7 @@ const ProductList: React.FC<any> = () => {
           <div className="pl__col-buttons__list">
             <Button className={ 'btn-search-ad btn-mobile' } iconLeft={ <BiSlider /> }></Button>
             { basicProducts.map(({ label }) => (
-              <Button className={ `btn-second ${ isFilteredOut(label) ? '' : 'active' }` } iconLeft={ getIcon(label) } onClick={ () => onFilterProducts(label) }>
+              <Button className={ `btn-second ${ isFilteredOut(label) ? '' : 'active' }` } iconLeft={ getProductIcon(label) } onClick={ () => onFilterProducts(label) }>
                 { label }
               </Button>
             )) }
@@ -84,13 +72,14 @@ const ProductList: React.FC<any> = () => {
                           status={ getMappedStatus(product.status) }
                           productImage={ product.url_images ?? "" }
                           avatar={ avatarUrl }
-                          icon={ getIcon(product.basic_product) }
+                          icon={ getProductIcon(product.basic_product) }
                           product={ product.basic_product }
                           hasCertificates={ product.sustainability_certifications && product.sustainability_certifications.length > 0 }
                           productType={ product.product_type }
                           variety={ product.variety }
                           pricePerKg={ product.expected_price_per_kg }
                           availableForSale={ product.available_for_sale }
+                          onClick={ () => onClickProductCard(product.uuid) }
                         />
                       </Col>
                     );
@@ -115,7 +104,7 @@ const ProductList: React.FC<any> = () => {
                       status={ getMappedStatus(product.status) }
                       productImage={ product.url_images ?? "" }
                       avatar={ avatarUrl } //To-do Servicio que nos de el avatar del usuario ???
-                      icon={ getIcon(product.basic_product) }
+                      icon={ getProductIcon(product.basic_product) }
                       product={ product.basic_product }
                       hasCertificates={ product.sustainability_certifications && product.sustainability_certifications.length > 0 }
                       productType={ product.product_type }

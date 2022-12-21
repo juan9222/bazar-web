@@ -8,12 +8,19 @@ import Button from "../../../common/components/button";
 
 // Icons
 import { MdArrowBackIos, MdEdit, MdCancel, MdDelete, MdLocationOn, MdCalendarToday, MdQrCode2 } from 'react-icons/md';
-import { GiCoffeeBeans, GiLeafSwirl } from 'react-icons/gi';
+import { GiLeafSwirl } from 'react-icons/gi';
 import { TbDots, TbPaperBag } from 'react-icons/tb';
 import { HiPencil } from 'react-icons/hi';
+import useProductDetails from "./hooks/useProductDetails";
+import { useUser } from "../../layouts/dashboardLayout/dashboardLayout";
+import { getProductIcon } from "../../../common/components/productIcon";
+import { useNavigate } from "react-router-dom";
+import Modal from "../../../common/components/modal";
+import InputText from "../../../common/components/inputText";
+import { ELarge } from "../../../common/interfaces";
 
 const ProductDetails: React.FC<any> = () => {
-  const images = [
+  const defaultImages = [
     {
       original: '/assets/images/product-1.jpg',
       thumbnail: '/assets/images/product-1.jpg',
@@ -51,6 +58,35 @@ const ProductDetails: React.FC<any> = () => {
     },
   ];
 
+  const navigate = useNavigate();
+
+  const { product, showEditAvailability, onChangeEditAvailabilityDisplay, register, hasErrorsInput, getMessageErrorInput, handleSubmit, submitForm, savingAvailability, } = useProductDetails();
+
+  const images = product?.url_images ? product.url_images.map((image: string) => {
+    return {
+      original: image,
+      thumbnail: image,
+      originalHeight: 400,
+      thumbnailWidth: 90,
+      thumbnailHeight: 90,
+    };
+  }) : defaultImages;
+
+  const { authenticatedUser } = useUser();
+
+  const getCertificateImage = (certificate: string) => {
+    switch (certificate) {
+      case "ISO 14001":
+        return "/assets/images/iso-1401.png";
+      case "Global GAP":
+        return "/assets/images/global-gap.png";
+      case "ECO-OK":
+        return "/assets/images/ecook-2022.png";
+      default:
+        return "";
+    }
+  };
+
   return (
     <Container fluid className="pd">
       <Row>
@@ -63,14 +99,14 @@ const ProductDetails: React.FC<any> = () => {
         <Col md={ 5 } className="pd__col-details">
           <div className="pd__col-details__user">
             <div className="details-user-content">
-              <MdArrowBackIos className="pd__col-details__user--icon-left" />
-              <img className="pd__col-details__user--img" src={ "/assets/images/default-avatar.png" } alt="User avatar" />
+              <MdArrowBackIos className="pd__col-details__user--icon-left" onClick={ () => navigate("/dashboard/product-list") } />
+              <img className="pd__col-details__user--img" src={ authenticatedUser?.profileImage || "/assets/images/default-avatar.png" } alt="User avatar" />
               <div className="pd__col-details__user--product">
                 <div className="title">
-                  <h4><GiCoffeeBeans /> Coffee</h4>
-                  <span className="status-product status-review">Review</span>
+                  <h4>{ getProductIcon(product?.basic_product) } { product?.basic_product }</h4>
+                  <span className="status-product status-review">{ product?.status }</span>
                 </div>
-                <p>Cafeto Software</p>
+                <p>{ authenticatedUser?.company }</p>
               </div>
             </div>
             <div className="pd__col-details__user--options options-hover">
@@ -85,32 +121,35 @@ const ProductDetails: React.FC<any> = () => {
           <div className="pd__col-details__location-price">
             <div className="details">
               <p className="details__location"><MdLocationOn /> Cali, Colombia</p>
-              <p className="details__price">1,50 USD <span>/ kg</span></p>
+              <p className="details__price">{ product?.expected_price_per_kg } USD <span>/ kg</span></p>
             </div>
             <p className="details__description">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex.
+              { product?.additional_description }
             </p>
           </div>
           <div className="pd__col-details__list">
             <div className="list__item">
               <span className="list__item--label">Product type</span>
-              <span className="list__item--value">Beans rosted</span>
+              <span className="list__item--value">{ product?.product_type }</span>
             </div>
             <div className="list__item">
               <span className="list__item--label">Varieties</span>
-              <span className="list__item--value"><GiLeafSwirl /> Arabica Coffe</span>
+              <span className="list__item--value"><GiLeafSwirl /> { product?.variety }</span>
             </div>
             <div className="list__item">
               <span className="list__item--label">Port ETA</span>
-              <span className="list__item--value"><MdCalendarToday /> 29 Sep, 2022</span>
+              <span className="list__item--value"><MdCalendarToday /> { product?.date_in_port }</span>
             </div>
             <div className="list__item">
               <span className="list__item--label">Guild or association</span>
-              <span className="list__item--value">Federacion de cafeteros</span>
+              <span className="list__item--value">{ product?.guild_or_association }</span>
             </div>
             <div className="list__item">
               <span className="list__item--label">INCOTERMS</span>
-              <span className="list__item--value">FOB - DAP</span>
+              <span className="list__item--value">{ product?.incoterms.map((incoterm: { incoterm: string, }) => {
+                const inco = incoterm.incoterm.match(/\((.*?)\)/);
+                return inco !== null ? inco[1] : '';
+              }).join(' - ') }</span>
             </div>
           </div>
         </Col>
@@ -124,15 +163,15 @@ const ProductDetails: React.FC<any> = () => {
           <div className="product-details-list">
             <div className="list__item">
               <span className="list__item--label">Capacity per year</span>
-              <span className="list__item--value">1800 Kg</span>
+              <span className="list__item--value">{ product?.capacity_per_year } Kg</span>
             </div>
             <div className="list__item">
-              <span className="list__item--label">Assets Avaliable <HiPencil /></span>
-              <span className="list__item--value">1000 Kg</span>
+              <span className="list__item--label">Assets Avaliable <HiPencil onClick={ onChangeEditAvailabilityDisplay } /></span>
+              <span className="list__item--value">{ product?.available_for_sale } Kg</span>
             </div>
             <div className="list__item">
               <span className="list__item--label">Minimun order</span>
-              <span className="list__item--value"><TbPaperBag /> Bags (DHL)</span>
+              <span className="list__item--value"><TbPaperBag /> { product?.minimum_order }</span>
             </div>
           </div>
         </Col>
@@ -145,10 +184,27 @@ const ProductDetails: React.FC<any> = () => {
         </Col>
       </Row>
       <div className="pd__col-certificate">
-        <img className="pd__col-certificate--image" src={ "/assets/images/iso-1401.png" } alt="ISO 1401" />
-        <img className="pd__col-certificate--image" src={ "/assets/images/global-gap.png" } alt="Global Gap" />
-        <img className="pd__col-certificate--image" src={ "/assets/images/ecook-2022.png" } alt="ECO OK 2022" />
+        { product?.sustainability_certifications.map((certificate: { uuid: string, certication: string; }) =>
+          <img className="pd__col-certificate--image" src={ getCertificateImage(certificate.certication) } alt={ certificate.certication } />
+        ) }
       </div>
+      <Modal title="Edit availability" hideFooter width='560px' closed={ !showEditAvailability } showCloseIcon={ true } onClose={ onChangeEditAvailabilityDisplay } >
+        <div className="verticalSpaceS" />
+        <form>
+          <InputText
+            register={ register }
+            name={ "availability" }
+            label={ "How much do you have available for sale? (kg)" }
+            type={ "number" }
+            hasError={ hasErrorsInput("availability") }
+            errorMessage={ getMessageErrorInput("availability") }
+            placeholder={ "E.g 1.800" }
+            required />
+          <Button large={ ELarge.full } type="button" onClick={ handleSubmit(submitForm) } disabled={ savingAvailability }>{ savingAvailability ? 'Saving...' : 'Save' }</Button>
+          <div className="verticalSpaceS" />
+          <p className="pd-custom-modal-footer">This field will edit the availability of your product.</p>
+        </form>
+      </Modal>
     </Container >
   );
 };
