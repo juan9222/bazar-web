@@ -45,7 +45,7 @@ const Dashboardlayout: React.FC<any> = () => {
     setAuthenticatedUser({
       firstName,
       lastName,
-      role,
+      role: role[0].toUpperCase() + role.substr(1).toLowerCase(),
       profileImage: company[0].profile_image_url,
       company: company[0].company_name,
     });
