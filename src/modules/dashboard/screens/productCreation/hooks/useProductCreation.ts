@@ -98,8 +98,8 @@ const useCreateProduct = () => {
             formData.append("images[]", file);
           });
         }
-        const resp = await axios.post(`${ process.env.REACT_APP_BAZAR_URL }/products`, formData, {});
-        console.log(JSON.stringify(resp, null, 3));
+        await axios.post(`${ process.env.REACT_APP_BAZAR_URL }/products`, formData, {});
+
         if (showConfirmationModal) {
           setShowConfirmationModal(false);
           setShowCongratulationsModal(true);
