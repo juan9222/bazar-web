@@ -69,7 +69,7 @@ const ProductList: React.FC<any> = () => {
                       <Col className="mb-3">
                         <Card
                           status={ getMappedStatus(product.status) }
-                          productImage={ product.url_images ?? "" }
+                          productImage={ product.url_images ? product.url_images[0] : "" }
                           avatar={ avatarUrl }
                           icon={ getProductIcon(product.basic_product) }
                           product={ product.basic_product }
