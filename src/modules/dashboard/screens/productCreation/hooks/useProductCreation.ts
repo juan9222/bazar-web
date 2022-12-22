@@ -30,6 +30,7 @@ const useCreateProduct = () => {
   const [incoterms, setIncoterms] = useState<Array<string>>([]);
   const [certificationsFiles, setCertificationsFiles] = useState<any>([]);
   const [hasError, setHasError] = useState(false);
+  const [productPicturesError, setProductPicturesError] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -63,6 +64,11 @@ const useCreateProduct = () => {
     if (certifications.length !== Object.keys(certificationsFiles).length) {
       setHasError(false);
       alert("Uploaded certification files doesn't match # of selected certifications.");
+    } else if (productPictures.length === 0) {
+      setProductPicturesError(true);
+      setActiveTabIndex(0);
+      setShowConfirmationModal(false);
+      setShowConfirmationNoCertModal(false);
     } else {
       data.uuid = localStorage.getItem("uuid") || "";
       data.sustainabilityCertifications = certifications;
@@ -184,6 +190,9 @@ const useCreateProduct = () => {
   };
 
   const onChangeProductPictures = (fileObj: any) => {
+    if (productPicturesError) {
+      setProductPicturesError(false);
+    }
     const newProductPictures = [...productPictures];
     Array.from(fileObj).forEach(file => {
       newProductPictures.push(file);
@@ -302,6 +311,7 @@ const useCreateProduct = () => {
     assistanceNeeded,
     OnChangeAssistanceNeeded,
     productPictures,
+    productPicturesError,
     displayPictures,
     onChangeProductPictures,
     onRemoveProductPicture,

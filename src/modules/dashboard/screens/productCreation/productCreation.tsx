@@ -47,6 +47,7 @@ const ProductCreation: React.FC<any> = () => {
     assistanceNeeded,
     OnChangeAssistanceNeeded,
     displayPictures,
+    productPicturesError,
     onChangeProductPictures,
     onRemoveProductPicture,
     onChangeCertificationFile,
@@ -159,6 +160,7 @@ const ProductCreation: React.FC<any> = () => {
                             <p>Photos: { displayPictures?.length }/5</p>
                           </div>
                           <p className="label-image-requirements"> This form accepts JPEG, JPG, PNG files up to 10 MB.</p>
+                          { productPicturesError && <p className="label-image-error"> Please upload at least 1 picture. </p> }
                         </Col>
                       </Row>
                       <Row>
