@@ -1,0 +1,118 @@
+.table-admin-list {
+  margin-bottom: 1.5rem;
+
+  .table-admin-head {
+    background-color: $neutral_50;
+    color: $primary_300;
+    padding: 16px 8px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+
+    .head-item {
+      padding: 0;
+      font-size: 16.8px;
+      font-weight: normal;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.43;
+      letter-spacing: 0.5px;
+      text-align: left;
+      color: $primary-300;
+    }
+  }
+
+  .table-admin-body {
+    .body-row-items {
+      border-bottom: 1px solid $neutral_75;
+      align-items: center;
+      padding: 26px 0;
+
+      .body-item {
+        font-size: 16.8px;
+        font-weight: normal;
+        font-stretch: normal;
+        font-style: normal;
+        line-height: 1.43;
+        letter-spacing: 0.5px;
+        text-align: left;
+        color: $primary-300;
+
+        & svg {
+          font-size: 24px;
+          margin-right: 12px;
+
+          &.icon-av {
+            transition: all 0.3s;
+            fill: $primary-200;
+          }
+        }
+
+        &.trending-up {
+          color: $success-200;
+        }
+
+        &.trending-down {
+          color: $error-100;
+        }
+      }
+    }
+  }
+}
+
+.cards-admin-list {
+  margin-top: 23px;
+
+  .card-admin-item {
+    margin-bottom: 21px;
+
+    .card-content {
+      border-radius: 8px;
+      box-shadow: 0 4px 4px 0 rgba(120, 129, 142, 0.1);
+      background-color: #FFFFFF;
+      padding: 16px 17px;
+
+      .card-item {
+        border-bottom: 1px solid $neutral_75;
+        margin: 0;
+        padding: 10px 0;
+
+        &.no-border {
+          border: none;
+        }
+
+        .col {
+          padding: 0;
+        }
+
+        span {
+          font-size: 16.8px;
+          font-weight: normal;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: 1.43;
+          letter-spacing: 0.5px;
+          text-align: left;
+          color: $primary-300;
+
+          & svg {
+            font-size: 24px;
+            margin-right: 7px;
+
+            &.icon-av {
+              transition: all 0.3s;
+              fill: $primary-200;
+            }
+          }
+
+          &.trending-up {
+            color: $success-200;
+          }
+
+          &.trending-down {
+            color: $error-100;
+          }
+        }
+      }
+    }
+  }
+}

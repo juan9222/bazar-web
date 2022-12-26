@@ -5,6 +5,7 @@ import { Container, Row, Col } from "react-bootstrap";
 // Components
 import InputText from "../../../common/components/inputText";
 import Button from "../../../common/components/button";
+import Pagination from 'react-bootstrap/Pagination';
 
 // Icons
 import { GoSearch } from 'react-icons/go';
@@ -18,7 +19,7 @@ import { BsFillCaretDownFill } from 'react-icons/bs';
 import useProductList from "../../../common/hooks/useProductList";
 
 const ProductListAdmin: React.FC<any> = () => {
-  const { basicProducts, productMap, avatarUrl, onFilterProducts, filteredProducts, } = useProductList();
+  const { basicProducts, productMap, onFilterProducts, filteredProducts, } = useProductList();
 
   const getIcon = (label: string) => {
     switch (label) {
@@ -54,8 +55,8 @@ const ProductListAdmin: React.FC<any> = () => {
         <Col className="pl__col-buttons" md={ 7 }>
           <div className="pl__col-buttons__list">
             <Button className={ 'btn-search-ad btn-mobile' } iconLeft={ <BiSlider /> }></Button>
-            { basicProducts.map(({ label }) => (
-              <Button className={ `btn-second ${ isFilteredOut(label) ? '' : 'active' }` } iconLeft={ getIcon(label) } onClick={ () => onFilterProducts(label) }>
+            { basicProducts.map(({ label }, index) => (
+              <Button key={ index } className={ `btn-second ${ isFilteredOut(label) ? '' : 'active' }` } iconLeft={ getIcon(label) } onClick={ () => onFilterProducts(label) }>
                 { label }
               </Button>
             )) }
@@ -63,33 +64,33 @@ const ProductListAdmin: React.FC<any> = () => {
         </Col>
       </Row>
       {/* Table Row */ }
-      <div className="pl__table-admin mb-4 d-lg-block d-none">
+      <div className="pl__table-admin table-admin-list d-lg-block d-none">
         {/* Table Head */ }
-        <Row className="userApprovals__tableHead">
-          <Col xs={ 2 } className="userApprovals__tableHeadName">
+        <Row className="table-admin-head">
+          <Col xs={ 2 } className="head-item">
             Product
             <BsFillCaretDownFill className="userApprovals__downIcon" />
           </Col>
-          <Col xs={ 2 } className="p-0">Type</Col>
-          <Col xs={ 2 } className="p-0">Market price (USD/kg)</Col>
-          <Col xs={ 2 } className="p-0">Change</Col>
-          <Col xs={ 2 } className="p-0">Users</Col>
-          <Col xs={ 2 } className="p-0"></Col>
+          <Col xs={ 2 } className="head-item">Type</Col>
+          <Col xs={ 2 } className="head-item">Market price (USD/kg)</Col>
+          <Col xs={ 2 } className="head-item">Change</Col>
+          <Col xs={ 2 } className="head-item">Users</Col>
+          <Col xs={ 2 } className="head-item"></Col>
         </Row>
         {/* Table Body */ }
-        <div className="userApprovals__tableBody">
-          { productMap && Object.entries(productMap).map(([product, productList]) => {
-            return isFilteredOut(product) ? <></> : (
-              <div>
-                { productList.map((product: any) => {
+        <div className="table-admin-body">
+          { productMap && Object.entries(productMap).map(([product, productList], index) => {
+            return isFilteredOut(product) ? <div key={ index }></div> : (
+              <div key={ index }>
+                { productList.map((product: any, index) => {
                   return (
-                    <Row key={ product.basic_product_uuid } className="userApprovals__tableRow">
-                      <Col xs={ 2 } >{ getIcon(product.basic_product) }  { product.basic_product }</Col>
-                      <Col xs={ 2 } >{ product.product_type }</Col>
-                      <Col xs={ 2 } >{ product.expected_price_per_kg } USD</Col>
-                      <Col xs={ 2 } >{ getIconTrending('trendingUp') } 2.54</Col>
-                      <Col xs={ 2 } ><img src="/assets/images/default-avatar.png" alt="User Avatar" width="39" height="39" /></Col>
-                      <Col xs={ 2 } >View detail</Col>
+                    <Row key={ index } className="body-row-items">
+                      <Col xs={ 2 } className="body-item" >{ getIcon(product.basic_product) }  { product.basic_product }</Col>
+                      <Col xs={ 2 } className="body-item" >{ product.product_type }</Col>
+                      <Col xs={ 2 } className="body-item" ><strong>{ product.expected_price_per_kg } USD</strong></Col>
+                      <Col xs={ 2 } className="body-item trending-up" >{ getIconTrending('trendingUp') } 2.54</Col> {/* other class trending-down */ }
+                      <Col xs={ 2 } className="body-item" ><img src="/assets/images/default-avatar.png" alt="User Avatar" width="39" height="39" /></Col>
+                      <Col xs={ 2 } className="body-item" >View detail</Col>
                     </Row>
                   );
                 }) }
@@ -97,6 +98,59 @@ const ProductListAdmin: React.FC<any> = () => {
             );
           }) }
         </div>
+      </div>
+      {/* Card Row */ }
+      <div className="pl__card_admin cards-admin-list d-lg-none d-block">
+        { productMap && Object.entries(productMap).map(([product, productList], index) => {
+          return isFilteredOut(product) ? <div key={ index }></div> : (
+            <div key={ index }>
+              { productList.map((product: any, index) => {
+                return (
+                  <Row key={ index } className="card-admin-item">
+                    <Col className="card-content">
+                      <Row className="d-flex align-items-center card-item no-border">
+                        <Col>
+                          <span>{ getIcon(product.basic_product) }  { product.basic_product }</span>
+                        </Col>
+                      </Row>
+                      <Row className="card-item">
+                        <Col><span>Type</span></Col>
+                        <Col className="text-end"><span>{ product.product_type }</span></Col>
+                      </Row>
+                      <Row className="card-item">
+                        <Col><span>Market price (USD/kg)</span></Col>
+                        <Col className="text-end"><strong><span>{ product.expected_price_per_kg } USD</span></strong></Col>
+                      </Row>
+                      <Row className="card-item">
+                        <Col><span>Change</span></Col>
+                        <Col className="d-flex justify-content-end">
+                          <span className="trending-up">{ getIconTrending('trendingUp') } 2.54</span>{/* other class trending-down */ }
+                        </Col>
+                      </Row>
+                      <Row className="card-item align-items-center">
+                        <Col><span>Users</span></Col>
+                        <Col className="d-flex justify-content-end">
+                          <img src="/assets/images/default-avatar.png" alt="User Avatar" width="39" height="39" />
+                        </Col>
+                      </Row>
+                      <Row className="card-item no-border">
+                        <Col className="d-flex justify-content-end">
+                          <span className="cursor-pointer">View detail</span>
+                        </Col>
+                      </Row>
+                    </Col>
+                  </Row>
+                );
+              }) }
+            </div>
+          );
+        }) }
+      </div>
+      {/* Pagination Row */ }
+      <div className="d-flex justify-content-end">
+        <Pagination>
+          <Pagination.Item active>{ 1 }</Pagination.Item>
+        </Pagination>
       </div>
     </Container>
   );
