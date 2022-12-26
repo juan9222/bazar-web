@@ -448,4 +448,10 @@
       }
     }
   }
+
+  .pd-custom-modal-footer {
+    display: flex;
+    justify-content: center;
+    color: $neutral-200;
+  }
 }

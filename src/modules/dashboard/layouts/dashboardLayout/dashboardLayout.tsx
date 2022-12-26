@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { FaUserAlt } from "react-icons/fa";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { HiShoppingCart } from "react-icons/hi";
-import { Outlet, NavLink } from "react-router-dom";
+import { Outlet, NavLink, useOutletContext } from "react-router-dom";
 import IconLogo from "../../../../assets/svg/icons/iconLogo";
 import { AiFillHome } from "react-icons/ai";
 import { ImLeaf } from "react-icons/im";
@@ -12,7 +12,15 @@ import { IoMenu } from "react-icons/io5";
 import useAuthenticator from "../../../auth/hooks/useAuthenticator";
 import useCommonProviders from "../../../common/providers";
 
-
+type ContextType = {
+  authenticatedUser: {
+    firstName: "",
+    lastName: "",
+    role: "",
+    profileImage: "",
+    company: "",
+  } | null;
+};
 
 const Dashboardlayout: React.FC<any> = () => {
   const { onLogout, getAuthenticatedUser } = useAuthenticator();
@@ -23,6 +31,7 @@ const Dashboardlayout: React.FC<any> = () => {
     lastName: "",
     role: "",
     profileImage: "",
+    company: "",
   }>();
 
   const handleClose = () => setShow(false);
@@ -36,8 +45,9 @@ const Dashboardlayout: React.FC<any> = () => {
     setAuthenticatedUser({
       firstName,
       lastName,
-      role,
+      role: role[0].toUpperCase() + role.substr(1).toLowerCase(),
       profileImage: company[0].profile_image_url,
+      company: company[0].company_name,
     });
   };
 
@@ -158,7 +168,7 @@ const Dashboardlayout: React.FC<any> = () => {
           </div>
         </header>
         <div className="dshLayout__body--main">
-          <Outlet />
+          <Outlet context={ { authenticatedUser } } />
         </div>
       </nav>
     </div>
@@ -166,3 +176,7 @@ const Dashboardlayout: React.FC<any> = () => {
 };
 
 export default Dashboardlayout;
+
+export function useUser() {
+  return useOutletContext<ContextType>();
+}

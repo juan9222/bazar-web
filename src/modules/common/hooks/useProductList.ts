@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import useCommonProviders from "../providers";
 import useProductListProviders from "../../dashboard/screens/productList/providers";
 
@@ -12,6 +13,7 @@ const useProductList = () => {
   //Providers
   const { getUser } = useCommonProviders();
   const { getBasicProducts, getSellerProducts } = useProductListProviders();
+  const navigate = useNavigate();
 
   const onGetBasicProducts = async () => {
     const resp = await getBasicProducts();
@@ -51,6 +53,10 @@ const useProductList = () => {
     setFilteredProducts(newFilteredProducts);
   };
 
+  const onClickProductCard = (productId: string) => {
+    navigate(`../products/${ productId }`, { replace: true, state: { test: 2 } });
+  };
+
   useEffect(() => {
     onGetBasicProducts();
     onGetSellerProducts();
@@ -64,6 +70,7 @@ const useProductList = () => {
     avatarUrl,
     onFilterProducts,
     filteredProducts,
+    onClickProductCard,
   };
 };
 

@@ -1,5 +1,7 @@
 import axios from "axios";
+import { ContextType } from "react";
 import { trackPromise } from "react-promise-tracker";
+import { useOutletContext } from "react-router-dom";
 
 const useCommonProviders = () => {
   const getCountries = () => {

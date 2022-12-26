@@ -1,23 +1,24 @@
 import { useState, useRef, useEffect } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
-import useAuthenticator from '../../../hooks/useAuthenticator'
+import useAuthenticator from '../../../hooks/useAuthenticator';
 import { EVerifyStatus, IVerifyLoginState } from "../interfaces";
 import { getRolesToStorage } from "../../../../common/helpers";
+import useCommonProviders from "../../../../common/providers";
 
 const useVerify = () => {
   const [otpCode, setOtpCode] = useState("");
   const [verifyState, setVerifyState] = useState<EVerifyStatus>(EVerifyStatus.none);
   const [errorMessage, setErrorMessage] = useState("");
   const [isSuccessModalClosed, setIsSuccessModalClosed] = useState(true);
-  const [tokens, setTokens] = useState({mfaToken: "", oobCode: ""});
-  const [credentials, setCredentials] = useState({email: "", password: ""});
+  const [tokens, setTokens] = useState({ mfaToken: "", oobCode: "" });
+  const [credentials, setCredentials] = useState({ email: "", password: "" });
   const [uuid, setUuid] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
 
   const searchParams = new URLSearchParams(useLocation().search);
   const origin = searchParams.get('origin');
   const email = searchParams.get('email');
-  
+
   // Hooks
   const {
     requestEnrollment,
@@ -31,48 +32,50 @@ const useVerify = () => {
   const navigate = useNavigate();
   const shouldInit = useRef(true);
 
-  const setVerifyLoginState = ({mfaToken, oobCode, uuid, phoneNumber, email = "", password = ""}: IVerifyLoginState) => {
+  const { getUser } = useCommonProviders();
+
+  const setVerifyLoginState = ({ mfaToken, oobCode, uuid, phoneNumber, email = "", password = "" }: IVerifyLoginState) => {
     setUuid(uuid);
     setPhoneNumber(phoneNumber);
     setCredentials({
-      email, 
+      email,
       password,
     });
     setTokens({
-      mfaToken, 
+      mfaToken,
       oobCode
     });
   };
 
   const isReady = () => {
     if (origin !== 'login' && state?.email && state?.password) {
-      const {email, password} = state;
-      setCredentials({email, password});
+      const { email, password } = state;
+      setCredentials({ email, password });
       return true;
     };
 
     if (origin === 'login' && state?.mfaToken) {
-      const {mfaToken, oobCode, uuid, phoneNumber, email, password} = state;
-      setVerifyLoginState({mfaToken, oobCode, uuid, phoneNumber, email, password});
+      const { mfaToken, oobCode, uuid, phoneNumber, email, password } = state;
+      setVerifyLoginState({ mfaToken, oobCode, uuid, phoneNumber, email, password });
       return true;
     };
 
     return false;
-  }
+  };
 
   const resendAuthentication = async () => {
     try {
       setVerifyState(EVerifyStatus.loading);
 
-      const { oobCode, mfaToken, userDTO: {uuid}, phoneNumber } = await requestAuthentication(credentials);
-      setVerifyLoginState({mfaToken, oobCode, uuid, phoneNumber, ...credentials});
+      const { oobCode, mfaToken, userDTO: { uuid }, phoneNumber } = await requestAuthentication(credentials);
+      setVerifyLoginState({ mfaToken, oobCode, uuid, phoneNumber, ...credentials });
 
       setVerifyState(EVerifyStatus.none);
     } catch (error: any) {
       setErrorMessage(error?.response?.data?.errorMessage);
       setVerifyState(EVerifyStatus.wrongVerified);
     }
-  }
+  };
 
   const onInit = async () => {
     try {
@@ -112,18 +115,23 @@ const useVerify = () => {
         setIsSuccessModalClosed(false);
       } else {
         // Login
-        const { accessToken, userDTO: {roles} } = await confirmAuthentication({
+        const { accessToken, userDTO: { roles } } = await confirmAuthentication({
           oobCode: tokens.oobCode,
           mfaToken: tokens.mfaToken,
           bindingCode: otpCode,
           uuid
         });
-        
-        onLogin({uuid, accessToken, roles: getRolesToStorage(roles)});
+
+        onLogin({ uuid, accessToken, roles: getRolesToStorage(roles) });
         setVerifyState(EVerifyStatus.verified);
 
-        setTimeout(() => {
-          navigate("/dashboard/complete-registration");
+        setTimeout(async () => {
+          try {
+            await getUser(uuid);
+            navigate("/dashboard/product-list");
+          } catch (error: any) {
+            navigate("/dashboard/complete-registration");
+          }
         }, 2000);
       }
     } catch (error: any) {
@@ -157,7 +165,7 @@ const useVerify = () => {
 
   useEffect(() => {
     // Prevents onInit function from being called twice or on each mount
-    if (shouldInit.current){
+    if (shouldInit.current) {
       shouldInit.current = false;
       onInit();
     }

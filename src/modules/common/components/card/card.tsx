@@ -6,7 +6,7 @@ import IconCertificate from "../../../../assets/svg/icons/iconCertificate";
 import { ICardProps, Status } from "./interfaces";
 
 const Card: React.FC<ICardProps> = (props) => {
-  const { status, productImage, avatar, icon, product, hasCertificates, productType, variety, pricePerKg, availableForSale } = props;
+  const { status, productImage, avatar, icon, product, hasCertificates, productType, variety, pricePerKg, availableForSale, onClick, } = props;
 
   const getStatus = (status: string) => {
     switch (status) {
@@ -22,7 +22,7 @@ const Card: React.FC<ICardProps> = (props) => {
   };
 
   return (
-    <div className="content-card">
+    <div className="content-card" onClick={ onClick }>
       <div className="content-card__header">
         { getStatus(status) }
         <img src={ productImage } alt="card product" />
