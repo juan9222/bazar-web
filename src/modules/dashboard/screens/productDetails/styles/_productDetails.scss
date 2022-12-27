@@ -227,11 +227,8 @@
       ". .";
 
     @include respond-below(sm) {
-      grid-template-columns: 1fr;
-      grid-template-rows: 0% 1fr;
-      grid-template-areas:
-        "."
-        ".";
+      display: flex;
+      flex-direction: column;
       padding: 0 !important;
       margin-bottom: 10px;
     }
