@@ -11,6 +11,9 @@ import { Button, Offcanvas } from "react-bootstrap";
 import { IoMenu } from "react-icons/io5";
 import useAuthenticator from "../../../auth/hooks/useAuthenticator";
 import useCommonProviders from "../../../common/providers";
+import WalletConnectionBSCSelection from "../../../wallet/components/WalletConnectionBSC";
+import { Web3ReactProvider } from '@web3-react/core';
+import { ExternalProvider, JsonRpcFetchFunc, Web3Provider } from "@ethersproject/providers";
 
 type ContextType = {
   authenticatedUser: {
@@ -55,6 +58,10 @@ const Dashboardlayout: React.FC<any> = () => {
     onGetAuthenticatedUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const getLibrary = (provider: ExternalProvider | JsonRpcFetchFunc) => {
+    return new Web3Provider(provider);
+  };
 
   return (
     <div className="dshLayout">
@@ -105,6 +112,11 @@ const Dashboardlayout: React.FC<any> = () => {
               <IconLogo width={ 123 } />
             </div>
             <div className="dshLayout__body--header--right">
+              {
+                <Web3ReactProvider getLibrary={ getLibrary }>
+                  <WalletConnectionBSCSelection />
+                </Web3ReactProvider>
+              }
               <img className="dshLayout__body--header--right--icon" src={ authenticatedUser?.profileImage || "/assets/images/default-avatar.png" } alt="card product" />
               <BiDotsVerticalRounded className="dshLayout__body--header--right--icon2" onClick={ onLogout } />
             </div>
@@ -171,7 +183,7 @@ const Dashboardlayout: React.FC<any> = () => {
           <Outlet context={ { authenticatedUser } } />
         </div>
       </nav>
-    </div>
+    </div >
   );
 };
 
