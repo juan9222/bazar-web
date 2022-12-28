@@ -1,8 +1,15 @@
 import { RouteObject } from "react-router-dom";
+
+// Companies
 import CompanyCreation from "../../modules/dashboard/screens/companyCreation";
+
+// Products
 import ProductCreation from "../../modules/dashboard/screens/productCreation";
 import ProductDetails from "../../modules/dashboard/screens/productDetails";
 import ProductList from "../../modules/dashboard/screens/productList";
+import ProductListAdmin from "../../modules/dashboard/screens/productListAdmin";
+
+// Users
 import UserApprovals from "../../modules/dashboard/screens/userApprovals";
 import ProductDetailsBuyer from "../../modules/dashboard/screens/productDetailsBuyer";
 import TransactionStarted from "../../modules/dashboard/screens/transactionStarted";
@@ -28,6 +35,10 @@ const dashboardRoutes: RouteObject[] = [
   {
     path: "products/:productId",
     element: <ProductDetails />
+  },
+  {
+    path: "products-admin",
+    element: <ProductListAdmin />
   },
   {
     path: "user-approvals",

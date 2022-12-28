@@ -20,44 +20,6 @@ import InputText from "../../../common/components/inputText";
 import { ELarge } from "../../../common/interfaces";
 
 const ProductDetails: React.FC<any> = () => {
-  const defaultImages = [
-    {
-      original: '/assets/images/product-1.jpg',
-      thumbnail: '/assets/images/product-1.jpg',
-      originalHeight: 400,
-      thumbnailWidth: 90,
-      thumbnailHeight: 90,
-    },
-    {
-      original: '/assets/images/product-2.jpg',
-      thumbnail: '/assets/images/product-2.jpg',
-      originalHeight: 400,
-      thumbnailWidth: 90,
-      thumbnailHeight: 90,
-    },
-    {
-      original: '/assets/images/product-3.jpg',
-      thumbnail: '/assets/images/product-3.jpg',
-      originalHeight: 400,
-      thumbnailWidth: 90,
-      thumbnailHeight: 90,
-    },
-    {
-      original: '/assets/images/product-4.jpg',
-      thumbnail: '/assets/images/product-4.jpg',
-      originalHeight: 400,
-      thumbnailWidth: 90,
-      thumbnailHeight: 90,
-    },
-    {
-      original: '/assets/images/product-5.jpg',
-      thumbnail: '/assets/images/product-5.jpg',
-      originalHeight: 400,
-      thumbnailWidth: 90,
-      thumbnailHeight: 90,
-    },
-  ];
-
   const navigate = useNavigate();
 
   const { product, showEditAvailability, onChangeEditAvailabilityDisplay, register, hasErrorsInput, getMessageErrorInput, handleSubmit, submitForm, savingAvailability, } = useProductDetails();
@@ -70,18 +32,36 @@ const ProductDetails: React.FC<any> = () => {
       thumbnailWidth: 90,
       thumbnailHeight: 90,
     };
-  }) : defaultImages;
+  }) : [];
 
   const { authenticatedUser } = useUser();
 
   const getCertificateImage = (certificate: string) => {
     switch (certificate) {
       case "ISO 14001":
-        return "/assets/images/iso-1401.png";
-      case "Global GAP":
-        return "/assets/images/global-gap.png";
+        return "/assets/images/certifications/iso-1401.png";
       case "ECO-OK":
-        return "/assets/images/ecook-2022.png";
+        return "/assets/images/certifications/ecook-2022.png";
+      case "Global GAP":
+        return "/assets/images/certifications/global-gap.png";
+      case "SA8000":
+        return "/assets/images/certifications/sa8000.png";
+      case "EUREPGAP":
+        return "/assets/images/certifications/eurepgap.png";
+      case "SAI-Platform":
+        return "/assets/images/certifications/saiplatform.png";
+      case "Rainforest Alliance":
+        return "/assets/images/certifications/rainforest.png";
+      case "HACCP":
+        return "/assets/images/certifications/haccp.png";
+      case "SASA - Platform":
+        return "/assets/images/certifications/sasaPlatform.png";
+      case "BASC":
+        return "/assets/images/certifications/basc.png";
+      case "COLEACP":
+        return "/assets/images/certifications/coleacp.png";
+      case "ICA BPA":
+        return "/assets/images/certifications/icaBPA.png";
       default:
         return "";
     }
@@ -184,8 +164,8 @@ const ProductDetails: React.FC<any> = () => {
         </Col>
       </Row>
       <div className="pd__col-certificate">
-        { product?.sustainability_certifications.map((certificate: { uuid: string, certication: string; }) =>
-          <img className="pd__col-certificate--image" src={ getCertificateImage(certificate.certication) } alt={ certificate.certication } />
+        { product?.sustainability_certifications.map((certificate: { uuid: string, certification: string; }) =>
+          <img className="pd__col-certificate--image" src={ getCertificateImage(certificate.certification) } alt={ certificate.certification } />
         ) }
       </div>
       <Modal title="Edit availability" hideFooter width='560px' closed={ !showEditAvailability } showCloseIcon={ true } onClose={ onChangeEditAvailabilityDisplay } >

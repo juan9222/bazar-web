@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { Navigate, useNavigate } from "react-router-dom";
-import useCommonProviders from "../../../../common/providers";
-import useProductListProviders from "../providers";
+import { useNavigate } from "react-router-dom";
+import useCommonProviders from "../providers";
+import useProductListProviders from "../../dashboard/screens/productList/providers";
 
 const useProductList = () => {
   const [basicProducts, setBasicProducts] = useState<Array<{ label: string; value: string; }>>([]);

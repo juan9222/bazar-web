@@ -3,10 +3,9 @@ import { Col, Container, Row } from "react-bootstrap";
 import Button from "../../../common/components/button";
 import { GoSearch } from 'react-icons/go';
 import { BiSlider } from 'react-icons/bi';
-import IconAvocado from "../../../../assets/svg/icons/iconAvocado";
 import InputText from "../../../common/components/inputText";
 import Card from "../../../common/components/card";
-import useProductList from "./hooks/useProductList";
+import useProductList from "../../../common/hooks/useProductList";
 import { Status } from "../../../common/components/card/interfaces";
 import IconNewProduct from "../../../../assets/svg/icons/iconNewProduct";
 import { NavLink } from "react-router-dom";
@@ -70,7 +69,7 @@ const ProductList: React.FC<any> = () => {
                       <Col className="mb-3">
                         <Card
                           status={ getMappedStatus(product.status) }
-                          productImage={ product.url_images ?? "" }
+                          productImage={ product.url_images ? product.url_images[0] : "" }
                           avatar={ avatarUrl }
                           icon={ getProductIcon(product.basic_product) }
                           product={ product.basic_product }

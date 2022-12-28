@@ -2,7 +2,7 @@ import React from 'react';
 import { FaPen, FaUserCircle } from 'react-icons/fa';
 import { IProfilePhotoProps } from './interfaces/index';
 const ProfilePhoto: React.FC<IProfilePhotoProps> = props => {
-  const { fullname, onPressEdit, onlyPhoto, url, selected, onSelectAvatar, avatar } = props;
+  const { fullname, role, onPressEdit, onlyPhoto, url, selected, onSelectAvatar, avatar } = props;
   return (
     <div className="profilePhoto">
       <div onClick={ () => onSelectAvatar && onSelectAvatar(avatar) } className={ selected ? "profilePhoto__container profilePhoto__selected" : "profilePhoto__container" }>
@@ -21,7 +21,7 @@ const ProfilePhoto: React.FC<IProfilePhotoProps> = props => {
       { !onlyPhoto &&
         <>
           <div className="profilePhoto__name">{ fullname }</div>
-          <div className="profilePhoto__role">Seller</div>
+          <div className="profilePhoto__role">{ role }</div>
         </> }
     </div>
   );

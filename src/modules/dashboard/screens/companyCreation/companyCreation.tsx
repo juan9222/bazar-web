@@ -10,6 +10,7 @@ import Select from '../../../common/components/select';
 import { ELarge } from '../../../common/interfaces';
 import useCompanyCreation from './hooks/useCompanyCreation';
 import { Container, Row, Col } from 'react-bootstrap';
+import { useUser } from '../../layouts/dashboardLayout/dashboardLayout';
 
 const CompanyCreation: React.FC<any> = () => {
   const {
@@ -45,6 +46,8 @@ const CompanyCreation: React.FC<any> = () => {
     onCreateProductLater,
   } = useCompanyCreation();
 
+  const { authenticatedUser } = useUser();
+
   return (
     <Container fluid className="cc">
       <Row>
@@ -67,7 +70,7 @@ const CompanyCreation: React.FC<any> = () => {
               </Row>
               <Row>
                 <Col>
-                  <ProfilePhoto url={ avatar.imageUrl } fullname={ user.fullName } onPressEdit={ onShowAvatars } />
+                  <ProfilePhoto url={ avatar.imageUrl } fullname={ user.fullName } role={ authenticatedUser?.role } onPressEdit={ onShowAvatars } />
                 </Col>
                 <div className="verticalSpaceL"></div>
               </Row>

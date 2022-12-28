@@ -12,6 +12,9 @@ import { IoMenu } from "react-icons/io5";
 import useAuthenticator from "../../../auth/hooks/useAuthenticator";
 import useCommonProviders from "../../../common/providers";
 import InputText from "../../../common/components/inputText";
+import WalletConnectionBSCSelection from "../../../wallet/components/WalletConnectionBSC";
+import { Web3ReactProvider } from '@web3-react/core';
+import { ExternalProvider, JsonRpcFetchFunc, Web3Provider } from "@ethersproject/providers";
 
 type ContextType = {
   authenticatedUser: {
@@ -49,7 +52,7 @@ const Dashboardlayout: React.FC<any> = () => {
     setAuthenticatedUser({
       firstName,
       lastName,
-      role,
+      role: role[0].toUpperCase() + role.substr(1).toLowerCase(),
       profileImage: company[0].profile_image_url,
       company: company[0].company_name,
     });
@@ -64,6 +67,9 @@ const Dashboardlayout: React.FC<any> = () => {
   const handleWalletActive = () => {
     setShowWallet(!showWallet);
     setWalletActive(!walletActive);
+  };
+  const getLibrary = (provider: ExternalProvider | JsonRpcFetchFunc) => {
+    return new Web3Provider(provider);
   };
 
   return (
@@ -154,6 +160,11 @@ const Dashboardlayout: React.FC<any> = () => {
                 ) }
               </Overlay>
               <MdOutlineLanguage className="dshLayout__body--header--right--icon3" />
+              {
+                <Web3ReactProvider getLibrary={ getLibrary }>
+                  <WalletConnectionBSCSelection />
+                </Web3ReactProvider>
+              }
               <img className="dshLayout__body--header--right--icon" src={ authenticatedUser?.profileImage || "/assets/images/default-avatar.png" } alt="card product" />
               <BiDotsVerticalRounded className="dshLayout__body--header--right--icon2" onClick={ onLogout } />
             </div>
@@ -220,7 +231,7 @@ const Dashboardlayout: React.FC<any> = () => {
           <Outlet context={ { authenticatedUser } } />
         </div>
       </nav>
-    </div>
+    </div >
   );
 };
 
