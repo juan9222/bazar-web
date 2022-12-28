@@ -32,6 +32,8 @@ const Verify: React.FC<any> = () => {
     loading,
     errorMsg,
     watchWhatsAppCommunication,
+    isDirty,
+    isValid
   } = useRegister();
 
   const navigate = useNavigate();
@@ -135,12 +137,12 @@ const Verify: React.FC<any> = () => {
             name={ assignInputName("iReadTermsAndPolicy") }
           >
             <label className="inputTextContainer__label" htmlFor={ assignInputName("iReadTermsAndPolicy") }>
-              I have read and agree to the
+              <span className="textError100">*</span> I have read and agree to the
               <a href="/" className="textPrimary200 textLink"> Terms of Use</a> and
               <a href="/" className="textPrimary200 textLink"> Privacy Policy</a>.
             </label>
           </Checkbox>
-          <Button large={ ELarge.full } type="submit" onClick={ () => console.log(registerErrors) }>{ loading ? (
+          <Button large={ ELarge.full } type="submit" onClick={ () => console.log(registerErrors) } disabled={ !isDirty || !isValid }>{ loading ? (
             <AiOutlineLoading3Quarters className="loaderIcon" />
 
           ) : "Create account" }</Button>

@@ -20,7 +20,7 @@ const useRegister = () => {
   const { requestUserRegister } = useAuthenticator();
 
   // Form
-  const { handleSubmit, control, register, watch, formState: { errors: registerErrors } } = useForm<IRegisterFormProps>({
+  const { handleSubmit, control, register, watch, formState: { errors: registerErrors, isDirty, isValid } } = useForm<IRegisterFormProps>({
     resolver: yupResolver(registerFormValidator),
     mode: "all",
   });
@@ -48,9 +48,9 @@ const useRegister = () => {
     try {
       await requestUserRegister(formData);
       setLoading(false);
-      navigate(`/auth/verify?${new URLSearchParams({
+      navigate(`/auth/verify?${ new URLSearchParams({
         email: formData.email,
-      })}`, {
+      }) }`, {
         state: {
           email: formData.email,
           password: formData.password,
@@ -85,6 +85,8 @@ const useRegister = () => {
     loading,
     errorMsg,
     watchWhatsAppCommunication,
+    isDirty,
+    isValid
   };
 };
 
