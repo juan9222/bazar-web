@@ -163,9 +163,9 @@ const ProductDetailsBuyer: React.FC<any> = () => {
         </Col>
       </Row>
       <div className="pd__col-certificate">
-        <img className="pd__col-certificate--image" src={ "/assets/images/iso-1401.png" } alt="ISO 1401" />
-        <img className="pd__col-certificate--image" src={ "/assets/images/global-gap.png" } alt="Global Gap" />
-        <img className="pd__col-certificate--image" src={ "/assets/images/ecook-2022.png" } alt="ECO OK 2022" />
+        <img className="pd__col-certificate--image" src={ "/assets/images/certifications/iso-1401.png" } alt="ISO 1401" />
+        <img className="pd__col-certificate--image" src={ "/assets/images/certifications/global-gap.png" } alt="Global Gap" />
+        <img className="pd__col-certificate--image" src={ "/assets/images/certifications/ecook-2022.png" } alt="ECO OK 2022" />
       </div>
       <ModalConfirmPurchase show={ showConfirmModal } onHide={ () => setShowConfirmModal(!showConfirmModal) } confirm={ () => { setShowConfirmBlockModal(!showConfirmBlockModal); setShowConfirmModal(!showConfirmModal); } } />
       <ModalConfirmBlock show={ showConfirmBlockModal } onHide={ () => setShowConfirmBlockModal(!showConfirmBlockModal) } />
