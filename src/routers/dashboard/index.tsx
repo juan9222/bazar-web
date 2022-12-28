@@ -4,6 +4,9 @@ import ProductCreation from "../../modules/dashboard/screens/productCreation";
 import ProductDetails from "../../modules/dashboard/screens/productDetails";
 import ProductList from "../../modules/dashboard/screens/productList";
 import UserApprovals from "../../modules/dashboard/screens/userApprovals";
+import ProductDetailsBuyer from "../../modules/dashboard/screens/productDetailsBuyer";
+import TransactionStarted from "../../modules/dashboard/screens/transactionStarted";
+import PaymentSummary from "../../modules/dashboard/screens/paymentSummary";
 
 const dashboardRoutes: RouteObject[] = [
   {
@@ -30,6 +33,18 @@ const dashboardRoutes: RouteObject[] = [
     path: "user-approvals",
     element: <UserApprovals />
   },
+  {
+    path: "product-details/:productId",
+    element: <ProductDetailsBuyer />
+  },
+  {
+    path: "transaction/:transactionId",
+    element: <TransactionStarted />
+  },
+  {
+    path: "payment-summary/:transactionId",
+    element: <PaymentSummary />
+  }
 ];
 
 export default dashboardRoutes;
