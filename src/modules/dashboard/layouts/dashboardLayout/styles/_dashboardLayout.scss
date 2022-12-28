@@ -109,6 +109,105 @@
           height: 24px;
           cursor: pointer;
         }
+
+        &--icon3 {
+          color: $neutral-400;
+          width: 24px;
+          height: 24px;
+          margin-right: 16px;
+          margin-left: 16px;
+          cursor: pointer;
+        }
+
+        &--icon4 {
+          position: relative;
+
+          svg {
+            color: $neutral-400;
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+          }
+
+          &.checked::after {
+            content: "";
+            border: 5px solid #52B69A;
+            position: absolute;
+            left: 0px;
+            border-radius: 50%;
+          }
+        }
+
+        &--listMenu {
+          box-shadow: 0px 4px 6px 0px rgba(0, 0, 0, 0.1);
+          overflow: hidden;
+          user-select: none;
+          z-index: 10001;
+          position: absolute;
+          padding: 0px;
+          border-radius: 10px;
+
+          @include respond-below(sm) {
+            display: none;
+          }
+
+          &--item {
+            display: flex !important;
+            align-items: center;
+            padding: 12px 21px !important;
+            min-width: 200px;
+            color: $primary-300;
+            font-size: 14px;
+
+            &--icon {
+              width: 27px;
+              height: 27px;
+              margin-right: 11px;
+            }
+
+            &--iconButton {
+              width: 21px;
+              height: 21px;
+              margin-left: 12px;
+              cursor: pointer;
+            }
+
+            &--iconCheck {
+              color: #52B69A;
+              margin-right: 11px;
+              margin-left: auto;
+            }
+
+            &--iconLogout {
+              width: 15px;
+              height: 15px;
+              margin-right: 6px;
+            }
+
+            &.checked {
+              max-width: 220px;
+              flex-wrap: wrap;
+              padding: 12px 11px !important;
+
+              .inputTextContainer {
+                margin-bottom: 0px;
+              }
+
+              .inputTextContainer__input {
+                margin-top: 13px;
+
+                &--field {
+                  padding: 9.5px 11px 9.5px 17px;
+                  width: 158px;
+                  height: 33px;
+                  flex-grow: 1;
+                  font-size: 14px;
+                }
+              }
+            }
+          }
+        }
+
       }
 
       .btn-header-mobile {

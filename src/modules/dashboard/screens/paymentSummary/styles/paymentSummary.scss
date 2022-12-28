@@ -1,0 +1,132 @@
+.payment-summary {
+  padding-top: 30px;
+
+  @include respond-below(sm) {
+    background-color: $primary_300;
+    padding-top: 93px;
+
+    &--row {
+      background-color: $white;
+      border-radius: 20px 20px 0 0;
+      padding-top: 35px;
+    }
+  }
+
+  &--banner-left {
+    display: flex;
+    justify-content: center;
+
+    img {
+      max-height: 832px;
+    }
+
+    @include respond-below(lg) {
+      display: flex;
+      align-content: center;
+
+      img {
+        width: 100%;
+        object-fit: contain;
+      }
+    }
+
+    @include respond-below(sm) {
+      display: none;
+    }
+  }
+
+  &--content-right {
+    align-items: center;
+    justify-content: center;
+    padding: 0 10%;
+
+    &--header {
+      border-bottom: 1px solid $neutral-100;
+      padding-bottom: 26.7px;
+
+      &--title {
+        h1 {
+          font-size: 24.2px;
+          font-weight: bold;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: 1.65;
+          letter-spacing: 0.73px;
+          text-align: left;
+          color: $neutral-400;
+        }
+      }
+
+      &--subtitle {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+        span {
+          font-size: 16.8px;
+          font-weight: normal;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: 1.43;
+          letter-spacing: 0.5px;
+          text-align: left;
+          color: var(--neutral-400);
+        }
+
+        .download-icon {
+          width: 32px;
+          height: 32px;
+          color: $neutral-400;
+        }
+      }
+    }
+
+    &--details {
+      padding-top: 15px;
+      margin-bottom: 54px;
+
+      &--item {
+        display: flex;
+        justify-content: space-between;
+        padding: 16px 0px 15px 0px;
+        border-bottom: 1px solid $neutral-50;
+
+        span {
+          font-size: 16.8px;
+          font-weight: 300;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: 1.43;
+          letter-spacing: 0.5px;
+          text-align: left;
+          color: $primary-300;
+
+          &.accepted {
+            font-weight: 500;
+            color: $success-200;
+          }
+
+          &.rejected {
+            font-weight: 500;
+            color: $error-100;
+          }
+        }
+
+        &.total {
+          span {
+            font-weight: bold;
+            color: $primary-300;
+          }
+        }
+      }
+    }
+
+    &--footer {
+      display: flex;
+
+      .whatsapp-icon {
+        margin-right: 11.8px;
+      }
+    }
+  }
+}

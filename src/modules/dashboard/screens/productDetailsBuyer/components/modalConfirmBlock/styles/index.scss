@@ -1,0 +1,136 @@
+.pd-modal-confirmBlock {
+
+  &>div {
+    margin-left: 10vw;
+  }
+
+  & .modal-content {
+    min-height: 60vh;
+  }
+
+  & .modal-header {
+    position: relative;
+    justify-content: center;
+    padding: 12px 24px;
+
+    & .modal-title h4 {
+      font-size: 20.2px;
+      font-weight: bold;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.59;
+      letter-spacing: 0.61px;
+      text-align: center;
+      color: $primary-200;
+      margin: 0px;
+    }
+
+    & .btn-close {
+      position: absolute;
+      right: 24px;
+    }
+
+  }
+
+  &--body {
+    padding: 22px 38px 90px 38px !important;
+    display: flex;
+
+    &--container {
+      justify-content: center;
+      flex-wrap: wrap;
+      display: flex;
+      width: 100%;
+      min-height: 100%;
+      align-items: end;
+
+      &--logo {
+        position: relative;
+
+        .logoBazarBlue {
+          position: absolute;
+          bottom: 0px;
+          left: 0px;
+          animation: animate2 4s ease-in-out infinite;
+        }
+
+        @keyframes animate {
+
+          0%,
+          100% {
+            clip-path: polygon(0% 25%, 15% 26%, 32% 20%, 54% 10%, 70% 9%, 84% 11%, 100% 18%, 100% 100%, 0% 100%);
+          }
+
+          50% {
+            clip-path: polygon(0% 40%, 16% 45%, 34% 46%, 51% 42%, 67% 30%, 84% 25%, 100% 26%, 100% 100%, 0% 100%);
+          }
+        }
+
+        @keyframes animate2 {
+
+          0%,
+          100% {
+            clip-path: polygon(0% 3%, 11% 11%, 22% 19%, 30% 35%, 42% 46%, 55% 40%, 65% 26%, 70% 15%, 80% 4%, 94% 12%, 100% 23%, 100% 100%, 0% 100%);
+          }
+
+          50% {
+            clip-path: polygon(0 26%, 11% 37%, 23% 51%, 33% 30%, 39% 10%, 48% 1%, 60% 6%, 69% 28%, 81% 33%, 92% 25%, 100% 2%, 100% 100%, 0% 100%);
+          }
+        }
+
+        @keyframes animate3 {
+
+          0%,
+          100% {
+            clip-path: polygon(0% 25%, 15% 26%, 32% 20%, 54% 10%, 70% 9%, 84% 11%, 100% 18%, 100% 100%, 0% 100%);
+          }
+
+          25% {
+            clip-path: polygon(0% 3%, 30% 35%, 55% 40%, 65% 26%, 80% 4%, 94% 12%, 100% 23%, 100% 100%, 0% 100%);
+          }
+
+          50% {
+            clip-path: polygon(0% 40%, 16% 45%, 34% 46%, 51% 42%, 67% 30%, 84% 25%, 100% 26%, 100% 100%, 0% 100%);
+          }
+
+          75% {
+            clip-path: polygon(0 26%, 11% 37%, 33% 30%, 39% 10%, 60% 6%, 81% 33%, 100% 2%, 100% 100%, 0% 100%);
+          }
+
+        }
+      }
+
+      &--text {
+        width: 100%;
+        text-align: center;
+
+        & span {
+          font-size: 20.2px;
+          font-weight: bold;
+          font-stretch: normal;
+          font-style: normal;
+          line-height: 1.59;
+          letter-spacing: 0.61px;
+          text-align: center;
+          color: $primary-300;
+        }
+      }
+    }
+  }
+
+}
+
+.pd-modal-confirmBlock-wallet {
+  &>div {
+    margin-right: 10vw;
+  }
+
+  & .modal-content {
+    min-height: 60vh;
+  }
+
+  &--body {
+    padding: 22px 38px 90px 38px !important;
+    display: flex;
+  }
+}
