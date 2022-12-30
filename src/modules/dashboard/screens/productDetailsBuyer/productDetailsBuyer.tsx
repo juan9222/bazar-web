@@ -152,6 +152,8 @@ const ProductDetailsBuyer: React.FC<any> = () => {
             </Col>
             <Col md={ 6 }>
               <Select
+                selection={ "" }
+                onChangeSelection={ () => { } }
                 label={ "Select INCOTERMS" }
                 name={ 'INCOTERMS' }
                 placeholder={ "Select option" }

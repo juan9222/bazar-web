@@ -1,42 +1,37 @@
 import React from 'react';
+import Select, { components } from 'react-select';
 import useInputTextStyles from '../inputText/hooks/useInputTextStyles';
 import { ISelectProps } from './interfaces';
 
-const Select: React.FC<ISelectProps> = (props) => {
-  const { name, register, options, children, hasError, errorMessage, valueIsLabel, label, ...rest } = props;
+const CustomSelect: React.FC<ISelectProps> = (props) => {
+  const { name, selection, options, children, hasError, errorMessage, valueIsLabel, label, onChangeSelection, ...rest } = props;
   const { getClassNameInputTextByError } = useInputTextStyles({ hasError: hasError ?? false });
+
+  const { Option } = components;
+  const IconOption = (props: any) => (
+    <Option { ...props }>
+      { props.data.icon }{ props.data.label }
+    </Option>
+  );
 
   return (
     <div className="">
       <label className="inputTextContainer__label" htmlFor={ name }>{ label ? <span>{ rest.required && <span className="inputTextContainer__label--required">* </span> }{ label }</span> : "" }</label>
       {
-        register ? (
-          <div className="inputTextContainer__input">
-            <select className={ getClassNameInputTextByError() } { ...register(name) } { ...rest }>
-              <option disabled selected>{ rest.placeholder }</option>
-              { options.map(op => (
-                <option key={ op.value } value={ valueIsLabel ? op.label : op.value }>
-                  { op.label }
-                </option>
-              )) }
-            </select>
-            { hasError && <span className="inputTextContainer__errorMessage">{ errorMessage }</span> }
-
-          </div>
-        ) : (
-
-          <select className={ getClassNameInputTextByError() } name={ name } { ...rest }>
-            <option disabled selected>{ rest.placeholder }</option>
-            { options.map(op => (
-              <option key={ op.value } value={ valueIsLabel ? op.label : op.value }>
-                { op.label }
-              </option>
-            )) }
-          </select>
-        )
+        <div className="inputTextContainer__input">
+          <Select
+            value={ options.find(o => o.value === selection) }
+            options={ options }
+            components={ { Option: IconOption } }
+            className={ getClassNameInputTextByError() }
+            name={ name }
+            onChange={ onChangeSelection }
+          />
+          { hasError && <span className="inputTextContainer__errorMessage">{ errorMessage }</span> }
+        </div>
       }
     </div>
   );
 };
 
-export default Select;
+export default CustomSelect;

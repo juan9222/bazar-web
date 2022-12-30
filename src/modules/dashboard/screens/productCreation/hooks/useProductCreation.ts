@@ -7,6 +7,7 @@ import { productCreationFormValidator } from "../validators";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useProductListProviders from "../../productList/providers";
+import { getProductIcon } from "../../../../common/components/productIcon";
 
 const useCreateProduct = () => {
   const [activeTabIndex, setActiveTabIndex] = useState<number>(0);
@@ -21,7 +22,10 @@ const useCreateProduct = () => {
   const [sustainabilityCertificationsItems, setsustainabilityCertificationsItems] = useState<Array<{ label: string; value: string; }>>([]);
   const [incotermsItems, setIncotermsItems] = useState<Array<{ label: string; value: string; }>>([]);
   const [minimumOrders, setMinimumOrders] = useState<Array<{ label: string; value: string; }>>([]);
-
+  const [selectedProduct, setSelectedProduct] = useState<string>();
+  const [selectedProductType, setSelectedProductType] = useState<string>();
+  const [selectedVariety, setSelectedVariety] = useState<string>();
+  const [selectedMinimumOrder, setSelectedMinimumOrder] = useState<string>();
   const [displayPictures, setDisplayPictures] = useState<Array<string>>([]);
   const [assistanceNeeded, setAssistanceNeeded] = useState<boolean>(false);
   const [productPictures, setProductPictures] = useState<any>([]);
@@ -31,6 +35,10 @@ const useCreateProduct = () => {
   const [certificationsFiles, setCertificationsFiles] = useState<any>([]);
   const [hasError, setHasError] = useState(false);
   const [productPicturesError, setProductPicturesError] = useState<boolean>(false);
+  const [productError, setProductError] = useState<boolean>(false);
+  const [productTypeError, setProductTypeError] = useState<boolean>(false);
+  const [varietyError, setVarietyError] = useState<boolean>(false);
+  const [minimumOrderError, setMinimumOrderError] = useState<boolean>(false);
 
   const navigate = useNavigate();
 
@@ -43,9 +51,7 @@ const useCreateProduct = () => {
     resolver: yupResolver(productCreationFormValidator),
     mode: "all",
   });
-  const { control, register, watch, handleSubmit, getValues, formState: { errors: createProductErrors } } = methods;
-
-  const watchProduct = watch("product");
+  const { control, register, handleSubmit, getValues, formState: { errors: createProductErrors } } = methods;
 
   const assignInputName = (inputName: TProductCreationFormKeys): string => {
     return inputName.toString();
@@ -64,13 +70,32 @@ const useCreateProduct = () => {
     if (certifications.length !== Object.keys(certificationsFiles).length) {
       setHasError(false);
       alert("Uploaded certification files doesn't match # of selected certifications.");
+    } else if (!selectedProduct) {
+      setProductError(true);
+      setActiveTabIndex(0);
+      hideModals();
+    } else if (!selectedProductType) {
+      setProductTypeError(true);
+      setActiveTabIndex(0);
+      hideModals();
+    } else if (!selectedVariety) {
+      setVarietyError(true);
+      setActiveTabIndex(0);
+      hideModals();
+    } else if (!selectedMinimumOrder) {
+      setMinimumOrderError(true);
+      setActiveTabIndex(0);
+      hideModals();
     } else if (productPictures.length === 0) {
       setProductPicturesError(true);
       setActiveTabIndex(0);
-      setShowConfirmationModal(false);
-      setShowConfirmationNoCertModal(false);
+      hideModals();
     } else {
       data.uuid = localStorage.getItem("uuid") || "";
+      data.product = selectedProduct;
+      data.productType = selectedProductType;
+      data.varieties = selectedVariety;
+      data.minimumOrder = selectedMinimumOrder;
       data.sustainabilityCertifications = certifications;
       data.incoterms = incoterms;
       data.assistanceNeeded = assistanceNeeded;
@@ -120,6 +145,12 @@ const useCreateProduct = () => {
     }
   };
 
+  const hideModals = () => {
+    setActiveTabIndex(0);
+    setShowConfirmationModal(false);
+    setShowConfirmationNoCertModal(false);
+  };
+
   const handleTabSwitch = (index: number) => {
     const nextTab = activeTabIndex + index;
     if (nextTab < 0) {
@@ -140,12 +171,13 @@ const useCreateProduct = () => {
     const productList = resp.data.results.map((product: any) => ({
       label: product.basic_product,
       value: product.uuid,
+      icon: getProductIcon(product.basic_product)
     }));
     setProducts(productList);
   };
 
   const onGetProductTypes = async () => {
-    const resp = await getProductTypesByProduct(watchProduct);
+    const resp = await getProductTypesByProduct(selectedProduct!);
     const productTypeList = resp.data.results.map((productType: any) => ({
       label: productType.product_type,
       value: productType.uuid,
@@ -154,7 +186,7 @@ const useCreateProduct = () => {
   };
 
   const onGetVarieties = async () => {
-    const resp = await getVarietiesByProduct(watchProduct);
+    const resp = await getVarietiesByProduct(selectedProduct!);
     const varietiesList = resp.data.results.map((variety: any) => ({
       label: variety.variety,
       value: variety.uuid,
@@ -207,6 +239,26 @@ const useCreateProduct = () => {
     const newProductPictures = [...productPictures];
     newProductPictures.splice(index, 1);
     setProductPictures(newProductPictures);
+  };
+
+  const onChangeProduct = (option: unknown) => {
+    setProductError(false);
+    setSelectedProduct((option as any).value);
+  };
+
+  const onChangeProductType = (option: unknown) => {
+    setProductTypeError(false);
+    setSelectedProductType((option as any).value);
+  };
+
+  const onChangeVariety = (option: unknown) => {
+    setVarietyError(false);
+    setSelectedVariety((option as any).value);
+  };
+
+  const onChangeMinimumOrder = (option: unknown) => {
+    setMinimumOrderError(false);
+    setSelectedMinimumOrder((option as any).value);
   };
 
   const onChangeCertificationCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -265,10 +317,10 @@ const useCreateProduct = () => {
   }, []);
 
   useEffect(() => {
-    watchProduct !== (null || undefined) && watchProduct.indexOf("Select Product") === -1 && onGetProductTypes();
-    watchProduct !== (null || undefined) && watchProduct.indexOf("Select Product") === -1 && onGetVarieties();
+    selectedProduct !== (null || undefined) && onGetProductTypes();
+    selectedProduct !== (null || undefined) && onGetVarieties();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watchProduct]);
+  }, [selectedProduct]);
 
   useEffect(() => {
     if (productPictures.length > 0)
@@ -283,6 +335,7 @@ const useCreateProduct = () => {
     getValues,
     handleSubmit,
     submitForm,
+    hideModals,
     assignInputName,
     hasErrorsInput,
     getMessageErrorInput,
@@ -301,11 +354,19 @@ const useCreateProduct = () => {
     showCongratulationsNoCertModal,
     setShowCongratulationsNoCertModal,
     products,
+    selectedProduct,
+    productError,
     productTypes,
+    selectedProductType,
+    productTypeError,
     varieties,
+    selectedVariety,
+    varietyError,
     sustainabilityCertificationsItems,
     incoterms: incotermsItems,
     minimumOrders,
+    selectedMinimumOrder,
+    minimumOrderError,
     certifications,
     noCertificatesSelected,
     assistanceNeeded,
@@ -315,6 +376,10 @@ const useCreateProduct = () => {
     displayPictures,
     onChangeProductPictures,
     onRemoveProductPicture,
+    onChangeProduct,
+    onChangeProductType,
+    onChangeVariety,
+    onChangeMinimumOrder,
     onChangeCertificationCheckbox,
     onChangeIncotermCheckbox,
     onChangeCertificationFile,
