@@ -21,6 +21,8 @@ const useCompanyCreation = () => {
   });
   const [countries, setCountries] = useState<Array<{ label: string; value: string; }>>([]);
   const [cities, setCities] = useState<Array<{ label: string; value: string; }>>([]);
+  const [selectedCountry, setSelectedCountry] = useState<{ country: string, code: number; }>();
+  const [selectedCity, setSelectedCity] = useState<string>();
   const [showAvatars, setShowAvatars] = useState(false);
   const [avatarModal, setAvatarModal] = useState({
     imageName: "",
@@ -42,7 +44,7 @@ const useCompanyCreation = () => {
 
 
   // Form
-  const { register, handleSubmit, watch, setValue, formState: { errors: loginErrors } } = useForm<ICompanyCreationProps>({
+  const { register, handleSubmit, setValue, formState: { errors: loginErrors } } = useForm<ICompanyCreationProps>({
     resolver: yupResolver(companyCreationFormValidator),
     mode: "all",
   });
@@ -85,9 +87,6 @@ const useCompanyCreation = () => {
 
   const { getAuthenticatedUser } = useAuthenticator();
 
-
-  const watchCountry = watch("country");
-
   const assignInputName = (inputName: TCompanyCreationKeys): string => {
     return inputName.toString();
   };
@@ -121,7 +120,7 @@ const useCompanyCreation = () => {
   };
 
   const onGetCities = async () => {
-    const resp = await getCitiesByCountryId(watchCountry);
+    const resp = await getCitiesByCountryId(selectedCountry?.code!);
     const cityList = resp.data.data;
     const cityListMutate = cityList.map((city: any) => ({
       label: city.name,
@@ -145,10 +144,18 @@ const useCompanyCreation = () => {
     }
   };
 
+  const onChangeCountry = (option: unknown) => {
+    setSelectedCountry({ country: (option as any).label, code: (option as any).value });
+  };
+
+  const onChangeCity = (option: unknown) => {
+    setSelectedCity((option as any).label);
+  };
+
   const submitForm = async (data: ICompanyCreationProps) => {
     setLoading(true);
-    data.city = cities.find(city => city.value.toString() === data.city.toString())?.label || "";
-    data.country = countries.find(country => country.value.toString() === data.country.toString())?.label || "";
+    data.city = selectedCity!;
+    data.country = selectedCountry?.country!;
     data.uuid = localStorage.getItem("uuid") || "";
     try {
       const files = [companyByLawsFile, optFile, purchaseOrderFile];
@@ -202,9 +209,9 @@ const useCompanyCreation = () => {
   }, []);
 
   useEffect(() => {
-    watchCountry !== (null || undefined) && onGetCities();
+    selectedCountry !== (null || undefined) && onGetCities();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [watchCountry]);
+  }, [selectedCountry]);
 
 
   return {
@@ -239,6 +246,10 @@ const useCompanyCreation = () => {
     setShowCongratulationsModal,
     onCreateProduct,
     onCreateProductLater,
+    selectedCountry,
+    onChangeCountry,
+    selectedCity,
+    onChangeCity,
   };
 };
 

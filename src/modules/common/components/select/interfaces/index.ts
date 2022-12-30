@@ -1,10 +1,12 @@
 import { UseFormRegister } from 'react-hook-form';
+import { ActionMeta } from 'react-select';
 
 export interface ISelectProps extends React.DetailedHTMLProps<React.SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement> {
-  register?: UseFormRegister<any>;
+  selection: any;
   options: Array<{
     label: string;
     value: string;
+    icon?: any;
   }>;
   placeholder: string;
   name: string;
@@ -12,4 +14,5 @@ export interface ISelectProps extends React.DetailedHTMLProps<React.SelectHTMLAt
   hasError?: boolean;
   errorMessage?: string;
   valueIsLabel?: boolean;
+  onChangeSelection: (option: unknown | null, actionMeta: ActionMeta<unknown>) => void;
 }

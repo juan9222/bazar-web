@@ -44,6 +44,10 @@ const CompanyCreation: React.FC<any> = () => {
     showCongratulationsModal,
     onCreateProduct,
     onCreateProductLater,
+    selectedCountry,
+    selectedCity,
+    onChangeCountry,
+    onChangeCity,
   } = useCompanyCreation();
 
   const { authenticatedUser } = useUser();
@@ -161,7 +165,8 @@ const CompanyCreation: React.FC<any> = () => {
                 <Row>
                   <Col className="form__select" >
                     <Select
-                      register={ register }
+                      selection={ selectedCountry }
+                      onChangeSelection={ (option: unknown) => { onChangeCountry(option); } }
                       label={ "Country" }
                       hasError={ hasErrorsInput("country") }
                       errorMessage={ getMessageErrorInput("country") }
@@ -173,7 +178,8 @@ const CompanyCreation: React.FC<any> = () => {
                   </Col>
                   <Col md>
                     <Select
-                      register={ register }
+                      selection={ selectedCity }
+                      onChangeSelection={ (option: unknown) => { onChangeCity(option); } }
                       label={ "City" }
                       hasError={ hasErrorsInput("city") }
                       required

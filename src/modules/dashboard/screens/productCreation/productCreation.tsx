@@ -20,6 +20,7 @@ const ProductCreation: React.FC<any> = () => {
     register,
     handleSubmit,
     submitForm,
+    hideModals,
     assignInputName,
     hasErrorsInput,
     getMessageErrorInput,
@@ -35,11 +36,19 @@ const ProductCreation: React.FC<any> = () => {
     showCongratulationsModal,
     showCongratulationsNoCertModal,
     products,
+    selectedProduct,
+    productError,
     productTypes,
+    selectedProductType,
+    productTypeError,
     varieties,
+    selectedVariety,
+    varietyError,
     sustainabilityCertificationsItems,
     incoterms,
     minimumOrders,
+    selectedMinimumOrder,
+    minimumOrderError,
     certifications,
     noCertificatesSelected,
     onChangeCertificationCheckbox,
@@ -50,6 +59,10 @@ const ProductCreation: React.FC<any> = () => {
     productPicturesError,
     onChangeProductPictures,
     onRemoveProductPicture,
+    onChangeProduct,
+    onChangeProductType,
+    onChangeVariety,
+    onChangeMinimumOrder,
     onChangeCertificationFile,
     onCreateProduct,
   } = useCreateProduct();
@@ -173,13 +186,14 @@ const ProductCreation: React.FC<any> = () => {
                       <Row>
                         <Col>
                           <Select
-                            register={ register }
+                            selection={ selectedProduct }
                             label={ "Product" }
-                            hasError={ hasErrorsInput("product") }
-                            errorMessage={ getMessageErrorInput("product") }
+                            hasError={ productError }
+                            errorMessage={ "This field is required" }
                             name={ assignInputName("product") }
                             placeholder={ "Select product" }
                             options={ products }
+                            onChangeSelection={ (option: unknown) => { onChangeProduct(option); } }
                             required />
                         </Col>
                       </Row>
@@ -187,24 +201,26 @@ const ProductCreation: React.FC<any> = () => {
                       <Row>
                         <Col className='product-form-select'>
                           <Select
-                            register={ register }
+                            selection={ selectedProductType }
                             label={ "Product Type" }
-                            hasError={ hasErrorsInput("productType") }
-                            errorMessage={ getMessageErrorInput("productType") }
+                            hasError={ productTypeError }
+                            errorMessage={ "This field is required" }
                             name={ assignInputName("productType") }
                             placeholder={ "Select product type" }
                             options={ productTypes }
+                            onChangeSelection={ (option: unknown) => { onChangeProductType(option); } }
                             required />
                         </Col>
                         <Col md>
                           <Select
-                            register={ register }
+                            selection={ selectedVariety }
                             label={ "Varieties" }
-                            hasError={ hasErrorsInput("varieties") }
-                            errorMessage={ getMessageErrorInput("varieties") }
+                            hasError={ varietyError }
+                            errorMessage={ "This field is required" }
                             name={ assignInputName("varieties") }
                             placeholder={ "Select a category" }
                             options={ varieties }
+                            onChangeSelection={ (option: unknown) => { onChangeVariety(option); } }
                             required />
                         </Col>
                       </Row>
@@ -292,14 +308,15 @@ const ProductCreation: React.FC<any> = () => {
                       <Row>
                         <Col className='product-form-select'>
                           <Select
-                            register={ register }
+                            selection={ selectedMinimumOrder }
                             label={ "Minimum order" }
-                            hasError={ hasErrorsInput("minimumOrder") }
-                            errorMessage={ getMessageErrorInput("minimumOrder") }
-                            required
+                            hasError={ minimumOrderError }
+                            errorMessage={ "This field is required" }
                             name={ assignInputName("minimumOrder") }
                             placeholder={ "Select option" }
-                            options={ minimumOrders } />
+                            options={ minimumOrders }
+                            onChangeSelection={ (option: unknown) => { onChangeMinimumOrder(option); } }
+                            required />
                         </Col>
                         <Col md>
                           <InputText
@@ -404,14 +421,14 @@ const ProductCreation: React.FC<any> = () => {
                 <p className='textModalDesc'>The changes will not be saved and you will have to create the product from scratch.</p>
               </Modal>
               {/* Modal Confirmation */ }
-              <Modal title="" continueText='Continue' width='560px' closed={ !showConfirmationModal } showCloseIcon={ false } onClose={ () => setShowConfirmationModal(false) } onContinue={ handleSubmit(submitForm, () => setActiveTabIndex(0)) }>
+              <Modal title="" continueText='Continue' width='560px' closed={ !showConfirmationModal } showCloseIcon={ false } onClose={ () => setShowConfirmationModal(false) } onContinue={ handleSubmit(submitForm, () => hideModals()) }>
                 <div className="verticalSpaceS"></div>
                 <h3 className='textPrimary300 textModalTitle'>Do you want to continue ?</h3>
                 <div className="verticalSpaceL"></div>
                 <p className='textModalDesc'>Are yo sure to create your product? Once submitted you will not be able to modify them until they have been reviewed by our <b>Bazar</b> team.</p>
               </Modal>
               {/* Modal Confirmation no Certificates */ }
-              <Modal title="" continueText='Continue' width='560px' closed={ !showConfirmationNoCertModal } showCloseIcon={ false } onClose={ () => setShowConfirmationNoCertModal(false) } onContinue={ handleSubmit(submitForm, () => setActiveTabIndex(0)) }>
+              <Modal title="" continueText='Continue' width='560px' closed={ !showConfirmationNoCertModal } showCloseIcon={ false } onClose={ () => setShowConfirmationNoCertModal(false) } onContinue={ handleSubmit(submitForm, () => hideModals()) }>
                 <div className="verticalSpaceS"></div>
                 <h3 className='textPrimary300 textModalTitle'>Do you want to continue ?</h3>
                 <div className="verticalSpaceL"></div>
