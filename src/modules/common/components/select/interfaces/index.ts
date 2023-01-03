@@ -4,7 +4,7 @@ import { ActionMeta } from 'react-select';
 export interface ISelectProps extends React.DetailedHTMLProps<React.SelectHTMLAttributes<HTMLSelectElement>, HTMLSelectElement> {
   selection: any;
   options: Array<{
-    label: string;
+    label: JSX.Element | string;
     value: string;
     icon?: any;
   }>;

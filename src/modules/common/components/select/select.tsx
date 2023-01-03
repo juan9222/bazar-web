@@ -10,7 +10,7 @@ const CustomSelect: React.FC<ISelectProps> = (props) => {
   const { Option } = components;
   const IconOption = (props: any) => (
     <Option { ...props }>
-      { props.data.icon }{ props.data.label }
+      { props.data.label }
     </Option>
   );
 
@@ -23,7 +23,7 @@ const CustomSelect: React.FC<ISelectProps> = (props) => {
             value={ options.find(o => o.value === selection) }
             options={ options }
             components={ { Option: IconOption } }
-            className={ getClassNameInputTextByError() }
+            className={ '' }
             name={ name }
             onChange={ onChangeSelection }
           />

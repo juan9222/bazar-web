@@ -7,7 +7,8 @@ import { productCreationFormValidator } from "../validators";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import useProductListProviders from "../../productList/providers";
-import { getProductIcon } from "../../../../common/components/productIcon";
+import { getOptionIconLabel } from "../../../../common/components/productIcon";
+import React from "react";
 
 const useCreateProduct = () => {
   const [activeTabIndex, setActiveTabIndex] = useState<number>(0);
@@ -16,12 +17,12 @@ const useCreateProduct = () => {
   const [showConfirmationNoCertModal, setShowConfirmationNoCertModal] = useState<boolean>(false);
   const [showCongratulationsModal, setShowCongratulationsModal] = useState(false);
   const [showCongratulationsNoCertModal, setShowCongratulationsNoCertModal] = useState(false);
-  const [products, setProducts] = useState<Array<{ label: string; value: string; }>>([]);
-  const [productTypes, setProductTypes] = useState<Array<{ label: string; value: string; }>>([]);
-  const [varieties, setVarieties] = useState<Array<{ label: string; value: string; }>>([]);
+  const [products, setProducts] = useState<Array<{ label: JSX.Element | string; value: string; }>>([]);
+  const [productTypes, setProductTypes] = useState<Array<{ label: JSX.Element | string; value: string; }>>([]);
+  const [varieties, setVarieties] = useState<Array<{ label: JSX.Element | string; value: string; }>>([]);
   const [sustainabilityCertificationsItems, setsustainabilityCertificationsItems] = useState<Array<{ label: string; value: string; }>>([]);
   const [incotermsItems, setIncotermsItems] = useState<Array<{ label: string; value: string; }>>([]);
-  const [minimumOrders, setMinimumOrders] = useState<Array<{ label: string; value: string; }>>([]);
+  const [minimumOrders, setMinimumOrders] = useState<Array<{ label: JSX.Element | string; value: string; }>>([]);
   const [selectedProduct, setSelectedProduct] = useState<string>();
   const [selectedProductType, setSelectedProductType] = useState<string>();
   const [selectedVariety, setSelectedVariety] = useState<string>();
@@ -169,9 +170,8 @@ const useCreateProduct = () => {
   const onGetProducts = async () => {
     const resp = await getBasicProducts();
     const productList = resp.data.results.map((product: any) => ({
-      label: product.basic_product,
+      label: getOptionIconLabel('product', product.basic_product),
       value: product.uuid,
-      icon: getProductIcon(product.basic_product)
     }));
     setProducts(productList);
   };
@@ -215,7 +215,7 @@ const useCreateProduct = () => {
   const onGetMinimumOrders = async () => {
     const resp = await getMinimumOrders();
     const minimumOrderList = resp.data.results.map((minimumOrder: any) => ({
-      label: minimumOrder.minimum_order,
+      label: getOptionIconLabel('minimumOrder', minimumOrder.minimum_order),
       value: minimumOrder.uuid,
     }));
     setMinimumOrders(minimumOrderList);

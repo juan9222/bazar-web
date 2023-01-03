@@ -13,7 +13,7 @@ import { TbDots, TbPaperBag } from 'react-icons/tb';
 import { HiPencil } from 'react-icons/hi';
 import useProductDetails from "./hooks/useProductDetails";
 import { useUser } from "../../layouts/dashboardLayout/dashboardLayout";
-import { getProductIcon } from "../../../common/components/productIcon";
+import { getOptionIconLabel, getProductIcon } from "../../../common/components/productIcon";
 import { useNavigate } from "react-router-dom";
 import Modal from "../../../common/components/modal";
 import InputText from "../../../common/components/inputText";
@@ -151,7 +151,7 @@ const ProductDetails: React.FC<any> = () => {
             </div>
             <div className="list__item">
               <span className="list__item--label">Minimun order</span>
-              <span className="list__item--value"><TbPaperBag /> { product?.minimum_order }</span>
+              <span className="list__item--value">{ getOptionIconLabel('minimumOrder', product?.minimum_order) }</span>
             </div>
           </div>
         </Col>
