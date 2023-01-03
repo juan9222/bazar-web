@@ -15,7 +15,13 @@ const PaymentSummary: React.FC<any> = () => {
     <Container fluid className="payment-summary">
       <Row className="payment-summary--row">
         <Col md={ 5 } className="payment-summary--banner-left">
-          <img className="img-left" src="/assets/images/banner-product-creation.png" alt="bazar" />
+          { approved ?
+            (
+              <img className="img-left" src="/assets/images/banner-transaction-approved.png" alt="bazar" />
+            ) :
+            (
+              <img className="img-left" src="/assets/images/banner-transaction-rejected.png" alt="bazar" />
+            ) }
         </Col>
         <Col md={ { span: 5, offset: 1 } } className="payment-summary--content-right">
           <div className="payment-summary--content-right--header">
