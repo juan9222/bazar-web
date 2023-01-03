@@ -1,20 +1,19 @@
-import React, { useRef, useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { FaUserAlt } from "react-icons/fa";
-import { BiDotsVerticalRounded } from "react-icons/bi";
 import { HiShoppingCart } from "react-icons/hi";
 import { Outlet, NavLink, useOutletContext } from "react-router-dom";
 import IconLogo from "../../../../assets/svg/icons/iconLogo";
 import { AiFillHome } from "react-icons/ai";
 import { ImLeaf } from "react-icons/im";
-import { MdAccountBalanceWallet, MdCheckCircle, MdLogout, MdOutlineLanguage } from "react-icons/md";
-import { Button, ListGroup, ListGroupItem, Offcanvas, Overlay } from "react-bootstrap";
+import { MdAccountBalanceWallet, MdLogout, MdOutlineLanguage } from "react-icons/md";
+import { Button, Offcanvas } from "react-bootstrap";
 import { IoMenu } from "react-icons/io5";
 import useAuthenticator from "../../../auth/hooks/useAuthenticator";
 import useCommonProviders from "../../../common/providers";
-import InputText from "../../../common/components/inputText";
 import WalletConnectionBSCSelection from "../../../wallet/components/WalletConnectionBSC";
 import { Web3ReactProvider } from '@web3-react/core';
 import { ExternalProvider, JsonRpcFetchFunc, Web3Provider } from "@ethersproject/providers";
+import UserMenu from "./components/userMenu/userMenu";
 
 type ContextType = {
   authenticatedUser: {
@@ -31,15 +30,12 @@ const Dashboardlayout: React.FC<any> = () => {
 
   const [show, setShow] = useState(false);
   const [authenticatedUser, setAuthenticatedUser] = useState<{
-    firstName: "",
-    lastName: "",
-    role: "",
-    profileImage: "",
-    company: "",
+    firstName: string,
+    lastName: string,
+    role: string,
+    profileImage: string,
+    company: string,
   }>();
-  const [showWallet, setShowWallet] = useState(false);
-  const walletRef = useRef<any>();
-  const [walletActive, setWalletActive] = useState(false);
 
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -63,11 +59,6 @@ const Dashboardlayout: React.FC<any> = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleWallet = () => setShowWallet(!showWallet);
-  const handleWalletActive = () => {
-    setShowWallet(!showWallet);
-    setWalletActive(!walletActive);
-  };
   const getLibrary = (provider: ExternalProvider | JsonRpcFetchFunc) => {
     return new Web3Provider(provider);
   };
@@ -121,52 +112,13 @@ const Dashboardlayout: React.FC<any> = () => {
               <IconLogo width={ 123 } />
             </div>
             <div className="dshLayout__body--header--right">
-              <div ref={ walletRef } onClick={ handleWallet } className={ `dshLayout__body--header--right--icon4 ${ walletActive ? 'checked' : '' }` }>
-                <MdAccountBalanceWallet />
-              </div>
-              <Overlay rootClose onHide={ handleWallet } transition={ false } target={ walletRef.current } show={ showWallet } placement="bottom-end">
-                { (props) => (
-                  <div
-                    { ...props }
-                    className="dshLayout__body--header--right--listMenu"
-                  >
-                    <ListGroup variant="flush">
-                      { !walletActive ? (
-                        <ListGroupItem action onClick={ handleWalletActive } className="dshLayout__body--header--right--listMenu--item">
-                          <img className="dshLayout__body--header--right--listMenu--item--icon" src={ "/assets/images/binance-logo-s.png" } alt="Binance" /> <strong className="formText">Binance wallet</strong>
-                        </ListGroupItem>
-                      ) : '' }
-                      { walletActive ? (
-                        <ListGroupItem className="dshLayout__body--header--right--listMenu--item checked">
-                          <img className="dshLayout__body--header--right--listMenu--item--icon" src={ "/assets/images/binance-logo-s.png" } alt="Binance" />
-                          <strong className="formText">Binance wallet</strong>
-                          <MdCheckCircle className="dshLayout__body--header--right--listMenu--item--iconCheck" />
-                          <InputText
-                            disabled
-                            name={ 'name' }
-                            type={ "number" }
-                            placeholder={ "0xCfk...3720e423g" }
-                            autoComplete={ "off" } />
-                          <img className="dshLayout__body--header--right--listMenu--item--iconButton" src={ "/assets/images/copy-icon.png" } alt="Binance" />
-                        </ListGroupItem>
-                      ) : '' }
-                      { walletActive ? (
-                        <ListGroupItem action onClick={ handleWalletActive } className="dshLayout__body--header--right--listMenu--item checked">
-                          <MdLogout className="dshLayout__body--header--right--listMenu--item--iconLogout" /> <strong className="formText">Log out</strong>
-                        </ListGroupItem>
-                      ) : '' }
-                    </ListGroup>
-                  </div>
-                ) }
-              </Overlay>
-              <MdOutlineLanguage className="dshLayout__body--header--right--icon3" />
               {
                 <Web3ReactProvider getLibrary={ getLibrary }>
                   <WalletConnectionBSCSelection />
                 </Web3ReactProvider>
               }
-              <img className="dshLayout__body--header--right--icon" src={ authenticatedUser?.profileImage || "/assets/images/default-avatar.png" } alt="card product" />
-              <BiDotsVerticalRounded className="dshLayout__body--header--right--icon2" onClick={ onLogout } />
+              <MdOutlineLanguage className="dshLayout__body--header--right--icon3" />
+              <UserMenu authenticatedUser={ authenticatedUser } onLogout={ onLogout } />
             </div>
             <Offcanvas className="dshLayout__body--header--left mobile-bazar-nav" show={ show } onHide={ handleClose }>
               <Offcanvas.Header className="mobile-bazar-nav__header" closeButton closeVariant="white">
