@@ -134,7 +134,6 @@ const useCompanyCreation = () => {
       if (city1.label > city2.label) return 1;
       return 0;
     });
-    console.log(cityList.filter((city: any) => city.name === 'Albania'));
     setCities(cityListMutate);
   };
 
