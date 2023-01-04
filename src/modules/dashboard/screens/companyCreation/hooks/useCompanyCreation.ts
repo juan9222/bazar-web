@@ -115,7 +115,11 @@ const useCompanyCreation = () => {
     const countryListMutate = countryList.map((country: any) => ({
       label: capitalizeFirstLetter(country.name),
       value: country.id
-    }));
+    })).sort((country1: { label: string, value: string; }, country2: { label: string, value: string; }) => {
+      if (country1.label < country2.label) return -1;
+      if (country1.label > country2.label) return 1;
+      return 0;
+    });
     setCountries(countryListMutate);
   };
 
@@ -125,7 +129,12 @@ const useCompanyCreation = () => {
     const cityListMutate = cityList.map((city: any) => ({
       label: city.name,
       value: city.id
-    }));
+    })).sort((city1: { label: string, value: string; }, city2: { label: string, value: string; }) => {
+      if (city1.label < city2.label) return -1;
+      if (city1.label > city2.label) return 1;
+      return 0;
+    });
+    console.log(cityList.filter((city: any) => city.name === 'Albania'));
     setCities(cityListMutate);
   };
 
