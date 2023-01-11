@@ -11,9 +11,19 @@ const useUserListProviders = () => {
     return trackPromise(request);
   };
 
+  const approveUser = (data: any) => {
+    const request = axios({
+      method: "PUT",
+      baseURL: process.env.REACT_APP_BAZAR_URL,
+      url: 'users/user-approval',
+      data: data
+    });
+    return trackPromise(request);
+  };
 
   return {
     getUsersList,
+    approveUser,
   };
 };
 

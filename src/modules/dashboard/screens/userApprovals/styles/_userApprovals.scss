@@ -130,7 +130,7 @@
   height: 26px;
   border-radius: 6px;
   color: $white;
-  background-color: $neutral_400;
+  background-color: $warning_75;
 }
 
 .userApprovals__approved {
@@ -229,6 +229,7 @@
 }
 
 .userApprovals__paragraphText {
+  height: 75%;
   color: $primary_300
 }
 
@@ -237,18 +238,6 @@
   font-size: 20.2px;
   text-align: left;
   font-weight: 700;
-}
-
-.userApprovals__reviewModal {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 14px;
-  width: 94px;
-  height: 26px;
-  border-radius: 6px;
-  color: $white;
-  background-color: $warning_75;
 }
 
 .userApprovals__userAttribute {

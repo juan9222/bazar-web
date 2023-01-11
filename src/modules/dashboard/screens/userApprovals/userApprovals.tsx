@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -19,8 +19,8 @@ import useProductList from "./hooks/useUserApprovals";
 
 
 const UserApprovals: React.FC<any> = () => {
-  const { userList } = useProductList();
-  const [manageUserModal, setManageUserModal] = useState(false);
+  const { register, handleSubmit, userList, showManageUserModal, onCloseManageUserModal, onOpenManageUser, selectedUser, onChangeUserStatus, productsMap, onChangeProductStatus, statusToClassFormatter, onSave, } = useProductList();
+
   return (
     <>
       <Container fluid>
@@ -90,8 +90,8 @@ const UserApprovals: React.FC<any> = () => {
                     <Col xs={ 3 }><UnknownAvatar />{ user.userName }</Col>
                     <Col xs={ 2 }>{ user.profile }</Col>
                     <Col xs={ 3 }>{ user.companyName }</Col>
-                    <Col xs={ 2 }><div className={ user.statusClass }>{ user.status }</div></Col>
-                    <Col className="userApprovals__viewDetail" xs={ 2 }><div className="cursor-pointer" onClick={ () => setManageUserModal(true) }>Manage User</div></Col>
+                    <Col xs={ 2 }><div className={ statusToClassFormatter(user.status) }>{ user.status }</div></Col>
+                    <Col className="userApprovals__viewDetail" xs={ 2 }><div className="cursor-pointer" onClick={ () => onOpenManageUser(user) }>Manage User</div></Col>
                   </Row>
                   <hr className="m-0" />
                 </>;
@@ -126,13 +126,13 @@ const UserApprovals: React.FC<any> = () => {
                   <Row className="py-2">
                     <Col>Status</Col>
                     <Col className="d-flex justify-content-end">
-                      <div className={ user.statusClass }>{ user.status }</div>
+                      <div className={ statusToClassFormatter(user.status) }>{ user.status }</div>
                     </Col>
                   </Row>
                   <hr className="m-0 mw-100 w-100" />
                   <Row className="userApprovals__viewDetail py-2">
                     <Col className="d-flex justify-content-end">
-                      <div className="cursor-pointer" onClick={ () => setManageUserModal(true) }>Manage User</div>
+                      <div className="cursor-pointer" onClick={ () => onOpenManageUser(user) }>Manage User</div>
                     </Col>
                   </Row>
                 </Col>
@@ -147,88 +147,70 @@ const UserApprovals: React.FC<any> = () => {
           </Pagination>
         </div>
       </Container>
-      { manageUserModal &&
-        <Modal title="Manage User" width='541px' continueText="Save" closed={ !manageUserModal } cancelHidden={ true } showCloseIcon onClose={ () => setManageUserModal(false) }>
-          <div className="userApprovals__paragraphText">
-            <p className="userApprovals__colorNeutral"><span className="userApprovals__colorRed">*</span> Select what you want to Manage</p>
-            <div className="userApprovals__manageUserSubtitle">User</div>
-            <hr className="w-100 mt-0" />
-            <div className="d-flex align-items-center justify-content-between px-4 py-3">
-              <div className="d-flex gap-4">
-                <div className="userApprovals__userAttribute">Profile</div>
-                <div className="userApprovals__reviewModal">Review</div>
-              </div>
-              <OverlayTrigger
-                trigger="click"
-                key="bottom"
-                placement="bottom"
-                overlay={
-                  <Popover id="popover-positioned-bottom">
-                    <Popover.Body>
-                      <ul className="userApprovals__list">
-                        <li className="userApprovals__approve"><AiFillCheckCircle /> Approve</li>
-                        <li className="userApprovals__reject"><AiFillCloseCircle /> Reject</li>
-                      </ul>
-                    </Popover.Body>
-                  </Popover>
-                }
-              >
-                <div className="userApprovals__ellipsis">...</div>
-              </OverlayTrigger>
+      <Modal title="Manage User" width='541px' height='100%' continueText="Save" closed={ !showManageUserModal } cancelHidden={ true } showCloseIcon onClose={ onCloseManageUserModal } onContinue={ handleSubmit(onSave) }>
+        <div className="userApprovals__paragraphText">
+          <p className="userApprovals__colorNeutral"><span className="userApprovals__colorRed">*</span> Select what you want to Manage</p>
+          <div className="userApprovals__manageUserSubtitle">User</div>
+          <hr className="w-100 mt-0" />
+          <div className="d-flex align-items-center justify-content-between px-4 py-3">
+            <div className="d-flex gap-4">
+              <div className="userApprovals__userAttribute">Profile</div>
+              <div className={ statusToClassFormatter(selectedUser?.status) }>{ selectedUser?.status }</div>
             </div>
-            <div className="userApprovals__manageUserSubtitle">Products</div>
-            <hr className="w-100 mt-0" />
-            <div className="d-flex align-items-center justify-content-between px-4 py-3">
-              <div className="d-flex gap-4">
-                <div className="userApprovals__userAttribute">Coffee</div>
-                <div className="userApprovals__reviewModal">Review</div>
-              </div>
-              <OverlayTrigger
-                trigger="click"
-                key="bottom"
-                placement="bottom"
-                overlay={
-                  <Popover id="popover-positioned-bottom">
-                    <Popover.Body>
-                      <ul className="userApprovals__list">
-                        <li className="userApprovals__approve"><AiFillCheckCircle /> Approve</li>
-                        <li className="userApprovals__reject"><AiFillCloseCircle /> Reject</li>
-                      </ul>
-                    </Popover.Body>
-                  </Popover>
-                }
-              >
-                <div className="userApprovals__ellipsis">...</div>
-              </OverlayTrigger>
-            </div>
-            <div className="d-flex align-items-center justify-content-between px-4 py-3">
-              <div className="d-flex gap-4">
-                <div className="userApprovals__userAttribute">Cocoa</div>
-                <div className="userApprovals__reviewModal">Review</div>
-              </div>
-              <OverlayTrigger
-                trigger="click"
-                key="bottom"
-                placement="bottom"
-                overlay={
-                  <Popover id="popover-positioned-bottom">
-                    <Popover.Body>
-                      <ul className="userApprovals__list">
-                        <li className="userApprovals__approve"><AiFillCheckCircle /> Approve</li>
-                        <li className="userApprovals__reject"><AiFillCloseCircle /> Reject</li>
-                      </ul>
-                    </Popover.Body>
-                  </Popover>
-                }
-              >
-                <div className="userApprovals__ellipsis">...</div>
-              </OverlayTrigger>
-            </div>
-            <div className="userApprovals__additionalCommentsTitle">Additional Comments</div>
-            <textarea placeholder="write additional comments" className="userApprovals__textArea" />
+            <OverlayTrigger
+              trigger="click"
+              key="bottom"
+              placement="bottom"
+              overlay={
+                <Popover id="popover-positioned-bottom">
+                  <Popover.Body>
+                    <ul className="userApprovals__list">
+                      <li className="userApprovals__approve" onClick={ () => { onChangeUserStatus("Approved"); } }><AiFillCheckCircle /> Approve</li>
+                      <li className="userApprovals__reject" onClick={ () => { onChangeUserStatus("Rejected"); } }><AiFillCloseCircle /> Reject</li>
+                    </ul>
+                  </Popover.Body>
+                </Popover>
+              }
+              rootClose
+            >
+              <div className="userApprovals__ellipsis">...</div>
+            </OverlayTrigger>
           </div>
-        </Modal>
-      }
+          <div className="userApprovals__manageUserSubtitle">Products</div>
+          <hr className="w-100 mt-0" />
+          <div className="overflow-scroll" style={ { height: "12rem" } }>
+            { productsMap && Object.keys(productsMap).map((productUuid: string) => {
+              return <div className="d-flex align-items-center justify-content-between px-4 py-3">
+                <div className="d-flex gap-4">
+                  <div className="userApprovals__userAttribute">{ productsMap[productUuid].name }</div>
+                  <div className={ statusToClassFormatter(productsMap[productUuid].status) }>{ productsMap[productUuid].status }</div>
+                </div>
+                <OverlayTrigger
+                  trigger="click"
+                  key="bottom"
+                  placement="bottom"
+                  overlay={
+                    <Popover id="popover-positioned-bottom">
+                      <Popover.Body>
+                        <ul className="userApprovals__list">
+                          <li className="userApprovals__approve" onClick={ () => { onChangeProductStatus(productUuid, "Approved"); } }><AiFillCheckCircle /> Approve</li>
+                          <li className="userApprovals__reject" onClick={ () => { onChangeProductStatus(productUuid, "Rejected"); } }><AiFillCloseCircle /> Reject</li>
+                        </ul>
+                      </Popover.Body>
+                    </Popover>
+                  }
+                  rootClose
+                >
+                  <div className="userApprovals__ellipsis">...</div>
+                </OverlayTrigger>
+              </div>;
+            }
+            ) }
+          </div>
+          <div className="userApprovals__additionalCommentsTitle">Additional Comments</div>
+          <textarea placeholder="write additional comments" className="userApprovals__textArea" { ...register("additionalComments") } />
+        </div >
+      </Modal >
     </>
   );
 };
