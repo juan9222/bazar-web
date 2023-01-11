@@ -3,7 +3,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 
 const useInterceptor = () => {
   const handleRequestSuccess = (request: AxiosRequestConfig): AxiosRequestConfig => {
-    request.timeout = 10000;
+    request.timeout = 100000;
     return request;
   };
 

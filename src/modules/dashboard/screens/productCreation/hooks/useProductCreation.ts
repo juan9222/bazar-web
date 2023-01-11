@@ -52,7 +52,7 @@ const useCreateProduct = () => {
     resolver: yupResolver(productCreationFormValidator),
     mode: "all",
   });
-  const { control, register, handleSubmit, getValues, formState: { errors: createProductErrors } } = methods;
+  const { control, register, handleSubmit, formState: { errors: createProductErrors } } = methods;
 
   const assignInputName = (inputName: TProductCreationFormKeys): string => {
     return inputName.toString();
@@ -332,7 +332,6 @@ const useCreateProduct = () => {
     methods,
     control,
     register,
-    getValues,
     handleSubmit,
     submitForm,
     hideModals,
