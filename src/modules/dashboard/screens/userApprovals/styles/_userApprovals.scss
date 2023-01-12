@@ -125,7 +125,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 14px;
+  font-size: 13px;
   width: 94px;
   height: 26px;
   border-radius: 6px;
@@ -309,4 +309,25 @@
   align-items: center;
   gap: 1rem;
   cursor: pointer;
+}
+
+.userApprovals__productList {
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.userApprovals__noproducts {
+  align-items: center;
+  color: $neutral-200;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
 }

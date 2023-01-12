@@ -19,7 +19,17 @@ import useProductList from "./hooks/useUserApprovals";
 
 
 const UserApprovals: React.FC<any> = () => {
-  const { register, handleSubmit, userList, showManageUserModal, onCloseManageUserModal, onOpenManageUser, selectedUser, onChangeUserStatus, productsMap, onChangeProductStatus, statusToClassFormatter, onSave, } = useProductList();
+  const { register, handleSubmit, userList, pages, activePage, showManageUserModal, onCloseManageUserModal, onOpenManageUser, selectedUser, onChangeUserStatus, productsMap, onChangeProductStatus, statusToClassFormatter, onSave, setActivePage, enableSave } = useProductList();
+
+  const pagination = () => {
+    const pageItems = [];
+    for (let index = 0; index < pages; index++) {
+      pageItems.push(
+        <Pagination.Item key={ index } active={ index === activePage } onClick={ () => setActivePage(index) }>{ index + 1 }</Pagination.Item>
+      );
+    }
+    return pageItems;
+  };
 
   return (
     <>
@@ -142,12 +152,12 @@ const UserApprovals: React.FC<any> = () => {
         </Col>
         {/* Pagination Row */ }
         <div className="d-flex justify-content-end">
-          <Pagination>
-            <Pagination.Item active>{ 1 }</Pagination.Item>
+          <Pagination >
+            { pagination() }
           </Pagination>
         </div>
       </Container>
-      <Modal title="Manage User" width='541px' height='100%' continueText="Save" closed={ !showManageUserModal } cancelHidden={ true } showCloseIcon onClose={ onCloseManageUserModal } onContinue={ handleSubmit(onSave) }>
+      <Modal title="Manage User" width='541px' height='43rem' continueText="Save" closed={ !showManageUserModal } cancelHidden={ true } showCloseIcon onClose={ onCloseManageUserModal } onContinue={ handleSubmit(onSave) } continueDisabled={ !enableSave }>
         <div className="userApprovals__paragraphText">
           <p className="userApprovals__colorNeutral"><span className="userApprovals__colorRed">*</span> Select what you want to Manage</p>
           <div className="userApprovals__manageUserSubtitle">User</div>
@@ -178,8 +188,8 @@ const UserApprovals: React.FC<any> = () => {
           </div>
           <div className="userApprovals__manageUserSubtitle">Products</div>
           <hr className="w-100 mt-0" />
-          <div className="overflow-scroll" style={ { height: "12rem" } }>
-            { productsMap && Object.keys(productsMap).map((productUuid: string) => {
+          <div className="overflow-scroll userApprovals__productList" style={ { height: "12rem" } }>
+            { (productsMap && Object.keys(productsMap).length > 0) ? Object.keys(productsMap).map((productUuid: string) => {
               return <div className="d-flex align-items-center justify-content-between px-4 py-3">
                 <div className="d-flex gap-4">
                   <div className="userApprovals__userAttribute">{ productsMap[productUuid].name }</div>
@@ -205,7 +215,13 @@ const UserApprovals: React.FC<any> = () => {
                 </OverlayTrigger>
               </div>;
             }
-            ) }
+            )
+              :
+              <div className="userApprovals__noproducts">
+                <img src="/assets/images/no-products.png" />
+                <p>No products yet</p>
+              </div>
+            }
           </div>
           <div className="userApprovals__additionalCommentsTitle">Additional Comments</div>
           <textarea placeholder="write additional comments" className="userApprovals__textArea" { ...register("additionalComments") } />
