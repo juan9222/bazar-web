@@ -9,6 +9,10 @@ const useProductList = () => {
   const [selectedUser, setSelectedUser] = useState<any>();
   const [productsMap, setProductsMap] = useState<Record<string, any>>();
   const [showManageUserModal, setShowManageUserModal] = useState(false);
+  const [activePage, setActivePage] = useState<number>(0);
+  const [pages, setPages] = useState<number>(0);
+  const [enableSave, setEnableSave] = useState<boolean>(false);
+
   //Providers
   const { getUsersList, approveUser } = useUserListProviders();
   const { getSellerProducts } = useProductListProviders();
@@ -38,8 +42,8 @@ const useProductList = () => {
     return word.charAt(0).toUpperCase() + word.slice(1);
   };
 
-  const onGetUserList = async () => {
-    const resp = await getUsersList(0);
+  const onGetUserList = async (pageIndex: number) => {
+    const resp = await getUsersList(pageIndex);
     const users = resp.data.results.map((user: any) => ({
       id: user.uuid,
       companyName: user.company[0].company_name,
@@ -48,6 +52,7 @@ const useProductList = () => {
       status: user.status,
     }));
     setUserList(users);
+    setPages(resp.data.total_pages);
   };
 
   const onGetSellerProducts = async () => {
@@ -60,6 +65,10 @@ const useProductList = () => {
       };
     });
     setProductsMap(productsMap);
+  };
+
+  const onChangePage = (pageIndex: number) => {
+    setActivePage(pageIndex);
   };
 
   const onSave = async (data: IApproveUserProps) => {
@@ -81,6 +90,7 @@ const useProductList = () => {
     const newSelectedUser = { ...selectedUser };
     newSelectedUser.status = status;
     setSelectedUser(newSelectedUser);
+    setEnableSave(true);
     document.body.click();
   };
 
@@ -91,10 +101,15 @@ const useProductList = () => {
     newProductStatus.statusChanged = true;
     newProductsMap[productId] = newProductStatus;
     setProductsMap(newProductsMap);
+    setEnableSave(true);
     document.body.click();
   };
 
-  const onCloseManageUserModal = () => setShowManageUserModal(false);
+  const onCloseManageUserModal = () => {
+    setShowManageUserModal(false);
+    setProductsMap(undefined);
+    setEnableSave(false);
+  };
 
   const onOpenManageUser = (user: any) => {
     setSelectedUser(user);
@@ -103,9 +118,9 @@ const useProductList = () => {
 
 
   useEffect(() => {
-    onGetUserList();
+    onGetUserList(activePage * 10);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [, activePage]);
 
   useEffect(() => {
     selectedUser && onGetSellerProducts();
@@ -115,6 +130,9 @@ const useProductList = () => {
     register,
     handleSubmit,
     userList,
+    pages,
+    activePage,
+    setActivePage,
     showManageUserModal,
     onCloseManageUserModal,
     onOpenManageUser,
@@ -124,6 +142,8 @@ const useProductList = () => {
     onChangeProductStatus,
     onSave,
     statusToClassFormatter,
+    onChangePage,
+    enableSave,
   };
 };
 
