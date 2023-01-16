@@ -4,7 +4,7 @@
 
 // //////////// COMMON
 // Styles
-@import "../../modules/common/styles/index";
+@import '../../modules/common/styles/index';
 // Components
 /* Button */
 @import '../../modules/common/components/button/styles/index';
@@ -38,7 +38,7 @@
 
 // //////////// modules/AUTH
 // Components
-@import "../../modules/auth/components/heroAuth/styles/index";
+@import '../../modules/auth/components/heroAuth/styles/index';
 // Pages
 @import '../../modules/auth/pages/login/styles/index';
 @import '../../modules/auth/pages/verify/styles/index';
@@ -62,9 +62,8 @@
 @import '../../modules/dashboard/screens/userApprovals/styles/index';
 @import '../../modules/dashboard/screens/paymentSummary/styles/index';
 
-
 // ////////// Bootstrap
-@import "~bootstrap/scss/bootstrap";
+@import '~bootstrap/scss/bootstrap.scss';
 
 // ////////// Image Gallery
-@import "~react-image-gallery/styles/scss/image-gallery.scss";
+@import '~react-image-gallery/styles/scss/image-gallery.scss';

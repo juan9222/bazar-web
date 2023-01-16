@@ -1,5 +1,5 @@
 import React from "react";
-import OtpInput from "react-otp-input";
+import OtpInput from "react18-input-otp";
 import Button from "../../../common/components/button";
 import { EBtnVisibleType } from "../../../common/components/button/interfaces";
 import { ELarge } from "../../../common/interfaces";
@@ -13,7 +13,7 @@ import Modal from "../../../common/components/modal";
 
 const Verify: React.FC = () => {
 
-  const { 
+  const {
     otpCode,
     setOtpCode,
     verifyState,
@@ -29,36 +29,36 @@ const Verify: React.FC = () => {
   const defaultEmail = new URLSearchParams(useLocation().search).get('email');
 
   const onSuccessModalContinue = () => {
-    navigate(`/auth/login?${new URLSearchParams({
+    navigate(`/auth/login?${ new URLSearchParams({
       email: defaultEmail || '',
-    })}`);
+    }) }`);
   };
 
   const getLayoutSubTitle = () => {
     if (origin === 'login') return `Check out your phone!  We've sent a temporary  
-    verification code to your phone *******${phoneNumber?.substring(phoneNumber.length - 3)}`
+    verification code to your phone *******${ phoneNumber?.substring(phoneNumber.length - 3) }`;
 
     return `We take your security very seriously. Therefore, we need to 
     validate your cell phone number, please enter the verification code that we
     send to your cell phone in the following field.`;
-  }
+  };
 
   const getLayoutTitle = () => {
-    if (origin === 'login') return `Verification code`
+    if (origin === 'login') return `Verification code`;
 
     return `Phone number verification`;
-  }
+  };
 
   const getVerifyButtonTitle = () => {
     if (origin === 'login') return `Verify code`;
 
     return `Verify phone number`;
-  }
+  };
 
   return (
     <AuthlayoutContent
       title={ getLayoutTitle() }
-      subtitle={getLayoutSubTitle()}>
+      subtitle={ getLayoutSubTitle() }>
       <div className="otpStatus">
         {
           verifyState === EVerifyStatus.loading && (
@@ -94,10 +94,10 @@ const Verify: React.FC = () => {
         value={ otpCode }
         onChange={ setOtpCode }
         numInputs={ 6 }
-        separator={ <span className="otpInputSeparator"></span>}
+        separator={ <span className="otpInputSeparator"></span> }
         isInputNum={ true }
-        shouldAutoFocus= { true }
-        isDisabled={verifyState === EVerifyStatus.loading}
+        shouldAutoFocus={ true }
+        isDisabled={ verifyState === EVerifyStatus.loading }
       />
       <p className="defaultText textNeutral200 textAlignCenter">
         Don't receive code? <button onClick={ onResend } className="textPrimary200 defaultText textLink">Resend</button>
@@ -107,25 +107,25 @@ const Verify: React.FC = () => {
         { getVerifyButtonTitle() }
       </Button>
       <div className="verticalSpaceL" />
-      <Button visibleType={ EBtnVisibleType.clear } large={ ELarge.full } onClick={() => {navigate('/auth/login')}}>Cancel</Button>
+      <Button visibleType={ EBtnVisibleType.clear } large={ ELarge.full } onClick={ () => { navigate('/auth/login'); } }>Cancel</Button>
 
       <div className="loginContainer__tAndC">
         <p className="smallText textNeutral200 textAlignCenter">
           Are you having problems with this method?
-          <br/>
+          <br />
           Please contact <a href="mailto:support@bazar.com" className="textPrimary200 textLink">support@email.com</a>
         </p>
       </div>
 
       <Modal
         title="Verified phone number"
-        closed={isSuccessModalClosed}
-        onContinue={onSuccessModalContinue}
-        onClose={onSuccessModalContinue}
+        closed={ isSuccessModalClosed }
+        onContinue={ onSuccessModalContinue }
+        onClose={ onSuccessModalContinue }
         width="580px"
-        cancelHidden={true}
+        cancelHidden={ true }
       >
-        Thank you for verifying your phone number, you are now closer to enjoying Bazar. 
+        Thank you for verifying your phone number, you are now closer to enjoying Bazar.
         Please help us to verify your email so we can log you in and be closer to you.
       </Modal>
 
