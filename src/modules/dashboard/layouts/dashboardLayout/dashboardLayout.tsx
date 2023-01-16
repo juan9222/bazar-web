@@ -14,14 +14,15 @@ import WalletConnectionBSCSelection from "../../../wallet/components/WalletConne
 import { Web3ReactProvider } from '@web3-react/core';
 import { ExternalProvider, JsonRpcFetchFunc, Web3Provider } from "@ethersproject/providers";
 import UserMenu from "./components/userMenu/userMenu";
+import { BiHeart, BiTag } from "react-icons/bi";
 
 type ContextType = {
   authenticatedUser: {
-    firstName: "",
-    lastName: "",
-    role: "",
-    profileImage: "",
-    company: "",
+    firstName: string,
+    lastName: string,
+    role: string,
+    profileImage: string,
+    company: string,
   } | null;
 };
 
@@ -63,6 +64,8 @@ const Dashboardlayout: React.FC<any> = () => {
     return new Web3Provider(provider);
   };
 
+  const isBuyer = authenticatedUser && authenticatedUser.role === "Buyer";
+
   return (
     <div className="dshLayout">
       <nav className="dshLayout__nav">
@@ -80,13 +83,15 @@ const Dashboardlayout: React.FC<any> = () => {
           <ImLeaf className="dshLayout__nav--btnNav--icon" />
           <p className="dshLayout__nav--btnNav--label">Products</p>
         </NavLink>
-        <NavLink className={ ({ isActive }) =>
-          `dshLayout__nav--btnNav ${ isActive ? 'active' : '' }`
-        }
-          to="/">
-          <HiShoppingCart className="dshLayout__nav--btnNav--icon" />
-          <p className="dshLayout__nav--btnNav--label">Purchases</p>
-        </NavLink>
+        { isBuyer && (
+          <NavLink className={ ({ isActive }) =>
+            `dshLayout__nav--btnNav ${ isActive ? 'active' : '' }`
+          }
+            to="/">
+            <HiShoppingCart className="dshLayout__nav--btnNav--icon" />
+            <p className="dshLayout__nav--btnNav--label">Purchases</p>
+          </NavLink>
+        ) }
         <NavLink className={ ({ isActive }) =>
           `dshLayout__nav--btnNav ${ isActive ? 'active' : '' }`
         }
@@ -94,6 +99,15 @@ const Dashboardlayout: React.FC<any> = () => {
           <MdAccountBalanceWallet className="dshLayout__nav--btnNav--icon" />
           <p className="dshLayout__nav--btnNav--label">Wallet</p>
         </NavLink>
+        { isBuyer && (
+          <NavLink className={ ({ isActive }) =>
+            `dshLayout__nav--btnNav ${ isActive ? 'active' : '' }`
+          }
+            to="/">
+            <BiHeart className="dshLayout__nav--btnNav--icon" />
+            <p className="dshLayout__nav--btnNav--label">Wishlist</p>
+          </NavLink>
+        ) }
         <NavLink className={ ({ isActive }) =>
           `dshLayout__nav--btnNav ${ isActive ? 'active' : '' }`
         }

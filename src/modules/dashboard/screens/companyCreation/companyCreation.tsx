@@ -52,6 +52,8 @@ const CompanyCreation: React.FC<any> = () => {
 
   const { authenticatedUser } = useUser();
 
+  const isBuyer = authenticatedUser?.role === 'Buyer';
+
   return (
     <Container fluid className="cc">
       <Row>
@@ -283,18 +285,18 @@ const CompanyCreation: React.FC<any> = () => {
                 <p className='textModalDesc'>Are yo sure to save your changes? Once submitted you will not be able to modify them until they have been reviewed by our Bazar team.</p>
               </Modal>
               {/* Modal Congratulations */ }
-              <Modal title="" continueText='Create product now' cancelText='Create product later' width='590px' closed={ !showCongratulationsModal } showCloseIcon={ false } onClose={ () => setShowConfirmationModal(false) } onContinue={ onCreateProduct } onCancel={ onCreateProductLater } loading={ loading }>
-                <div className="verticalSpaceS"></div>
+              <Modal title="" continueText={ isBuyer ? 'Continue' : 'Create product now' } cancelText='Create product later' width='590px' closed={ !showCongratulationsModal } showCloseIcon={ false } onClose={ () => setShowConfirmationModal(false) } onContinue={ isBuyer ? onCreateProductLater : onCreateProduct } onCancel={ onCreateProductLater } cancelHidden={ isBuyer } loading={ loading }>
+                < div className="verticalSpaceS"></div>
                 <h3 className='textPrimary300 textModalTitle dFlex aICenter'> <AiFillCheckCircle className='textSuccess200' />             <div className="horizontalSpaceS"></div>
                   Congratulations</h3>
                 <div className="verticalSpaceL"></div>
-                <p className='textModalDesc'>Your profile is almost ready, it just needs a verification by our team, it won't take long! <b>You can create your product list, while waiting for our validation.</b></p>
+                <p className='textModalDesc'>Your profile is almost ready, it just needs a verification by our team, it won't take long! { isBuyer && (<b>You can create your product list, while waiting for our validation.</b>) }</p>
               </Modal>
             </div>
           </div>
         </Col>
-      </Row>
-    </Container>
+      </Row >
+    </Container >
   );
 };
 
