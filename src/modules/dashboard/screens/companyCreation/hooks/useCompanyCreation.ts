@@ -8,6 +8,7 @@ import useAuthenticator from '../../../../auth/hooks/useAuthenticator';
 import { capitalizeFirstLetter } from '../../../../common/helpers';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import useAccountBazarchain from '../../../../wallet/hooks/useAccountBazarchain';
 
 const useCompanyCreation = () => {
   const [loading, setLoading] = useState(false);
@@ -160,6 +161,8 @@ const useCompanyCreation = () => {
     setSelectedCity((option as any).label);
   };
 
+  const { credentials } = useAccountBazarchain();
+
   const submitForm = async (data: ICompanyCreationProps) => {
     setLoading(true);
     data.city = selectedCity!;
@@ -187,6 +190,21 @@ const useCompanyCreation = () => {
         formData.append("files[]", files[i]);
       }
       const resp = await axios.post(`${ process.env.REACT_APP_BAZAR_URL }/companies`, formData, {});
+
+      await axios.post(`${ process.env.REACT_APP_BAZAR_AUTH_URL }/user/wallet/addAccount`, {
+        userUUID: data.uuid,
+        name: 'Bazar Network',
+        address: credentials.address,
+        binaryAddress: credentials.binaryAddress,
+        passphrases: credentials.bazar_passphrase,
+        publickey: credentials.publickey,
+        privatekey: credentials.privatekey
+      }).then(function (response) {
+        console.log("Bazar Account created");
+      }).catch(function (err) {
+        console.log(err);
+      });
+
       console.log(JSON.stringify(resp, null, 3));
       setLoading(false);
       setShowConfirmationModal(false);
