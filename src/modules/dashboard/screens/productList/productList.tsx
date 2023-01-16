@@ -11,9 +11,12 @@ import IconNewProduct from "../../../../assets/svg/icons/iconNewProduct";
 import { NavLink } from "react-router-dom";
 import { BrowserView, MobileView } from 'react-device-detect';
 import { getProductIcon } from "../../../common/components/productIcon";
+import { useUser } from "../../layouts/dashboardLayout/dashboardLayout";
 
 const ProductList: React.FC<any> = () => {
   const { basicProducts, productMap, avatarUrl, onFilterProducts, filteredProducts, onClickProductCard } = useProductList();
+
+  const { authenticatedUser } = useUser();
 
   const getMappedStatus = (status: string): Status => {
     switch (status) {
@@ -118,13 +121,15 @@ const ProductList: React.FC<any> = () => {
           );
         }) }
       </MobileView>
-      <div className="btn-create-product">
-        <NavLink className="btn-create-product__content"
-          to="/dashboard/create-product">
-          <IconNewProduct />
-          <p>New product</p>
-        </NavLink>
-      </div>
+      { authenticatedUser?.role !== 'Buyer' && (
+        <div className="btn-create-product">
+          <NavLink className="btn-create-product__content"
+            to="/dashboard/create-product">
+            <IconNewProduct />
+            <p>New product</p>
+          </NavLink>
+        </div>
+      ) }
     </Container>
   );
 };

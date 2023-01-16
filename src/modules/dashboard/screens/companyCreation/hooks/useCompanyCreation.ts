@@ -207,8 +207,8 @@ const useCompanyCreation = () => {
   const onCreateProductLater = () => {
     setShowCongratulationsModal(false);
     navigate("/dashboard/home");
-
   };
+
   useEffect(() => {
     onGetUserInfo();
     onGetCountries();
