@@ -96,11 +96,11 @@ const ProductList: React.FC<any> = () => {
         }) }
       </BrowserView>
       <MobileView className="products-mobile-view mt-4">
-        { productMap && Object.entries(productMap).map(([product, productList]) => {
-          return isFilteredOut(product) ? <></> : (
+        { productMap && Object.entries(productMap).map(([basicProduct, productList]) => {
+          return isFilteredOut(basicProduct) ? <></> : (
             <div className="products-row mb-2">
               <div className="products-title">
-                <h3 className="titlePrimary">{ product }</h3>
+                <h3 className="titlePrimary">{ basicProduct }</h3>
               </div>
               <div className={ `content-cards-list ${ filteredProducts.length === 1 && 'cards-list-column' }` }>
                 { productList.map((product: any) => {
@@ -118,6 +118,7 @@ const ProductList: React.FC<any> = () => {
                       availableForSale={ product.available_for_sale }
                       likeable={ authenticatedUser?.role === 'Buyer' }
                       isLiked={ product.is_liked }
+                      onLiked={ (e) => onLikeProduct(e, basicProduct, product.uuid) }
                     />
                   );
                 }) }
