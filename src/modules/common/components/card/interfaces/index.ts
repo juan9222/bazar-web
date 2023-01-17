@@ -1,4 +1,4 @@
-import { ReactElement } from "react";
+import React, { ReactElement } from "react";
 
 export enum Status {
   public = "Public",
@@ -20,4 +20,7 @@ export interface ICardProps {
   availableForSale: number;
   onClick?: (event: React.MouseEvent) => void;
   className?: string;
+  likeable?: boolean;
+  isLiked?: boolean;
+  onLiked?: (event: React.MouseEvent) => void;
 }

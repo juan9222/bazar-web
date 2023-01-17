@@ -4,9 +4,10 @@ import { MdEdit, MdCancel, MdDelete } from 'react-icons/md';
 import Button from "../button";
 import IconCertificate from "../../../../assets/svg/icons/iconCertificate";
 import { ICardProps, Status } from "./interfaces";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 
 const Card: React.FC<ICardProps> = (props) => {
-  const { status, productImage, avatar, icon, product, hasCertificates, productType, variety, pricePerKg, availableForSale, onClick, } = props;
+  const { status, productImage, avatar, icon, product, hasCertificates, productType, variety, pricePerKg, availableForSale, onClick, likeable, isLiked, onLiked } = props;
 
   const getStatus = (status: string) => {
     switch (status) {
@@ -25,6 +26,14 @@ const Card: React.FC<ICardProps> = (props) => {
     <div className="content-card" onClick={ onClick }>
       <div className="content-card__header">
         { getStatus(status) }
+        { likeable && (
+          <div className="header-wishlist" onClick={ onLiked }>
+            { isLiked ?
+              <AiFillHeart className="header-wishlist__heart" style={ { color: '#ef4444' } } />
+              : <AiOutlineHeart className="header-wishlist__heart" style={ { color: '#ffffff' } } />
+            }
+          </div>
+        ) }
         <img src={ productImage } alt="card product" />
         <div className="header-data">
           <img className="header-data__img" src={ avatar ?? "/assets/images/default-avatar.png" } alt="card product" />

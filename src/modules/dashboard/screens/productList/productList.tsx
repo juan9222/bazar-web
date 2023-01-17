@@ -14,7 +14,7 @@ import { getProductIcon } from "../../../common/components/productIcon";
 import { useUser } from "../../layouts/dashboardLayout/dashboardLayout";
 
 const ProductList: React.FC<any> = () => {
-  const { basicProducts, productMap, avatarUrl, onFilterProducts, filteredProducts, onClickProductCard } = useProductList();
+  const { basicProducts, productMap, avatarUrl, onFilterProducts, filteredProducts, onClickProductCard, onLikeProduct } = useProductList();
 
   const { authenticatedUser } = useUser();
 
@@ -59,11 +59,11 @@ const ProductList: React.FC<any> = () => {
         </Col>
       </Row>
       <BrowserView>
-        { productMap && Object.entries(productMap).map(([product, productList]) => {
-          return isFilteredOut(product) ? <></> : (
+        { productMap && Object.entries(productMap).map(([basicProduct, productList]) => {
+          return isFilteredOut(basicProduct) ? <></> : (
             <Row className="mb-4 flex-column">
               <div className="pl__content-card">
-                <h3 className="titlePrimary">{ product }</h3>
+                <h3 className="titlePrimary">{ basicProduct }</h3>
               </div>
               <div className="content-cards-list">
                 <Row xs={ 1 } sm={ 2 } lg={ 3 }>
@@ -82,6 +82,9 @@ const ProductList: React.FC<any> = () => {
                           pricePerKg={ product.expected_price_per_kg }
                           availableForSale={ product.available_for_sale }
                           onClick={ () => onClickProductCard(product.uuid) }
+                          likeable={ authenticatedUser?.role === 'Buyer' }
+                          isLiked={ product.is_liked }
+                          onLiked={ (e) => onLikeProduct(e, basicProduct, product.uuid) }
                         />
                       </Col>
                     );
@@ -113,6 +116,8 @@ const ProductList: React.FC<any> = () => {
                       variety={ product.variety }
                       pricePerKg={ product.expected_price_per_kg }
                       availableForSale={ product.available_for_sale }
+                      likeable={ authenticatedUser?.role === 'Buyer' }
+                      isLiked={ product.is_liked }
                     />
                   );
                 }) }
