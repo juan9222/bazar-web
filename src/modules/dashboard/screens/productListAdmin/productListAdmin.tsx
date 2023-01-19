@@ -16,7 +16,7 @@ import IconAvocado from "../../../../assets/svg/icons/iconAvocado";
 import { BsFillCaretDownFill } from 'react-icons/bs';
 
 // Hooks
-import useProductList from "../../../common/hooks/useProductList";
+import useProductList from "../productList/hooks/useProductList";
 
 const ProductListAdmin: React.FC<any> = () => {
   const { basicProducts, productMap, onFilterProducts, filteredProducts, } = useProductList();

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useCommonProviders from "../providers";
-import useProductListProviders from "../../dashboard/screens/productList/providers";
+import useCommonProviders from "../../../../common/providers";
+import useProductListProviders from "../providers";
 import axios from "axios";
 
 const useProductList = () => {
@@ -60,15 +60,19 @@ const useProductList = () => {
     navigate(`../products/${ productId }`, { replace: true, state: { test: 2 } });
   };
 
-  const onLikeProduct = async (event: React.MouseEvent, basicProduct: string, productId: string) => {
+  const onLikeProduct = async (event: React.MouseEvent, basicProduct: string, productId: string, isLiked: boolean) => {
     event.stopPropagation();
     try {
-      await axios.post(`${ process.env.REACT_APP_BAZAR_URL }/wishlist/?user_uuid=${ userId }&product_uuid=${ productId }`, {});
-      if (productMap) {
-        const newProductMap = { ...productMap };
-        newProductMap[basicProduct] = newProductMap[basicProduct].map((product: any) => { return { ...product, is_liked: product.uuid === productId ? true : product.is_liked }; });
-        setProductMap(newProductMap);
+      const newProductMap = { ...productMap };
+      if (!isLiked) {
+        await axios.post(`${ process.env.REACT_APP_BAZAR_URL }/wishlist/?user_uuid=${ userId }&product_uuid=${ productId }`, {});
+      } else {
+        await axios.delete(`${ process.env.REACT_APP_BAZAR_URL }/wishlist/?user_uuid=${ userId }&product_uuid=${ productId }`, {});
       }
+      if (productMap) {
+        newProductMap[basicProduct] = newProductMap[basicProduct].map((product: any) => { return { ...product, is_liked: product.uuid === productId ? !isLiked : product.is_liked }; });
+      }
+      setProductMap(newProductMap);
     } catch (error) {
       alert('Something went wrong. Try again.');
     }

@@ -103,7 +103,7 @@ const Dashboardlayout: React.FC<any> = () => {
           <NavLink className={ ({ isActive }) =>
             `dshLayout__nav--btnNav ${ isActive ? 'active' : '' }`
           }
-            to="/">
+            to="/dashboard/wishlist">
             <BiHeart className="dshLayout__nav--btnNav--icon" />
             <p className="dshLayout__nav--btnNav--label">Wishlist</p>
           </NavLink>
