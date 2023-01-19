@@ -64,6 +64,7 @@ const Dashboardlayout: React.FC<any> = () => {
     return new Web3Provider(provider);
   };
 
+  const isSeller = authenticatedUser && authenticatedUser.role === "Seller";
   const isBuyer = authenticatedUser && authenticatedUser.role === "Buyer";
 
   return (
@@ -108,13 +109,15 @@ const Dashboardlayout: React.FC<any> = () => {
             <p className="dshLayout__nav--btnNav--label">Wishlist</p>
           </NavLink>
         ) }
-        <NavLink className={ ({ isActive }) =>
-          `dshLayout__nav--btnNav ${ isActive ? 'active' : '' }`
-        }
-          to="/dashboard/user-approvals">
-          <FaUserAlt className="dshLayout__nav--btnNav--icon" />
-          <p className="dshLayout__nav--btnNav--label">Users</p>
-        </NavLink>
+        { !isSeller && !isBuyer && (
+          <NavLink className={ ({ isActive }) =>
+            `dshLayout__nav--btnNav ${ isActive ? 'active' : '' }`
+          }
+            to="/dashboard/user-approvals">
+            <FaUserAlt className="dshLayout__nav--btnNav--icon" />
+            <p className="dshLayout__nav--btnNav--label">Users</p>
+          </NavLink>
+        ) }
       </nav>
       <nav className="dshLayout__body">
         <header className="dshLayout__body--header">
