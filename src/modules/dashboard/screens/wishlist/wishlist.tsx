@@ -88,6 +88,7 @@ const Wishlist: React.FC<any> = () => {
                       variety={ product.variety }
                       pricePerKg={ product.expected_price_per_kg }
                       availableForSale={ product.available_for_sale }
+                      onClick={ () => onClickProductCard(product.uuid) }
                       likeable={ true }
                       isLiked={ product.is_liked }
                       onLiked={ (e) => onLikeProduct(e, product.uuid) }
