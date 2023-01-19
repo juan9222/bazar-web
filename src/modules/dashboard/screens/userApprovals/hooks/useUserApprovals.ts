@@ -82,7 +82,11 @@ const useProductList = () => {
       "products": products,
       "comment_approval": data.additionalComments
     };
-    await approveUser(requestBody);
+    const approvedUser = await approveUser(requestBody);
+    const newUserList = [...userList];
+    const userIndex = newUserList.findIndex(user => user.id === approvedUser.data.uuid_user);
+    newUserList[userIndex] = { ...userList[userIndex], status: approvedUser.data.user_status };
+    setUserList(newUserList);
     onCloseManageUserModal();
   };
 
