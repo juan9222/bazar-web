@@ -1,7 +1,8 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import useCommonProviders from "../providers";
-import useProductListProviders from "../../dashboard/screens/productList/providers";
+import useCommonProviders from "../../../../common/providers";
+import useProductListProviders from "../providers";
+import axios from "axios";
 
 const useProductList = () => {
   const [basicProducts, setBasicProducts] = useState<Array<{ label: string; value: string; }>>([]);
@@ -15,6 +16,8 @@ const useProductList = () => {
   const { getBasicProducts, getSellerProducts } = useProductListProviders();
   const navigate = useNavigate();
 
+  const userId: string = localStorage.getItem("uuid") || "";
+
   const onGetBasicProducts = async () => {
     const resp = await getBasicProducts();
     const productList = resp.data.results.map((product: any) => ({
@@ -26,7 +29,7 @@ const useProductList = () => {
   };
 
   const onGetSellerProducts = async () => {
-    const resp = await getSellerProducts(localStorage.getItem("uuid") || "");
+    const resp = await getSellerProducts(userId);
     const productMap: Record<string, Array<any>> = {};
     resp.data.results.forEach((product: any) => {
       if (!productMap[product.basic_product]) {
@@ -38,7 +41,7 @@ const useProductList = () => {
   };
 
   const onGetUser = async () => {
-    const resp = await getUser(localStorage.getItem("uuid") || "");
+    const resp = await getUser(userId);
     setAvatarUrl(resp.data.company[0].profile_image_url ?? undefined);
   };
 
@@ -57,6 +60,24 @@ const useProductList = () => {
     navigate(`../products/${ productId }`, { replace: true, state: { test: 2 } });
   };
 
+  const onLikeProduct = async (event: React.MouseEvent, basicProduct: string, productId: string, isLiked: boolean) => {
+    event.stopPropagation();
+    try {
+      const newProductMap = { ...productMap };
+      if (!isLiked) {
+        await axios.post(`${ process.env.REACT_APP_BAZAR_URL }/wishlist/?user_uuid=${ userId }&product_uuid=${ productId }`, {});
+      } else {
+        await axios.delete(`${ process.env.REACT_APP_BAZAR_URL }/wishlist/?user_uuid=${ userId }&product_uuid=${ productId }`, {});
+      }
+      if (productMap) {
+        newProductMap[basicProduct] = newProductMap[basicProduct].map((product: any) => { return { ...product, is_liked: product.uuid === productId ? !isLiked : product.is_liked }; });
+      }
+      setProductMap(newProductMap);
+    } catch (error) {
+      alert('Something went wrong. Try again.');
+    }
+  };
+
   useEffect(() => {
     onGetBasicProducts();
     onGetSellerProducts();
@@ -71,6 +92,7 @@ const useProductList = () => {
     onFilterProducts,
     filteredProducts,
     onClickProductCard,
+    onLikeProduct,
   };
 };
 

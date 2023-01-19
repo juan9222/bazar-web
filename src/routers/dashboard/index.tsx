@@ -14,6 +14,7 @@ import UserApprovals from "../../modules/dashboard/screens/userApprovals";
 import ProductDetailsBuyer from "../../modules/dashboard/screens/productDetailsBuyer";
 import TransactionStarted from "../../modules/dashboard/screens/transactionStarted";
 import PaymentSummary from "../../modules/dashboard/screens/paymentSummary";
+import Wishlist from "../../modules/dashboard/screens/wishlist";
 
 const dashboardRoutes: RouteObject[] = [
   {
@@ -55,6 +56,10 @@ const dashboardRoutes: RouteObject[] = [
   {
     path: "payment-summary/:transactionId",
     element: <PaymentSummary />
+  },
+  {
+    path: "wishlist",
+    element: <Wishlist />
   }
 ];
 
