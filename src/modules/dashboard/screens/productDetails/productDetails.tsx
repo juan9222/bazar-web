@@ -12,15 +12,15 @@ import { GiLeafSwirl } from 'react-icons/gi';
 import { TbDots, TbPaperBag } from 'react-icons/tb';
 import { HiPencil } from 'react-icons/hi';
 import useProductDetails from "./hooks/useProductDetails";
-import { useUser } from "../../layouts/dashboardLayout/dashboardLayout";
 import { getOptionIconLabel, getProductIcon } from "../../../common/components/productIcon";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Modal from "../../../common/components/modal";
 import InputText from "../../../common/components/inputText";
 import { ELarge } from "../../../common/interfaces";
 
 const ProductDetails: React.FC<any> = () => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { product, showEditAvailability, onChangeEditAvailabilityDisplay, register, hasErrorsInput, getMessageErrorInput, handleSubmit, submitForm, savingAvailability, } = useProductDetails();
 
@@ -34,7 +34,7 @@ const ProductDetails: React.FC<any> = () => {
     };
   }) : [];
 
-  const { authenticatedUser } = useUser();
+  const previousUrl = location.state.previousUrl;
 
   const getCertificateImage = (certificate: string) => {
     switch (certificate) {
@@ -79,14 +79,14 @@ const ProductDetails: React.FC<any> = () => {
         <Col md={ 5 } className="pd__col-details">
           <div className="pd__col-details__user">
             <div className="details-user-content">
-              <MdArrowBackIos className="pd__col-details__user--icon-left" onClick={ () => navigate("/dashboard/product-list") } />
-              <img className="pd__col-details__user--img" src={ authenticatedUser?.profileImage || "/assets/images/default-avatar.png" } alt="User avatar" />
+              <MdArrowBackIos className="pd__col-details__user--icon-left" onClick={ () => navigate(previousUrl) } />
+              <img className="pd__col-details__user--img" src={ product?.url_avatar || "/assets/images/default-avatar.png" } alt="User avatar" />
               <div className="pd__col-details__user--product">
                 <div className="title">
                   <h4>{ getProductIcon(product?.basic_product) } { product?.basic_product }</h4>
                   <span className="status-product status-review">{ product?.status }</span>
                 </div>
-                <p>{ authenticatedUser?.company }</p>
+                <p>{ product?.company_name }</p>
               </div>
             </div>
             <div className="pd__col-details__user--options options-hover">

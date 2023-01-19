@@ -1,6 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useCommonProviders from "../../../../common/providers";
 import useProductListProviders from "../../productList/providers";
 import useWishlistProviders from "../providers";
@@ -15,6 +15,7 @@ const useWishlist = () => {
   const { getBasicProducts } = useProductListProviders();
   const { getWishlistProducts } = useWishlistProviders();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const userId: string = localStorage.getItem("uuid") || "";
 
@@ -33,7 +34,7 @@ const useWishlist = () => {
   };
 
   const onClickProductCard = (productId: string) => {
-    navigate(`../products/${ productId }`, { replace: true, state: { test: 2 } });
+    navigate(`../products/${ productId }`, { replace: true, state: { previousUrl: location.pathname } });
   };
 
   const onLikeProduct = async (event: React.MouseEvent, productId: string) => {

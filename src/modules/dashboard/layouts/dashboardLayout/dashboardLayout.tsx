@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaUserAlt } from "react-icons/fa";
 import { HiShoppingCart } from "react-icons/hi";
-import { Outlet, NavLink, useOutletContext } from "react-router-dom";
+import { Outlet, NavLink, useOutletContext, useNavigate } from "react-router-dom";
 import IconLogo from "../../../../assets/svg/icons/iconLogo";
 import { AiFillHome } from "react-icons/ai";
 import { ImLeaf } from "react-icons/im";

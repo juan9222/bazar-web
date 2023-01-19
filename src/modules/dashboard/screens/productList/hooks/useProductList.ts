@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useCommonProviders from "../../../../common/providers";
 import useProductListProviders from "../providers";
 import axios from "axios";
@@ -15,6 +15,7 @@ const useProductList = () => {
   const { getUser } = useCommonProviders();
   const { getBasicProducts, getSellerProducts } = useProductListProviders();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const userId: string = localStorage.getItem("uuid") || "";
 
@@ -57,7 +58,7 @@ const useProductList = () => {
   };
 
   const onClickProductCard = (productId: string) => {
-    navigate(`../products/${ productId }`, { replace: true, state: { test: 2 } });
+    navigate(`../products/${ productId }`, { replace: true, state: { previousUrl: location.pathname } });
   };
 
   const onLikeProduct = async (event: React.MouseEvent, basicProduct: string, productId: string, isLiked: boolean) => {
