@@ -86,7 +86,7 @@ const ProductDetails: React.FC<any> = () => {
                   <h4>{ getProductIcon(product?.basic_product) } { product?.basic_product }</h4>
                   <span className="status-product status-review">{ product?.status }</span>
                 </div>
-                <p>{ product?.company_name }</p>
+                <p>{ product?.name_company }</p>
               </div>
             </div>
             <div className="pd__col-details__user--options options-hover">
