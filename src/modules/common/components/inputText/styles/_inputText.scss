@@ -107,6 +107,11 @@
   }
 }
 
+.content-input-label {
+  display: flex;
+  gap: 5px;
+}
+
 .inputTextIconText {
   color: $neutral_400;
   margin: 0;

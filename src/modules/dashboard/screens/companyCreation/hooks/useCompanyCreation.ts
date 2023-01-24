@@ -45,7 +45,7 @@ const useCompanyCreation = () => {
 
 
   // Form
-  const { register, handleSubmit, setValue, formState: { errors: loginErrors } } = useForm<ICompanyCreationProps>({
+  const { register, handleSubmit, setValue, formState: { errors: loginErrors, isDirty, isValid } } = useForm<ICompanyCreationProps>({
     resolver: yupResolver(companyCreationFormValidator),
     mode: "all",
   });
@@ -276,6 +276,8 @@ const useCompanyCreation = () => {
     onChangeCountry,
     selectedCity,
     onChangeCity,
+    isDirty,
+    isValid
   };
 };
 
