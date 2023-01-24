@@ -249,7 +249,11 @@ const ProductCreation: React.FC<any> = () => {
                             hasError={ hasErrorsInput("dateInPort") }
                             errorMessage={ getMessageErrorInput("dateInPort") }
                             hasTooltip
-                            required />
+                            required >
+                            <div className="information tooltip-left">
+                              <span>Please confirm us the possible date when the product could be in port so that the buyer knows the arrival of his product.</span>
+                            </div>
+                          </InputText>
                         </Col>
                       </Row>
                       <Row>
@@ -286,7 +290,18 @@ const ProductCreation: React.FC<any> = () => {
                             hasError={ hasErrorsInput("companyAssociation") }
                             errorMessage={ getMessageErrorInput("companyAssociation") }
                             placeholder={ "Write your associations" }
-                            hasTooltip />
+                            hasTooltip >
+                            <div className="information tooltip-right">
+                              <div className="content-list-message">
+                                <h5>You can use associations such as:</h5>
+                                <ul>
+                                  <li>Farmers Guilds ( <a href="https://www.fedecacao.com.co/">https://www.fedecacao.com.co/</a> )</li>
+                                  <li>Certifying Organization.</li>
+                                  <li>Government Supported Associations.</li>
+                                </ul>
+                              </div>
+                            </div>
+                          </InputText>
                         </Col>
                       </Row>
                       <div className="verticalSpaceS" />

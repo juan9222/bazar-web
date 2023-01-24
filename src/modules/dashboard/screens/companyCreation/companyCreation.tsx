@@ -48,6 +48,8 @@ const CompanyCreation: React.FC<any> = () => {
     selectedCity,
     onChangeCountry,
     onChangeCity,
+    isDirty,
+    isValid
   } = useCompanyCreation();
 
   const { authenticatedUser } = useUser();
@@ -240,7 +242,7 @@ const CompanyCreation: React.FC<any> = () => {
               </form>
               <Row>
                 <Col>
-                  <Button type='button' onClick={ () => setShowConfirmationModal(true) } large={ ELarge.full } disabled={ loading }>
+                  <Button type='button' onClick={ () => setShowConfirmationModal(true) } large={ ELarge.full } disabled={ !isDirty || !isValid }>
                     { loading ? <AiOutlineLoading3Quarters className="loaderIcon" /> : "Save" }
                   </Button>
                 </Col>
