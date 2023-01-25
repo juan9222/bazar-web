@@ -1,22 +1,20 @@
 import { transactions } from "@liskhq/lisk-client";
-import { RegisterOrderType } from "../../types/registerOrderAssetType";
+import { RegisterBuyerOrderType } from "../../types/registerBuyerOrderType";
 import { getClient } from "../../util/getClient";
 
-const newSellOrderAsset = async (orderAsset: RegisterOrderType, passphrase: string) => {
+const newBuyerOrderAsset = async (orderAsset: RegisterBuyerOrderType, passphrase: string) => {
 
   getClient().then(async (client) => {
 
     const ORDER_ASSET = 0;
 
     const tx = await client.transaction.create({
-      moduleID: 7007,
+      moduleID: 7008,
       assetID: ORDER_ASSET,
       fee: BigInt(transactions.convertLSKToBeddows('0.01')),
       asset: {
-        productId: orderAsset.productId,
+        sellerOrderId: orderAsset.sellerOrderId,
         productName: orderAsset.productName,
-        productDescription: orderAsset.productDescription,
-        minQuantityToSell: BigInt(orderAsset.minQuantityToSell),
         quantity: BigInt(orderAsset.quantity),
         price: BigInt(orderAsset.price)
       }
@@ -26,9 +24,9 @@ const newSellOrderAsset = async (orderAsset: RegisterOrderType, passphrase: stri
     console.log("Response: ", response);
 
   }).catch((err) => {
-    console.log("Error creating sell order: ", err);
+    console.log("Error creating buy order: ", err);
   });
 
 };
 
-export default newSellOrderAsset;
+export default newBuyerOrderAsset;
