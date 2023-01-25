@@ -17,9 +17,10 @@ import { BsFillCaretDownFill } from 'react-icons/bs';
 
 // Hooks
 import useProductList from "../productList/hooks/useProductList";
+import { isCurrentFilter } from "../productList/utils";
 
 const ProductListAdmin: React.FC<any> = () => {
-  const { basicProducts, productMap, onFilterProducts, filteredProducts, } = useProductList();
+  const { basicProducts, productsMap, onFilterProducts, filteredProducts, } = useProductList();
 
   const getIcon = (label: string) => {
     switch (label) {
@@ -34,10 +35,6 @@ const ProductListAdmin: React.FC<any> = () => {
 
   const getIconTrending = (label: string) => {
     return label === 'trendingUp' ? <BiTrendingUp /> : <BiTrendingDown />;
-  };
-
-  const isFilteredOut = (product: string) => {
-    return filteredProducts.indexOf(product) === -1;
   };
 
   return (
@@ -56,7 +53,7 @@ const ProductListAdmin: React.FC<any> = () => {
           <div className="pl__col-buttons__list">
             <Button className={ 'btn-search-ad btn-mobile' } iconLeft={ <BiSlider /> }></Button>
             { basicProducts.map(({ label }, index) => (
-              <Button key={ index } className={ `btn-second ${ isFilteredOut(label) ? '' : 'active' }` } iconLeft={ getIcon(label) } onClick={ () => onFilterProducts(label) }>
+              <Button key={ index } className={ `btn-second ${ filteredProducts === label ? '' : 'active' }` } iconLeft={ getIcon(label) } onClick={ () => onFilterProducts(label) }>
                 { label }
               </Button>
             )) }
@@ -79,8 +76,8 @@ const ProductListAdmin: React.FC<any> = () => {
         </Row>
         {/* Table Body */ }
         <div className="table-admin-body">
-          { productMap && Object.entries(productMap).map(([product, productList], index) => {
-            return isFilteredOut(product) ? <div key={ index }></div> : (
+          { productsMap && Object.entries(productsMap).map(([product, productList], index) => {
+            return isCurrentFilter(filteredProducts, product) ? (
               <div key={ index }>
                 { productList.map((product: any, index) => {
                   return (
@@ -95,14 +92,14 @@ const ProductListAdmin: React.FC<any> = () => {
                   );
                 }) }
               </div>
-            );
+            ) : <div key={ index }></div>;
           }) }
         </div>
       </div>
       {/* Card Row */ }
       <div className="pl__card_admin cards-admin-list d-lg-none d-block">
-        { productMap && Object.entries(productMap).map(([product, productList], index) => {
-          return isFilteredOut(product) ? <div key={ index }></div> : (
+        { productsMap && Object.entries(productsMap).map(([product, productList], index) => {
+          return isCurrentFilter(filteredProducts, product) ? (
             <div key={ index }>
               { productList.map((product: any, index) => {
                 return (
@@ -143,7 +140,7 @@ const ProductListAdmin: React.FC<any> = () => {
                 );
               }) }
             </div>
-          );
+          ) : <div key={ index }></div>;
         }) }
       </div>
       {/* Pagination Row */ }

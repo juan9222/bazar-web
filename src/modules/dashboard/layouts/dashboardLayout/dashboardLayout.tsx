@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaUserAlt } from "react-icons/fa";
 import { HiShoppingCart } from "react-icons/hi";
-import { Outlet, NavLink, useOutletContext, useNavigate } from "react-router-dom";
+import { Outlet, NavLink, useOutletContext } from "react-router-dom";
 import IconLogo from "../../../../assets/svg/icons/iconLogo";
 import { AiFillHome } from "react-icons/ai";
 import { ImLeaf } from "react-icons/im";
@@ -14,7 +14,7 @@ import WalletConnectionBSCSelection from "../../../wallet/components/WalletConne
 import { Web3ReactProvider } from '@web3-react/core';
 import { ExternalProvider, JsonRpcFetchFunc, Web3Provider } from "@ethersproject/providers";
 import UserMenu from "./components/userMenu/userMenu";
-import { BiHeart, BiTag } from "react-icons/bi";
+import { BiHeart } from "react-icons/bi";
 
 type ContextType = {
   authenticatedUser: {

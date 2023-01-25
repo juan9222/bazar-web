@@ -2,6 +2,7 @@ import React, { ReactElement } from "react";
 
 export enum Status {
   public = "Public",
+  approved = "Approved",
   review = "Review",
   hidden = "Hidden",
   rejected = "Rejected"

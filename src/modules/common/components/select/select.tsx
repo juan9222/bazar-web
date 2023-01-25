@@ -1,11 +1,9 @@
 import React from 'react';
 import Select, { components } from 'react-select';
-import useInputTextStyles from '../inputText/hooks/useInputTextStyles';
 import { ISelectProps } from './interfaces';
 
 const CustomSelect: React.FC<ISelectProps> = (props) => {
   const { name, selection, options, children, hasError, errorMessage, valueIsLabel, label, onChangeSelection, ...rest } = props;
-  const { getClassNameInputTextByError } = useInputTextStyles({ hasError: hasError ?? false });
 
   const { Option } = components;
   const IconOption = (props: any) => (

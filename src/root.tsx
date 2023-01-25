@@ -1,6 +1,6 @@
 import React from "react";
 import { createBrowserRouter, RouterProvider, RouteObject } from "react-router-dom";
-import {publicRoutes, privateRoutes} from "./routers/root";
+import { publicRoutes, privateRoutes } from "./routers/root";
 import useInterceptor from "./shared/config/interceptor";
 
 const Root = () => {
@@ -12,9 +12,9 @@ const Root = () => {
   ];
 
   return (
-
-    <RouterProvider router={ createBrowserRouter(rootRoutes) } />
-
+    <React.StrictMode>
+      <RouterProvider router={ createBrowserRouter(rootRoutes) } />
+    </React.StrictMode>
   );
 };
 

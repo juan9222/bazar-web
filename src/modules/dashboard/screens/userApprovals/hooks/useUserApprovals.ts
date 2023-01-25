@@ -128,6 +128,7 @@ const useProductList = () => {
 
   useEffect(() => {
     selectedUser && onGetSellerProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedUser?.id]);
 
   return {

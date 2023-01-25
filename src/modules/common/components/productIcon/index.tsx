@@ -3,7 +3,7 @@ import { FaTruckLoading, FaTruckMoving } from 'react-icons/fa';
 import { CiAvocado } from 'react-icons/ci';
 import { GiCoffeeBeans } from 'react-icons/gi';
 import { TbPaperBag, TbPlant2 } from 'react-icons/tb';
-import IconAvocado from '../../../../assets/svg/icons/iconAvocado';
+// import IconAvocado from '../../../../assets/svg/icons/iconAvocado';
 
 export const getProductIcon = (label: string) => {
   switch (label) {

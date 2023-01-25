@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Col, Container, Row } from "react-bootstrap";
 import Button from "../../../common/components/button";
 import { GoSearch } from 'react-icons/go';
@@ -11,15 +11,24 @@ import { NavLink } from "react-router-dom";
 import { BrowserView, MobileView } from 'react-device-detect';
 import { getProductIcon } from "../../../common/components/productIcon";
 import { useUser } from "../../layouts/dashboardLayout/dashboardLayout";
-import { getMappedStatus } from "./utils";
+import { getMappedStatus, isCurrentFilter } from "./utils";
 
 const ProductList: React.FC<any> = () => {
-  const { basicProducts, productMap, avatarUrl, onFilterProducts, filteredProducts, onClickProductCard, onLikeProduct } = useProductList();
+  const { basicProducts, productsMap, avatarUrl, onFilterProducts, filteredProducts, onClickProductCard, onLikeProduct, onAddToProductList, setLoadingProducts, } = useProductList();
 
   const { authenticatedUser } = useUser();
 
-  const isFilteredOut = (product: string) => {
-    return filteredProducts.indexOf(product) === -1;
+  const listsRef = useRef<any[]>([]);
+
+  const handleScroll = async (e: any, index: number, basicProduct: string) => {
+    if (listsRef.current[index]) {
+      const { scrollLeft, scrollWidth, clientWidth } = listsRef.current[index];
+      if (scrollLeft + clientWidth >= scrollWidth - 1) {
+        setLoadingProducts(true);
+        await onAddToProductList(basicProduct);
+        listsRef.current[index].scrollLeft = scrollLeft;
+      }
+    }
   };
 
   return (
@@ -38,64 +47,27 @@ const ProductList: React.FC<any> = () => {
           <div className="pl__col-buttons__list">
             <Button className={ 'btn-search-ad btn-mobile' } iconLeft={ <BiSlider /> }></Button>
             { basicProducts.map(({ label }) => (
-              <Button className={ `btn-second ${ isFilteredOut(label) ? '' : 'active' }` } iconLeft={ getProductIcon(label) } onClick={ () => onFilterProducts(label) }>
+              <Button className={ `btn-second ${ filteredProducts === label ? 'active' : '' }` } iconLeft={ getProductIcon(label) } onClick={ () => onFilterProducts(label) }>
                 { label }
               </Button>
             )) }
           </div>
         </Col>
       </Row>
-      <BrowserView>
-        { productMap && Object.entries(productMap).map(([basicProduct, productList]) => {
-          return isFilteredOut(basicProduct) ? <></> : (
-            <Row className="mb-4 flex-column">
+      <BrowserView className="products-mobile-view mt-4">
+        { productsMap && Object.entries(productsMap).map(([basicProduct, productList], index) => {
+          return isCurrentFilter(filteredProducts, basicProduct) ? (
+            <div className="products-row mb-2">
               <div className="pl__content-card">
                 <h3 className="titlePrimary">{ basicProduct }</h3>
               </div>
-              <div className="content-cards-list">
-                <Row xs={ 1 } sm={ 2 } lg={ 3 }>
-                  { productList.map((product: any) => {
-                    return (
-                      <Col className="mb-3">
-                        <Card
-                          status={ getMappedStatus(product.status) }
-                          productImage={ product.url_images ? product.url_images[0] : "" }
-                          avatar={ product.url_avatar }
-                          icon={ getProductIcon(product.basic_product) }
-                          product={ product.basic_product }
-                          hasCertificates={ product.sustainability_certifications && product.sustainability_certifications.length > 0 }
-                          productType={ product.product_type }
-                          variety={ product.variety }
-                          pricePerKg={ product.expected_price_per_kg }
-                          availableForSale={ product.available_for_sale }
-                          onClick={ () => onClickProductCard(product.uuid) }
-                          likeable={ authenticatedUser?.role === 'Buyer' }
-                          isLiked={ product.is_liked }
-                          onLiked={ (e) => onLikeProduct(e, basicProduct, product.uuid, product.is_liked) }
-                        />
-                      </Col>
-                    );
-                  }) }
-                </Row>
-              </div>
-            </Row>
-          );
-        }) }
-      </BrowserView>
-      <MobileView className="products-mobile-view mt-4">
-        { productMap && Object.entries(productMap).map(([basicProduct, productList]) => {
-          return isFilteredOut(basicProduct) ? <></> : (
-            <div className="products-row mb-2">
-              <div className="products-title">
-                <h3 className="titlePrimary">{ basicProduct }</h3>
-              </div>
-              <div className={ `content-cards-list ${ filteredProducts.length === 1 && 'cards-list-column' }` }>
+              <div className={ `content-cards-list ${ filteredProducts && 'cards-list-column' }` } onScroll={ e => handleScroll(e, index, basicProduct) } ref={ ref => listsRef.current[index] = ref }>
                 { productList.map((product: any) => {
                   return (
                     <Card
                       status={ getMappedStatus(product.status) }
-                      productImage={ product.url_images ?? "" }
-                      avatar={ avatarUrl } //To-do Servicio que nos de el avatar del usuario ???
+                      productImage={ product.url_images ? product.url_images[0] : "" }
+                      avatar={ product.url_avatar }
                       icon={ getProductIcon(product.basic_product) }
                       product={ product.basic_product }
                       hasCertificates={ product.sustainability_certifications && product.sustainability_certifications.length > 0 }
@@ -103,6 +75,7 @@ const ProductList: React.FC<any> = () => {
                       variety={ product.variety }
                       pricePerKg={ product.expected_price_per_kg }
                       availableForSale={ product.available_for_sale }
+                      onClick={ () => onClickProductCard(product.uuid) }
                       likeable={ authenticatedUser?.role === 'Buyer' }
                       isLiked={ product.is_liked }
                       onLiked={ (e) => onLikeProduct(e, basicProduct, product.uuid, product.is_liked) }
@@ -111,7 +84,40 @@ const ProductList: React.FC<any> = () => {
                 }) }
               </div>
             </div>
-          );
+          ) : <></>;
+        }) }
+      </BrowserView>
+      <MobileView className="products-mobile-view mt-4">
+        { productsMap && Object.entries(productsMap).map(([basicProduct, productList], index) => {
+          return isCurrentFilter(filteredProducts, basicProduct) ? (
+            <div className="products-row mb-2">
+              <div className="products-title">
+                <h3 className="titlePrimary">{ basicProduct }</h3>
+              </div>
+              <div className={ `content-cards-list ${ filteredProducts && 'cards-list-column' }` } onScroll={ e => handleScroll(e, index, basicProduct) } ref={ ref => listsRef.current[index] = ref }>
+                { productList.map((product: any) => {
+                  return (
+                    <Card
+                      status={ getMappedStatus(product.status) }
+                      productImage={ product.url_images ?? "" }
+                      avatar={ avatarUrl }
+                      icon={ getProductIcon(product.basic_product) }
+                      product={ product.basic_product }
+                      hasCertificates={ product.sustainability_certifications && product.sustainability_certifications.length > 0 }
+                      productType={ product.product_type }
+                      variety={ product.variety }
+                      pricePerKg={ product.expected_price_per_kg }
+                      availableForSale={ product.available_for_sale }
+                      onClick={ () => onClickProductCard(product.uuid) }
+                      likeable={ authenticatedUser?.role === 'Buyer' }
+                      isLiked={ product.is_liked }
+                      onLiked={ (e) => onLikeProduct(e, basicProduct, product.uuid, product.is_liked) }
+                    />
+                  );
+                }) }
+              </div>
+            </div>
+          ) : <></>;
         }) }
       </MobileView>
       { authenticatedUser?.role !== 'Buyer' && (

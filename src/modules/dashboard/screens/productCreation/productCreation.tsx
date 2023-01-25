@@ -26,7 +26,6 @@ const ProductCreation: React.FC<any> = () => {
     getMessageErrorInput,
     handleTabSwitch,
     activeTabIndex,
-    setActiveTabIndex,
     showCancellationModal,
     setShowCancellationModal,
     showConfirmationModal,

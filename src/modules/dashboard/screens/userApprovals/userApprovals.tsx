@@ -218,7 +218,7 @@ const UserApprovals: React.FC<any> = () => {
             )
               :
               <div className="userApprovals__noproducts">
-                <img src="/assets/images/no-products.png" />
+                <img src="/assets/images/no-products.png" alt="no-products" />
                 <p>No products yet</p>
               </div>
             }

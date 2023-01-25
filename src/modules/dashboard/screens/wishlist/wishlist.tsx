@@ -7,15 +7,12 @@ import Button from "../../../common/components/button";
 import Card from "../../../common/components/card";
 import InputText from "../../../common/components/inputText";
 import { getProductIcon } from "../../../common/components/productIcon";
-import { useUser } from "../../layouts/dashboardLayout/dashboardLayout";
 import { getMappedStatus } from "../productList/utils";
 import useWishlist from "./hooks/useWishlist";
 
 const Wishlist: React.FC<any> = () => {
 
   const { basicProducts, productList, avatarUrl, onClickProductCard, onLikeProduct } = useWishlist();
-
-  const { authenticatedUser } = useUser();
 
   return (
     <Container className="pl">

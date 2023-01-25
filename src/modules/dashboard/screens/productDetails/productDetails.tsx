@@ -9,7 +9,7 @@ import Button from "../../../common/components/button";
 // Icons
 import { MdArrowBackIos, MdEdit, MdCancel, MdDelete, MdLocationOn, MdCalendarToday, MdQrCode2 } from 'react-icons/md';
 import { GiLeafSwirl } from 'react-icons/gi';
-import { TbDots, TbPaperBag } from 'react-icons/tb';
+import { TbDots } from 'react-icons/tb';
 import { HiPencil } from 'react-icons/hi';
 import useProductDetails from "./hooks/useProductDetails";
 import { getOptionIconLabel, getProductIcon } from "../../../common/components/productIcon";

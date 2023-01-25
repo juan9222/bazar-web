@@ -1,7 +1,6 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import useCommonProviders from "../../../../common/providers";
 import useProductListProviders from "../../productList/providers";
 import useWishlistProviders from "../providers";
 
@@ -11,7 +10,6 @@ const useWishlist = () => {
   const [avatarUrl, setAvatarUrl] = useState<string>();
 
   //Providers
-  const { getUser } = useCommonProviders();
   const { getBasicProducts } = useProductListProviders();
   const { getWishlistProducts } = useWishlistProviders();
   const navigate = useNavigate();
