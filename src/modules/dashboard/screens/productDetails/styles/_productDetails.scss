@@ -402,17 +402,28 @@
 
         .image-gallery-thumbnails {
           .image-gallery-thumbnails-container {
+            transform: translate3d(0px, 0px, 0px) !important;
+
             .image-gallery-thumbnail {
-              border: none;
+              border: 2px solid rgba(0, 0, 0, 0);
               margin-bottom: 6px;
 
               &-image {
                 object-fit: cover;
                 border-radius: 6px;
               }
+
+              &.active {
+                border: 2px solid $secondary_100;
+                border-radius: 8px;
+              }
             }
           }
         }
+      }
+
+      .image-gallery-index {
+        border-bottom-left-radius: 8px;
       }
 
       .image-gallery-slide-wrapper {
