@@ -28,9 +28,9 @@ const ProductDetails: React.FC<any> = () => {
     return {
       original: image,
       thumbnail: image,
-      originalHeight: 400,
-      thumbnailWidth: 90,
-      thumbnailHeight: 90,
+      originalHeight: 410,
+      thumbnailWidth: 72,
+      thumbnailHeight: 72,
     };
   }) : [];
 
@@ -72,7 +72,7 @@ const ProductDetails: React.FC<any> = () => {
       <Row>
         <Col md={ 7 } className="pd__col-gallery">
           <div className="pd__col-gallery__content">
-            <ImageGallery items={ images } thumbnailPosition={ "left" } showFullscreenButton={ false }
+            <ImageGallery items={ images } thumbnailPosition={ "left" } showFullscreenButton={ false } showIndex={ true }
               showPlayButton={ false } />
           </div>
         </Col>

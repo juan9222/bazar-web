@@ -425,25 +425,6 @@
     }
 
     &__content {
-      .image-gallery-thumbnails-wrapper {
-        @include respond-below(sm) {
-          display: none !important;
-        }
-
-        .image-gallery-thumbnails {
-          .image-gallery-thumbnails-container {
-            .image-gallery-thumbnail {
-              border: none;
-              margin-bottom: 6px;
-
-              &-image {
-                object-fit: cover;
-                border-radius: 6px;
-              }
-            }
-          }
-        }
-      }
 
       .image-gallery-slide-wrapper {
         @include respond-below(sm) {
