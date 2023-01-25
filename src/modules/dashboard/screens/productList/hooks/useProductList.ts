@@ -82,7 +82,7 @@ const useProductList = () => {
   useEffect(() => {
     onGetProductList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, basicProducts);
+  }, [basicProducts]);
 
   useEffect(() => {
     onGetBasicProducts();
