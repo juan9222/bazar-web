@@ -4,6 +4,15 @@ import { Link } from "react-router-dom";
 import Button from "../../../common/components/button";
 import InputText from "../../../common/components/inputText";
 import { ELarge } from "../../../common/interfaces";
+import getTransactionById from "../../../lisk_api/transaction/blockchain/getTransactionById";
+import newBuyerOrderAsset from "../../../lisk_api/transaction/buyer/newBuyerOrderAsset";
+import getLatestSellOrders from "../../../lisk_api/transaction/seller/getLatestSellOrders";
+import getOrderById from "../../../lisk_api/transaction/seller/getOrderById";
+import newSellOrderAsset from "../../../lisk_api/transaction/seller/newSellerOrderAsset";
+import { RegisterBuyerOrderType } from "../../../lisk_api/types/registerBuyerOrderType";
+import { RegisterOrderType } from "../../../lisk_api/types/registerOrderAssetType";
+
+import usePriceFeedBSC from "../../../payment/hooks/usePriceFeedBSC";
 import AuthlayoutContent from "../../layouts/authLayoutContent";
 import useLogin from './hooks/useLogin';
 
@@ -24,6 +33,51 @@ const Login: React.FC = () => {
     emailInputValue,
     passwordInputValue,
   } = useLogin();
+
+  usePriceFeedBSC();
+  /*
+    const sell = async () => {
+      const sellOrderAsset: RegisterOrderType = {
+        productId: '3435',
+        productName: 'Coffe',
+        productDescription: 'Coffer ABd DAd',
+        minQuantityToSell: '450',
+        quantity: '4500',
+        price: '25',
+        files: [],
+        transport: []
+      };
+  
+      await newSellOrderAsset(sellOrderAsset, "rifle trust muscle helmet blue cruel denial gift alpha grid also develop");
+    };
+  */
+  /*
+    const buy = async () => {
+      const buyOrderAsset: RegisterBuyerOrderType = {
+        sellerOrderId: 'a80ab8910e856def069d375bc17a80760934af0f605b0d40123c9c5431ae9c4d',
+        productName: 'Coffe',
+        quantity: 450,
+        price: 11250
+      };
+  
+      await newBuyerOrderAsset(buyOrderAsset, "rifle trust muscle helmet blue cruel denial gift alpha grid also develop");
+    };*/
+
+  const ppp = async () => {
+    const result: string[] = await getLatestSellOrders();
+    console.log("list ordenes:", result);
+
+    if (result.length > 0) {
+      const details = await getOrderById(result[0]);
+      console.log("Details:", details);
+    }
+
+    await getTransactionById("dce0efd23d34112bec82acec9a5021fcac3f9aad11a6570ef4648166669f0659");
+  };
+
+  // sell();
+  //buy();
+  ppp();
 
   return (
     <AuthlayoutContent title={ "Login" } subtitle={ "Welcome, please enter your credentials." }>

@@ -2,9 +2,9 @@ export interface RegisterOrderType {
   productId: string;
   productName: string;
   productDescription: string;
-  minQuantityToSell: number,
-  quantity: number;
-  price: number;
+  minQuantityToSell: string,
+  quantity: string;
+  price: string;
   files: {
     filename: string;
     fileType: string;
