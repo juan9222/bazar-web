@@ -1,6 +1,5 @@
 import axios from "axios";
 import { trackPromise } from "react-promise-tracker";
-import { number } from "yup";
 
 const useProductDetailsProviders = () => {
   const getProductDetails = (productId: string) => {

@@ -53,6 +53,11 @@
         color: $white;
       }
 
+      &.status-approved {
+        background-color: $white;
+        color: $success-200;
+      }
+
       &.status-review {
         background-color: $warning-25;
         color: $warning-75;

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import Button from "../../../common/components/button";
 import InputText from "../../../common/components/inputText";
 import { ELarge } from "../../../common/interfaces";
-import getTransactionById from "../../../lisk_api/transaction/blockchain/getTransactionById";
+// import getTransactionById from "../../../lisk_api/transaction/blockchain/getTransactionById";
 import newBuyerOrderAsset from "../../../lisk_api/transaction/buyer/newBuyerOrderAsset";
 import getLatestSellOrders from "../../../lisk_api/transaction/seller/getLatestSellOrders";
 import getOrderById from "../../../lisk_api/transaction/seller/getOrderById";
@@ -72,7 +72,7 @@ const Login: React.FC = () => {
       console.log("Details:", details);
     }
 
-    await getTransactionById("dce0efd23d34112bec82acec9a5021fcac3f9aad11a6570ef4648166669f0659");
+    // await getTransactionById("dce0efd23d34112bec82acec9a5021fcac3f9aad11a6570ef4648166669f0659");
   };
 
   // sell();

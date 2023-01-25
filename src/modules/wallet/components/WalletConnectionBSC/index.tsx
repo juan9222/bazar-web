@@ -14,6 +14,7 @@ const WalletConnectionBSCSelection = () => {
 
   const activateOnClick = useCallback((): void => {
     activate(useWalletConnectionBSC);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const aaccountShorter = (value: String | null | undefined) => {

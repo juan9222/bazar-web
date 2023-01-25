@@ -11,11 +11,20 @@ const useProductListProviders = () => {
     return trackPromise(request);
   };
 
-  const getSellerProducts = (sellerId: string) => {
+  const getSellerProducts = (userId: string) => {
     const request = axios({
       method: "GET",
       baseURL: process.env.REACT_APP_BAZAR_URL,
-      url: `/products/products-user/${ sellerId }`,
+      url: `/products/products-user/${ userId }`,
+    });
+    return trackPromise(request);
+  };
+
+  const getProductsList = (userId: string, basicProduct: string) => {
+    const request = axios({
+      method: "GET",
+      baseURL: process.env.REACT_APP_BAZAR_URL,
+      url: `/products/products-user-category/${ userId }/${ basicProduct }`,
     });
     return trackPromise(request);
   };
@@ -23,6 +32,7 @@ const useProductListProviders = () => {
   return {
     getBasicProducts,
     getSellerProducts,
+    getProductsList,
   };
 };
 
