@@ -206,7 +206,7 @@ const Dashboardlayout: React.FC<any> = () => {
                       <TbWorld className="item--icon" />
                       <p className="item--label">Change language</p>
                     </NavLink>
-                    <a className="item" href="https://www.bazar.network/creation-user-seller">
+                    <a className="item" href="https://www.bazar.network/creation-user-seller" target="_blank" rel="noopener noreferrer">
                       <BsFillBookmarkStarFill className="item--icon" />
                       <p className="item--label">User guides</p>
                     </a>
