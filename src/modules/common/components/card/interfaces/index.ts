@@ -14,6 +14,7 @@ export interface ICardProps {
   avatar?: string;
   icon: ReactElement;
   product: string;
+  productId?: string;
   hasCertificates?: boolean;
   productType: string;
   variety: string;
@@ -24,4 +25,5 @@ export interface ICardProps {
   likeable?: boolean;
   isLiked?: boolean;
   onLiked?: (event: React.MouseEvent) => void;
+  onPublish?: (event: React.MouseEvent) => void;
 }

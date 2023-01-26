@@ -5,9 +5,11 @@ import Button from "../button";
 import IconCertificate from "../../../../assets/svg/icons/iconCertificate";
 import { ICardProps, Status } from "./interfaces";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
+import { BsFillCheckCircleFill } from "react-icons/bs";
+import { OverlayTrigger, Popover } from "react-bootstrap";
 
 const Card: React.FC<ICardProps> = (props) => {
-  const { status, productImage, avatar, icon, product, hasCertificates, productType, variety, pricePerKg, availableForSale, onClick, likeable, isLiked, onLiked } = props;
+  const { status, productImage, avatar, icon, product, hasCertificates, productType, variety, pricePerKg, availableForSale, onClick, likeable, isLiked, onLiked, onPublish } = props;
 
   const getStatus = (status: string) => {
     switch (status) {
@@ -51,14 +53,19 @@ const Card: React.FC<ICardProps> = (props) => {
             </h4>
             <span>{ productType } | { variety }</span>
           </div>
-          <div className="header-data__options options-hover">
-            <TbDots className="icon" />
-            <div className="data">
-              <Button className={ 'btn-data-option' } iconLeft={ <MdEdit /> } >Edit</Button>
-              <Button className={ 'btn-data-option' } iconLeft={ <MdCancel /> } >Hide</Button>
-              <Button className={ 'btn-data-option' } iconLeft={ <MdDelete /> } >Delete</Button>
+          { !likeable && (
+            <div className="header-data__options options-hover">
+              <TbDots className="icon" />
+              <div className="data">
+                <Button className={ 'btn-data-option' } iconLeft={ <MdEdit /> } >Edit</Button>
+                { status !== Status.public && (
+                  <Button className={ 'btn-data-option' } iconLeft={ <BsFillCheckCircleFill /> } onClick={ (e) => onPublish! }>Publish</Button>
+                ) }
+                <Button className={ 'btn-data-option' } iconLeft={ <MdCancel /> } >Hide</Button>
+                <Button className={ 'btn-data-option' } iconLeft={ <MdDelete /> } >Delete</Button>
+              </div>
             </div>
-          </div>
+          ) }
         </div>
       </div>
       <div className="content-card__body">

@@ -20,11 +20,11 @@ const useProductListProviders = () => {
     return trackPromise(request);
   };
 
-  const getProductsList = (userId: string, basicProduct: string) => {
+  const getProductsList = (userId: string, basicProduct: string, offset: number) => {
     const request = axios({
       method: "GET",
       baseURL: process.env.REACT_APP_BAZAR_URL,
-      url: `/products/products-user-category/${ userId }/${ basicProduct }`,
+      url: `/products/products-user-category/${ userId }/${ basicProduct }?offset=${ offset }`,
     });
     return trackPromise(request);
   };
