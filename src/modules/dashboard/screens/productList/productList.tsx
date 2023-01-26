@@ -14,7 +14,7 @@ import { useUser } from "../../layouts/dashboardLayout/dashboardLayout";
 import { getMappedStatus, isCurrentFilter } from "./utils";
 
 const ProductList: React.FC<any> = () => {
-  const { basicProducts, productsMap, avatarUrl, onFilterProducts, filteredProducts, onClickProductCard, onLikeProduct, onAddToProductList, setLoadingProducts, } = useProductList();
+  const { basicProducts, productsMap, avatarUrl, onFilterProducts, filteredProducts, onClickProductCard, onLikeProduct, onAddToProductList, setLoadingProducts, onPublish } = useProductList();
 
   const { authenticatedUser } = useUser();
 
@@ -76,10 +76,11 @@ const ProductList: React.FC<any> = () => {
                       variety={ product.variety }
                       pricePerKg={ product.expected_price_per_kg }
                       availableForSale={ product.available_for_sale }
-                      onClick={ () => onClickProductCard(product.uuid) }
+                      onClick={ (e) => onClickProductCard(e, product.basic_product, product.uuid) }
                       likeable={ authenticatedUser?.role === 'Buyer' }
                       isLiked={ product.is_liked }
                       onLiked={ (e) => onLikeProduct(e, basicProduct, product.uuid, product.is_liked) }
+                      onPublish={ (e) => onPublish(e, product.basic_product, product.uuid) }
                     />
                   );
                 }) }
@@ -109,7 +110,7 @@ const ProductList: React.FC<any> = () => {
                       variety={ product.variety }
                       pricePerKg={ product.expected_price_per_kg }
                       availableForSale={ product.available_for_sale }
-                      onClick={ () => onClickProductCard(product.uuid) }
+                      onClick={ (e) => onClickProductCard(e, basicProduct, product.uuid) }
                       likeable={ authenticatedUser?.role === 'Buyer' }
                       isLiked={ product.is_liked }
                       onLiked={ (e) => onLikeProduct(e, basicProduct, product.uuid, product.is_liked) }

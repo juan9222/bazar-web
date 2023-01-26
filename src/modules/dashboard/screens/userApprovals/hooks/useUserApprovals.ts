@@ -100,13 +100,15 @@ const useProductList = () => {
 
   const onChangeProductStatus = (productId: string, status: string) => {
     const newProductsMap = { ...productsMap };
-    const newProductStatus = { ...productsMap![productId] };
-    newProductStatus.status = status;
-    newProductStatus.statusChanged = true;
-    newProductsMap[productId] = newProductStatus;
-    setProductsMap(newProductsMap);
-    setEnableSave(true);
-    document.body.click();
+    if (productsMap) {
+      const newProductStatus = { ...productsMap[productId] };
+      newProductStatus.status = status;
+      newProductStatus.statusChanged = true;
+      newProductsMap[productId] = newProductStatus;
+      setProductsMap(newProductsMap);
+      setEnableSave(true);
+      document.body.click();
+    }
   };
 
   const onCloseManageUserModal = () => {

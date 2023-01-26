@@ -3,7 +3,7 @@ import { Status } from "../../../../common/components/card/interfaces";
 export const getMappedStatus = (status: string): Status => {
   switch (status) {
     case "Published":
-      return Status.approved;
+      return Status.public;
     case "Approved":
       return Status.approved;
     case "Pending review":

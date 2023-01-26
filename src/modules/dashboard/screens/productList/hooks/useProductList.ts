@@ -7,10 +7,12 @@ import axios from "axios";
 const useProductList = () => {
   const [basicProducts, setBasicProducts] = useState<Array<{ label: string; value: string; }>>([]);
   const [productsMap, setProductsMap] = useState<Record<string, Array<any>>>();
+  const [totalProductsMap, setTotalProductsMap] = useState<Record<string, number>>();
   const [avatarUrl, setAvatarUrl] = useState<string>();
 
   const [filteredProducts, setFilteredProducts] = useState<string>();
   const [loadingProducts, setLoadingProducts] = useState<boolean>(false);
+  const [loadingBasicProducts, setLoadingBasicProducts] = useState<boolean>(false);
 
   //Providers
   const { getUser } = useCommonProviders();
@@ -21,27 +23,32 @@ const useProductList = () => {
   const userId: string = localStorage.getItem("uuid") || "";
 
   const onGetBasicProducts = async () => {
-    const resp = await getBasicProducts();
-    const productList = resp.data.results.map((product: any) => ({
-      label: product.basic_product,
-      value: product.uuid,
-    }));
-    setBasicProducts(productList);
-  };
-
-  const onGetProductList = async () => {
-    const productsMap: Record<string, Array<any>> = {};
-    basicProducts.forEach(async basicProduct => {
-      const resp = await getProductsList(userId, basicProduct.label);
-      productsMap[basicProduct.label] = resp.data.results;
-    });
-    setProductsMap(productsMap);
+    if (!loadingBasicProducts) {
+      setLoadingBasicProducts(true);
+      const resp = await getBasicProducts();
+      const productList = resp.data.results.map((product: any) => ({
+        label: product.basic_product,
+        value: product.uuid,
+      }));
+      const newProductsMap: Record<string, Array<any>> = {};
+      const totalProductsMap: Record<string, number> = {};
+      await productList.forEach(async (product: any) => {
+        const resp = await getProductsList(userId, product.label, 0);
+        newProductsMap[product.label] = resp.data.results;
+        totalProductsMap[product.label] = resp.data.total;
+      });
+      setBasicProducts(productList);
+      setProductsMap(newProductsMap);
+      setTotalProductsMap(totalProductsMap);
+      setLoadingBasicProducts(false);
+    }
   };
 
   const onAddToProductList = async (basicProduct: string) => {
-    if (!loadingProducts) {
+    const offset = productsMap && productsMap[basicProduct].length;
+    if (!loadingProducts && totalProductsMap && offset! < totalProductsMap[basicProduct]) {
       const newProductsMap = { ...productsMap };
-      const resp = await getProductsList(userId, basicProduct);
+      const resp = await getProductsList(userId, basicProduct, offset!);
       newProductsMap[basicProduct].push(resp.data.results);
       setProductsMap(newProductsMap);
       setLoadingProducts(false);
@@ -57,8 +64,12 @@ const useProductList = () => {
     setFilteredProducts(product === filteredProducts ? undefined : product);
   };
 
-  const onClickProductCard = (productId: string) => {
-    navigate(`../products/${ productId }`, { replace: true, state: { previousUrl: location.pathname } });
+  const onClickProductCard = (event: React.MouseEvent, basicProduct: string, productId: string) => {
+    if ((event.target as any).innerText === 'Publish') {
+      onPublish(event, basicProduct, productId);
+    } else {
+      navigate(`../products/${ productId }`, { replace: true, state: { previousUrl: location.pathname } });
+    }
   };
 
   const onLikeProduct = async (event: React.MouseEvent, basicProduct: string, productId: string, isLiked: boolean) => {
@@ -79,10 +90,18 @@ const useProductList = () => {
     }
   };
 
-  useEffect(() => {
-    onGetProductList();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [basicProducts]);
+  const onPublish = async (event: React.MouseEvent, basicProduct: string, productId: string) => {
+    event.stopPropagation();
+    try {
+      const resp = await axios.patch(`${ process.env.REACT_APP_BAZAR_URL }/products/update-publish/${ productId }`);
+      const newProductsMap = { ...productsMap };
+      const productIndex = newProductsMap[basicProduct].findIndex((product: any) => product.uuid === productId);
+      newProductsMap[basicProduct][productIndex] = { ...newProductsMap[basicProduct][productIndex], status: resp.data.status };
+      setProductsMap(newProductsMap);
+    } catch (error) {
+      alert('Something went wrong. Try again.');
+    }
+  };
 
   useEffect(() => {
     onGetBasicProducts();
@@ -100,6 +119,7 @@ const useProductList = () => {
     onLikeProduct,
     onAddToProductList,
     setLoadingProducts,
+    onPublish,
   };
 };
 
