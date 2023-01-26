@@ -42,7 +42,7 @@ const UserMenu = (props: any) => {
                 <ListGroupItem action onClick={ () => { } } className="dshLayout__body--header--user--dropdown--listMenu--item">
                   <MdAttachMoney className="dshLayout__body--header--user--dropdown--listMenu--item--icon" /> <span className="dshLayout__body--header--user--dropdown--listMenu--item--label" >Change currency</span>
                 </ListGroupItem>
-                <ListGroupItem action onClick={ () => { } } className="dshLayout__body--header--user--dropdown--listMenu--item">
+                <ListGroupItem action onClick={ () => { window.location.replace(`https://www.bazar.network/creation-user-seller`); } } className="dshLayout__body--header--user--dropdown--listMenu--item">
                   <BsFillBookmarkStarFill className="dshLayout__body--header--user--dropdown--listMenu--item--icon" /> <span className="dshLayout__body--header--user--dropdown--listMenu--item--label" >User Guides</span>
                 </ListGroupItem>
                 <ListGroupItem action onClick={ onLogout } className="dshLayout__body--header--user--dropdown--listMenu--item divider">
