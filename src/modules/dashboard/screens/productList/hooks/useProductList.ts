@@ -31,11 +31,21 @@ const useProductList = () => {
         value: product.uuid,
       }));
       const newProductsMap: Record<string, Array<any>> = {};
+      productList.forEach((basicProduct: { label: string; value: string; }) => {
+        newProductsMap[basicProduct.label] = [];
+      });
       const totalProductsMap: Record<string, number> = {};
-      await productList.forEach(async (product: any) => {
-        const resp = await getProductsList(userId, product.label, 0);
-        newProductsMap[product.label] = resp.data.results;
-        totalProductsMap[product.label] = resp.data.total;
+      const promises: any[] = [];
+      productList.forEach((product: any) => {
+        promises.push(getProductsList(userId, product.label, 0));
+      });
+      const result = await Promise.all(promises);
+      result.forEach(promise => {
+        console.log(promise);
+        promise.data.results.forEach((product: any) => {
+          newProductsMap[product.basic_product].push(product);
+          totalProductsMap[product.basic_product] = promise.data.total;
+        });
       });
       setBasicProducts(productList);
       setProductsMap(newProductsMap);
