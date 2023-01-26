@@ -5,7 +5,9 @@ import { MdAccountBalanceWallet, MdCheckCircle, MdLogout } from 'react-icons/md'
 import InputText from '../../../common/components/inputText';
 import useWalletConnectionBSC from "../../hooks/useWallletConnectionBSC";
 
-const WalletConnectionBSCSelection = () => {
+const WalletConnectionBSCSelection = (props: any) => {
+
+  const { icon } = props;
 
   const { activate, deactivate, account } = useWeb3React();
   const [showWallet, setShowWallet] = useState(false);
@@ -33,7 +35,11 @@ const WalletConnectionBSCSelection = () => {
   return (
     <div>
       <div ref={ walletRef } onClick={ handleWallet } className={ `dshLayout__body--header--right--icon4 ${ aaccountShorter(account) ? 'checked' : '' }` }>
-        <MdAccountBalanceWallet />
+        { icon ? (
+          <MdAccountBalanceWallet />
+        ) : (
+          <span>Connect wallet</span>
+        ) }
       </div>
       <Overlay rootClose onHide={ handleWallet } transition={ false } target={ walletRef.current } show={ showWallet } placement="bottom-end">
         { (props) => (

@@ -305,7 +305,12 @@
                   margin-bottom: 0;
                 }
 
+                &--label {
+                  font-size: 14px;
+                }
+
                 &--icon {
+                  font-size: 20px;
                   margin-right: 12px;
                 }
 
@@ -391,6 +396,38 @@
           display: none;
         }
       }
+    }
+  }
+}
+
+.btn-connect-wallet {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  margin: 50px 40px 0;
+  padding: 14px 10px;
+  border: none;
+  border-radius: 8px;
+  background-color: #FFFFFF;
+
+  span {
+    font-size: 16.8px;
+    font-weight: 500;
+    font-stretch: normal;
+    font-style: normal;
+    line-height: 1.43;
+    letter-spacing: 0.5px;
+    color: $primary_300;
+  }
+
+  &:hover {
+    background-color: $primary_300;
+    border: 1px solid #FFFFFF;
+
+    span {
+      color: #FFFFFF;
     }
   }
 }

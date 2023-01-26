@@ -5,7 +5,7 @@ import { Outlet, NavLink, useOutletContext } from "react-router-dom";
 import IconLogo from "../../../../assets/svg/icons/iconLogo";
 import { AiFillHome } from "react-icons/ai";
 import { ImLeaf } from "react-icons/im";
-import { MdAccountBalanceWallet, MdLogout, MdOutlineLanguage } from "react-icons/md";
+import { MdAccountBalanceWallet, MdLogout, MdOutlineLanguage, MdNotifications, MdAttachMoney } from "react-icons/md";
 import { Button, Offcanvas } from "react-bootstrap";
 import { IoMenu } from "react-icons/io5";
 import useAuthenticator from "../../../auth/hooks/useAuthenticator";
@@ -15,6 +15,8 @@ import { Web3ReactProvider } from '@web3-react/core';
 import { ExternalProvider, JsonRpcFetchFunc, Web3Provider } from "@ethersproject/providers";
 import UserMenu from "./components/userMenu/userMenu";
 import { BiHeart } from "react-icons/bi";
+import { BsFillBookmarkStarFill } from "react-icons/bs";
+import { TbWorld } from "react-icons/tb";
 
 type ContextType = {
   authenticatedUser: {
@@ -73,7 +75,7 @@ const Dashboardlayout: React.FC<any> = () => {
         <NavLink className={ ({ isActive }) =>
           `dshLayout__nav--btnNav ${ isActive ? 'active' : '' }`
         }
-          to="/">
+          to="/dashboard/">
           <AiFillHome className="dshLayout__nav--btnNav--icon" />
           <p className="dshLayout__nav--btnNav--label">Home</p>
         </NavLink>
@@ -131,7 +133,7 @@ const Dashboardlayout: React.FC<any> = () => {
             <div className="dshLayout__body--header--right">
               {
                 <Web3ReactProvider getLibrary={ getLibrary }>
-                  <WalletConnectionBSCSelection />
+                  <WalletConnectionBSCSelection icon />
                 </Web3ReactProvider>
               }
               <MdOutlineLanguage className="dshLayout__body--header--right--icon3" />
@@ -149,7 +151,7 @@ const Dashboardlayout: React.FC<any> = () => {
                   <NavLink className={ ({ isActive }) =>
                     `item ${ isActive ? 'active' : '' }`
                   }
-                    to="/">
+                    to="/dashboard/">
                     <AiFillHome className="item--icon" />
                     <p className="item--label">Home</p>
                   </NavLink>
@@ -160,32 +162,61 @@ const Dashboardlayout: React.FC<any> = () => {
                     <ImLeaf className="item--icon" />
                     <p className="item--label">Products</p>
                   </NavLink>
-                  <NavLink className={ ({ isActive }) =>
-                    `item ${ isActive ? 'active' : '' }`
-                  }
-                    to="/">
-                    <HiShoppingCart className="item--icon" />
-                    <p className="item--label">Purchases</p>
-                  </NavLink>
-                  <NavLink className={ ({ isActive }) =>
-                    `item ${ isActive ? 'active' : '' }`
-                  }
-                    to="/">
-                    <MdAccountBalanceWallet className="item--icon" />
-                    <p className="item--label">Wallet</p>
-                  </NavLink>
                   <hr className="limiter-line" />
                 </div>
-                <div className="mobile-bazar-nav__body--secondary">
-                  <NavLink className={ ({ isActive }) =>
-                    `item ${ isActive ? 'active' : '' }`
-                  }
-                    to="/dashboard/user-approvals">
-                    <FaUserAlt className="item--icon" />
-                    <p className="item--label">Users</p>
-                  </NavLink>
-                  <hr className="limiter-line" />
-                </div>
+
+                { !isSeller && !isBuyer ? (
+                  <div className="mobile-bazar-nav__body--secondary">
+                    <NavLink className={ ({ isActive }) =>
+                      `item ${ isActive ? 'active' : '' }`
+                    }
+                      to="/dashboard/user-approvals">
+                      <FaUserAlt className="item--icon" />
+                      <p className="item--label">Users</p>
+                    </NavLink>
+                    <hr className="limiter-line" />
+                  </div>
+                ) : (
+                  <div className="mobile-bazar-nav__body--secondary">
+                    <NavLink className={ ({ isActive }) =>
+                      `item ${ isActive ? 'active' : '' }`
+                    }
+                      to="/profile">
+                      <FaUserAlt className="item--icon" />
+                      <p className="item--label">Profile</p>
+                    </NavLink>
+                    <NavLink className={ ({ isActive }) =>
+                      `item ${ isActive ? 'active' : '' }`
+                    }
+                      to="/notifications">
+                      <MdNotifications className="item--icon" />
+                      <p className="item--label">Notifications</p>
+                    </NavLink>
+                    <NavLink className={ ({ isActive }) =>
+                      `item ${ isActive ? 'active' : '' }`
+                    }
+                      to="/change-currency">
+                      <MdAttachMoney className="item--icon" />
+                      <p className="item--label">Change currency</p>
+                    </NavLink>
+                    <NavLink className={ ({ isActive }) =>
+                      `item ${ isActive ? 'active' : '' }`
+                    }
+                      to="/change-language">
+                      <TbWorld className="item--icon" />
+                      <p className="item--label">Change language</p>
+                    </NavLink>
+                    <a className="item" href="https://www.bazar.network/creation-user-seller">
+                      <BsFillBookmarkStarFill className="item--icon" />
+                      <p className="item--label">User guides</p>
+                    </a>
+                    <button className="btn-connect-wallet">
+                      <WalletConnectionBSCSelection />
+                    </button>
+                    <hr className="limiter-line" />
+                  </div>
+                )
+                }
                 <div className="mobile-bazar-nav__body--closed">
                   <Button className="btn-logout-closed item" onClick={ onLogout }>
                     <MdLogout className="item--icon" />
