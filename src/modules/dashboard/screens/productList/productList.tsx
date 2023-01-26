@@ -47,7 +47,8 @@ const ProductList: React.FC<any> = () => {
           <div className="pl__col-buttons__list">
             <Button className={ 'btn-search-ad btn-mobile' } iconLeft={ <BiSlider /> }></Button>
             { basicProducts.map(({ label }) => (
-              <Button className={ `btn-second ${ filteredProducts === label ? 'active' : '' }` } iconLeft={ getProductIcon(label) } onClick={ () => onFilterProducts(label) }>
+              <Button className={ `btn-second ${ filteredProducts === label ? 'active' : '' }` } key={ label }
+                iconLeft={ getProductIcon(label) } onClick={ () => onFilterProducts(label) }>
                 { label }
               </Button>
             )) }
@@ -61,7 +62,7 @@ const ProductList: React.FC<any> = () => {
               <div className="pl__content-card">
                 <h3 className="titlePrimary">{ basicProduct }</h3>
               </div>
-              <div className={ `content-cards-list ${ filteredProducts && 'cards-list-column' }` } onScroll={ e => handleScroll(e, index, basicProduct) } ref={ ref => listsRef.current[index] = ref }>
+              <div className="content-cards-list" onScroll={ e => handleScroll(e, index, basicProduct) } ref={ ref => listsRef.current[index] = ref }>
                 { productList.map((product: any) => {
                   return (
                     <Card

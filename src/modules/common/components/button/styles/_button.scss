@@ -1,7 +1,6 @@
 @mixin btn {
   padding: 14px 50px;
-  font-family: sfProDisplay;
-  font-size: 16.8;
+  font-family: 'SF Pro Display', sans-serif;
   border-style: none;
   border-radius: 8px;
   color: $primary_200;
@@ -15,7 +14,6 @@
   @include btn();
   background: $primary_200;
   color: $white;
-  font-family: sfProDisplay;
 
   &:disabled {
     background-color: $neutral_100;
@@ -51,7 +49,7 @@
   background: transparent;
   color: $primary_300;
   border: 1px solid $primary_300;
-  font-family: sfProDisplay;
+  font-family: 'SF Pro Display', sans-serif;
 
   &:disabled {
     border: 1px solid $primary_100;
@@ -102,7 +100,7 @@
   @include btn();
   background: transparent;
   color: $primary_300;
-  font-family: sfProDisplay;
+  font-family: 'SF Pro Display', sans-serif;
 
   &:disabled {
     color: $neutral_300;
