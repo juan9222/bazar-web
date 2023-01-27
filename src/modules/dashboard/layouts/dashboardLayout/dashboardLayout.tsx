@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { FaUserAlt } from "react-icons/fa";
 import { HiShoppingCart } from "react-icons/hi";
-import { Outlet, NavLink, useOutletContext } from "react-router-dom";
+import { Outlet, NavLink } from "react-router-dom";
 import IconLogo from "../../../../assets/svg/icons/iconLogo";
 import { AiFillHome } from "react-icons/ai";
 import { ImLeaf } from "react-icons/im";
@@ -15,18 +15,9 @@ import { Web3ReactProvider } from '@web3-react/core';
 import { ExternalProvider, JsonRpcFetchFunc, Web3Provider } from "@ethersproject/providers";
 import UserMenu from "./components/userMenu/userMenu";
 import { BiHeart } from "react-icons/bi";
-import { BsFillBookmarkStarFill } from "react-icons/bs";
+import { isBuyer, isSeller } from "./utils";
 import { TbWorld } from "react-icons/tb";
-
-type ContextType = {
-  authenticatedUser: {
-    firstName: string,
-    lastName: string,
-    role: string,
-    profileImage: string,
-    company: string,
-  } | null;
-};
+import { BsFillBookmarkStarFill } from "react-icons/bs";
 
 const Dashboardlayout: React.FC<any> = () => {
   const { onLogout, getAuthenticatedUser } = useAuthenticator();
@@ -66,9 +57,6 @@ const Dashboardlayout: React.FC<any> = () => {
     return new Web3Provider(provider);
   };
 
-  const isSeller = authenticatedUser && authenticatedUser.role === "Seller";
-  const isBuyer = authenticatedUser && authenticatedUser.role === "Buyer";
-
   return (
     <div className="dshLayout">
       <nav className="dshLayout__nav">
@@ -86,7 +74,7 @@ const Dashboardlayout: React.FC<any> = () => {
           <ImLeaf className="dshLayout__nav--btnNav--icon" />
           <p className="dshLayout__nav--btnNav--label">Products</p>
         </NavLink>
-        { isBuyer && (
+        { isBuyer(authenticatedUser) && (
           <NavLink className={ ({ isActive }) =>
             `dshLayout__nav--btnNav ${ isActive ? 'active' : '' }`
           }
@@ -102,7 +90,7 @@ const Dashboardlayout: React.FC<any> = () => {
           <MdAccountBalanceWallet className="dshLayout__nav--btnNav--icon" />
           <p className="dshLayout__nav--btnNav--label">Wallet</p>
         </NavLink>
-        { isBuyer && (
+        { isBuyer(authenticatedUser) && (
           <NavLink className={ ({ isActive }) =>
             `dshLayout__nav--btnNav ${ isActive ? 'active' : '' }`
           }
@@ -111,7 +99,7 @@ const Dashboardlayout: React.FC<any> = () => {
             <p className="dshLayout__nav--btnNav--label">Wishlist</p>
           </NavLink>
         ) }
-        { !isSeller && !isBuyer && (
+        { !isSeller(authenticatedUser) && !isBuyer && (
           <NavLink className={ ({ isActive }) =>
             `dshLayout__nav--btnNav ${ isActive ? 'active' : '' }`
           }
@@ -162,7 +150,7 @@ const Dashboardlayout: React.FC<any> = () => {
                     <ImLeaf className="item--icon" />
                     <p className="item--label">Products</p>
                   </NavLink>
-                  { isBuyer && (
+                  { isBuyer(authenticatedUser) && (
                     <NavLink className={ ({ isActive }) =>
                       `item ${ isActive ? 'active' : '' }`
                     }
@@ -245,7 +233,3 @@ const Dashboardlayout: React.FC<any> = () => {
 };
 
 export default Dashboardlayout;
-
-export function useUser() {
-  return useOutletContext<ContextType>();
-}

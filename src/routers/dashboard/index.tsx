@@ -11,7 +11,6 @@ import ProductListAdmin from "../../modules/dashboard/screens/productListAdmin";
 
 // Users
 import UserApprovals from "../../modules/dashboard/screens/userApprovals";
-import ProductDetailsBuyer from "../../modules/dashboard/screens/productDetailsBuyer";
 import TransactionStarted from "../../modules/dashboard/screens/transactionStarted";
 import PaymentSummary from "../../modules/dashboard/screens/paymentSummary";
 import Wishlist from "../../modules/dashboard/screens/wishlist";
@@ -44,10 +43,6 @@ const dashboardRoutes: RouteObject[] = [
   {
     path: "user-approvals",
     element: <UserApprovals />
-  },
-  {
-    path: "product-details/:productId",
-    element: <ProductDetailsBuyer />
   },
   {
     path: "transaction/:transactionId",

@@ -1,5 +1,5 @@
 // Dependencies
-import React from "react";
+import React, { useState } from "react";
 import ImageGallery from 'react-image-gallery';
 
 // Components
@@ -17,12 +17,20 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Modal from "../../../common/components/modal";
 import InputText from "../../../common/components/inputText";
 import { ELarge } from "../../../common/interfaces";
+import { isBuyer, isSeller, useUser } from "../../layouts/dashboardLayout/utils";
+import Select from "../../../common/components/select";
+import ModalConfirmPurchaseNew from "./components/modalConfirmPurchase";
+import ModalConfirmBlockNew from "./components/modalConfirmBlock";
+import { getStatusTag } from "../../../common/components/statusTag/statusTag";
+import { getMappedStatus } from "../productList/utils";
 
 const ProductDetails: React.FC<any> = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { product, showEditAvailability, onChangeEditAvailabilityDisplay, register, hasErrorsInput, getMessageErrorInput, handleSubmit, submitForm, savingAvailability, } = useProductDetails();
+  const { product, incotermOptions, quantityToBuy, showEditAvailability, onChangeEditAvailabilityDisplay, register, hasErrorsInput, getMessageErrorInput, handleSubmit, submitAvailableAssets, savingAvailability, } = useProductDetails();
+
+  const { authenticatedUser } = useUser();
 
   const images = product?.url_images ? product.url_images.map((image: string) => {
     return {
@@ -35,6 +43,9 @@ const ProductDetails: React.FC<any> = () => {
   }) : [];
 
   const previousUrl = location.state.previousUrl;
+
+  const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
+  const [showConfirmBlockModal, setShowConfirmBlockModal] = useState<boolean>(false);
 
   const getCertificateImage = (certificate: string) => {
     switch (certificate) {
@@ -84,7 +95,7 @@ const ProductDetails: React.FC<any> = () => {
               <div className="pd__col-details__user--product">
                 <div className="title">
                   <h4>{ getProductIcon(product?.basic_product) } { product?.basic_product }</h4>
-                  <span className="status-product status-review">{ product?.status }</span>
+                  { getStatusTag(getMappedStatus(product?.status)) }
                 </div>
                 <p>{ product?.company_name }</p>
               </div>
@@ -126,10 +137,7 @@ const ProductDetails: React.FC<any> = () => {
             </div>
             <div className="list__item">
               <span className="list__item--label">INCOTERMS</span>
-              <span className="list__item--value">{ product?.incoterms.map((incoterm: { incoterm: string, }) => {
-                const inco = incoterm.incoterm.match(/\((.*?)\)/);
-                return inco !== null ? inco[1] : '';
-              }).join(' - ') }</span>
+              <span className="list__item--value">{ incotermOptions && incotermOptions.map(option => option.label).join(' - ') }</span>
             </div>
           </div>
         </Col>
@@ -146,7 +154,7 @@ const ProductDetails: React.FC<any> = () => {
               <span className="list__item--value">{ product?.capacity_per_year } Kg</span>
             </div>
             <div className="list__item">
-              <span className="list__item--label">Assets Avaliable <HiPencil onClick={ onChangeEditAvailabilityDisplay } /></span>
+              <span className="list__item--label">Assets Available { isSeller(authenticatedUser) && <HiPencil onClick={ onChangeEditAvailabilityDisplay } /> }</span>
               <span className="list__item--value">{ product?.available_for_sale } Kg</span>
             </div>
             <div className="list__item">
@@ -155,13 +163,44 @@ const ProductDetails: React.FC<any> = () => {
             </div>
           </div>
         </Col>
-        <Col className="pd__col-logic-quotes" md={ 5 }>
-          <Button className={ 'btn-logic-quotes' } >Obtain logistics quotes</Button>
-          <Button className={ 'btn-qr qr-mobile' }>
-            <MdQrCode2 />
-            QR code
-          </Button>
-        </Col>
+        { isSeller(authenticatedUser) && (
+          <Col className="pd__col-logic-quotes" md={ 5 }>
+            <Button className={ 'btn-logic-quotes' } >Obtain logistics quotes</Button>
+            <Button className={ 'btn-qr qr-mobile' }>
+              <MdQrCode2 />
+              QR code
+            </Button>
+          </Col>
+        ) }
+        { isBuyer(authenticatedUser) && (
+          <Col className="pd__col-buy" md={ 5 }>
+            <Row>
+              <Col md={ 6 }>
+                <InputText
+                  register={ register }
+                  name={ "quantity" }
+                  label={ "Quantity to buy /Kg" }
+                  type={ "number" }
+                  hasError={ hasErrorsInput("quantity") }
+                  errorMessage={ getMessageErrorInput("quantity") }
+                  placeholder={ "1000" }
+                  autoComplete={ "off" }
+                  required />
+              </Col>
+              <Col md={ 6 }>
+                <Select
+                  selection={ "" }
+                  onChangeSelection={ () => { } }
+                  label={ "Select INCOTERMS" }
+                  name={ 'INCOTERMS' }
+                  placeholder={ "Select option" }
+                  options={ incotermOptions ?? [] }
+                  required />
+              </Col>
+            </Row>
+            <Button className="btn-buy" onClick={ () => setShowConfirmModal(!showConfirmModal) } disabled={ !quantityToBuy || hasErrorsInput("quantity") }>Buy now</Button>
+          </Col>
+        ) }
       </Row>
       <div className="pd__col-certificate">
         { product?.sustainability_certifications.map((certificate: { uuid: string, certification: string; }) =>
@@ -180,11 +219,20 @@ const ProductDetails: React.FC<any> = () => {
             errorMessage={ getMessageErrorInput("availability") }
             placeholder={ "E.g 1.800" }
             required />
-          <Button large={ ELarge.full } type="button" onClick={ handleSubmit(submitForm) } disabled={ savingAvailability }>{ savingAvailability ? 'Saving...' : 'Save' }</Button>
+          <Button large={ ELarge.full } type="button" onClick={ handleSubmit(submitAvailableAssets) } disabled={ savingAvailability }>{ savingAvailability ? 'Saving...' : 'Save' }</Button>
           <div className="verticalSpaceS" />
           <p className="pd-custom-modal-footer">This field will edit the availability of your product.</p>
         </form>
       </Modal>
+      <ModalConfirmPurchaseNew
+        product={ product }
+        quantity={ quantityToBuy }
+        initialTimer={ 20 }
+        show={ showConfirmModal }
+        fetchExchange={ () => { } } //TODO pass function to refetch BNP value
+        onHide={ () => setShowConfirmModal(!showConfirmModal) }
+        confirm={ () => { setShowConfirmBlockModal(!showConfirmBlockModal); setShowConfirmModal(!showConfirmModal); } } />
+      <ModalConfirmBlockNew show={ showConfirmBlockModal } onHide={ () => setShowConfirmBlockModal(!showConfirmBlockModal) } />
     </Container >
   );
 };
