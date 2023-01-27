@@ -1,15 +1,34 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { BsCheckSquare, BsSquare } from "react-icons/bs";
 import Button from "../../../../../common/components/button";
+import { getProductIcon } from "../../../../../common/components/productIcon";
 
-const ModalConfirmPurchase: React.FC<any> = (props) => {
+const ModalConfirmPurchaseNew: React.FC<any> = (props) => {
 
-  const [check, setCheck] = useState(false);
+  const { product, quantity, fetchExchange, initialTimer, ...rest } = props;
+  const [check, setCheck] = useState<boolean>(false);
+
+  const subTotal = quantity * product?.expected_price_per_kg;
+  const fee = subTotal * 0.05;
+  const total = subTotal + fee;
+
+  const [counter, setCounter] = useState<number>(initialTimer);
+
+  useEffect(() => {
+    if (counter === 0) {
+      setCounter(initialTimer);
+      fetchExchange();
+    }
+    const timer = setInterval(() => setCounter(counter - 1), 1000);
+    return () => clearInterval(timer);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [counter]);
 
   return (
     <Modal
-      { ...props }
+      { ...rest }
       size="lg"
       aria-labelledby="pd-modal-confirmPurchase-title-vcenter"
       className="pd-modal-confirmPurchase"
@@ -29,21 +48,21 @@ const ModalConfirmPurchase: React.FC<any> = (props) => {
               </div>
               <div className="pd-modal-confirmPurchase--body--products--item-description--detail">
                 <div className="pd-modal-confirmPurchase--body--products--item-description--detail--text">
-                  <img className="icon" src={ "/assets/images/icon-coffebeans.png" } alt="product" />
-                  <span>Coffee</span>
+                  { getProductIcon(product?.basic_product) }
+                  <span>{ product?.basic_product }</span>
                   <img className="icon" src={ "/assets/images/icon-certificatesustainability.png" } alt="product" />
                 </div>
                 <div className="pd-modal-confirmPurchase--body--products--item-description--detail--type">
-                  <span>Beans rosted | Arabica coffee</span>
+                  <span>{ product?.product_type } | { product?.variety }</span>
                 </div>
               </div>
             </div>
             <div className="pd-modal-confirmPurchase--body--products--item-qty">
               <div className="pd-modal-confirmPurchase--body--products--item-qty--section">
-                <span className="pd-money">1.50 USD</span><span className="pd-unit">/kg</span>
+                <span className="pd-money">{ product?.expected_price_per_kg } USD</span><span className="pd-unit">/kg</span>
               </div>
               <div className="pd-modal-confirmPurchase--body--products--item-qty--section totalAvailable">
-                <span className="qtyAvailable">1000 kg</span>
+                <span className="qtyAvailable">{ product?.available_for_sale } kg</span>
                 <span className="avaliable">Available</span>
               </div>
             </div>
@@ -54,15 +73,15 @@ const ModalConfirmPurchase: React.FC<any> = (props) => {
             <span>Payment detail</span>
           </div>
           <div className="pd-modal-confirmPurchase--body--paymentDetail--details">
-            <div className="pd-modal-confirmPurchase--body--paymentDetail--details--item"><span>Amount</span><span>1000 kg</span></div>
-            <div className="pd-modal-confirmPurchase--body--paymentDetail--details--item"><span>Total product</span><span>140.000 USD</span></div>
-            <div className="pd-modal-confirmPurchase--body--paymentDetail--details--item"><span>Service fee</span><span>140.0</span></div>
+            <div className="pd-modal-confirmPurchase--body--paymentDetail--details--item"><span>Amount</span><span>{ quantity } kg</span></div>
+            <div className="pd-modal-confirmPurchase--body--paymentDetail--details--item"><span>Total product</span><span>{ subTotal.toFixed(2) } USD</span></div>
+            <div className="pd-modal-confirmPurchase--body--paymentDetail--details--item"><span>Service fee</span><span>{ fee.toFixed(2) } USD</span></div>
           </div>
           <div className="pd-modal-confirmPurchase--body--paymentDetail--total">
             <div><span>Total to pay</span></div>
-            <div className="totalValue"><span>467,94 BNB</span><span className="secondary">140.140 USD</span></div>
+            <div className="totalValue"><span>467.94 BNB</span><span className="secondary">{ total.toFixed(2) } USD</span></div>
           </div>
-          <div className="pd-modal-confirmPurchase--body--paymentDetail--note"><span>BNB's exchange rate will be updated at : 20 s</span></div>
+          <div className="pd-modal-confirmPurchase--body--paymentDetail--note"><span>BNB's exchange rate will be updated at : { counter } s</span></div>
         </div>
         <div className="pd-modal-confirmPurchase--body--action">
           <div className="termsAndService" onClick={ () => setCheck(!check) }>
@@ -75,7 +94,7 @@ const ModalConfirmPurchase: React.FC<any> = (props) => {
             <span>By checking this box, I agree to Bazar's <strong>terms of service</strong></span>
           </div>
           <div className="confirm">
-            <Button className="btn-confirm" onClick={ props.confirm }>Confirm</Button>
+            <Button className="btn-confirm" onClick={ props.confirm } disabled={ !check }>Confirm</Button>
           </div>
         </div>
       </Modal.Body>
@@ -83,4 +102,4 @@ const ModalConfirmPurchase: React.FC<any> = (props) => {
   );
 };
 
-export default ModalConfirmPurchase;
+export default ModalConfirmPurchaseNew;

@@ -1,7 +1,7 @@
 import React from "react";
 import { Modal } from "react-bootstrap";
 
-const ModalConfirmBlock: React.FC<any> = (props) => {
+const ModalConfirmBlockNew: React.FC<any> = (props) => {
 
   return (
     <div>
@@ -33,4 +33,4 @@ const ModalConfirmBlock: React.FC<any> = (props) => {
   );
 };
 
-export default ModalConfirmBlock;
+export default ModalConfirmBlockNew;
