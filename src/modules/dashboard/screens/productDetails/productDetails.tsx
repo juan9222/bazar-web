@@ -22,6 +22,7 @@ import Select from "../../../common/components/select";
 import ModalConfirmPurchaseNew from "./components/modalConfirmPurchase";
 import ModalConfirmBlockNew from "./components/modalConfirmBlock";
 import { getStatusTag } from "../../../common/components/statusTag/statusTag";
+import { getMappedStatus } from "../productList/utils";
 
 const ProductDetails: React.FC<any> = () => {
   const navigate = useNavigate();
@@ -94,7 +95,7 @@ const ProductDetails: React.FC<any> = () => {
               <div className="pd__col-details__user--product">
                 <div className="title">
                   <h4>{ getProductIcon(product?.basic_product) } { product?.basic_product }</h4>
-                  { getStatusTag(product?.status) }
+                  { getStatusTag(getMappedStatus(product?.status)) }
                 </div>
                 <p>{ product?.company_name }</p>
               </div>

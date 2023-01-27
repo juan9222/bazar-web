@@ -14,7 +14,7 @@ const Card: React.FC<ICardProps> = (props) => {
   return (
     <div className="content-card" onClick={ onClick }>
       <div className="content-card__header">
-        { getStatusTag(status) }
+        { getStatusTag(status, true) }
         { likeable && (
           <div className="header-wishlist" onClick={ onLiked }>
             { isLiked ?
