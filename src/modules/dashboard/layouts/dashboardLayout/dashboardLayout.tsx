@@ -162,6 +162,15 @@ const Dashboardlayout: React.FC<any> = () => {
                     <ImLeaf className="item--icon" />
                     <p className="item--label">Products</p>
                   </NavLink>
+                  { isBuyer && (
+                    <NavLink className={ ({ isActive }) =>
+                      `item ${ isActive ? 'active' : '' }`
+                    }
+                      to="/dashboard/wishlist">
+                      <BiHeart className="item--icon" />
+                      <p className="item--label">Wishlist</p>
+                    </NavLink>
+                  ) }
                   <hr className="limiter-line" />
                 </div>
 
