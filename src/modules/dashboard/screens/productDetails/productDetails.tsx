@@ -17,7 +17,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Modal from "../../../common/components/modal";
 import InputText from "../../../common/components/inputText";
 import { ELarge } from "../../../common/interfaces";
-import { isBuyer, isSeller, useUser } from "../../layouts/dashboardLayout/utils";
+import { isBuyer, isSeller } from "../../layouts/dashboardLayout/utils";
 import Select from "../../../common/components/select";
 import ModalConfirmPurchaseNew from "./components/modalConfirmPurchase";
 import ModalConfirmBlockNew from "./components/modalConfirmBlock";
@@ -29,8 +29,6 @@ const ProductDetails: React.FC<any> = () => {
   const location = useLocation();
 
   const { product, incotermOptions, quantityToBuy, showEditAvailability, onChangeEditAvailabilityDisplay, register, hasErrorsInput, getMessageErrorInput, handleSubmit, submitAvailableAssets, savingAvailability, } = useProductDetails();
-
-  const { authenticatedUser } = useUser();
 
   const images = product?.url_images ? product.url_images.map((image: string) => {
     return {
@@ -154,7 +152,7 @@ const ProductDetails: React.FC<any> = () => {
               <span className="list__item--value">{ product?.capacity_per_year } Kg</span>
             </div>
             <div className="list__item">
-              <span className="list__item--label">Assets Available { isSeller(authenticatedUser) && <HiPencil onClick={ onChangeEditAvailabilityDisplay } /> }</span>
+              <span className="list__item--label">Assets Available { isSeller() && <HiPencil onClick={ onChangeEditAvailabilityDisplay } /> }</span>
               <span className="list__item--value">{ product?.available_for_sale } Kg</span>
             </div>
             <div className="list__item">
@@ -163,7 +161,7 @@ const ProductDetails: React.FC<any> = () => {
             </div>
           </div>
         </Col>
-        { isSeller(authenticatedUser) && (
+        { isSeller() && (
           <Col className="pd__col-logic-quotes" md={ 5 }>
             <Button className={ 'btn-logic-quotes' } >Obtain logistics quotes</Button>
             <Button className={ 'btn-qr qr-mobile' }>
@@ -172,7 +170,7 @@ const ProductDetails: React.FC<any> = () => {
             </Button>
           </Col>
         ) }
-        { isBuyer(authenticatedUser) && (
+        { isBuyer() && (
           <Col className="pd__col-buy" md={ 5 }>
             <Row>
               <Col md={ 6 }>

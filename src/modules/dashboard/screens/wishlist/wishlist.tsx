@@ -12,7 +12,7 @@ import useWishlist from "./hooks/useWishlist";
 
 const Wishlist: React.FC<any> = () => {
 
-  const { basicProducts, productList, avatarUrl, onClickProductCard, onLikeProduct } = useWishlist();
+  const { basicProducts, productList, onClickProductCard, onLikeProduct } = useWishlist();
 
   return (
     <Container className="pl">
@@ -47,7 +47,7 @@ const Wishlist: React.FC<any> = () => {
                     <Card
                       status={ getMappedStatus(product.status) }
                       productImage={ product.url_images ? product.url_images[0] : "" }
-                      avatar={ avatarUrl }
+                      avatar={ product.url_avatar }
                       icon={ getProductIcon(product.basic_product) }
                       product={ product.basic_product }
                       hasCertificates={ product.sustainability_certifications && product.sustainability_certifications.length > 0 }
@@ -77,7 +77,7 @@ const Wishlist: React.FC<any> = () => {
                     <Card
                       status={ getMappedStatus(product.status) }
                       productImage={ product.url_images ?? "" }
-                      avatar={ avatarUrl } //To-do Servicio que nos de el avatar del usuario ???
+                      avatar={ product.url_avatar }
                       icon={ getProductIcon(product.basic_product) }
                       product={ product.basic_product }
                       hasCertificates={ product.sustainability_certifications && product.sustainability_certifications.length > 0 }

@@ -15,7 +15,7 @@ import { Web3ReactProvider } from '@web3-react/core';
 import { ExternalProvider, JsonRpcFetchFunc, Web3Provider } from "@ethersproject/providers";
 import UserMenu from "./components/userMenu/userMenu";
 import { BiHeart } from "react-icons/bi";
-import { isAdmin, isBuyer, isSeller } from "./utils";
+import { isAdmin, isBuyer } from "./utils";
 import { TbWorld } from "react-icons/tb";
 import { BsFillBookmarkStarFill } from "react-icons/bs";
 
@@ -60,20 +60,24 @@ const Dashboardlayout: React.FC<any> = () => {
   return (
     <div className="dshLayout">
       <nav className="dshLayout__nav">
-        <NavLink className={ ({ isActive }) =>
-          `dshLayout__nav--btnNav ${ isActive ? 'active' : '' }`
-        }
-          to="/dashboard/">
-          <AiFillHome className="dshLayout__nav--btnNav--icon" />
-          <p className="dshLayout__nav--btnNav--label">Home</p>
-        </NavLink>
-        <NavLink className={ ({ isActive }) =>
-          `dshLayout__nav--btnNav ${ isActive ? 'active' : '' }`
-        }
-          to="/dashboard/product-list">
-          <ImLeaf className="dshLayout__nav--btnNav--icon" />
-          <p className="dshLayout__nav--btnNav--label">Products</p>
-        </NavLink>
+        { !isAdmin() && (
+          <NavLink className={ ({ isActive }) =>
+            `dshLayout__nav--btnNav ${ isActive ? 'active' : '' }`
+          }
+            to="/dashboard/">
+            <AiFillHome className="dshLayout__nav--btnNav--icon" />
+            <p className="dshLayout__nav--btnNav--label">Home</p>
+          </NavLink>
+        ) }
+        { !isAdmin() && (
+          <NavLink className={ ({ isActive }) =>
+            `dshLayout__nav--btnNav ${ isActive ? 'active' : '' }`
+          }
+            to="/dashboard/product-list">
+            <ImLeaf className="dshLayout__nav--btnNav--icon" />
+            <p className="dshLayout__nav--btnNav--label">Products</p>
+          </NavLink>
+        ) }
         { isBuyer() && (
           <NavLink className={ ({ isActive }) =>
             `dshLayout__nav--btnNav ${ isActive ? 'active' : '' }`
@@ -83,13 +87,15 @@ const Dashboardlayout: React.FC<any> = () => {
             <p className="dshLayout__nav--btnNav--label">Purchases</p>
           </NavLink>
         ) }
-        <NavLink className={ ({ isActive }) =>
-          `dshLayout__nav--btnNav ${ isActive ? 'active' : '' }`
-        }
-          to="/">
-          <MdAccountBalanceWallet className="dshLayout__nav--btnNav--icon" />
-          <p className="dshLayout__nav--btnNav--label">Wallet</p>
-        </NavLink>
+        { !isAdmin() && (
+          <NavLink className={ ({ isActive }) =>
+            `dshLayout__nav--btnNav ${ isActive ? 'active' : '' }`
+          }
+            to="/">
+            <MdAccountBalanceWallet className="dshLayout__nav--btnNav--icon" />
+            <p className="dshLayout__nav--btnNav--label">Wallet</p>
+          </NavLink>
+        ) }
         { isBuyer() && (
           <NavLink className={ ({ isActive }) =>
             `dshLayout__nav--btnNav ${ isActive ? 'active' : '' }`
@@ -136,20 +142,24 @@ const Dashboardlayout: React.FC<any> = () => {
               </Offcanvas.Header>
               <Offcanvas.Body className="mobile-bazar-nav__body">
                 <div className="mobile-bazar-nav__body--primary">
-                  <NavLink className={ ({ isActive }) =>
-                    `item ${ isActive ? 'active' : '' }`
-                  }
-                    to="/dashboard/">
-                    <AiFillHome className="item--icon" />
-                    <p className="item--label">Home</p>
-                  </NavLink>
-                  <NavLink className={ ({ isActive }) =>
-                    `item ${ isActive ? 'active' : '' }`
-                  }
-                    to="/dashboard/product-list">
-                    <ImLeaf className="item--icon" />
-                    <p className="item--label">Products</p>
-                  </NavLink>
+                  { !isAdmin() && (
+                    <NavLink className={ ({ isActive }) =>
+                      `item ${ isActive ? 'active' : '' }`
+                    }
+                      to="/dashboard/">
+                      <AiFillHome className="item--icon" />
+                      <p className="item--label">Home</p>
+                    </NavLink>
+                  ) }
+                  { !isAdmin() && (
+                    <NavLink className={ ({ isActive }) =>
+                      `item ${ isActive ? 'active' : '' }`
+                    }
+                      to="/dashboard/product-list">
+                      <ImLeaf className="item--icon" />
+                      <p className="item--label">Products</p>
+                    </NavLink>
+                  ) }
                   { isBuyer() && (
                     <NavLink className={ ({ isActive }) =>
                       `item ${ isActive ? 'active' : '' }`

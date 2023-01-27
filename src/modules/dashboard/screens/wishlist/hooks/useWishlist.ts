@@ -7,7 +7,6 @@ import useWishlistProviders from "../providers";
 const useWishlist = () => {
   const [basicProducts, setBasicProducts] = useState<Array<{ label: string; value: string; }>>([]);
   const [productList, setProductList] = useState<Array<any>>();
-  const [avatarUrl, setAvatarUrl] = useState<string>();
 
   //Providers
   const { getBasicProducts } = useProductListProviders();
@@ -59,7 +58,6 @@ const useWishlist = () => {
   return {
     basicProducts,
     productList,
-    avatarUrl,
     onClickProductCard,
     onLikeProduct,
   };
