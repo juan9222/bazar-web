@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import { useLocation, useNavigate } from 'react-router-dom';
 import useAuthenticator from '../../../hooks/useAuthenticator';
 import { EVerifyStatus, IVerifyLoginState } from "../interfaces";
-import { getRolesToStorage } from "../../../../common/helpers";
+import { getLocalStorageItem, getRolesToStorage } from "../../../../common/helpers";
 import useCommonProviders from "../../../../common/providers";
 
 const useVerify = () => {
@@ -127,12 +127,17 @@ const useVerify = () => {
 
         setTimeout(async () => {
           try {
-            await getUser(uuid);
-            navigate("/dashboard/product-list");
+            const roles = getLocalStorageItem('roles');
+            if (roles !== null && roles.includes('admin')) {
+              navigate("/dashboard/user-approvals");
+            } else {
+              await getUser(uuid);
+              navigate("/dashboard/product-list");
+            }
           } catch (error: any) {
             navigate("/dashboard/complete-registration");
           }
-        }, 2000);
+        }, 1000);
       }
     } catch (error: any) {
       // User is not email verified

@@ -1,4 +1,5 @@
 import { useOutletContext } from "react-router-dom";
+import { getLocalStorageItem } from "../../../../common/helpers";
 
 type ContextType = {
   authenticatedUser: {
@@ -14,5 +15,6 @@ export function useUser() {
   return useOutletContext<ContextType>();
 }
 
-export const isSeller = (authenticatedUser: any): boolean => authenticatedUser && authenticatedUser.role === "Seller";
-export const isBuyer = (authenticatedUser: any): boolean => authenticatedUser && authenticatedUser.role === "Buyer";
+export const isSeller = (): boolean => (getLocalStorageItem('roles') as string).includes('seller');
+export const isBuyer = (): boolean => (getLocalStorageItem('roles') as string).includes('buyer');
+export const isAdmin = (): boolean => (getLocalStorageItem('roles') as string).includes('admin');
