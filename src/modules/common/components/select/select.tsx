@@ -13,7 +13,7 @@ const CustomSelect: React.FC<ISelectProps> = (props) => {
   );
 
   return (
-    <div className="">
+    <div className="form-input-select">
       <label className="inputTextContainer__label" htmlFor={ name }>{ label ? <span>{ rest.required && <span className="inputTextContainer__label--required">* </span> }{ label }</span> : "" }</label>
       {
         <div className="inputTextContainer__input">
@@ -21,7 +21,7 @@ const CustomSelect: React.FC<ISelectProps> = (props) => {
             value={ options.find(o => o.value === selection) }
             options={ options }
             components={ { Option: IconOption } }
-            className={ '' }
+            className={ 'input-select' }
             name={ name }
             onChange={ onChangeSelection }
           />

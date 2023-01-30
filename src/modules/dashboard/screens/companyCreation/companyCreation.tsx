@@ -55,12 +55,12 @@ const CompanyCreation: React.FC<any> = () => {
   const { authenticatedUser } = useUser();
 
   return (
-    <Container fluid className="cc">
-      <Row>
-        <Col md={ 4 } className='block__left'>
-          <img src="/assets/images/banner-company-creation.png" alt="company creation" />
+    <Container fluid className="company-cc">
+      <Row className="company-cc--row">
+        <Col md={ 5 } className='company-block_left'>
+          <img className="img-left" src="/assets/images/banner-company-creation.png" alt="company creation" />
         </Col>
-        <Col md={ 8 } className='block__right'>
+        <Col md={ 7 } className='company-block_right'>
           <div className="cc__content">
             <div className="cc__content--form">
               <Row>

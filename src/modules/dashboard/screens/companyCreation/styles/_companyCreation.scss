@@ -1,20 +1,60 @@
-.cc {
-  .block__left {
-    align-items: center;
-    justify-content: center;
-    text-align: center;
+.company-cc {
+  padding-top: 36px;
 
-    img {
-      margin-left: -10%;
-      position: fixed;
+  @include respond-below(sm) {
+    background-color: $primary_300;
+    padding-top: 93px;
+
+    .company-cc--row {
+      background-color: $white;
+      border-radius: 20px 20px 0 0;
+      padding-top: 35px;
     }
   }
 
-  .block__right {
+  .company-block_left {
+    @include respond-below(lg) {
+      display: flex;
+      align-content: center;
+
+      img {
+        width: 100%;
+        object-fit: contain;
+      }
+    }
+
+    @include respond-below(sm) {
+      display: none;
+    }
+  }
+
+  .company-block_right {
     align-items: center;
     justify-content: center;
-    padding-left: 10%;
-    padding-right: 10%;
+    padding: 0 10%;
+    height: 86vh;
+    overflow-y: scroll;
+    /* Add the ability to scroll y axis*/
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    -ms-overflow-style: none;
+    /* IE and Edge */
+    scrollbar-width: none;
+    /* Firefox */
+
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    &::-webkit-scrollbar {
+      display: none;
+    }
+
+    @include respond-below(lg) {
+      padding: 0 5%;
+    }
+
+    @include respond-below(sm) {
+      height: auto;
+      overflow-y: hidden;
+    }
   }
 }
 
