@@ -6,30 +6,15 @@ import IconCertificate from "../../../../assets/svg/icons/iconCertificate";
 import { ICardProps, Status } from "./interfaces";
 import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { BsFillCheckCircleFill } from "react-icons/bs";
-import { OverlayTrigger, Popover } from "react-bootstrap";
+import { getStatusTag } from "../statusTag/statusTag";
 
 const Card: React.FC<ICardProps> = (props) => {
   const { status, productImage, avatar, icon, product, hasCertificates, productType, variety, pricePerKg, availableForSale, onClick, likeable, isLiked, onLiked, onPublish } = props;
 
-  const getStatus = (status: string) => {
-    switch (status) {
-      case Status.public:
-        return <span className="header-status status-public">Public</span>;
-      case Status.approved:
-        return <span className="header-status status-approved">Approved</span>;
-      case Status.review:
-        return <span className="header-status status-review">Review</span>;
-      case Status.hidden:
-        return <span className="header-status status-hidden">Hidden</span>;
-      case Status.rejected:
-        return <span className="header-status status-rejected">Rejected</span>;
-    }
-  };
-
   return (
     <div className="content-card" onClick={ onClick }>
       <div className="content-card__header">
-        { getStatus(status) }
+        { getStatusTag(status, true) }
         { likeable && (
           <div className="header-wishlist" onClick={ onLiked }>
             { isLiked ?

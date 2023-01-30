@@ -10,8 +10,8 @@ import IconNewProduct from "../../../../assets/svg/icons/iconNewProduct";
 import { NavLink } from "react-router-dom";
 import { BrowserView, MobileView } from 'react-device-detect';
 import { getProductIcon } from "../../../common/components/productIcon";
-import { useUser } from "../../layouts/dashboardLayout/dashboardLayout";
 import { getMappedStatus, isCurrentFilter } from "./utils";
+import { useUser } from "../../layouts/dashboardLayout/utils";
 
 const ProductList: React.FC<any> = () => {
   const { basicProducts, productsMap, avatarUrl, onFilterProducts, filteredProducts, onClickProductCard, onLikeProduct, onAddToProductList, setLoadingProducts, onPublish } = useProductList();

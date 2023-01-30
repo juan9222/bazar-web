@@ -11,6 +11,7 @@ const useProductDetails = () => {
   const [showEditAvailability, setShowEditAvailability] = useState<boolean>(false);
   const [hasEditError, setHasEditError] = useState(false);
   const [savingAvailability, setSavingAvailability] = useState<boolean>(false);
+  const [incotermOptions, setIncotermOptions] = useState<Array<{ label: string, value: string; }>>();
 
   const { getProductDetails, patchProductAvailability } = useProductDetailsProviders();
 
@@ -18,15 +19,28 @@ const useProductDetails = () => {
   const productId = location.pathname.split('/').pop();
 
   const methods = useForm<IProductDetailProps>({
-    resolver: yupResolver(productDetailFormValidator),
+    resolver: yupResolver(productDetailFormValidator(product?.available_for_sale)),
     mode: "all",
   });
-  const { register, handleSubmit, formState: { errors: detailProductErrors } } = methods;
+  const { register, handleSubmit, formState: { errors: detailProductErrors }, watch } = methods;
+
+  const quantityToBuy = watch("quantity");
 
   const onChangeEditAvailabilityDisplay = () => setShowEditAvailability(!showEditAvailability);
 
   const onGetProductDetails = async () => {
     const resp = await getProductDetails(productId ?? '');
+    const newIncotermOptions: Array<{ label: string, value: string; }> = [];
+    resp.data.incoterms.map((incoterm: { uuid: string, incoterm: string; }) => {
+      const inco = incoterm.incoterm.match(/\((.*?)\)/);
+      if (inco !== null) {
+        newIncotermOptions.push({
+          label: inco[1],
+          value: incoterm.uuid,
+        });
+      }
+    });
+    setIncotermOptions(newIncotermOptions);
     setProduct(resp.data);
   };
 
@@ -38,7 +52,7 @@ const useProductDetails = () => {
     return detailProductErrors[inputName]?.message || "This input is mandatory";
   };
 
-  const submitForm = async (data: IProductDetailProps) => {
+  const submitAvailableAssets = async (data: IProductDetailProps) => {
     setHasEditError(false);
     setSavingAvailability(true);
     try {
@@ -52,7 +66,6 @@ const useProductDetails = () => {
       alert('There has been an error, try again.');
       setSavingAvailability(false);
     }
-
   };
 
   useEffect(() => {
@@ -61,9 +74,10 @@ const useProductDetails = () => {
   }, []);
 
   return {
+    incotermOptions,
     register,
     handleSubmit,
-    submitForm,
+    submitAvailableAssets,
     hasEditError,
     hasErrorsInput,
     getMessageErrorInput,
@@ -71,6 +85,7 @@ const useProductDetails = () => {
     product,
     showEditAvailability,
     onChangeEditAvailabilityDisplay,
+    quantityToBuy,
   };
 };
 
