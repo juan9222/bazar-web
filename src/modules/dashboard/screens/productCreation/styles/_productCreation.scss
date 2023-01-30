@@ -13,8 +13,6 @@
   }
 
   .product-block_left {
-
-
     @include respond-below(lg) {
       display: flex;
       align-content: center;
