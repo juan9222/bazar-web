@@ -13,8 +13,8 @@ const TransactionStarted: React.FC<any> = () => {
           </span>
         </div>
         <div className="trs-transaction--container--logo">
-          <img src={ "/assets/images/logoBazarWhite.png" } alt="Bazar" className="logoBazarWhite" />
-          <img src={ "/assets/images/logoBazarBlue.png" } alt="Bazar" className="logoBazarBlue" />
+          <img src={ "/assets/images/LogoBazarWhite.png" } alt="Bazar" className="logoBazarWhite" />
+          <img src={ "/assets/images/LogoBazarBlue.png" } alt="Bazar" className="logoBazarBlue" />
         </div>
         <div className="trs-transaction--container--subtitle">
           <span>The Binance network is processing you transaction, which can take a little while.</span>
