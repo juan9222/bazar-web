@@ -20,8 +20,8 @@ const ModalConfirmBlockNew: React.FC<any> = (props) => {
         <Modal.Body className="pd-modal-confirmBlock--body">
           <div className="pd-modal-confirmBlock--body--container">
             <div className="pd-modal-confirmBlock--body--container--logo">
-              <img src={ "/assets/images/logoBazarWhite.png" } alt="Bazar" className="logoBazarWhite" />
-              <img src={ "/assets/images/logoBazarBlue.png" } alt="Bazar" className="logoBazarBlue" />
+              <img src={ "/assets/images/LogoBazarWhite.png" } alt="Bazar" className="logoBazarWhite" />
+              <img src={ "/assets/images/LogoBazarBlue.png" } alt="Bazar" className="logoBazarBlue" />
             </div>
             <div className="pd-modal-confirmBlock--body--container--text">
               <span>Waiting for blockchain confirmation</span>

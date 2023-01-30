@@ -11,7 +11,7 @@ import { NavLink } from "react-router-dom";
 import { BrowserView, MobileView } from 'react-device-detect';
 import { getProductIcon } from "../../../common/components/productIcon";
 import { getMappedStatus, isCurrentFilter } from "./utils";
-import { useUser } from "../../layouts/dashboardLayout/utils";
+import { isSeller, useUser } from "../../layouts/dashboardLayout/utils";
 
 const ProductList: React.FC<any> = () => {
   const { basicProducts, productsMap, avatarUrl, onFilterProducts, filteredProducts, onClickProductCard, onLikeProduct, onAddToProductList, setLoadingProducts, onPublish } = useProductList();
@@ -34,7 +34,7 @@ const ProductList: React.FC<any> = () => {
   return (
     <Container className="pl">
       <Row>
-        <h2 className="titlePrimary">My products</h2>
+        <h2 className="titlePrimary">{ isSeller() ? "My Products" : "Products" }</h2>
       </Row>
       <Row>
         <Col className="pl__col-search" md={ 5 }>

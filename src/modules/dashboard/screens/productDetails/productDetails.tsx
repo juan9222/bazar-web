@@ -98,14 +98,16 @@ const ProductDetails: React.FC<any> = () => {
                 <p>{ product?.company_name }</p>
               </div>
             </div>
-            <div className="pd__col-details__user--options options-hover">
-              <TbDots className="icon" />
-              <div className="data">
-                <Button className={ 'btn-data-option' } iconLeft={ <MdEdit /> } >Edit</Button>
-                <Button className={ 'btn-data-option' } iconLeft={ <MdCancel /> } >Hide</Button>
-                <Button className={ 'btn-data-option' } iconLeft={ <MdDelete /> } >Delete</Button>
+            { !isBuyer() && (
+              <div className="pd__col-details__user--options options-hover">
+                <TbDots className="icon" />
+                <div className="data">
+                  <Button className={ 'btn-data-option' } iconLeft={ <MdEdit /> } >Edit</Button>
+                  <Button className={ 'btn-data-option' } iconLeft={ <MdCancel /> } >Hide</Button>
+                  <Button className={ 'btn-data-option' } iconLeft={ <MdDelete /> } >Delete</Button>
+                </div>
               </div>
-            </div>
+            ) }
           </div>
           <div className="pd__col-details__location-price">
             <div className="details">
@@ -217,7 +219,7 @@ const ProductDetails: React.FC<any> = () => {
             errorMessage={ getMessageErrorInput("availability") }
             placeholder={ "E.g 1.800" }
             required />
-          <Button large={ ELarge.full } type="button" onClick={ handleSubmit(submitAvailableAssets) } disabled={ savingAvailability }>{ savingAvailability ? 'Saving...' : 'Save' }</Button>
+          <Button large={ ELarge.full } type="button" onClick={ handleSubmit(submitAvailableAssets, () => alert('Dani hizo fallar esto')) } disabled={ savingAvailability }>{ savingAvailability ? 'Saving...' : 'Save' }</Button>
           <div className="verticalSpaceS" />
           <p className="pd-custom-modal-footer">This field will edit the availability of your product.</p>
         </form>
