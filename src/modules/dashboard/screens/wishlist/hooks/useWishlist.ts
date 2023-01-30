@@ -7,10 +7,11 @@ import useWishlistProviders from "../providers";
 const useWishlist = () => {
   const [basicProducts, setBasicProducts] = useState<Array<{ label: string; value: string; }>>([]);
   const [productList, setProductList] = useState<Array<any>>();
+  const [filteredProducts, setFilteredProducts] = useState<string>();
 
   //Providers
   const { getBasicProducts } = useProductListProviders();
-  const { getWishlistProducts } = useWishlistProviders();
+  const { getWishlistProducts, getWishlistByBasicProduct, } = useWishlistProviders();
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -28,6 +29,15 @@ const useWishlist = () => {
   const onGetWishlistProducts = async () => {
     const resp = await getWishlistProducts(userId);
     setProductList(resp.data.results);
+  };
+
+  const onGetWishlistByBasicProduct = async (basicProduct: string) => {
+    const resp = await getWishlistByBasicProduct(userId, basicProduct);
+    setProductList(resp.data.results);
+  };
+
+  const onFilterChange = (basicProduct: string) => {
+    setFilteredProducts(basicProduct === filteredProducts ? undefined : basicProduct);
   };
 
   const onClickProductCard = (productId: string) => {
@@ -50,6 +60,14 @@ const useWishlist = () => {
   };
 
   useEffect(() => {
+    if (filteredProducts) {
+      onGetWishlistByBasicProduct(filteredProducts);
+    } else {
+      onGetWishlistProducts();
+    }
+  }, [filteredProducts]);
+
+  useEffect(() => {
     onGetBasicProducts();
     onGetWishlistProducts();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -60,6 +78,8 @@ const useWishlist = () => {
     productList,
     onClickProductCard,
     onLikeProduct,
+    onFilterChange,
+    filteredProducts,
   };
 };
 
