@@ -1,4 +1,5 @@
 import { yupResolver } from "@hookform/resolvers/yup";
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation } from "react-router-dom";
@@ -68,6 +69,17 @@ const useProductDetails = () => {
     }
   };
 
+  const onPublish = async (event: React.MouseEvent, productId: string) => {
+    event.stopPropagation();
+    try {
+      const resp = await axios.patch(`${ process.env.REACT_APP_BAZAR_URL }/products/update-publish/${ productId }`);
+      const newProduct = { ...product, status: resp.data.status };
+      setProduct(newProduct);
+    } catch (error) {
+      alert('Something went wrong. Try again.');
+    }
+  };
+
   useEffect(() => {
     onGetProductDetails();
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -86,6 +98,7 @@ const useProductDetails = () => {
     showEditAvailability,
     onChangeEditAvailabilityDisplay,
     quantityToBuy,
+    onPublish,
   };
 };
 
