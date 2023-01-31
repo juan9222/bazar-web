@@ -12,15 +12,26 @@ import useAuthenticator from "../../../auth/hooks/useAuthenticator";
 import useCommonProviders from "../../../common/providers";
 import WalletConnectionBSCSelection from "../../../wallet/components/WalletConnectionBSC";
 import { Web3ReactProvider } from '@web3-react/core';
-import { ExternalProvider, JsonRpcFetchFunc, Web3Provider } from "@ethersproject/providers";
 import UserMenu from "./components/userMenu/userMenu";
 import { BiHeart } from "react-icons/bi";
 import { isAdmin, isBuyer } from "./utils";
 import { TbWorld } from "react-icons/tb";
 import { BsFillBookmarkStarFill } from "react-icons/bs";
+import { Web3Provider } from "@ethersproject/providers";
+
+const getLibrary = (provider: any) => {
+  const library = new Web3Provider(provider);
+  library.pollingInterval = 12000;
+  console.log("getLibrary:", library);
+  return library;
+};
 
 const Dashboardlayout: React.FC<any> = () => {
   const { onLogout, getAuthenticatedUser } = useAuthenticator();
+
+  const [binanceAccount, setBinanceAccount] = useState<{
+    myAccount: String;
+  }>();
 
   const [show, setShow] = useState(false);
   const [authenticatedUser, setAuthenticatedUser] = useState<{
@@ -52,10 +63,6 @@ const Dashboardlayout: React.FC<any> = () => {
     onGetAuthenticatedUser();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const getLibrary = (provider: ExternalProvider | JsonRpcFetchFunc) => {
-    return new Web3Provider(provider);
-  };
 
   return (
     <div className="dshLayout">
@@ -127,7 +134,7 @@ const Dashboardlayout: React.FC<any> = () => {
             <div className="dshLayout__body--header--right">
               {
                 <Web3ReactProvider getLibrary={ getLibrary }>
-                  <WalletConnectionBSCSelection icon />
+                  <WalletConnectionBSCSelection icon onAccountChange={ setBinanceAccount } />
                 </Web3ReactProvider>
               }
               <MdOutlineLanguage className="dshLayout__body--header--right--icon3" />
@@ -234,7 +241,7 @@ const Dashboardlayout: React.FC<any> = () => {
           </div>
         </header>
         <div className="dshLayout__body--main">
-          <Outlet context={ { authenticatedUser } } />
+          <Outlet context={ { authenticatedUser, binanceAccount } } />
         </div>
       </nav>
     </div >

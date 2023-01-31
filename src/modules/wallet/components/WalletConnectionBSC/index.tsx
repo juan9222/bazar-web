@@ -1,5 +1,5 @@
 import { useWeb3React } from '@web3-react/core';
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { ListGroup, ListGroupItem, Overlay } from 'react-bootstrap';
 import { MdAccountBalanceWallet, MdCheckCircle, MdLogout } from 'react-icons/md';
 import InputText from '../../../common/components/inputText';
@@ -7,7 +7,7 @@ import useWalletConnectionBSC from "../../hooks/useWallletConnectionBSC";
 
 const WalletConnectionBSCSelection = (props: any) => {
 
-  const { icon } = props;
+  const { icon, onAccountChange } = props;
 
   const { activate, deactivate, account } = useWeb3React();
   const [showWallet, setShowWallet] = useState(false);
@@ -31,6 +31,12 @@ const WalletConnectionBSCSelection = (props: any) => {
     const wallet = account;
     navigator.clipboard.writeText(wallet ?? '');
   };
+
+  useEffect(() => {
+    if (onAccountChange) {
+      onAccountChange(account);
+    }
+  }, [account, onAccountChange]);
 
   return (
     <div>
