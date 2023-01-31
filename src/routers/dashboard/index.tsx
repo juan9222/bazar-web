@@ -21,6 +21,14 @@ const dashboardRoutes: RouteObject[] = [
     element: <CompanyCreation />,
   },
   {
+    path: "purchase",
+    element: <CompanyCreation />,
+  },
+  {
+    path: "wallet",
+    element: <CompanyCreation />,
+  },
+  {
     path: "home",
     element: <h1>Home</h1>,
   },

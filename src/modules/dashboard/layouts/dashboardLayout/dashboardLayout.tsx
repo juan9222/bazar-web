@@ -82,7 +82,7 @@ const Dashboardlayout: React.FC<any> = () => {
           <NavLink className={ ({ isActive }) =>
             `dshLayout__nav--btnNav ${ isActive ? 'active' : '' }`
           }
-            to="/">
+            to="/dashboard/purchase">
             <HiShoppingCart className="dshLayout__nav--btnNav--icon" />
             <p className="dshLayout__nav--btnNav--label">Purchases</p>
           </NavLink>
@@ -91,7 +91,7 @@ const Dashboardlayout: React.FC<any> = () => {
           <NavLink className={ ({ isActive }) =>
             `dshLayout__nav--btnNav ${ isActive ? 'active' : '' }`
           }
-            to="/">
+            to="/dashboard/wallet">
             <MdAccountBalanceWallet className="dshLayout__nav--btnNav--icon" />
             <p className="dshLayout__nav--btnNav--label">Wallet</p>
           </NavLink>
