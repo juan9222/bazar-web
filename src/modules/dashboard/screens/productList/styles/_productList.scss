@@ -160,6 +160,19 @@
             }
           }
 
+          &.selected {
+            justify-content: space-around;
+            display: flex;
+            overflow-x: auto;
+            white-space: normal;
+            padding: 0 15px 1rem;
+            flex-wrap: wrap;
+
+            .content-card {
+              margin: 0px 12px 16px 12px;
+            }
+          }
+
           &.cards-list-column {
             display: flex;
             flex-direction: column;

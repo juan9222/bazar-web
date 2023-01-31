@@ -62,7 +62,7 @@ const ProductList: React.FC<any> = () => {
               <div className="pl__content-card">
                 <h3 className="titlePrimary">{ basicProduct }</h3>
               </div>
-              <div className="content-cards-list" onScroll={ e => handleScroll(e, index, basicProduct) } ref={ ref => listsRef.current[index] = ref }>
+              <div className={ `content-cards-list ${ filteredProducts ? 'selected' : '' }` } onScroll={ e => handleScroll(e, index, basicProduct) } ref={ ref => listsRef.current[index] = ref }>
                 { productList.map((product: any) => {
                   return (
                     <Card
