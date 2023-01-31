@@ -1,10 +1,11 @@
 import Web3 from "web3";
 import { AbiItem } from "web3-utils";
+import addresses from "../../wallet/helper/constantHelper";
 
 const usePriceFeedBSC = () => {
 
   const web3 = new Web3('https://data-seed-prebsc-1-s2.binance.org:8545');
-  const addr = "0x75339805Ad935455693A5EB7342EcB12E7374811";
+  const addr = addresses.binance[97];
   const aggregator = [
     {
       "inputs": [

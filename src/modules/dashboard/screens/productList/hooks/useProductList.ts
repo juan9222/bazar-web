@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import useCommonProviders from "../../../../common/providers";
 import useProductListProviders from "../providers";
 import axios from "axios";
+import { useUser } from "../../../layouts/dashboardLayout/utils";
+import getCreateSellOrderContract from "../../../../wallet/helper/getCreateSellOrderContract";
 
 const useProductList = () => {
   const [basicProducts, setBasicProducts] = useState<Array<{ label: string; value: string; }>>([]);
@@ -19,6 +21,8 @@ const useProductList = () => {
   const { getBasicProducts, getProductsList } = useProductListProviders();
   const navigate = useNavigate();
   const location = useLocation();
+
+  const { binanceAccount } = useUser();
 
   const userId: string = localStorage.getItem("uuid") || "";
 
@@ -74,11 +78,11 @@ const useProductList = () => {
     setFilteredProducts(product === filteredProducts ? undefined : product);
   };
 
-  const onClickProductCard = (event: React.MouseEvent, basicProduct: string, productId: string) => {
+  const onClickProductCard = (event: React.MouseEvent, basicProduct: string, product: any) => {
     if ((event.target as any).innerText === 'Publish') {
-      onPublish(event, basicProduct, productId);
+      onPublish(event, product);
     } else {
-      navigate(`../products/${ productId }`, { replace: true, state: { previousUrl: location.pathname } });
+      navigate(`../products/${ product.uuid }`, { replace: true, state: { previousUrl: location.pathname } });
     }
   };
 
@@ -100,15 +104,27 @@ const useProductList = () => {
     }
   };
 
-  const onPublish = async (event: React.MouseEvent, basicProduct: string, productId: string) => {
+  const onPublish = async (event: React.MouseEvent, _product: any) => {
     event.stopPropagation();
     try {
-      const resp = await axios.patch(`${ process.env.REACT_APP_BAZAR_URL }/products/update-publish/${ productId }`);
+      const bazarContract = getCreateSellOrderContract(binanceAccount);
+
+      const result = await bazarContract.createSaleOrder(
+        2023, // Product number code
+        1, //Note: MinQuantiyToSell
+        _product.available_for_sale,
+        _product.expected_price_per_kg,
+      );
+
+      console.log("Binance Transaction:", result);
+
+      const resp = await axios.patch(`${ process.env.REACT_APP_BAZAR_URL }/products/update-publish/${ _product.uuid }`);
       const newProductsMap = { ...productsMap };
-      const productIndex = newProductsMap[basicProduct].findIndex((product: any) => product.uuid === productId);
-      newProductsMap[basicProduct][productIndex] = { ...newProductsMap[basicProduct][productIndex], status: resp.data.status };
+      const productIndex = newProductsMap[_product.basic_product].findIndex((product: any) => product.uuid === _product.uuid);
+      newProductsMap[_product.basic_product][productIndex] = { ...newProductsMap[_product.basic_product][productIndex], status: resp.data.status };
       setProductsMap(newProductsMap);
     } catch (error) {
+      console.log('Something went wrong. Try again.' + error);
       alert('Something went wrong. Try again.');
     }
   };

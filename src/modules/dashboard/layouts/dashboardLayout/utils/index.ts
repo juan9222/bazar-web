@@ -8,7 +8,10 @@ type ContextType = {
     role: string,
     profileImage: string,
     company: string,
-  } | null;
+  } | null,
+  binanceAccount: {
+    myAccount: string,
+  };
 };
 
 export function useUser() {
