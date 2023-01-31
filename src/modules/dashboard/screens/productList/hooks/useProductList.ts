@@ -15,6 +15,7 @@ const useProductList = () => {
   const [filteredProducts, setFilteredProducts] = useState<string>();
   const [loadingProducts, setLoadingProducts] = useState<boolean>(false);
   const [loadingBasicProducts, setLoadingBasicProducts] = useState<boolean>(false);
+  const [showConnectWalletDialog, setShowConnectWalletDialog] = useState<boolean>(false);
 
   //Providers
   const { getUser } = useCommonProviders();
@@ -61,9 +62,11 @@ const useProductList = () => {
   const onAddToProductList = async (basicProduct: string) => {
     const offset = productsMap && productsMap[basicProduct].length;
     if (!loadingProducts && totalProductsMap && offset! < totalProductsMap[basicProduct]) {
+      setLoadingProducts(true);
       const newProductsMap = { ...productsMap };
       const resp = await getProductsList(userId, basicProduct, offset!);
-      newProductsMap[basicProduct].push(resp.data.results);
+      const newProductList = newProductsMap[basicProduct].concat(resp.data.results);
+      newProductsMap[basicProduct] = newProductList;
       setProductsMap(newProductsMap);
       setLoadingProducts(false);
     }
@@ -106,6 +109,10 @@ const useProductList = () => {
 
   const onPublish = async (event: React.MouseEvent, _product: any) => {
     event.stopPropagation();
+    if (!binanceAccount) {
+      setShowConnectWalletDialog(true);
+      return;
+    }
     try {
       const bazarContract = getCreateSellOrderContract(binanceAccount);
 
@@ -146,6 +153,9 @@ const useProductList = () => {
     onAddToProductList,
     setLoadingProducts,
     onPublish,
+    showConnectWalletDialog,
+    setShowConnectWalletDialog,
+    binanceAccount,
   };
 };
 

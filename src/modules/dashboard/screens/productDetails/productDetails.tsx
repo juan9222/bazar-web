@@ -23,12 +23,14 @@ import ModalConfirmPurchaseNew from "./components/modalConfirmPurchase";
 import ModalConfirmBlockNew from "./components/modalConfirmBlock";
 import { getStatusTag } from "../../../common/components/statusTag/statusTag";
 import { getMappedStatus } from "../productList/utils";
+import { BsFillCheckCircleFill } from "react-icons/bs";
+import { Status } from "../../../common/components/card/interfaces";
 
 const ProductDetails: React.FC<any> = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { product, incotermOptions, quantityToBuy, showEditAvailability, onChangeEditAvailabilityDisplay, register, hasErrorsInput, getMessageErrorInput, handleSubmit, submitAvailableAssets, savingAvailability, } = useProductDetails();
+  const { product, incotermOptions, quantityToBuy, showEditAvailability, onChangeEditAvailabilityDisplay, register, hasErrorsInput, getMessageErrorInput, handleSubmit, submitAvailableAssets, savingAvailability, onPublish } = useProductDetails();
 
   const images = product?.url_images ? product.url_images.map((image: string) => {
     return {
@@ -104,6 +106,9 @@ const ProductDetails: React.FC<any> = () => {
                 <div className="data">
                   <Button className={ 'btn-data-option' } iconLeft={ <MdEdit /> } >Edit</Button>
                   <Button className={ 'btn-data-option' } iconLeft={ <MdCancel /> } >Hide</Button>
+                  { getMappedStatus(product?.status) !== Status.public && (
+                    <Button className={ 'btn-data-option' } iconLeft={ <BsFillCheckCircleFill /> } onClick={ (e) => onPublish(e, product.uuid) }>Publish</Button>
+                  ) }
                   <Button className={ 'btn-data-option' } iconLeft={ <MdDelete /> } >Delete</Button>
                 </div>
               </div>

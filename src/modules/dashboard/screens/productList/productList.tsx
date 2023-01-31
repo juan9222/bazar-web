@@ -11,12 +11,11 @@ import { NavLink } from "react-router-dom";
 import { BrowserView, MobileView } from 'react-device-detect';
 import { getProductIcon } from "../../../common/components/productIcon";
 import { getMappedStatus, isCurrentFilter } from "./utils";
-import { isSeller, useUser } from "../../layouts/dashboardLayout/utils";
+import { isBuyer, isSeller } from "../../layouts/dashboardLayout/utils";
+import Modal from "../../../common/components/modal";
 
 const ProductList: React.FC<any> = () => {
-  const { basicProducts, productsMap, avatarUrl, onFilterProducts, filteredProducts, onClickProductCard, onLikeProduct, onAddToProductList, setLoadingProducts, onPublish } = useProductList();
-
-  const { authenticatedUser } = useUser();
+  const { basicProducts, productsMap, avatarUrl, onFilterProducts, filteredProducts, onClickProductCard, onLikeProduct, onAddToProductList, onPublish, showConnectWalletDialog, setShowConnectWalletDialog } = useProductList();
 
   const listsRef = useRef<any[]>([]);
 
@@ -24,7 +23,7 @@ const ProductList: React.FC<any> = () => {
     if (listsRef.current[index]) {
       const { scrollLeft, scrollWidth, clientWidth } = listsRef.current[index];
       if (scrollLeft + clientWidth >= scrollWidth - 1) {
-        setLoadingProducts(true);
+
         await onAddToProductList(basicProduct);
         listsRef.current[index].scrollLeft = scrollLeft;
       }
@@ -76,8 +75,8 @@ const ProductList: React.FC<any> = () => {
                       variety={ product.variety }
                       pricePerKg={ product.expected_price_per_kg }
                       availableForSale={ product.available_for_sale }
-                      onClick={ (e) => onClickProductCard(e, product.basic_product, product) }
-                      likeable={ authenticatedUser?.role === 'Buyer' }
+                      onClick={ (e) => onClickProductCard(e, product.basic_product, product.uuid) }
+                      likeable={ isBuyer() }
                       isLiked={ product.is_liked }
                       onLiked={ (e) => onLikeProduct(e, basicProduct, product.uuid, product.is_liked) }
                       onPublish={ (e) => onPublish(e, product) }
@@ -110,8 +109,8 @@ const ProductList: React.FC<any> = () => {
                       variety={ product.variety }
                       pricePerKg={ product.expected_price_per_kg }
                       availableForSale={ product.available_for_sale }
-                      onClick={ (e) => onClickProductCard(e, basicProduct, product) }
-                      likeable={ authenticatedUser?.role === 'Buyer' }
+                      onClick={ (e) => onClickProductCard(e, basicProduct, product.uuid) }
+                      likeable={ isBuyer() }
                       isLiked={ product.is_liked }
                       onLiked={ (e) => onLikeProduct(e, basicProduct, product.uuid, product.is_liked) }
                     />
@@ -122,7 +121,7 @@ const ProductList: React.FC<any> = () => {
           ) : <></>;
         }) }
       </MobileView>
-      { authenticatedUser?.role !== 'Buyer' && (
+      { isSeller() && (
         <div className="btn-create-product">
           <NavLink className="btn-create-product__content"
             to="/dashboard/create-product">
@@ -130,6 +129,14 @@ const ProductList: React.FC<any> = () => {
             <p>New product</p>
           </NavLink>
         </div>
+      ) }
+      { showConnectWalletDialog && (
+        <Modal title="" continueText='Continue' width='560px' closed={ !showConnectWalletDialog } showCloseIcon={ false } cancelHidden={ true } onClose={ () => setShowConnectWalletDialog(false) } onContinue={ () => setShowConnectWalletDialog(false) }>
+          <div className="verticalSpaceS"></div>
+          <h3 className='textPrimary300 textModalTitle'>Oops, we are sorry !</h3>
+          <div className="verticalSpaceL"></div>
+          <p className='textModalDesc'>We have noticed that you do not have the wallet extension in your browser or you are not logged in, please install/log in and try again.</p>
+        </Modal>
       ) }
     </Container>
   );
