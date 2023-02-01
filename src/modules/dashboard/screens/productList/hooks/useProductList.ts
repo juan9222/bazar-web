@@ -81,7 +81,7 @@ const useProductList = () => {
     setFilteredProducts(product === filteredProducts ? undefined : product);
   };
 
-  const onClickProductCard = (event: React.MouseEvent, basicProduct: string, product: any) => {
+  const onClickProductCard = (event: React.MouseEvent, product: any) => {
     if ((event.target as any).innerText === 'Publish') {
       onPublish(event, product);
     } else {
