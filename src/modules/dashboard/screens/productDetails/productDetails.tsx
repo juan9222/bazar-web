@@ -30,7 +30,29 @@ const ProductDetails: React.FC<any> = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
-  const { product, incotermOptions, quantityToBuy, showEditAvailability, onChangeEditAvailabilityDisplay, register, hasErrorsInput, getMessageErrorInput, handleSubmit, submitAvailableAssets, savingAvailability, onPublish } = useProductDetails();
+  const { product,
+    incotermOptions,
+    quantityToBuy,
+    showEditAvailability,
+    onChangeEditAvailabilityDisplay,
+    register,
+    hasErrorsInput,
+    getMessageErrorInput,
+    handleSubmit,
+    submitAvailableAssets,
+    savingAvailability,
+    onPublish,
+    showConnectWalletDialog,
+    setShowConnectWalletDialog,
+    showPublishDialog,
+    setShowPublishDialog,
+    publishProduct,
+    showConfirmModal,
+    setShowConfirmModal,
+    showConfirmBlockModal,
+    setShowConfirmBlockModal,
+    onConfirmBuy,
+  } = useProductDetails();
 
   const images = product?.url_images ? product.url_images.map((image: string) => {
     return {
@@ -43,9 +65,6 @@ const ProductDetails: React.FC<any> = () => {
   }) : [];
 
   const previousUrl = location.state.previousUrl;
-
-  const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
-  const [showConfirmBlockModal, setShowConfirmBlockModal] = useState<boolean>(false);
 
   const getCertificateImage = (certificate: string) => {
     switch (certificate) {
@@ -105,9 +124,11 @@ const ProductDetails: React.FC<any> = () => {
                 <TbDots className="icon" />
                 <div className="data">
                   <Button className={ 'btn-data-option' } iconLeft={ <MdEdit /> } >Edit</Button>
-                  <Button className={ 'btn-data-option' } iconLeft={ <MdCancel /> } >Hide</Button>
-                  { getMappedStatus(product?.status) !== Status.public && (
-                    <Button className={ 'btn-data-option' } iconLeft={ <BsFillCheckCircleFill /> } onClick={ (e) => onPublish(e, product.uuid) }>Publish</Button>
+                  { getMappedStatus(product?.status) !== Status.public && getMappedStatus(product?.status) !== Status.review && (
+                    <Button className={ 'btn-data-option' } iconLeft={ <BsFillCheckCircleFill /> } onClick={ (e) => onPublish(e) }>Publish</Button>
+                  ) }
+                  { getMappedStatus(product?.status) !== Status.hidden && (
+                    <Button className={ 'btn-data-option' } iconLeft={ <MdCancel /> } >Hide</Button>
                   ) }
                   <Button className={ 'btn-data-option' } iconLeft={ <MdDelete /> } >Delete</Button>
                 </div>
@@ -229,6 +250,18 @@ const ProductDetails: React.FC<any> = () => {
           <p className="pd-custom-modal-footer">This field will edit the availability of your product.</p>
         </form>
       </Modal>
+      <Modal title="" continueText='Continue' width='560px' closed={ !showPublishDialog } showCloseIcon={ false } onClose={ () => setShowPublishDialog(false) } onContinue={ () => publishProduct() }>
+        <div className="verticalSpaceS"></div>
+        <h3 className='textPrimary300 textModalTitle'>Are you sure you want to public this product?</h3>
+        <div className="verticalSpaceL"></div>
+        <p className='textModalDesc'>Once your products are published you will be accepting our terms of service and these will be visible to buyers.</p>
+      </Modal>
+      <Modal title="" continueText='Continue' width='560px' closed={ !showConnectWalletDialog } showCloseIcon={ false } cancelHidden={ true } onClose={ () => setShowConnectWalletDialog(false) } onContinue={ () => setShowConnectWalletDialog(false) }>
+        <div className="verticalSpaceS"></div>
+        <h3 className='textPrimary300 textModalTitle'>We are sorry...</h3>
+        <div className="verticalSpaceL"></div>
+        <p className='textModalDesc'>You need to connect the wallet to be able to publish the product and sign the contract.</p>
+      </Modal>
       <ModalConfirmPurchaseNew
         product={ product }
         quantity={ quantityToBuy }
@@ -236,7 +269,7 @@ const ProductDetails: React.FC<any> = () => {
         show={ showConfirmModal }
         fetchExchange={ () => { } } //TODO pass function to refetch BNP value
         onHide={ () => setShowConfirmModal(!showConfirmModal) }
-        confirm={ () => { setShowConfirmBlockModal(!showConfirmBlockModal); setShowConfirmModal(!showConfirmModal); } } />
+        confirm={ () => onConfirmBuy() } />
       <ModalConfirmBlockNew show={ showConfirmBlockModal } onHide={ () => setShowConfirmBlockModal(!showConfirmBlockModal) } />
     </Container >
   );

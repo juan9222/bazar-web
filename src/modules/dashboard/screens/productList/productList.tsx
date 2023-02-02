@@ -15,15 +15,31 @@ import { isBuyer, isSeller } from "../../layouts/dashboardLayout/utils";
 import Modal from "../../../common/components/modal";
 
 const ProductList: React.FC<any> = () => {
-  const { basicProducts, productsMap, avatarUrl, onFilterProducts, filteredProducts, onClickProductCard, onLikeProduct, onAddToProductList, onPublish, showConnectWalletDialog, setShowConnectWalletDialog } = useProductList();
+  const {
+    basicProducts,
+    productsMap,
+    avatarUrl,
+    onFilterProducts,
+    filteredProducts,
+    onClickProductCard,
+    onLikeProduct,
+    onAddToProductList,
+    onPublish,
+    publishProduct,
+    onHide,
+    showConnectWalletDialog,
+    setShowConnectWalletDialog,
+    showPublishDialog,
+    setShowPublishDialog,
+  } = useProductList();
+
 
   const listsRef = useRef<any[]>([]);
 
   const handleScroll = async (e: any, index: number, basicProduct: string) => {
     if (listsRef.current[index]) {
-      const { scrollLeft, scrollWidth, clientWidth } = listsRef.current[index];
+      const { scrollLeft, scrollWidth, clientWidth, clientHeight, scrollUp, scrollHeight } = listsRef.current[index];
       if (scrollLeft + clientWidth >= scrollWidth - 1) {
-
         await onAddToProductList(basicProduct);
         listsRef.current[index].scrollLeft = scrollLeft;
       }
@@ -55,6 +71,12 @@ const ProductList: React.FC<any> = () => {
         </Col>
       </Row>
       <BrowserView className="products-mobile-view mt-4">
+        { productsMap && Object.keys(productsMap).length === 0 && (
+          <div className="userApprovals__noproducts">
+            <img src="/assets/images/no-products.png" alt="no-products" />
+            <p>No products yet</p>
+          </div>
+        ) }
         { productsMap && Object.entries(productsMap).map(([basicProduct, productList], index) => {
           return isCurrentFilter(filteredProducts, basicProduct) ? (
             <div className="products-row mb-2">
@@ -80,6 +102,7 @@ const ProductList: React.FC<any> = () => {
                       isLiked={ product.is_liked }
                       onLiked={ (e) => onLikeProduct(e, basicProduct, product.uuid, product.is_liked) }
                       onPublish={ (e) => onPublish(e, product) }
+                      onHide={ (e) => onHide(e, product) }
                     />
                   );
                 }) }
@@ -130,14 +153,18 @@ const ProductList: React.FC<any> = () => {
           </NavLink>
         </div>
       ) }
-      { showConnectWalletDialog && (
-        <Modal title="" continueText='Continue' width='560px' closed={ !showConnectWalletDialog } showCloseIcon={ false } cancelHidden={ true } onClose={ () => setShowConnectWalletDialog(false) } onContinue={ () => setShowConnectWalletDialog(false) }>
-          <div className="verticalSpaceS"></div>
-          <h3 className='textPrimary300 textModalTitle'>Oops, we are sorry !</h3>
-          <div className="verticalSpaceL"></div>
-          <p className='textModalDesc'>We have noticed that you do not have the wallet extension in your browser or you are not logged in, please install/log in and try again.</p>
-        </Modal>
-      ) }
+      <Modal title="" continueText='Continue' width='560px' closed={ !showPublishDialog } showCloseIcon={ false } onClose={ () => setShowPublishDialog(false) } onContinue={ () => publishProduct() }>
+        <div className="verticalSpaceS"></div>
+        <h3 className='textPrimary300 textModalTitle'>Are you sure you want to public this product?</h3>
+        <div className="verticalSpaceL"></div>
+        <p className='textModalDesc'>Once your products are published you will be accepting our terms of service and these will be visible to buyers.</p>
+      </Modal>
+      <Modal title="" continueText='Continue' width='560px' closed={ !showConnectWalletDialog } showCloseIcon={ false } cancelHidden={ true } onClose={ () => setShowConnectWalletDialog(false) } onContinue={ () => setShowConnectWalletDialog(false) }>
+        <div className="verticalSpaceS"></div>
+        <h3 className='textPrimary300 textModalTitle'>We are sorry...</h3>
+        <div className="verticalSpaceL"></div>
+        <p className='textModalDesc'>You need to connect the wallet to be able to publish the product and sign the contract.</p>
+      </Modal>
     </Container>
   );
 };

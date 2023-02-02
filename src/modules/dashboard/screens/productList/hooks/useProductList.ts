@@ -16,6 +16,8 @@ const useProductList = () => {
   const [loadingProducts, setLoadingProducts] = useState<boolean>(false);
   const [loadingBasicProducts, setLoadingBasicProducts] = useState<boolean>(false);
   const [showConnectWalletDialog, setShowConnectWalletDialog] = useState<boolean>(false);
+  const [showPublishDialog, setShowPublishDialog] = useState<boolean>(false);
+  const [selectedProduct, setSelectedProduct] = useState<any>();
 
   //Providers
   const { getUser } = useCommonProviders();
@@ -36,25 +38,21 @@ const useProductList = () => {
         value: product.uuid,
       }));
       const newProductsMap: Record<string, Array<any>> = {};
-      productList.forEach((basicProduct: { label: string; value: string; }) => {
-        newProductsMap[basicProduct.label] = [];
-      });
-      const totalProductsMap: Record<string, number> = {};
+      const newTotalProductsMap: Record<string, number> = {};
       const promises: any[] = [];
       productList.forEach((product: any) => {
         promises.push(getProductsList(userId, product.label, 0));
       });
       const result = await Promise.all(promises);
       result.forEach(promise => {
-        console.log(promise);
-        promise.data.results.forEach((product: any) => {
-          newProductsMap[product.basic_product].push(product);
-          totalProductsMap[product.basic_product] = promise.data.total;
-        });
+        if (promise.data.results.length > 0) {
+          newProductsMap[promise.data.results[0].basic_product] = promise.data.results;
+          newTotalProductsMap[promise.data.results[0].basic_product] = promise.data.total;
+        }
       });
       setBasicProducts(productList);
       setProductsMap(newProductsMap);
-      setTotalProductsMap(totalProductsMap);
+      setTotalProductsMap(newTotalProductsMap);
       setLoadingBasicProducts(false);
     }
   };
@@ -107,8 +105,13 @@ const useProductList = () => {
     }
   };
 
-  const onPublish = async (event: React.MouseEvent, _product: any) => {
+  const onPublish = (event: React.MouseEvent, _product: any) => {
     event.stopPropagation();
+    setShowPublishDialog(true);
+    setSelectedProduct(_product);
+  };
+
+  const publishProduct = async () => {
     if (!binanceAccount) {
       setShowConnectWalletDialog(true);
       return;
@@ -119,13 +122,29 @@ const useProductList = () => {
       const result = await bazarContract.createSaleOrder(
         2023, // Product number code
         1, //Note: MinQuantiyToSell
-        _product.available_for_sale,
-        _product.expected_price_per_kg,
+        selectedProduct.available_for_sale,
+        selectedProduct.expected_price_per_kg,
       );
 
       console.log("Binance Transaction:", result);
 
-      const resp = await axios.patch(`${ process.env.REACT_APP_BAZAR_URL }/products/update-publish/${ _product.uuid }`);
+      const resp = await axios.patch(`${ process.env.REACT_APP_BAZAR_URL }/products/update-publish/${ selectedProduct.uuid }`);
+      const newProductsMap = { ...productsMap };
+      const productIndex = newProductsMap[selectedProduct.basic_product].findIndex((product: any) => product.uuid === selectedProduct.uuid);
+      newProductsMap[selectedProduct.basic_product][productIndex] = { ...newProductsMap[selectedProduct.basic_product][productIndex], status: resp.data.status };
+      setProductsMap(newProductsMap);
+    } catch (error) {
+      console.log('Something went wrong. Try again.' + error);
+      alert('Something went wrong. Try again.');
+    } finally {
+      setShowPublishDialog(false);
+    }
+  };
+
+  const onHide = async (event: React.MouseEvent, _product: any) => {
+    event.stopPropagation();
+    try {
+      const resp = await axios.patch(`${ process.env.REACT_APP_BAZAR_URL }/products/update-hidden/${ _product.uuid }`);
       const newProductsMap = { ...productsMap };
       const productIndex = newProductsMap[_product.basic_product].findIndex((product: any) => product.uuid === _product.uuid);
       newProductsMap[_product.basic_product][productIndex] = { ...newProductsMap[_product.basic_product][productIndex], status: resp.data.status };
@@ -153,9 +172,13 @@ const useProductList = () => {
     onAddToProductList,
     setLoadingProducts,
     onPublish,
+    publishProduct,
+    onHide,
     showConnectWalletDialog,
     setShowConnectWalletDialog,
     binanceAccount,
+    showPublishDialog,
+    setShowPublishDialog,
   };
 };
 

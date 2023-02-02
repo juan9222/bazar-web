@@ -9,7 +9,7 @@ import { BsFillCheckCircleFill } from "react-icons/bs";
 import { getStatusTag } from "../statusTag/statusTag";
 
 const Card: React.FC<ICardProps> = (props) => {
-  const { status, productImage, avatar, icon, product, hasCertificates, productType, variety, pricePerKg, availableForSale, onClick, likeable, isLiked, onLiked, onPublish } = props;
+  const { status, productImage, avatar, icon, product, hasCertificates, productType, variety, pricePerKg, availableForSale, onClick, likeable, isLiked, onLiked, onPublish, onHide } = props;
 
   return (
     <div className="content-card" onClick={ onClick }>
@@ -43,10 +43,12 @@ const Card: React.FC<ICardProps> = (props) => {
               <TbDots className="icon" />
               <div className="data">
                 <Button className={ 'btn-data-option' } iconLeft={ <MdEdit /> } >Edit</Button>
-                { status !== Status.public && (
+                { status !== Status.public && status !== Status.review && (
                   <Button className={ 'btn-data-option' } iconLeft={ <BsFillCheckCircleFill /> } onClick={ (e) => onPublish! }>Publish</Button>
                 ) }
-                <Button className={ 'btn-data-option' } iconLeft={ <MdCancel /> } >Hide</Button>
+                { status !== Status.hidden && (
+                  <Button className={ 'btn-data-option' } iconLeft={ <MdCancel /> } onClick={ (e) => onHide! }>Hide</Button>
+                ) }
                 <Button className={ 'btn-data-option' } iconLeft={ <MdDelete /> } >Delete</Button>
               </div>
             </div>
