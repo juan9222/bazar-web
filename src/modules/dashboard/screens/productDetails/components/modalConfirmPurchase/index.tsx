@@ -15,7 +15,7 @@ const ModalConfirmPurchaseNew: React.FC<any> = (props) => {
   const fee = subTotal * 0.05;
   const total = subTotal + fee;
 
-  let bnbusdPar;
+  let bnbusdPar: number | undefined;
   if (bnbPrice !== undefined) {
     bnbusdPar = total / bnbPrice;
   }
@@ -86,7 +86,7 @@ const ModalConfirmPurchaseNew: React.FC<any> = (props) => {
           </div>
           <div className="pd-modal-confirmPurchase--body--paymentDetail--total">
             <div><span>Total to pay</span></div>
-            <div className="totalValue"><span>bnbusdPar.toFixed(4) BNB</span><span className="secondary">{ total.toFixed(2) } USD</span></div>
+            <div className="totalValue"><span>{ bnbusdPar?.toFixed(4) } BNB</span><span className="secondary">{ total.toFixed(2) } USD</span></div>
           </div>
           <div className="pd-modal-confirmPurchase--body--paymentDetail--note"><span>BNB's exchange rate will be updated at : { counter } s</span></div>
         </div>
