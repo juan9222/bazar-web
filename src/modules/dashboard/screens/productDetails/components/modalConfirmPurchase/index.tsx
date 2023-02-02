@@ -3,15 +3,22 @@ import { Modal } from "react-bootstrap";
 import { BsCheckSquare, BsSquare } from "react-icons/bs";
 import Button from "../../../../../common/components/button";
 import { getProductIcon } from "../../../../../common/components/productIcon";
+import usePriceFeedBSC from "../../../../../payment/hooks/usePriceFeedBSC";
 
 const ModalConfirmPurchaseNew: React.FC<any> = (props) => {
 
   const { product, quantity, fetchExchange, initialTimer, ...rest } = props;
   const [check, setCheck] = useState<boolean>(false);
+  const { bnbPrice } = usePriceFeedBSC();
 
   const subTotal = quantity * product?.expected_price_per_kg;
   const fee = subTotal * 0.05;
   const total = subTotal + fee;
+
+  let bnbusdPar: number | undefined;
+  if (bnbPrice !== undefined) {
+    bnbusdPar = total / bnbPrice;
+  }
 
   const [counter, setCounter] = useState<number>(initialTimer);
 
@@ -79,7 +86,7 @@ const ModalConfirmPurchaseNew: React.FC<any> = (props) => {
           </div>
           <div className="pd-modal-confirmPurchase--body--paymentDetail--total">
             <div><span>Total to pay</span></div>
-            <div className="totalValue"><span>467.94 BNB</span><span className="secondary">{ total.toFixed(2) } USD</span></div>
+            <div className="totalValue"><span>{ bnbusdPar?.toFixed(4) } BNB</span><span className="secondary">{ total.toFixed(2) } USD</span></div>
           </div>
           <div className="pd-modal-confirmPurchase--body--paymentDetail--note"><span>BNB's exchange rate will be updated at : { counter } s</span></div>
         </div>
