@@ -26,4 +26,5 @@ export interface ICardProps {
   isLiked?: boolean;
   onLiked?: (event: React.MouseEvent) => void;
   onPublish?: (event: React.MouseEvent) => void;
+  onHide?: (event: React.MouseEvent) => void;
 }
