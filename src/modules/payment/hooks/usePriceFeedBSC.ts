@@ -1,9 +1,10 @@
+import { useState } from "react";
 import Web3 from "web3";
 import { AbiItem } from "web3-utils";
 import addresses from "../../wallet/helper/constantHelper";
 
 const usePriceFeedBSC = () => {
-
+  const [bnbPrice, setBnbPrice] = useState<number>();
   const web3 = new Web3('https://data-seed-prebsc-1-s2.binance.org:8545');
   const addr = addresses.binance[97];
   const aggregator = [
@@ -300,11 +301,13 @@ const usePriceFeedBSC = () => {
   let refe = aggregator as unknown as AbiItem[];
   const priceFeed = new web3.eth.Contract(refe, addr);
 
-
   priceFeed.methods.getBNBPrice().call().then((roundData: any) => {
-    console.log("BNB: ", roundData, " USD");
+    setBnbPrice(roundData);
   });
 
+  return {
+    bnbPrice
+  };
 };
 
 export default usePriceFeedBSC;
