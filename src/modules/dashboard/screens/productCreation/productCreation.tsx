@@ -64,6 +64,8 @@ const ProductCreation: React.FC<any> = () => {
     onChangeMinimumOrder,
     onChangeCertificationFile,
     onCreateProduct,
+    isDirty,
+    isValid
   } = useCreateProduct();
 
   const tabStyle = {
@@ -423,7 +425,7 @@ const ProductCreation: React.FC<any> = () => {
                 </div>
                 <div className="horizontalSpaceS"></div>
                 <div className="f1">
-                  <Button visibleType={ EBtnVisibleType.solid } large={ ELarge.full } type="button" onClick={ () => handleTabSwitch(1) }>{ activeTabIndex === 0 ? 'Next' : 'Save' }</Button>
+                  <Button visibleType={ EBtnVisibleType.solid } large={ ELarge.full } type="button" onClick={ () => handleTabSwitch(1) } disabled={ !isDirty || !isValid }>{ activeTabIndex === 0 ? 'Next' : 'Save' }</Button>
                 </div>
               </div>
               <div className="verticalSpaceL" />
