@@ -38,11 +38,12 @@ const ProductList: React.FC<any> = () => {
 
   const handleScroll = async (e: any, index: number, basicProduct: string) => {
     if (listsRef.current[index]) {
-      const { scrollLeft, scrollWidth, clientWidth, clientHeight, scrollUp, scrollHeight } = listsRef.current[index];
-      if (scrollLeft + clientWidth >= scrollWidth - 1) {
+      const { scrollLeft, scrollWidth, clientWidth, clientHeight, scrollTop, scrollHeight } = listsRef.current[index];
+      if ((!filteredProducts && scrollLeft + clientWidth >= scrollWidth - 1) || (filteredProducts && scrollTop + clientHeight >= scrollHeight - 1)) {
         await onAddToProductList(basicProduct);
         listsRef.current[index].scrollLeft = scrollLeft;
       }
+
     }
   };
 
