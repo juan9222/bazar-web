@@ -42,6 +42,7 @@ const ProductDetails: React.FC<any> = () => {
     submitAvailableAssets,
     savingAvailability,
     onPublish,
+    onHide,
     showConnectWalletDialog,
     setShowConnectWalletDialog,
     showPublishDialog,
@@ -125,10 +126,10 @@ const ProductDetails: React.FC<any> = () => {
                 <div className="data">
                   <Button className={ 'btn-data-option' } iconLeft={ <MdEdit /> } >Edit</Button>
                   { getMappedStatus(product?.status) !== Status.public && getMappedStatus(product?.status) !== Status.review && (
-                    <Button className={ 'btn-data-option' } iconLeft={ <BsFillCheckCircleFill /> } onClick={ (e) => onPublish(e) }>Publish</Button>
+                    <Button className={ 'btn-data-option' } iconLeft={ <BsFillCheckCircleFill /> } onClick={ () => onPublish() }>Publish</Button>
                   ) }
                   { getMappedStatus(product?.status) !== Status.hidden && (
-                    <Button className={ 'btn-data-option' } iconLeft={ <MdCancel /> } >Hide</Button>
+                    <Button className={ 'btn-data-option' } iconLeft={ <MdCancel /> } onClick={ () => onHide() }>Hide</Button>
                   ) }
                   <Button className={ 'btn-data-option' } iconLeft={ <MdDelete /> } >Delete</Button>
                 </div>

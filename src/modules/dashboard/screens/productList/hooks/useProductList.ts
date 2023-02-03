@@ -88,6 +88,8 @@ const useProductList = () => {
   const onClickProductCard = (event: React.MouseEvent, product: any) => {
     if ((event.target as any).innerText === 'Publish') {
       onPublish(event, product);
+    } else if ((event.target as any).innerText === 'Hide') {
+      onHide(event, product);
     } else {
       navigate(`../products/${ product.uuid }`, { replace: true, state: { previousUrl: location.pathname } });
     }
@@ -163,9 +165,9 @@ const useProductList = () => {
                files: [],
                transport: []
              };
- 
+   
              const transactionId = await newSellOrderAsset(sellOrderAsset, resultGetWalletData.data.data.passphrases.toString());
- 
+   
              console.log("Bazar Network Transaction:", transactionId);
              */
 

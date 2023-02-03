@@ -77,8 +77,7 @@ const useProductDetails = () => {
     }
   };
 
-  const onPublish = (event: React.MouseEvent) => {
-    event.stopPropagation();
+  const onPublish = () => {
     setShowPublishDialog(true);
   };
 
@@ -107,6 +106,15 @@ const useProductDetails = () => {
     }
   };
 
+  const onHide = async () => {
+    try {
+      const resp = await axios.patch(`${ process.env.REACT_APP_BAZAR_URL }/products/update-hidden/${ product.uuid }`);
+      setProduct({ ...product, status: resp.data.status });
+    } catch (error) {
+      alert('Something went wrong. Try again.');
+    }
+  };
+
   const onConfirmBuy = () => {
     setShowConfirmBlockModal(!showConfirmBlockModal);
     setShowConfirmModal(!showConfirmModal);
@@ -131,6 +139,7 @@ const useProductDetails = () => {
     onChangeEditAvailabilityDisplay,
     quantityToBuy,
     onPublish,
+    onHide,
     showConnectWalletDialog,
     setShowConnectWalletDialog,
     showPublishDialog,
