@@ -5,6 +5,11 @@ import useProductListProviders from "../providers";
 import axios from "axios";
 import { useUser } from "../../../layouts/dashboardLayout/utils";
 import getCreateSellOrderContract from "../../../../wallet/helper/getCreateSellOrderContract";
+import { BAZAR_NETWORK_BLOCKCHAIN_NAME } from "../../../../wallet/helper/constantHelper";
+import useBazarWalletProviders from "../../../../lisk_api/providers";
+import { RegisterOrderType } from "../../../../lisk_api/types/registerOrderAssetType";
+import newSellOrderAsset from "../../../../lisk_api/transaction/seller/newSellerOrderAsset";
+import { randomUUID } from "crypto";
 
 const useProductList = () => {
   const [basicProducts, setBasicProducts] = useState<Array<{ label: string; value: string; }>>([]);
@@ -26,6 +31,7 @@ const useProductList = () => {
   const location = useLocation();
 
   const { binanceAccount } = useUser();
+  const { getWalletByUser } = useBazarWalletProviders();
 
   const userId: string = localStorage.getItem("uuid") || "";
 
@@ -118,21 +124,68 @@ const useProductList = () => {
     }
     try {
       const bazarContract = getCreateSellOrderContract(binanceAccount);
+      const minQuantityToSell = 1;
+      const sellerTradingFee = 2;
 
-      const result = await bazarContract.createSaleOrder(
-        2023, // Product number code
-        1, //Note: MinQuantiyToSell
-        selectedProduct.available_for_sale,
-        selectedProduct.expected_price_per_kg,
-      );
+      try {
+        const requestBody = {
+          "userUUID": localStorage.getItem("uuid") || "",
+          "blockchainName": BAZAR_NETWORK_BLOCKCHAIN_NAME.toString()
+        };
 
-      console.log("Binance Transaction:", result);
+        const resultGetWalletData = await getWalletByUser(requestBody);
 
-      const resp = await axios.patch(`${ process.env.REACT_APP_BAZAR_URL }/products/update-publish/${ selectedProduct.uuid }`);
-      const newProductsMap = { ...productsMap };
-      const productIndex = newProductsMap[selectedProduct.basic_product].findIndex((product: any) => product.uuid === selectedProduct.uuid);
-      newProductsMap[selectedProduct.basic_product][productIndex] = { ...newProductsMap[selectedProduct.basic_product][productIndex], status: resp.data.status };
-      setProductsMap(newProductsMap);
+        if (resultGetWalletData.data.data) {
+          let resulBinanceTx;
+          const productNumberCode = Math.floor((Math.random() * (99999 - 10000) + 10000));
+
+          resulBinanceTx = await bazarContract.createSaleOrder(
+            productNumberCode,
+            minQuantityToSell,
+            selectedProduct.available_for_sale,
+            selectedProduct.expected_price_per_kg,
+            sellerTradingFee
+          );
+
+          const receiptTx = await resulBinanceTx.wait(1);
+          console.log("Binance Transaction:", receiptTx);
+
+          if (receiptTx.status === 1) {
+            /* let orderId = randomUUID();
+             const sellOrderAsset: RegisterOrderType = {
+               orderId: orderId,
+               productId: productNumberCode.toString(),
+               productName: selectedProduct.basic_product,
+               productDescription: selectedProduct.product_type + " | " + selectedProduct.variety,
+               minQuantityToSell: minQuantityToSell.toString(),
+               quantity: selectedProduct.available_for_sale.toString(),
+               price: selectedProduct.expected_price_per_kg.toString(),
+               files: [],
+               transport: []
+             };
+ 
+             const transactionId = await newSellOrderAsset(sellOrderAsset, resultGetWalletData.data.data.passphrases.toString());
+ 
+             console.log("Bazar Network Transaction:", transactionId);
+             */
+
+            const resp = await axios.patch(`${ process.env.REACT_APP_BAZAR_URL }/products/update-publish/${ selectedProduct.uuid }`);
+            const newProductsMap = { ...productsMap };
+            const productIndex = newProductsMap[selectedProduct.basic_product].findIndex((product: any) => product.uuid === selectedProduct.uuid);
+            newProductsMap[selectedProduct.basic_product][productIndex] = { ...newProductsMap[selectedProduct.basic_product][productIndex], status: resp.data.status };
+            setProductsMap(newProductsMap);
+          } else {
+            console.log('Binance Transactions is rejected.');
+            alert('Binance Transactions is rejected. Try again.');
+          }
+        } else {
+          console.log('Something went wrong getting credentials.' + resultGetWalletData.data.errorMessage);
+          alert('Something went wrong getting credentials. Try again.');
+        }
+      } catch (error) {
+        console.log('Something went wrong accepting the BSC contract.' + error);
+        alert('Something went wrong accepting the BSC contract. Try again.');
+      }
     } catch (error) {
       console.log('Something went wrong. Try again.' + error);
       alert('Something went wrong. Try again.');
