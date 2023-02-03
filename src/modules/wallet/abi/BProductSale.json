@@ -217,6 +217,11 @@
         "internalType": "uint256",
         "name": "_price",
         "type": "uint256"
+      },
+      {
+        "internalType": "uint256",
+        "name": "_tradingFee",
+        "type": "uint256"
       }
     ],
     "name": "createSaleOrder",
@@ -277,6 +282,11 @@
           {
             "internalType": "uint256",
             "name": "price",
+            "type": "uint256"
+          },
+          {
+            "internalType": "uint256",
+            "name": "tradingFee",
             "type": "uint256"
           }
         ],

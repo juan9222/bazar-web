@@ -1,9 +1,10 @@
 
 export const BSC_TESTNET: number = 97;
+export const BAZAR_NETWORK_BLOCKCHAIN_NAME: string = 'Bazar Network';
 
 const addresses = {
   binance: {
-    [BSC_TESTNET]: '0x75339805Ad935455693A5EB7342EcB12E7374811'
+    [BSC_TESTNET]: '0xBe381293582a4ef6b56737a09E937df01615c912'
   }
 };
 
