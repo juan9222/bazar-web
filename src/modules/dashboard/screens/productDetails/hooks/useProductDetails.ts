@@ -3,11 +3,13 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useLocation } from "react-router-dom";
-import getCreateSellOrderContract from "../../../../wallet/helper/getCreateSellOrderContract";
+import useBazarWalletProviders from "../../../../lisk_api/providers";
+import getBinanceBazarContract from "../../../../wallet/helper/getBinanceBazarContract";
 import { useUser } from "../../../layouts/dashboardLayout/utils";
 import { IProductDetailProps, TProductDetailFormKeys } from "../interfaces";
 import useProductDetailsProviders from "../providers";
 import { productDetailFormValidator } from "../validators";
+import { ethers } from "ethers";
 
 const useProductDetails = () => {
   const [product, setProduct] = useState<any>();
@@ -19,6 +21,7 @@ const useProductDetails = () => {
   const [showPublishDialog, setShowPublishDialog] = useState<boolean>(false);
   const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
   const [showConfirmBlockModal, setShowConfirmBlockModal] = useState<boolean>(false);
+  const [bnbValue, setBnbValue] = useState<number>();
 
   const { getProductDetails, patchProductAvailability } = useProductDetailsProviders();
 
@@ -26,6 +29,8 @@ const useProductDetails = () => {
   const productId = location.pathname.split('/').pop();
 
   const { binanceAccount } = useUser();
+
+  const { getPaymentProviderByProductId } = useBazarWalletProviders();
 
   const methods = useForm<IProductDetailProps>({
     resolver: yupResolver(productDetailFormValidator(product?.available_for_sale)),
@@ -87,22 +92,44 @@ const useProductDetails = () => {
       setShowPublishDialog(false);
       return;
     }
-    try {
-      const bazarContract = getCreateSellOrderContract(binanceAccount);
+  };
 
-      await bazarContract.createSaleOrder(
-        2023, // Product number code
-        1, //Note: MinQuantiyToSell
-        product.available_for_sale,
-        product.expected_price_per_kg,
-      );
-      const resp = await axios.patch(`${ process.env.REACT_APP_BAZAR_URL }/products/update-publish/${ productId }`);
-      const newProduct = { ...product, status: resp.data.status };
-      setProduct(newProduct);
+  const onConfirmBuy = async () => {
+    if (!binanceAccount) {
+      setShowConfirmBlockModal(!showConfirmBlockModal);
+      setShowConfirmModal(!showConfirmModal);
+      return;
+    }
+    try {
+      const resultGetPaymentProvider = await getPaymentProviderByProductId(productId ?? '');
+
+      if (resultGetPaymentProvider?.data?.data) {
+
+        const bazarContract = getBinanceBazarContract(binanceAccount);
+
+        const options = { value: ethers.utils.parseEther(bnbValue?.toFixed(4).toString() ?? '') };
+        const resultBinanceTx = await bazarContract.buyProductUsingBNB(
+          resultGetPaymentProvider?.data?.data.accountProvider,
+          resultGetPaymentProvider?.data?.data.productReference,
+          quantityToBuy,
+          options
+        );
+
+        const receiptTx = resultBinanceTx.wait(1);
+        console.log("Binance Transaction:", receiptTx);
+
+        if (receiptTx.status === 1) {
+
+          // TODO: Call endpoint to update inventory
+
+        } else {
+          console.log('Binance Transactions is rejected.');
+          alert('Binance Transactions is rejected. Try again.');
+        }
+      }
     } catch (error) {
+      console.log('Something went wrong. Try again.' + error);
       alert('Something went wrong. Try again.');
-    } finally {
-      setShowPublishDialog(false);
     }
   };
 
@@ -113,11 +140,6 @@ const useProductDetails = () => {
     } catch (error) {
       alert('Something went wrong. Try again.');
     }
-  };
-
-  const onConfirmBuy = () => {
-    setShowConfirmBlockModal(!showConfirmBlockModal);
-    setShowConfirmModal(!showConfirmModal);
   };
 
   useEffect(() => {
@@ -150,6 +172,7 @@ const useProductDetails = () => {
     showConfirmBlockModal,
     setShowConfirmBlockModal,
     onConfirmBuy,
+    setBnbValue,
   };
 };
 

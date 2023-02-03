@@ -12,7 +12,6 @@ import newSellOrderAsset from "../../../lisk_api/transaction/seller/newSellerOrd
 import { RegisterBuyerOrderType } from "../../../lisk_api/types/registerBuyerOrderType";
 import { RegisterOrderType } from "../../../lisk_api/types/registerOrderAssetType";
 
-import usePriceFeedBSC from "../../../payment/hooks/usePriceFeedBSC";
 import AuthlayoutContent from "../../layouts/authLayoutContent";
 import useLogin from './hooks/useLogin';
 
@@ -34,7 +33,6 @@ const Login: React.FC = () => {
     passwordInputValue,
   } = useLogin();
 
-  usePriceFeedBSC();
   /*
     const sell = async () => {
       const sellOrderAsset: RegisterOrderType = {

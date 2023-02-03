@@ -53,6 +53,7 @@ const ProductDetails: React.FC<any> = () => {
     showConfirmBlockModal,
     setShowConfirmBlockModal,
     onConfirmBuy,
+    setBnbValue,
   } = useProductDetails();
 
   const images = product?.url_images ? product.url_images.map((image: string) => {
@@ -268,9 +269,10 @@ const ProductDetails: React.FC<any> = () => {
         quantity={ quantityToBuy }
         initialTimer={ 20 }
         show={ showConfirmModal }
-        fetchExchange={ () => { } } //TODO pass function to refetch BNP value
         onHide={ () => setShowConfirmModal(!showConfirmModal) }
-        confirm={ () => onConfirmBuy() } />
+        confirm={ () => onConfirmBuy() }
+        setBnbValue={ setBnbValue }
+      />
       <ModalConfirmBlockNew show={ showConfirmBlockModal } onHide={ () => setShowConfirmBlockModal(!showConfirmBlockModal) } />
     </Container >
   );

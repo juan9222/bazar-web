@@ -7,9 +7,9 @@ import usePriceFeedBSC from "../../../../../payment/hooks/usePriceFeedBSC";
 
 const ModalConfirmPurchaseNew: React.FC<any> = (props) => {
 
-  const { product, quantity, fetchExchange, initialTimer, ...rest } = props;
+  const { product, quantity, initialTimer, setBnbValue, ...rest } = props;
   const [check, setCheck] = useState<boolean>(false);
-  const { bnbPrice } = usePriceFeedBSC();
+  const { bnbPrice, fetchBnb } = usePriceFeedBSC();
 
   const subTotal = quantity * product?.expected_price_per_kg;
   const fee = subTotal * 0.05;
@@ -25,13 +25,19 @@ const ModalConfirmPurchaseNew: React.FC<any> = (props) => {
   useEffect(() => {
     if (counter === 0) {
       setCounter(initialTimer);
-      fetchExchange();
+      fetchBnb();
+      setBnbValue(bnbusdPar);
     }
     const timer = setInterval(() => setCounter(counter - 1), 1000);
     return () => clearInterval(timer);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [counter]);
+
+  useEffect(() => {
+    fetchBnb();
+    setBnbValue(bnbusdPar);
+  }, []);
 
   return (
     <Modal
