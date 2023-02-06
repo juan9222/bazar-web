@@ -1,6 +1,7 @@
 
 export const BSC_TESTNET: number = 97;
 export const BAZAR_NETWORK_BLOCKCHAIN_NAME: string = 'Bazar Network';
+export const BINANCE_SMART_CHAIN_NAME: string = 'Binance Chain';
 
 const addresses = {
   binance: {

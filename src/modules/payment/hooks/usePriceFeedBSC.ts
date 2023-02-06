@@ -301,12 +301,15 @@ const usePriceFeedBSC = () => {
   let refe = aggregator as unknown as AbiItem[];
   const priceFeed = new web3.eth.Contract(refe, addr);
 
-  priceFeed.methods.getBNBPrice().call().then((roundData: any) => {
-    setBnbPrice(roundData);
-  });
+  const fetchBnb = () => {
+    priceFeed.methods.getBNBPrice().call().then((roundData: any) => {
+      setBnbPrice(roundData);
+    });
+  };
 
   return {
-    bnbPrice
+    bnbPrice,
+    fetchBnb
   };
 };
 

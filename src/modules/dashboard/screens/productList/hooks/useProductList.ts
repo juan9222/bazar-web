@@ -4,12 +4,12 @@ import useCommonProviders from "../../../../common/providers";
 import useProductListProviders from "../providers";
 import axios from "axios";
 import { useUser } from "../../../layouts/dashboardLayout/utils";
-import getCreateSellOrderContract from "../../../../wallet/helper/getCreateSellOrderContract";
-import { BAZAR_NETWORK_BLOCKCHAIN_NAME } from "../../../../wallet/helper/constantHelper";
+import { BAZAR_NETWORK_BLOCKCHAIN_NAME, BINANCE_SMART_CHAIN_NAME } from "../../../../wallet/helper/constantHelper";
 import useBazarWalletProviders from "../../../../lisk_api/providers";
 import { RegisterOrderType } from "../../../../lisk_api/types/registerOrderAssetType";
 import newSellOrderAsset from "../../../../lisk_api/transaction/seller/newSellerOrderAsset";
-import { randomUUID } from "crypto";
+import uuid from 'react-uuid';
+import getBinanceBazarContract from "../../../../wallet/helper/getBinanceBazarContract";
 
 const useProductList = () => {
   const [basicProducts, setBasicProducts] = useState<Array<{ label: string; value: string; }>>([]);
@@ -31,7 +31,8 @@ const useProductList = () => {
   const location = useLocation();
 
   const { binanceAccount } = useUser();
-  const { getWalletByUser } = useBazarWalletProviders();
+  const { getWalletByUser, createPaymentProvider } = useBazarWalletProviders();
+
 
   const userId: string = localStorage.getItem("uuid") || "";
 
@@ -125,7 +126,8 @@ const useProductList = () => {
       return;
     }
     try {
-      const bazarContract = getCreateSellOrderContract(binanceAccount);
+      setShowPublishDialog(false);
+      const bazarContract = getBinanceBazarContract(binanceAccount);
       const minQuantityToSell = 1;
       const sellerTradingFee = 2;
 
@@ -138,10 +140,9 @@ const useProductList = () => {
         const resultGetWalletData = await getWalletByUser(requestBody);
 
         if (resultGetWalletData.data.data) {
-          let resulBinanceTx;
           const productNumberCode = Math.floor((Math.random() * (99999 - 10000) + 10000));
 
-          resulBinanceTx = await bazarContract.createSaleOrder(
+          const resulBinanceTx = await bazarContract.createSaleOrder(
             productNumberCode,
             minQuantityToSell,
             selectedProduct.available_for_sale,
@@ -153,7 +154,8 @@ const useProductList = () => {
           console.log("Binance Transaction:", receiptTx);
 
           if (receiptTx.status === 1) {
-            /* let orderId = randomUUID();
+            const orderId = uuid();
+            /* 
              const sellOrderAsset: RegisterOrderType = {
                orderId: orderId,
                productId: productNumberCode.toString(),
@@ -176,6 +178,19 @@ const useProductList = () => {
             const productIndex = newProductsMap[selectedProduct.basic_product].findIndex((product: any) => product.uuid === selectedProduct.uuid);
             newProductsMap[selectedProduct.basic_product][productIndex] = { ...newProductsMap[selectedProduct.basic_product][productIndex], status: resp.data.status };
             setProductsMap(newProductsMap);
+
+            const requestPaymentProviderBody = {
+              "accountProvider": binanceAccount,
+              "description": BINANCE_SMART_CHAIN_NAME,
+              "userUUID": localStorage.getItem("uuid") || "",
+              "productUUID": selectedProduct.uuid.toString(),
+              "productReference": productNumberCode.toString(),
+              "orderId": orderId
+            };
+
+            createPaymentProvider(requestPaymentProviderBody);
+
+
           } else {
             console.log('Binance Transactions is rejected.');
             alert('Binance Transactions is rejected. Try again.');
