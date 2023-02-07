@@ -54,6 +54,9 @@ const ProductDetails: React.FC<any> = () => {
     setShowConfirmBlockModal,
     onConfirmBuy,
     setBnbValue,
+    onBuyProduct,
+    showConnectWalletDialogBuyer,
+    setShowConnectWalletDialogBuyer
   } = useProductDetails();
 
   const images = product?.url_images ? product.url_images.map((image: string) => {
@@ -226,7 +229,7 @@ const ProductDetails: React.FC<any> = () => {
                   required />
               </Col>
             </Row>
-            <Button className="btn-buy" onClick={ () => setShowConfirmModal(!showConfirmModal) } disabled={ !quantityToBuy || hasErrorsInput("quantity") }>Buy now</Button>
+            <Button className="btn-buy" onClick={ () => onBuyProduct() } disabled={ !quantityToBuy || hasErrorsInput("quantity") }>Buy now</Button>
           </Col>
         ) }
       </Row>
@@ -263,6 +266,12 @@ const ProductDetails: React.FC<any> = () => {
         <h3 className='textPrimary300 textModalTitle'>We are sorry...</h3>
         <div className="verticalSpaceL"></div>
         <p className='textModalDesc'>You need to connect the wallet to be able to publish the product and sign the contract.</p>
+      </Modal>
+      <Modal title="" continueText='Continue' width='560px' closed={ !showConnectWalletDialogBuyer } showCloseIcon={ false } cancelHidden={ true } onClose={ () => setShowConnectWalletDialogBuyer(false) } onContinue={ () => setShowConnectWalletDialogBuyer(false) }>
+        <div className="verticalSpaceS"></div>
+        <h3 className='textPrimary300 textModalTitle'>We are sorry...</h3>
+        <div className="verticalSpaceL"></div>
+        <p className='textModalDesc'>You need to connect the wallet to be able to buy the product.</p>
       </Modal>
       <ModalConfirmPurchaseNew
         product={ product }
