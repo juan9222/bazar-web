@@ -24,9 +24,19 @@ const useProductDetailsProviders = () => {
     return trackPromise(request);
   };
 
+  const deleteProduct = (productId: string) => {
+    const request = axios({
+      method: "PATCH",
+      baseURL: process.env.REACT_APP_BAZAR_URL,
+      url: `/products/update-delete/${ productId }`
+    });
+    return trackPromise(request);
+  };
+
   return {
     getProductDetails,
     patchProductAvailability,
+    deleteProduct,
   };
 };
 

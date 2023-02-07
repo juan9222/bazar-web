@@ -5,7 +5,8 @@ export enum Status {
   approved = "Approved",
   review = "Review",
   hidden = "Hidden",
-  rejected = "Rejected"
+  rejected = "Rejected",
+  deleted = "Deleted"
 }
 
 export interface ICardProps {
