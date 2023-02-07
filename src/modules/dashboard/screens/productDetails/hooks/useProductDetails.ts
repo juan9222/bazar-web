@@ -107,7 +107,7 @@ const useProductDetails = () => {
       if (resultGetPaymentProvider?.data?.data) {
 
         const bazarContract = getBinanceBazarContract(binanceAccount);
-
+        console.log("Record" + bnbValue);
         const options = { value: ethers.utils.parseEther(bnbValue?.toFixed(4).toString() ?? '') };
         const resultBinanceTx = await bazarContract.buyProductUsingBNB(
           resultGetPaymentProvider?.data?.data.accountProvider,
