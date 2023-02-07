@@ -92,7 +92,7 @@ const useProductList = () => {
     } else if ((event.target as any).innerText === 'Hide') {
       onHide(event, product);
     } else {
-      navigate(`../products/${ product.uuid }`, { replace: true, state: { previousUrl: location.pathname } });
+      navigate(`../products/${ product.uuid }`, { state: { previousUrl: location.pathname } });
     }
   };
 
