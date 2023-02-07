@@ -35,6 +35,11 @@ body {
       background-color: $error_25;
       color: $error_75;
     }
+
+    &.status-deleted {
+      background-color: $error_25;
+      color: $error_75;
+    }
   }
 
   .message-hover {

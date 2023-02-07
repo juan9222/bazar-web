@@ -59,6 +59,7 @@ const ProductDetails: React.FC<any> = () => {
     setShowConnectWalletDialogBuyer,
     showTransactionInProgressModal,
     setShowTransactionInProgressModal,
+    onDeleteProduct
   } = useProductDetails();
 
   const images = product?.url_images ? product.url_images.map((image: string) => {
@@ -137,7 +138,7 @@ const ProductDetails: React.FC<any> = () => {
                   { getMappedStatus(product?.status) !== Status.hidden && (
                     <Button className={ 'btn-data-option' } iconLeft={ <MdCancel /> } onClick={ () => onHide() }>Hide</Button>
                   ) }
-                  <Button className={ 'btn-data-option' } iconLeft={ <MdDelete /> } >Delete</Button>
+                  <Button className={ 'btn-data-option' } iconLeft={ <MdDelete /> } onClick={ () => onDeleteProduct() }>Delete</Button>
                 </div>
               </div>
             ) }

@@ -12,5 +12,7 @@ export const getStatusTag = (status: string, isCard?: boolean) => {
       return <span className={ `${ isCard ? 'header-status' : 'status-product' }  status-hidden` }>Hidden</span>;
     case Status.rejected:
       return <span className={ `${ isCard ? 'header-status' : 'status-product' }  status-rejected` }>Rejected</span>;
+    case Status.deleted:
+      return <span className={ `${ isCard ? 'header-status' : 'status-product' }  status-deleted` }>Deleted</span>;
   }
 };
