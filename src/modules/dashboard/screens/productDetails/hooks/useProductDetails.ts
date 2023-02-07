@@ -116,7 +116,7 @@ const useProductDetails = () => {
           options
         );
 
-        const receiptTx = resultBinanceTx.wait(1);
+        const receiptTx = await resultBinanceTx.wait(1);
         console.log("Binance Transaction:", receiptTx);
 
         if (receiptTx.status === 1) {
