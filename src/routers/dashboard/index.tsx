@@ -53,7 +53,7 @@ const dashboardRoutes: RouteObject[] = [
     element: <UserApprovals />
   },
   {
-    path: "transaction/:transactionId",
+    path: "transaction",
     element: <TransactionStarted />
   },
   {

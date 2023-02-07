@@ -2,7 +2,7 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import useBazarWalletProviders from "../../../../lisk_api/providers";
 import getBinanceBazarContract from "../../../../wallet/helper/getBinanceBazarContract";
 import { useUser } from "../../../layouts/dashboardLayout/utils";
@@ -21,6 +21,7 @@ const useProductDetails = () => {
   const [showPublishDialog, setShowPublishDialog] = useState<boolean>(false);
   const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
   const [showConfirmBlockModal, setShowConfirmBlockModal] = useState<boolean>(false);
+  const [showTransactionInProgressModal, setShowTransactionInProgressModal] = useState<boolean>(false);
   const [bnbValue, setBnbValue] = useState<number>();
   const [showConnectWalletDialogBuyer, setShowConnectWalletDialogBuyer] = useState<boolean>(false);
 
@@ -38,6 +39,8 @@ const useProductDetails = () => {
     mode: "all",
   });
   const { register, handleSubmit, formState: { errors: detailProductErrors }, watch } = methods;
+
+  const navigate = useNavigate();
 
   const quantityToBuy = watch("quantity");
 
@@ -97,8 +100,8 @@ const useProductDetails = () => {
 
   const onConfirmBuy = async () => {
     if (!binanceAccount) {
-      setShowConfirmBlockModal(!showConfirmBlockModal);
-      setShowConfirmModal(!showConfirmModal);
+      setShowConnectWalletDialog(true);
+      setShowConfirmModal(false);
       return;
     }
     try {
@@ -109,28 +112,37 @@ const useProductDetails = () => {
         const bazarContract = getBinanceBazarContract(binanceAccount);
         console.log("Record" + bnbValue);
         const options = { value: ethers.utils.parseEther(bnbValue?.toFixed(4).toString() ?? '') };
+        setShowConfirmBlockModal(true);
+        setShowConfirmModal(false);
         const resultBinanceTx = await bazarContract.buyProductUsingBNB(
           resultGetPaymentProvider?.data?.data.accountProvider,
           resultGetPaymentProvider?.data?.data.productReference,
           quantityToBuy,
           options
         );
-
+        setShowConfirmBlockModal(false);
+        setShowTransactionInProgressModal(true);
         const receiptTx = await resultBinanceTx.wait(1);
         console.log("Binance Transaction:", receiptTx);
 
         if (receiptTx.status === 1) {
-
-          // TODO: Call endpoint to update inventory
-
+          await patchProductAvailability(productId!, product?.available_for_sale - quantityToBuy!);
+          navigate('../payment-summary/1');
         } else {
           console.log('Binance Transactions is rejected.');
           alert('Binance Transactions is rejected. Try again.');
         }
       }
-    } catch (error) {
-      console.log('Something went wrong. Try again.' + error);
-      alert('Something went wrong. Try again.');
+    } catch (error: any) {
+      if (error.error === 'Rejected by user') {
+        setShowConfirmModal(false);
+        setShowConfirmBlockModal(false);
+      } else {
+        console.log('Something went wrong. Try again.' + error);
+        alert('Something went wrong. Try again.');
+      }
+    } finally {
+      setShowConfirmBlockModal(false);
     }
   };
 
@@ -180,6 +192,8 @@ const useProductDetails = () => {
     setShowConfirmModal,
     showConfirmBlockModal,
     setShowConfirmBlockModal,
+    showTransactionInProgressModal,
+    setShowTransactionInProgressModal,
     onConfirmBuy,
     setBnbValue,
     onBuyProduct,

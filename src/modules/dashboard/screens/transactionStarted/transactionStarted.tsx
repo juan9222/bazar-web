@@ -1,8 +1,17 @@
 // Dependencies
 import React from "react";
-
+import { useLocation } from "react-router-dom";
+import useTransactionStarted from "./hooks/useTransactionStarted";
 
 const TransactionStarted: React.FC<any> = () => {
+
+  const { } = useTransactionStarted();
+  // const { setResultBinanceTx, setProductId, setQuantityToBuy } = useTransactionStarted();
+
+  // const location = useLocation();
+  // setResultBinanceTx(location.state.resultBinanceTx);
+  // setProductId(location.state.productId);
+  // setQuantityToBuy(location.state.quantityToBuy);
 
   return (
     <div className="trs-transaction">

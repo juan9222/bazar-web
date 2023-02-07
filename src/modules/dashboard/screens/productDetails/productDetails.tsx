@@ -56,7 +56,9 @@ const ProductDetails: React.FC<any> = () => {
     setBnbValue,
     onBuyProduct,
     showConnectWalletDialogBuyer,
-    setShowConnectWalletDialogBuyer
+    setShowConnectWalletDialogBuyer,
+    showTransactionInProgressModal,
+    setShowTransactionInProgressModal,
   } = useProductDetails();
 
   const images = product?.url_images ? product.url_images.map((image: string) => {
@@ -283,6 +285,24 @@ const ProductDetails: React.FC<any> = () => {
         setBnbValue={ setBnbValue }
       />
       <ModalConfirmBlockNew show={ showConfirmBlockModal } onHide={ () => setShowConfirmBlockModal(!showConfirmBlockModal) } />
+      <Modal title="" closed={ !showTransactionInProgressModal } hideFooter cancelHidden={ true } onClose={ () => setShowTransactionInProgressModal(false) } width='100%' height='100%'>
+        <div className="trs-transaction">
+          <div className="trs-transaction--container">
+            <div className="trs-transaction--container--title">
+              <span>
+                Your transaction has started
+              </span>
+            </div>
+            <div className="trs-transaction--container--logo">
+              <img src={ "/assets/images/LogoBazarWhite.png" } alt="Bazar" className="logoBazarWhite" />
+              <img src={ "/assets/images/LogoBazarBlue.png" } alt="Bazar" className="logoBazarBlue" />
+            </div>
+            <div className="trs-transaction--container--subtitle">
+              <span>Just a few minutes more.... The Binance network is processing your transaction.</span>
+            </div>
+          </div>
+        </div>
+      </Modal>
     </Container >
   );
 };

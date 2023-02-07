@@ -41,7 +41,7 @@ const useWishlist = () => {
   };
 
   const onClickProductCard = (productId: string) => {
-    navigate(`../products/${ productId }`, { replace: true, state: { previousUrl: location.pathname } });
+    navigate(`../products/${ productId }`, { state: { previousUrl: location.pathname } });
   };
 
   const onLikeProduct = async (event: React.MouseEvent, productId: string) => {
