@@ -1,8 +1,10 @@
+import { NoBscProviderError } from '@binance-chain/bsc-connector';
 import { useWeb3React } from '@web3-react/core';
 import { useCallback, useEffect, useRef, useState } from "react";
 import { ListGroup, ListGroupItem, Overlay } from 'react-bootstrap';
 import { MdAccountBalanceWallet, MdCheckCircle, MdLogout } from 'react-icons/md';
 import InputText from '../../../common/components/inputText';
+import ModalWallletExtension from '../../../common/components/modalWallletExtension';
 import useWalletConnectionBSC from "../../hooks/useWallletConnectionBSC";
 
 const WalletConnectionBSCSelection = (props: any) => {
@@ -11,11 +13,18 @@ const WalletConnectionBSCSelection = (props: any) => {
 
   const { activate, deactivate, account } = useWeb3React();
   const [showWallet, setShowWallet] = useState(false);
+  const [showModalWalletExtension, setShowModalWalletExtension] = useState(false);
+
   const walletRef = useRef<any>();
   const handleWallet = () => setShowWallet(!showWallet);
 
   const activateOnClick = useCallback((): void => {
-    activate(useWalletConnectionBSC);
+    activate(useWalletConnectionBSC, async (error: Error) => {
+      if (error instanceof NoBscProviderError) {
+        setShowModalWalletExtension(true);
+      }
+      console.error(error.name, error.message);
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -82,6 +91,7 @@ const WalletConnectionBSCSelection = (props: any) => {
           </div>
         ) }
       </Overlay>
+      <ModalWallletExtension show={ showModalWalletExtension } toggle={ () => { setShowModalWalletExtension(!showModalWalletExtension); } } />
     </div >
   );
 };

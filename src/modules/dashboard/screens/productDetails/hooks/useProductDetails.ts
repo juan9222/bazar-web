@@ -22,6 +22,7 @@ const useProductDetails = () => {
   const [showConfirmModal, setShowConfirmModal] = useState<boolean>(false);
   const [showConfirmBlockModal, setShowConfirmBlockModal] = useState<boolean>(false);
   const [bnbValue, setBnbValue] = useState<number>();
+  const [showConnectWalletDialogBuyer, setShowConnectWalletDialogBuyer] = useState<boolean>(false);
 
   const { getProductDetails, patchProductAvailability } = useProductDetailsProviders();
 
@@ -147,6 +148,14 @@ const useProductDetails = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const onBuyProduct = () => {
+    if (!binanceAccount) {
+      setShowConnectWalletDialogBuyer(true);
+      return;
+    }
+    setShowConfirmModal(true);
+  };
+
   return {
     incotermOptions,
     register,
@@ -173,6 +182,9 @@ const useProductDetails = () => {
     setShowConfirmBlockModal,
     onConfirmBuy,
     setBnbValue,
+    onBuyProduct,
+    showConnectWalletDialogBuyer,
+    setShowConnectWalletDialogBuyer
   };
 };
 
