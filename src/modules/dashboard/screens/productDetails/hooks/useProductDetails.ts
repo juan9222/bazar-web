@@ -25,7 +25,7 @@ const useProductDetails = () => {
   const [bnbValue, setBnbValue] = useState<number>();
   const [showConnectWalletDialogBuyer, setShowConnectWalletDialogBuyer] = useState<boolean>(false);
 
-  const { getProductDetails, patchProductAvailability } = useProductDetailsProviders();
+  const { getProductDetails, patchProductAvailability, deleteProduct } = useProductDetailsProviders();
 
   const location = useLocation();
   const productId = location.pathname.split('/').pop();
@@ -175,6 +175,19 @@ const useProductDetails = () => {
     setShowConfirmModal(true);
   };
 
+  const onDeleteProduct = async () => {
+    try {
+      if (productId) {
+        const resp = await deleteProduct(productId);
+        navigate(`../product-list/`, { replace: true, state: { previousUrl: location.pathname } });
+      }
+    } catch (error) {
+      console.error(error);
+      alert('There has been an error, try again.');
+      navigate(`../product-list/`, { replace: true, state: { previousUrl: location.pathname } });
+    }
+  };
+
   return {
     incotermOptions,
     register,
@@ -205,7 +218,8 @@ const useProductDetails = () => {
     setBnbValue,
     onBuyProduct,
     showConnectWalletDialogBuyer,
-    setShowConnectWalletDialogBuyer
+    setShowConnectWalletDialogBuyer,
+    onDeleteProduct
   };
 };
 

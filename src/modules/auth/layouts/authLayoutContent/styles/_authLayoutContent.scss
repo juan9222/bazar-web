@@ -16,6 +16,19 @@
   }
 }
 
+.loginContainer__version {
+  opacity: 0.4;
+  max-width: 400px;
+  width: 100%;
+  margin-top: 0px;
+  bottom: 10px;
+  position: absolute;
+
+  p {
+    font-size: 12px;
+  }
+}
+
 @media (max-width: $breakpoint_tablet) {
   .layoutContainerContent {
 

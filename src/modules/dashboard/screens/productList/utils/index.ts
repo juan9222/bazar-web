@@ -10,6 +10,8 @@ export const getMappedStatus = (status: string): Status => {
       return Status.review;
     case "Hidden":
       return Status.hidden;
+    case "Deleted":
+      return Status.deleted;
     default:
       return Status.rejected;
   }
