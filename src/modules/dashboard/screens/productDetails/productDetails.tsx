@@ -298,7 +298,7 @@ const ProductDetails: React.FC<any> = () => {
               <img src={ "/assets/images/LogoBazarBlue.png" } alt="Bazar" className="logoBazarBlue" />
             </div>
             <div className="trs-transaction--container--subtitle">
-              <span>Just a few minutes more.... The Binance network is processing your transaction.</span>
+              <span>Just a few more minutes.... The Binance network is processing your transaction.</span>
             </div>
           </div>
         </div>

@@ -112,6 +112,12 @@
           }
         }
 
+        a {
+          font-weight: bold;
+          display: flex;
+          align-items: center;
+        }
+
         &.total {
           span {
             font-weight: bold;

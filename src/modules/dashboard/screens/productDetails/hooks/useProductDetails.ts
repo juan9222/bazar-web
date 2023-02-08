@@ -125,13 +125,20 @@ const useProductDetails = () => {
         const receiptTx = await resultBinanceTx.wait(1);
         console.log("Binance Transaction:", receiptTx);
 
+        const summaryState = {
+          status: receiptTx.status,
+          orderCode: receiptTx.transactionHash,
+          exchangeRate: bnbValue!,
+          valueXKg: product?.expected_price_per_kg,
+          amount: quantityToBuy
+        };
+
         if (receiptTx.status === 1) {
           await patchProductAvailability(productId!, product?.available_for_sale - quantityToBuy!);
-          navigate('../payment-summary/1');
         } else {
           console.log('Binance Transactions is rejected.');
-          alert('Binance Transactions is rejected. Try again.');
         }
+        navigate('../payment-summary/1', { state: summaryState });
       }
     } catch (error: any) {
       if (error.error === 'Rejected by user') {

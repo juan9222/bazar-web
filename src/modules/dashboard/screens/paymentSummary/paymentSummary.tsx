@@ -4,13 +4,29 @@ import React, { useState } from "react";
 // Components
 import { Col, Container, Row } from "react-bootstrap";
 import { BsWhatsapp } from "react-icons/bs";
-import { MdOutlineFileDownload } from "react-icons/md";
+import { MdOpenInNew, MdOutlineFileDownload } from "react-icons/md";
+import { useLocation, useNavigate } from "react-router";
 import Button from "../../../common/components/button";
 import { EBtnVisibleType } from "../../../common/components/button/interfaces";
 import { ELarge } from "../../../common/interfaces";
+import { SERVICE_FEE } from "../productDetails/utils";
 
 const PaymentSummary: React.FC<any> = () => {
-  const [approved, setApproved] = useState(false);
+  const navigate = useNavigate();
+  const { state } = useLocation();
+  const {
+    status,
+    orderCode,
+    exchangeRate,
+    valueXKg,
+    amount
+  } = state;
+
+  const approved = status === 1;
+  const totalUsd = amount * valueXKg;
+  const totalBnb = totalUsd * exchangeRate;
+  const serviceFee = totalUsd * SERVICE_FEE;
+
   return (
     <Container fluid className="payment-summary">
       <Row className="payment-summary--row">
@@ -56,7 +72,9 @@ const PaymentSummary: React.FC<any> = () => {
             </div>
             <div className="payment-summary--content-right--details--item">
               <span>Order code</span>
-              <span>T982JMASR</span>
+              <a href={ `https://testnet.bscscan.com/tx/${ orderCode }` } target='_blank' className="textPrimary200 textLink">
+                { orderCode.substring(0, 5) }.....{ orderCode.substring(orderCode.length - 5, orderCode.length) }<div className="horizontalSpaceS" /><MdOpenInNew></MdOpenInNew>
+              </a>
             </div>
             <div className="payment-summary--content-right--details--item">
               <span>Date</span>
@@ -64,32 +82,32 @@ const PaymentSummary: React.FC<any> = () => {
             </div>
             <div className="payment-summary--content-right--details--item">
               <span>Exchange rate</span>
-              <span>1 BNB : 3.320 USD</span>
+              <span>1 BNB : { exchangeRate.toFixed(4) } USD</span>
             </div>
             <div className="payment-summary--content-right--details--item">
               <span>Value x kg</span>
-              <span>1,40 kg</span>
+              <span>{ valueXKg } kg</span>
             </div>
             <div className="payment-summary--content-right--details--item">
               <span>Amount</span>
-              <span>1000 kg</span>
+              <span>{ amount } kg</span>
             </div>
             <div className="payment-summary--content-right--details--item">
               <span>Service fee</span>
-              <span>140.0</span>
+              <span>{ serviceFee.toFixed(2) }</span>
             </div>
             <div className="payment-summary--content-right--details--item total">
               <span>Total to pay in BNB</span>
-              <span>0.012312 BNB</span>
+              <span>{ totalBnb.toFixed(4) } BNB</span>
             </div>
             <div className="payment-summary--content-right--details--item total">
               <span>Total to pay in USD</span>
-              <span>140.140 USD</span>
+              <span>{ (totalUsd + serviceFee).toFixed(2) } USD</span>
             </div>
           </div>
           <div className="payment-summary--content-right--footer">
-            <Button visibleType={ EBtnVisibleType.clear } large={ ELarge.full } type="button">Back page</Button>
-            <Button visibleType={ EBtnVisibleType.solid } large={ ELarge.full } type="button" onClick={ () => { setApproved(!approved); } }>
+            <Button visibleType={ EBtnVisibleType.clear } large={ ELarge.full } type="button" onClick={ () => { navigate('../product-list'); } }>Back page</Button>
+            <Button visibleType={ EBtnVisibleType.solid } large={ ELarge.full } type="button" onClick={ () => { } }>
               { approved ?
                 (
                   <>

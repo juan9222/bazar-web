@@ -4,6 +4,7 @@ import { BsCheckSquare, BsSquare } from "react-icons/bs";
 import Button from "../../../../../common/components/button";
 import { getProductIcon } from "../../../../../common/components/productIcon";
 import usePriceFeedBSC from "../../../../../payment/hooks/usePriceFeedBSC";
+import { SERVICE_FEE } from "../../utils";
 
 const ModalConfirmPurchaseNew: React.FC<any> = (props) => {
 
@@ -12,7 +13,7 @@ const ModalConfirmPurchaseNew: React.FC<any> = (props) => {
   const { bnbPrice, fetchBnb } = usePriceFeedBSC();
 
   const subTotal = quantity * product?.expected_price_per_kg;
-  const fee = subTotal * 0.05;
+  const fee = subTotal * SERVICE_FEE;
   const total = subTotal + fee;
 
   let bnbusdPar: number | undefined;
