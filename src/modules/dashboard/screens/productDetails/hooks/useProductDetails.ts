@@ -10,6 +10,8 @@ import { IProductDetailProps, TProductDetailFormKeys } from "../interfaces";
 import useProductDetailsProviders from "../providers";
 import { productDetailFormValidator } from "../validators";
 import { ethers } from "ethers";
+import { BAZAR_NETWORK_BLOCKCHAIN_NAME, BINANCE_SMART_CHAIN_NAME } from "../../../../wallet/helper/constantHelper";
+import uuid from "react-uuid";
 
 const useProductDetails = () => {
   const [product, setProduct] = useState<any>();
@@ -32,7 +34,7 @@ const useProductDetails = () => {
 
   const { binanceAccount } = useUser();
 
-  const { getPaymentProviderByProductId } = useBazarWalletProviders();
+  const { getWalletByUser, createPaymentProvider, getPaymentProviderByProductId } = useBazarWalletProviders();
 
   const methods = useForm<IProductDetailProps>({
     resolver: yupResolver(productDetailFormValidator(product?.available_for_sale)),
@@ -96,6 +98,69 @@ const useProductDetails = () => {
       setShowPublishDialog(false);
       return;
     }
+    try {
+      setShowPublishDialog(false);
+      const bazarContract = getBinanceBazarContract(binanceAccount);
+      const minQuantityToSell = 1;
+      const sellerTradingFee = 2;
+      try {
+        const requestBody = {
+          "userUUID": localStorage.getItem("uuid") || "",
+          "blockchainName": BAZAR_NETWORK_BLOCKCHAIN_NAME.toString()
+        };
+
+        const resultGetWalletData = await getWalletByUser(requestBody);
+        if (resultGetWalletData?.data?.data) {
+          const productNumberCode = Math.floor((Math.random() * (99999 - 10000) + 10000));
+          const resulBinanceTx = await bazarContract.createSaleOrder(
+            productNumberCode,
+            minQuantityToSell,
+            product.available_for_sale,
+            product.expected_price_per_kg,
+            sellerTradingFee
+          );
+          const receiptTx = await resulBinanceTx.wait(1);
+          console.log("Binance Transaction:", receiptTx);
+          if (receiptTx.status === 1) {
+            const orderId = uuid();
+
+            const resp = await axios.patch(`${ process.env.REACT_APP_BAZAR_URL }/products/update-publish/${ product.uuid }`);
+            setProduct({
+              ...product,
+              status: resp.data.status
+            });
+
+
+            const requestPaymentProviderBody = {
+              "accountProvider": binanceAccount,
+              "description": BINANCE_SMART_CHAIN_NAME,
+              "userUUID": localStorage.getItem("uuid") || "",
+              "productUUID": product.uuid.toString(),
+              "productReference": productNumberCode.toString(),
+              "orderId": orderId
+            };
+
+            createPaymentProvider(requestPaymentProviderBody);
+
+
+          } else {
+            console.log('Binance Transactions is rejected.');
+            alert('Binance Transactions is rejected. Try again.');
+          }
+        } else {
+          console.log('Something went wrong getting credentials.' + resultGetWalletData.data.errorMessage);
+          alert('Something went wrong getting credentials. Try again.');
+        }
+      } catch (error) {
+        console.log('Something went wrong accepting the BSC contract.' + error);
+        alert('Something went wrong accepting the BSC contract. Try again.');
+      }
+    } catch (error) {
+      console.log('Something went wrong. Try again.' + error);
+      alert('Something went wrong. Try again.');
+    }
+
+
   };
 
   const onConfirmBuy = async () => {
