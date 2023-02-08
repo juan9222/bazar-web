@@ -10,24 +10,19 @@ const ModalConfirmPurchaseNew: React.FC<any> = (props) => {
 
   const { product, quantity, initialTimer, setBnbValue, ...rest } = props;
   const [check, setCheck] = useState<boolean>(false);
-  const { bnbPrice, fetchBnb } = usePriceFeedBSC();
+  const [bnbUsd, setBnbUsd] = useState<number>();
+  const { fetchBnb } = usePriceFeedBSC();
 
   const subTotal = quantity * product?.expected_price_per_kg;
   const fee = subTotal * SERVICE_FEE;
   const total = subTotal + fee;
-
-  let bnbusdPar: number | undefined;
-  if (bnbPrice !== undefined) {
-    bnbusdPar = total / bnbPrice;
-  }
 
   const [counter, setCounter] = useState<number>(initialTimer);
 
   useEffect(() => {
     if (counter === 0) {
       setCounter(initialTimer);
-      fetchBnb();
-      setBnbValue(bnbusdPar);
+      getBnbValue();
     }
     const timer = setInterval(() => setCounter(counter - 1), 1000);
     return () => clearInterval(timer);
@@ -35,9 +30,15 @@ const ModalConfirmPurchaseNew: React.FC<any> = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [counter]);
 
+  const getBnbValue = async () => {
+    const value = await fetchBnb();
+    const totalBnb = total / value;
+    setBnbValue(totalBnb);
+    setBnbUsd(totalBnb);
+  };
+
   useEffect(() => {
-    fetchBnb();
-    setBnbValue(bnbusdPar);
+    getBnbValue();
   }, []);
 
   return (
@@ -93,7 +94,7 @@ const ModalConfirmPurchaseNew: React.FC<any> = (props) => {
           </div>
           <div className="pd-modal-confirmPurchase--body--paymentDetail--total">
             <div><span>Total to pay</span></div>
-            <div className="totalValue"><span>{ bnbusdPar?.toFixed(4) } BNB</span><span className="secondary">{ total.toFixed(2) } USD</span></div>
+            <div className="totalValue"><span>{ bnbUsd?.toFixed(4) } BNB</span><span className="secondary">{ total.toFixed(2) } USD</span></div>
           </div>
           <div className="pd-modal-confirmPurchase--body--paymentDetail--note"><span>BNB's exchange rate will be updated at : { counter } s</span></div>
         </div>
