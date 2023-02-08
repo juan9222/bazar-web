@@ -276,15 +276,17 @@ const ProductDetails: React.FC<any> = () => {
         <div className="verticalSpaceL"></div>
         <p className='textModalDesc'>You need to connect the wallet to be able to buy the product.</p>
       </Modal>
-      <ModalConfirmPurchaseNew
-        product={ product }
-        quantity={ quantityToBuy }
-        initialTimer={ 20 }
-        show={ showConfirmModal }
-        onHide={ () => setShowConfirmModal(!showConfirmModal) }
-        confirm={ () => onConfirmBuy() }
-        setBnbValue={ setBnbValue }
-      />
+      { showConfirmModal && (
+        <ModalConfirmPurchaseNew
+          product={ product }
+          quantity={ quantityToBuy }
+          initialTimer={ 20 }
+          show={ showConfirmModal }
+          onHide={ () => setShowConfirmModal(!showConfirmModal) }
+          confirm={ () => onConfirmBuy() }
+          setBnbValue={ setBnbValue }
+        />
+      ) }
       <ModalConfirmBlockNew show={ showConfirmBlockModal } onHide={ () => setShowConfirmBlockModal(!showConfirmBlockModal) } />
       <Modal title="" closed={ !showTransactionInProgressModal } hideFooter cancelHidden={ true } onClose={ () => setShowTransactionInProgressModal(false) } width='100%' height='100%'>
         <div className="trs-transaction">
