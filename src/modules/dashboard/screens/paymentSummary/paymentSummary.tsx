@@ -19,7 +19,8 @@ const PaymentSummary: React.FC<any> = () => {
     orderCode,
     totalBnb,
     valueXKg,
-    amount
+    amount,
+    date,
   } = state;
 
   const approved = status === 1;
@@ -79,7 +80,7 @@ const PaymentSummary: React.FC<any> = () => {
             </div>
             <div className="payment-summary--content-right--details--item">
               <span>Date</span>
-              <span>2 Oct, 2022</span>
+              <span>{ date }</span>
             </div>
             <div className="payment-summary--content-right--details--item">
               <span>Exchange rate</span>

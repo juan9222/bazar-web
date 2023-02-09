@@ -12,6 +12,7 @@ import { productDetailFormValidator } from "../validators";
 import { ethers } from "ethers";
 import { BAZAR_NETWORK_BLOCKCHAIN_NAME, BINANCE_SMART_CHAIN_NAME } from "../../../../wallet/helper/constantHelper";
 import uuid from "react-uuid";
+import { formatDate } from "../utils";
 
 const useProductDetails = () => {
   const [product, setProduct] = useState<any>();
@@ -190,12 +191,15 @@ const useProductDetails = () => {
         const receiptTx = await resultBinanceTx.wait(1);
         console.log("Binance Transaction:", receiptTx);
 
+        const date = new Date();
+
         const summaryState = {
           status: receiptTx.status,
           orderCode: receiptTx.transactionHash,
           totalBnb: bnbValue!,
           valueXKg: product?.expected_price_per_kg,
-          amount: quantityToBuy
+          amount: quantityToBuy,
+          date: formatDate(date, 'dd MMM, yyyy'),
         };
 
         if (receiptTx.status === 1) {
