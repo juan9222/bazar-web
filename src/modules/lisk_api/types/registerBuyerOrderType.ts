@@ -1,6 +1,16 @@
 export interface RegisterBuyerOrderType {
-  productName: string;
+  buyerOrderId: string;
   sellerOrderId: string;
+  status: string;
+  token: string;
+  exchangeRate: string;
+  valueXKg: string;
   quantity: number;
-  price: number;
+  serviceFee: string;
+  totalPayToken: string;
+  totalPayInUSD: string;
+  transacctionPayment: string;
+  accountSeller: string;
+  accountBuyer: string;
+  productId: string;
 };

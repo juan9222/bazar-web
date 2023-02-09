@@ -1,9 +1,18 @@
 export interface BuyerOrderType {
   id: string;
-  productName: string;
   sellerOrderId: string;
+  status: string;
+  token: string;
+  exchangeRate: string;
+  valueXKg: string;
   quantity: number;
-  price: number;
+  serviceFee: number;
+  totalPayToken: number;
+  totalPayInUSD: number;
+  transacctionPayment: string;
+  accountSeller: string;
+  accountBuyer: string;
+  productId: string;
   date: number;
   author: Buffer;
 };
