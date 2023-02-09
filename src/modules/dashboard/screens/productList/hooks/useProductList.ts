@@ -10,6 +10,8 @@ import { RegisterOrderType } from "../../../../lisk_api/types/registerOrderAsset
 import newSellOrderAsset from "../../../../lisk_api/transaction/seller/newSellerOrderAsset";
 import uuid from 'react-uuid';
 import getBinanceBazarContract from "../../../../wallet/helper/getBinanceBazarContract";
+import newFileAsset from "../../../../lisk_api/transaction/seller/newFileAsset";
+import { FileRecordType } from "../../../../lisk_api/types/fileRecordType";
 
 const useProductList = () => {
   const [basicProducts, setBasicProducts] = useState<Array<{ label: string; value: string; }>>([]);
@@ -155,22 +157,37 @@ const useProductList = () => {
 
           if (receiptTx.status === 1) {
             const orderId = uuid();
-            /* 
-             const sellOrderAsset: RegisterOrderType = {
-               orderId: orderId,
-               productId: productNumberCode.toString(),
-               productName: selectedProduct.basic_product,
-               productDescription: selectedProduct.product_type + " | " + selectedProduct.variety,
-               minQuantityToSell: minQuantityToSell.toString(),
-               quantity: selectedProduct.available_for_sale.toString(),
-               price: selectedProduct.expected_price_per_kg.toString(),
-               files: [],
-               transport: []
-             };
-   
-             const transactionId = await newSellOrderAsset(sellOrderAsset, resultGetWalletData.data.data.passphrases.toString());
-   
-             console.log("Bazar Network Transaction:", transactionId);
+
+            const sellOrderAsset: RegisterOrderType = {
+              orderId: orderId,
+              productId: productNumberCode.toString(),
+              productName: selectedProduct.basic_product,
+              productDescription: selectedProduct.product_type + " | " + selectedProduct.variety,
+              minQuantityToSell: minQuantityToSell.toString(),
+              quantity: selectedProduct.available_for_sale.toString(),
+              price: selectedProduct.expected_price_per_kg.toString(),
+              files: [],
+              transport: []
+            };
+
+            await newSellOrderAsset(sellOrderAsset, resultGetWalletData.data.data.passphrases.toString());
+
+            /*
+             let formData = new FormData();
+             formData.append("file", selectedProduct.url_images[0]);
+ 
+             const hashImage = await axios.post(`${ process.env.REACT_APP_BAZAR_TESTNET_IPFS }/files/new`, formData, {});
+             console.log("hashImage ", hashImage);
+             
+                         const ipfsImage: FileRecordType = {
+                           orderId: orderId,
+                           filename: hashImage.data.data.filename,
+                           fileType: 'IMAGE',
+                           fileCategory: 'PRODUCT',
+                           hash: hashImage.data.data.hash
+                         };
+             
+                         newFileAsset(ipfsImage, resultGetWalletData.data.data.passphrases.toString());
              */
 
             const resp = await axios.patch(`${ process.env.REACT_APP_BAZAR_URL }/products/update-publish/${ selectedProduct.uuid }`);
@@ -189,7 +206,6 @@ const useProductList = () => {
             };
 
             createPaymentProvider(requestPaymentProviderBody);
-
 
           } else {
             console.log('Binance Transactions is rejected.');
