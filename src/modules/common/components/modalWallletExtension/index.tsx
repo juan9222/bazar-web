@@ -1,7 +1,5 @@
 import React from "react";
-import { Modal } from "react-bootstrap";
-import Button from "../button";
-import { EBtnVisibleType } from "../button/interfaces";
+import Modal from "../modal/modal";
 
 const ModalWallletExtension: React.FC<any> = (props) => {
 
@@ -12,26 +10,11 @@ const ModalWallletExtension: React.FC<any> = (props) => {
   };
 
   return (
-    <Modal
-      { ...rest }
-      show={ show }
-      size="lg"
-      aria-labelledby="mn-modal-enableWalletExtension-title-vcenter"
-      className="mn-modal-enableWalletExtension"
-      centered
-    >
-      <Modal.Header>
-        <Modal.Title id="mn-modal-enableWalletExtension-title-vcenter">
-          <h4>Ups, we are sorry !</h4>
-        </Modal.Title>
-      </Modal.Header>
-      <Modal.Body className="mn-modal-enableWalletExtension--body">
-        <p>We have noticed that you do not have the wallet extension in your browser, please intall and try again.</p>
-        <div className="buttons">
-          <Button visibleType={ EBtnVisibleType.clear } type="button" onClick={ toggle }>Cancel</Button>
-          <Button visibleType={ EBtnVisibleType.solid } type="button" onClick={ redirect }>Install wallet</Button>
-        </div>
-      </Modal.Body>
+    <Modal title="" continueText='Install wallet' width='560px' closed={ !show } showCloseIcon={ false } cancelHidden={ false } onClose={ () => toggle() } onContinue={ () => redirect() }>
+      <div className="verticalSpaceS"></div>
+      <h3 className='textPrimary300 textModalTitle'>We are sorry...</h3>
+      <div className="verticalSpaceL"></div>
+      <p className='textModalDesc'>We have noticed that you do not have the wallet extension in your browser, please install and try again.</p>
     </Modal>
   );
 };
