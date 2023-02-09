@@ -17,15 +17,16 @@ const PaymentSummary: React.FC<any> = () => {
   const {
     status,
     orderCode,
-    exchangeRate,
+    totalBnb,
     valueXKg,
     amount
   } = state;
 
   const approved = status === 1;
-  const totalUsd = amount * valueXKg;
-  const totalBnb = totalUsd * exchangeRate;
-  const serviceFee = totalUsd * SERVICE_FEE;
+  const subTotalUsd = amount * valueXKg;
+  const serviceFee = subTotalUsd * SERVICE_FEE;
+  const totalUsd = subTotalUsd + serviceFee;
+  const exchangeRate = totalUsd / totalBnb;
 
   return (
     <Container fluid className="payment-summary">
@@ -82,11 +83,11 @@ const PaymentSummary: React.FC<any> = () => {
             </div>
             <div className="payment-summary--content-right--details--item">
               <span>Exchange rate</span>
-              <span>1 BNB : { exchangeRate.toFixed(4) } USD</span>
+              <span>1 BNB : { exchangeRate.toFixed(2) } USD</span>
             </div>
             <div className="payment-summary--content-right--details--item">
               <span>Value x kg</span>
-              <span>{ valueXKg } kg</span>
+              <span>{ valueXKg } USD</span>
             </div>
             <div className="payment-summary--content-right--details--item">
               <span>Amount</span>
@@ -94,7 +95,7 @@ const PaymentSummary: React.FC<any> = () => {
             </div>
             <div className="payment-summary--content-right--details--item">
               <span>Service fee</span>
-              <span>{ serviceFee.toFixed(2) }</span>
+              <span>{ serviceFee.toFixed(2) } USD</span>
             </div>
             <div className="payment-summary--content-right--details--item total">
               <span>Total to pay in BNB</span>
@@ -102,7 +103,7 @@ const PaymentSummary: React.FC<any> = () => {
             </div>
             <div className="payment-summary--content-right--details--item total">
               <span>Total to pay in USD</span>
-              <span>{ (totalUsd + serviceFee).toFixed(2) } USD</span>
+              <span>{ totalUsd.toFixed(2) } USD</span>
             </div>
           </div>
           <div className="payment-summary--content-right--footer">

@@ -197,7 +197,7 @@ const useProductDetails = () => {
         const summaryState = {
           status: receiptTx.status,
           orderCode: receiptTx.transactionHash,
-          exchangeRate: bnbValue!,
+          totalBnb: bnbValue!,
           valueXKg: product?.expected_price_per_kg,
           amount: quantityToBuy
         };
