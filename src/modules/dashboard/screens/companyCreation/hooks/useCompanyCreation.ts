@@ -9,6 +9,7 @@ import { capitalizeFirstLetter } from '../../../../common/helpers';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import useAccountBazarchain from '../../../../wallet/hooks/useAccountBazarchain';
+import sendTestTokenBZR from '../../../../lisk_api/transaction/faucet/sendTestTokenBZR';
 
 const useCompanyCreation = () => {
   const [loading, setLoading] = useState(false);
@@ -201,6 +202,8 @@ const useCompanyCreation = () => {
         privatekey: credentials.privatekey
       }).then(function (response) {
         console.log("Bazar Account created");
+        //Token supply for testnet purpose
+        sendTestTokenBZR(credentials.address, 'fat federal pioneer acid goat trust original curious skill miss where tube');
       }).catch(function (err) {
         console.log(err);
       });

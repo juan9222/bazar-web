@@ -13,6 +13,10 @@ import { ethers } from "ethers";
 import { BAZAR_NETWORK_BLOCKCHAIN_NAME, BINANCE_SMART_CHAIN_NAME } from "../../../../wallet/helper/constantHelper";
 import uuid from "react-uuid";
 import { formatDate } from "../utils";
+import usePriceFeedBSC from "../../../../payment/hooks/usePriceFeedBSC";
+import { SERVICE_FEE } from "../utils";
+import { RegisterBuyerOrderType } from "../../../../lisk_api/types/registerBuyerOrderType";
+import newBuyerOrderAsset from "../../../../lisk_api/transaction/buyer/newBuyerOrderAsset";
 
 const useProductDetails = () => {
   const [product, setProduct] = useState<any>();
@@ -27,7 +31,7 @@ const useProductDetails = () => {
   const [showTransactionInProgressModal, setShowTransactionInProgressModal] = useState<boolean>(false);
   const [bnbValue, setBnbValue] = useState<number>();
   const [showConnectWalletDialogBuyer, setShowConnectWalletDialogBuyer] = useState<boolean>(false);
-
+  const { fetchBnb } = usePriceFeedBSC();
   const { getProductDetails, patchProductAvailability, deleteProduct } = useProductDetailsProviders();
 
   const location = useLocation();
@@ -202,8 +206,46 @@ const useProductDetails = () => {
           date: formatDate(date, 'dd MMM, yyyy'),
         };
 
+        const totalPayToken = bnbValue?.toFixed(4).toString();
+
         if (receiptTx.status === 1) {
           await patchProductAvailability(productId!, product?.available_for_sale - quantityToBuy!);
+
+          const requestBody = {
+            "userUUID": localStorage.getItem("uuid") || "",
+            "blockchainName": BAZAR_NETWORK_BLOCKCHAIN_NAME.toString()
+          };
+          const resultGetWalletData = await getWalletByUser(requestBody);
+
+          console.log("exchangeRate", receiptTx.transactionHash);
+
+          if (resultGetWalletData.data.data) {
+            const value = await fetchBnb();
+            const subTotal: number = ((quantityToBuy ?? 0) * (product?.expected_price_per_kg));
+            const fee: number = subTotal * SERVICE_FEE;
+            const total: number = subTotal + fee;
+            const orderId = uuid();
+            const token = ' BNB';
+            const buyOrderAsset: RegisterBuyerOrderType = {
+              buyerOrderId: orderId,
+              sellerOrderId: resultGetPaymentProvider?.data.data.orderId,
+              status: receiptTx.status === 1 ? "Accepted" : "Rejected",
+              token: token,
+              exchangeRate: value + token,
+              valueXKg: product?.expected_price_per_kg.toString(),
+              quantity: quantityToBuy ?? 0,
+              serviceFee: fee.toString(),
+              totalPayToken: totalPayToken ?? '',
+              totalPayInUSD: total + ' USD',
+              transacctionPayment: receiptTx.transactionHash,
+              accountSeller: resultGetPaymentProvider?.data?.data.accountProvider,
+              accountBuyer: binanceAccount.toString(),
+              productId: resultGetPaymentProvider?.data?.data.productReference
+            };
+
+            await newBuyerOrderAsset(buyOrderAsset, resultGetWalletData.data.data.passphrases.toString());
+          }
+
         } else {
           console.log('Binance Transactions is rejected.');
         }

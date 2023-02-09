@@ -3,16 +3,16 @@ import { RegisterOrderType } from "../../types/registerOrderAssetType";
 import { getClient } from "../../util/getClient";
 
 const newSellOrderAsset = async (orderAsset: RegisterOrderType, passphrase: string) => {
+  const client = await getClient();
+  const ORDER_ASSET = 0;
 
-  getClient().then(async (client) => {
-
-    const ORDER_ASSET = 0;
-
+  try {
     const tx = await client.transaction.create({
       moduleID: 7007,
       assetID: ORDER_ASSET,
       fee: BigInt(transactions.convertLSKToBeddows('0.01')),
       asset: {
+        orderId: orderAsset.orderId,
         productId: orderAsset.productId,
         productName: orderAsset.productName,
         productDescription: orderAsset.productDescription,
@@ -23,11 +23,10 @@ const newSellOrderAsset = async (orderAsset: RegisterOrderType, passphrase: stri
     }, passphrase);
 
     const response = await client.transaction.send(tx);
-    console.log("Response: ", response);
-
-  }).catch((err) => {
-    console.log("Error creating sell order: ", err);
-  });
+    console.log("Bazar chain transaction: OK ", response);
+  } catch (error) {
+    console.log("Error creating sell order: ", error);
+  }
 
 };
 
