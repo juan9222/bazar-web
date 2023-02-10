@@ -13,31 +13,31 @@ import getBinanceBazarContract from "../../../../wallet/helper/getBinanceBazarCo
 import newFileAsset from "../../../../lisk_api/transaction/seller/newFileAsset";
 import { FileRecordType } from "../../../../lisk_api/types/fileRecordType";
 
+const b64toBlob = (b64Data: any, contentType = "", sliceSize = 512) => {
+  const byteCharacters = atob(b64Data);
+  const byteArrays = [];
+  for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+    const slice = byteCharacters.slice(offset, offset + sliceSize);
+    const byteNumbers = new Array(slice.length);
+    for (let i = 0; i < slice.length; i++) {
+      byteNumbers[i] = slice.charCodeAt(i);
+    }
+    const byteArray = new Uint8Array(byteNumbers);
+    byteArrays.push(byteArray);
+  }
+  const blob = new Blob(byteArrays, { type: contentType });
+  return blob;
+};
 
 const imageURLToFile = async (url: any) => {
   const result = await axios.get(url, {
+    headers: { Authorization: "" },
     responseType: "arraybuffer"
   })
     .then((res) => {
       const blob = b64toBlob(Buffer.from(res.data).toString('base64'), res.headers['content-type']?.toString());
       return blob;
     });
-
-  const b64toBlob = (b64Data: any, contentType = "", sliceSize = 512) => {
-    const byteCharacters = atob(b64Data);
-    const byteArrays = [];
-    for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-      const slice = byteCharacters.slice(offset, offset + sliceSize);
-      const byteNumbers = new Array(slice.length);
-      for (let i = 0; i < slice.length; i++) {
-        byteNumbers[i] = slice.charCodeAt(i);
-      }
-      const byteArray = new Uint8Array(byteNumbers);
-      byteArrays.push(byteArray);
-    }
-    const blob = new Blob(byteArrays, { type: contentType });
-    return blob;
-  };
 
   return result;
 };
@@ -186,7 +186,7 @@ const useProductList = () => {
 
           if (receiptTx.status === 1) {
             const orderId = uuid();
-
+            console.log("orderId", orderId);
             const sellOrderAsset: RegisterOrderType = {
               orderId: orderId,
               productId: productNumberCode.toString(),
@@ -210,15 +210,16 @@ const useProductList = () => {
               const hashImage = await axios.post(`${ process.env.REACT_APP_BAZAR_TESTNET_IPFS }/files/new`, formData, {});
               console.log("hashImage ", hashImage);
 
+              console.log("orderIdfilepart", orderId);
               const ipfsImage: FileRecordType = {
                 orderId: orderId,
-                filename: hashImage.data.data.filename,
+                filename: selectedProduct.product_type + "_" + selectedProduct.variety,
                 fileType: 'IMAGE',
                 fileCategory: 'PRODUCT',
-                hash: hashImage.data.data.hash
+                hash: hashImage.data.data.hash.toString()
               };
 
-              newFileAsset(ipfsImage, resultGetWalletData.data.data.passphrases.toString());
+              await newFileAsset(ipfsImage, resultGetWalletData.data.data.passphrases.toString());
             } catch (error) {
               console.log("Cannot upload file to ipfs:", error);
             }

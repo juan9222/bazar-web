@@ -10,7 +10,7 @@ const newFileAsset = async (fileAsset: FileRecordType, passphrase: string) => {
     const tx = await client.transaction.create({
       moduleID: 7007,
       assetID: FILE_ASSET,
-      fee: BigInt(transactions.convertLSKToBeddows('0.01')),
+      fee: BigInt(transactions.convertLSKToBeddows('0.03')),
       asset: {
         orderId: fileAsset.orderId,
         filename: fileAsset.filename,
