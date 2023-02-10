@@ -216,70 +216,70 @@ const useProductDetails = () => {
         if (receiptTx.status === 1) {
           await patchProductAvailability(productId!, product?.available_for_sale - quantityToBuy!);
 
-          let formDataBuyer = new FormData();
-          const body = {
-            uuid_product: product?.uuid,
-            amount: `${ quantityToBuy } kg`,
-            value_x_kg: `${ product?.expected_price_per_kg } USD/kg`,
-            total_pay_bnb: `${ bnbValue } BNB`,
-            total_pay_usd: `${ product?.expected_price_per_kg * quantityToBuy! } USD`,
-            payment_method: 'Wallet',
-            order_code: receiptTx.transactionHash,
-            date: formatDate(date, 'dd MMM, yyyy'),
-            exchange_rate: `1 BNB : ${ (product?.expected_price_per_kg * quantityToBuy!) * (1 + SERVICE_FEE) / bnbValue! } USD`,
-            service_fee: `${ (product?.expected_price_per_kg * quantityToBuy!) * SERVICE_FEE } USD`,
-            uuid_buyer: localStorage.getItem("uuid") || "",
-          };
-          formDataBuyer.append("body", JSON.stringify(body));
-          await axios.post(`${ process.env.REACT_APP_BAZAR_URL }/products/order/buyer-email`, formDataBuyer, {});
-
-          let formDataSeller = new FormData();
-          const sellerBody = {
-            uuid_product: product?.uuid,
-            amount: `${ quantityToBuy } kg`,
-            value_x_kg: `${ product?.expected_price_per_kg } USD/kg`,
-            total_pay_bnb: `${ bnbValue } BNB`,
-            total_pay_usd: `${ product?.expected_price_per_kg * quantityToBuy! } USD`,
-            uuid_buyer: localStorage.getItem("uuid") || "",
-            uuid_incoterm: selectedIncoterm,
-            date: formatDate(date, 'dd MMM, yyyy'),
-          };
-          formDataSeller.append("body", JSON.stringify(sellerBody));
-          await axios.post(`${ process.env.REACT_APP_BAZAR_URL }/products/order/seller-email`, formDataSeller, {});
-
-          const requestBody = {
-            "userUUID": localStorage.getItem("uuid") || "",
-            "blockchainName": BAZAR_NETWORK_BLOCKCHAIN_NAME.toString()
-          };
-          const resultGetWalletData = await getWalletByUser(requestBody);
-
-          console.log("exchangeRate", receiptTx.transactionHash);
-
-          if (resultGetWalletData.data.data) {
-            const value = await fetchBnb();
-            const subTotal: number = ((quantityToBuy ?? 0) * (product?.expected_price_per_kg));
-            const fee: number = subTotal * SERVICE_FEE;
-            const total: number = subTotal + fee;
-            const orderId = uuid();
-            const token = ' BNB';
-            const buyOrderAsset: RegisterBuyerOrderType = {
-              buyerOrderId: orderId,
-              sellerOrderId: resultGetPaymentProvider?.data.data.orderId,
-              status: receiptTx.status === 1 ? "Accepted" : "Rejected",
-              token: token,
-              exchangeRate: value + token,
-              valueXKg: product?.expected_price_per_kg.toString(),
-              quantity: quantityToBuy ?? 0,
-              serviceFee: fee.toString(),
-              totalPayToken: totalPayToken ?? '',
-              totalPayInUSD: total + ' USD',
-              transacctionPayment: receiptTx.transactionHash,
-              accountSeller: resultGetPaymentProvider?.data?.data.accountProvider,
-              accountBuyer: binanceAccount.toString(),
-              productId: resultGetPaymentProvider?.data?.data.productReference
+          try {
+            const body = {
+              uuid_product: product?.uuid,
+              amount: `${ quantityToBuy } kg`,
+              value_x_kg: `${ product?.expected_price_per_kg } USD/kg`,
+              total_pay_bnb: `${ bnbValue } BNB`,
+              total_pay_usd: `${ product?.expected_price_per_kg * quantityToBuy! } USD`,
+              payment_method: 'Wallet',
+              order_code: receiptTx.transactionHash,
+              date: formatDate(date, 'dd MMM, yyyy'),
+              exchange_rate: `1 BNB : ${ (product?.expected_price_per_kg * quantityToBuy!) * (1 + SERVICE_FEE) / bnbValue! } USD`,
+              service_fee: `${ (product?.expected_price_per_kg * quantityToBuy!) * SERVICE_FEE } USD`,
+              uuid_buyer: localStorage.getItem("uuid") || "",
             };
+            await axios.post(`${ process.env.REACT_APP_BAZAR_URL }/products/order/buyer-email`, body, {});
 
-            await newBuyerOrderAsset(buyOrderAsset, resultGetWalletData.data.data.passphrases.toString());
+            const sellerBody = {
+              uuid_product: product?.uuid,
+              amount: `${ quantityToBuy } kg`,
+              value_x_kg: `${ product?.expected_price_per_kg } USD/kg`,
+              total_pay_bnb: `${ bnbValue } BNB`,
+              total_pay_usd: `${ product?.expected_price_per_kg * quantityToBuy! } USD`,
+              uuid_buyer: localStorage.getItem("uuid") || "",
+              uuid_incoterm: selectedIncoterm,
+              date: formatDate(date, 'dd MMM, yyyy'),
+            };
+            await axios.post(`${ process.env.REACT_APP_BAZAR_URL }/products/order/seller-email`, sellerBody, {});
+          } catch (error) {
+            console.log(error);
+          } finally {
+            const requestBody = {
+              "userUUID": localStorage.getItem("uuid") || "",
+              "blockchainName": BAZAR_NETWORK_BLOCKCHAIN_NAME.toString()
+            };
+            const resultGetWalletData = await getWalletByUser(requestBody);
+
+            console.log("exchangeRate", receiptTx.transactionHash);
+
+            if (resultGetWalletData.data.data) {
+              const value = await fetchBnb();
+              const subTotal: number = ((quantityToBuy ?? 0) * (product?.expected_price_per_kg));
+              const fee: number = subTotal * SERVICE_FEE;
+              const total: number = subTotal + fee;
+              const orderId = uuid();
+              const token = ' BNB';
+              const buyOrderAsset: RegisterBuyerOrderType = {
+                buyerOrderId: orderId,
+                sellerOrderId: resultGetPaymentProvider?.data.data.orderId,
+                status: receiptTx.status === 1 ? "Accepted" : "Rejected",
+                token: token,
+                exchangeRate: value + token,
+                valueXKg: product?.expected_price_per_kg.toString(),
+                quantity: quantityToBuy ?? 0,
+                serviceFee: fee.toString(),
+                totalPayToken: totalPayToken ?? '',
+                totalPayInUSD: total + ' USD',
+                transacctionPayment: receiptTx.transactionHash,
+                accountSeller: resultGetPaymentProvider?.data?.data.accountProvider,
+                accountBuyer: binanceAccount.toString(),
+                productId: resultGetPaymentProvider?.data?.data.productReference
+              };
+
+              await newBuyerOrderAsset(buyOrderAsset, resultGetWalletData.data.data.passphrases.toString());
+            }
           }
 
         } else {
