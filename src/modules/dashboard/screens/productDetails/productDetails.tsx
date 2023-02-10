@@ -59,7 +59,8 @@ const ProductDetails: React.FC<any> = () => {
     setShowConnectWalletDialogBuyer,
     showTransactionInProgressModal,
     setShowTransactionInProgressModal,
-    onDeleteProduct
+    onDeleteProduct,
+    onChangeIncoterm,
   } = useProductDetails();
 
   const images = product?.url_images ? product.url_images.map((image: string) => {
@@ -224,7 +225,7 @@ const ProductDetails: React.FC<any> = () => {
               <Col md={ 6 }>
                 <Select
                   selection={ "" }
-                  onChangeSelection={ () => { } }
+                  onChangeSelection={ (option: unknown) => { onChangeIncoterm(option); } }
                   label={ "Select INCOTERMS" }
                   name={ 'INCOTERMS' }
                   placeholder={ "Select option" }

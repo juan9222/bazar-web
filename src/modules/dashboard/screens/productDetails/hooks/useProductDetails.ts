@@ -33,6 +33,7 @@ const useProductDetails = () => {
   const [showConnectWalletDialogBuyer, setShowConnectWalletDialogBuyer] = useState<boolean>(false);
   const { fetchBnb } = usePriceFeedBSC();
   const { getProductDetails, patchProductAvailability, deleteProduct } = useProductDetailsProviders();
+  const [selectedIncoterm, setSelectedIncoterm] = useState<any>();
 
   const location = useLocation();
   const productId = location.pathname.split('/').pop();
@@ -40,6 +41,10 @@ const useProductDetails = () => {
   const { binanceAccount } = useUser();
 
   const { getWalletByUser, createPaymentProvider, getPaymentProviderByProductId } = useBazarWalletProviders();
+
+  const onChangeIncoterm = (option: unknown) => {
+    setSelectedIncoterm((option as any).value);
+  };
 
   const methods = useForm<IProductDetailProps>({
     resolver: yupResolver(productDetailFormValidator(product?.available_for_sale)),
@@ -211,6 +216,37 @@ const useProductDetails = () => {
         if (receiptTx.status === 1) {
           await patchProductAvailability(productId!, product?.available_for_sale - quantityToBuy!);
 
+          let formDataBuyer = new FormData();
+          const body = {
+            uuid_product: product?.uuid,
+            amount: `${ quantityToBuy } kg`,
+            value_x_kg: `${ product?.expected_price_per_kg } USD/kg`,
+            total_pay_bnb: `${ bnbValue } BNB`,
+            total_pay_usd: `${ product?.expected_price_per_kg * quantityToBuy! } USD`,
+            payment_method: 'Wallet',
+            order_code: receiptTx.transactionHash,
+            date: formatDate(date, 'dd MMM, yyyy'),
+            exchange_rate: `1 BNB : ${ (product?.expected_price_per_kg * quantityToBuy!) * (1 + SERVICE_FEE) / bnbValue! } USD`,
+            service_fee: `${ (product?.expected_price_per_kg * quantityToBuy!) * SERVICE_FEE } USD`,
+            uuid_buyer: localStorage.getItem("uuid") || "",
+          };
+          formDataBuyer.append("body", JSON.stringify(body));
+          await axios.post(`${ process.env.REACT_APP_BAZAR_URL }/products/order/buyer-email`, formDataBuyer, {});
+
+          let formDataSeller = new FormData();
+          const sellerBody = {
+            uuid_product: product?.uuid,
+            amount: `${ quantityToBuy } kg`,
+            value_x_kg: `${ product?.expected_price_per_kg } USD/kg`,
+            total_pay_bnb: `${ bnbValue } BNB`,
+            total_pay_usd: `${ product?.expected_price_per_kg * quantityToBuy! } USD`,
+            uuid_buyer: localStorage.getItem("uuid") || "",
+            uuid_incoterm: selectedIncoterm,
+            date: formatDate(date, 'dd MMM, yyyy'),
+          };
+          formDataSeller.append("body", JSON.stringify(sellerBody));
+          await axios.post(`${ process.env.REACT_APP_BAZAR_URL }/products/order/seller-email`, formDataSeller, {});
+
           const requestBody = {
             "userUUID": localStorage.getItem("uuid") || "",
             "blockchainName": BAZAR_NETWORK_BLOCKCHAIN_NAME.toString()
@@ -330,7 +366,8 @@ const useProductDetails = () => {
     onBuyProduct,
     showConnectWalletDialogBuyer,
     setShowConnectWalletDialogBuyer,
-    onDeleteProduct
+    onDeleteProduct,
+    onChangeIncoterm,
   };
 };
 
