@@ -291,7 +291,7 @@ const useProductDetails = () => {
         setShowConfirmBlockModal(false);
       } else {
         console.log('Something went wrong. Try again.' + error);
-        alert('Something went wrong. Try again.');
+        alert('Something went wrong. Try again. ' + error.code);
       }
     } finally {
       setShowConfirmBlockModal(false);
