@@ -10,10 +10,12 @@ import Button from "../../../common/components/button";
 import { EBtnVisibleType } from "../../../common/components/button/interfaces";
 import { ELarge } from "../../../common/interfaces";
 import { SERVICE_FEE } from "../productDetails/utils";
+import usePaymentSummary from "./hooks/usePaymentSummary";
 
 const PaymentSummary: React.FC<any> = () => {
   const navigate = useNavigate();
   const { state } = useLocation();
+  const { onGetSellerWhatsappLink } = usePaymentSummary();
   const {
     status,
     orderCode,
@@ -21,6 +23,7 @@ const PaymentSummary: React.FC<any> = () => {
     valueXKg,
     amount,
     date,
+    sellerUUID,
   } = state;
 
   const approved = status === 1;
@@ -109,7 +112,7 @@ const PaymentSummary: React.FC<any> = () => {
           </div>
           <div className="payment-summary--content-right--footer">
             <Button visibleType={ EBtnVisibleType.clear } large={ ELarge.full } type="button" onClick={ () => { navigate('../product-list'); } }>Back page</Button>
-            <Button visibleType={ EBtnVisibleType.solid } large={ ELarge.full } type="button" onClick={ () => { } }>
+            <Button visibleType={ EBtnVisibleType.solid } large={ ELarge.full } type="button" onClick={ () => { onGetSellerWhatsappLink(sellerUUID); } }>
               { approved ?
                 (
                   <>
