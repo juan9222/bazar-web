@@ -5,7 +5,7 @@ export const BINANCE_SMART_CHAIN_NAME: string = 'Binance Chain';
 
 const addresses = {
   binance: {
-    [BSC_TESTNET]: '0xBe381293582a4ef6b56737a09E937df01615c912'
+    [BSC_TESTNET]: '0xf9dfb83Eebcc6A54dF359F48b8a5D0b2bf23a399'
   }
 };
 

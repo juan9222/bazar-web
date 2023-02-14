@@ -186,12 +186,16 @@ const useProductDetails = () => {
 
         const bazarContract = getBinanceBazarContract(binanceAccount);
         console.log("Record" + bnbValue);
+
         const options = { value: ethers.utils.parseEther(bnbValue?.toFixed(4).toString() ?? '') };
         setShowConfirmBlockModal(true);
         setShowConfirmModal(false);
+
+        const productReference: number = resultGetPaymentProvider?.data?.data.productReference;
+
         const resultBinanceTx = await bazarContract.buyProductUsingBNB(
           resultGetPaymentProvider?.data?.data.accountProvider,
-          resultGetPaymentProvider?.data?.data.productReference,
+          productReference,
           quantityToBuy,
           options
         );
