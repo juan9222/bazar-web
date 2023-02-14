@@ -212,6 +212,7 @@ const useProductDetails = () => {
           totalBnb: bnbValue!,
           valueXKg: product?.expected_price_per_kg,
           amount: quantityToBuy,
+          sellerUUID: product?.uuid_seller,
           date: formatDate(date, 'dd MMM, yyyy'),
         };
 
