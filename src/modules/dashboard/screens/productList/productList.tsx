@@ -13,6 +13,7 @@ import { getProductIcon } from "../../../common/components/productIcon";
 import { getMappedStatus, isCurrentFilter } from "./utils";
 import { isBuyer, isSeller } from "../../layouts/dashboardLayout/utils";
 import Modal from "../../../common/components/modal";
+import { getClient } from "../../../lisk_api/util/getClient";
 
 const ProductList: React.FC<any> = () => {
   const {
@@ -46,6 +47,9 @@ const ProductList: React.FC<any> = () => {
 
     }
   };
+
+  //Getting Websocket connection
+  getClient();
 
   return (
     <Container className="pl">
