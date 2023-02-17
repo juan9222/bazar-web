@@ -188,6 +188,27 @@ const useProductList = () => {
           const receiptTx = await resulBinanceTx.wait(1);
           console.log("Binance Transaction:", receiptTx);
 
+          let newfiles: any[] = [];
+          try {
+            let formData = new FormData();
+            console.log(selectedProduct.url_images[0]);
+            const image = await imageURLToFile(selectedProduct.url_images[0]);
+            formData.append("file", image);
+
+            const hashImage = await axios.post(`${ process.env.REACT_APP_BAZAR_TESTNET_IPFS }/files/new`, formData, {});
+            console.log("hashImage ", hashImage);
+
+            newfiles = [{
+              filename: hashImage.data.data.filename,
+              fileType: "IMAGE",
+              fileCategory: "PRODUCT",
+              hash: hashImage.data.data.hash.toString()
+            }];
+
+          } catch (error) {
+            console.log("Cannot upload file to ipfs:", error);
+          }
+
           if (receiptTx.status === 1) {
             const orderId = uuid();
             console.log("orderId", orderId);
@@ -199,35 +220,11 @@ const useProductList = () => {
               minQuantityToSell: minQuantityToSell.toString(),
               quantity: selectedProduct.available_for_sale.toString(),
               price: selectedProduct.expected_price_per_kg.toString(),
-              files: [],
+              files: newfiles,
               transport: []
             };
 
             await newSellOrderAsset(sellOrderAsset, resultGetWalletData.data.data.passphrases.toString());
-
-            try {
-              waitOrderTransaction(18000);
-              let formData = new FormData();
-              console.log(selectedProduct.url_images[0]);
-              const image = await imageURLToFile(selectedProduct.url_images[0]);
-              formData.append("file", image);
-
-              const hashImage = await axios.post(`${ process.env.REACT_APP_BAZAR_TESTNET_IPFS }/files/new`, formData, {});
-              console.log("hashImage ", hashImage);
-
-              console.log("orderIdfilepart", orderId);
-              const ipfsImage: FileRecordType = {
-                orderId: orderId,
-                filename: selectedProduct.product_type + "_" + selectedProduct.variety,
-                fileType: 'IMAGE',
-                fileCategory: 'PRODUCT',
-                hash: hashImage.data.data.hash.toString()
-              };
-
-              await newFileAsset(ipfsImage, resultGetWalletData.data.data.passphrases.toString());
-            } catch (error) {
-              console.log("Cannot upload file to ipfs:", error);
-            }
 
             const resp = await axios.patch(`${ process.env.REACT_APP_BAZAR_URL }/products/update-publish/${ selectedProduct.uuid }`);
             const newProductsMap = { ...productsMap };
