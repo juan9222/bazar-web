@@ -18,7 +18,8 @@ const newSellOrderAsset = async (orderAsset: RegisterOrderType, passphrase: stri
         productDescription: orderAsset.productDescription,
         minQuantityToSell: BigInt(orderAsset.minQuantityToSell),
         quantity: BigInt(orderAsset.quantity),
-        price: BigInt(orderAsset.price)
+        price: BigInt(orderAsset.price),
+        files: orderAsset.files
       }
     }, passphrase);
 
