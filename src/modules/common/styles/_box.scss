@@ -1,0 +1,63 @@
+.dFlex {
+  display: flex;
+}
+
+.f1 {
+  flex: 1;
+}
+
+.aICenter {
+  align-items: center;
+}
+
+.jcCenter {
+  justify-content: center;
+}
+
+.jcRight {
+  justify-content: right;
+}
+
+.textAlignCenter {
+  text-align: center;
+}
+
+.jcSpaceBetween {
+  justify-content: space-between;
+}
+
+.dNone {
+  display: none;
+}
+
+.horizontalSpaceS {
+  width: 8px;
+}
+
+.horizontalSpaceM {
+  width: 16px;
+}
+
+.horizontalSpaceL {
+  width: 32px;
+}
+
+.horizontalSpaceXL {
+  width: 64px;
+}
+
+.verticalSpaceS {
+  height: 8px;
+}
+
+.verticalSpaceM {
+  height: 16px;
+}
+
+.verticalSpaceL {
+  height: 32px;
+}
+
+.verticalSpaceXL {
+  height: 64px;
+}

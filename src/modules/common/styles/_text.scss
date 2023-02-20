@@ -1,0 +1,109 @@
+.textPrimary300 {
+  color: $primary_300;
+}
+
+.textPrimary200 {
+  color: $primary_200;
+}
+
+.textNeutral200 {
+  color: $neutral_200;
+}
+
+.textNeutral300 {
+  color: $neutral_300;
+}
+
+.textNeutral400 {
+  color: $neutral_400;
+}
+
+.textError100 {
+  color: $error_100;
+}
+
+.textSuccess200 {
+  color: $success_200;
+}
+
+.defaultText {
+  font-weight: 400;
+  font-size: 16.8px;
+  line-height: 24px;
+  letter-spacing: 0.03em;
+}
+
+.smallText {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 24px;
+  text-align: center;
+  letter-spacing: 0.03em;
+}
+
+.textLink {
+  font-weight: 400;
+  text-decoration: none;
+  outline: none;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.textAlignEnd {
+  text-align: flex-end;
+}
+
+.textAlignCenter {
+  text-align: center;
+}
+
+.formTitle {
+  font-size: 24.2px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.65;
+  letter-spacing: 0.73px;
+  text-align: left;
+  color: $neutral-400;
+  margin-bottom: 15px;
+}
+
+.formText {
+  font-size: 14px;
+  font-weight: normal;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.71;
+  letter-spacing: 0.42px;
+  text-align: left;
+  color: $neutral-400;
+}
+
+.labelInput {
+  color: $neutral_400;
+  font-weight: 400;
+  font-size: 16.8px;
+  line-height: 24px;
+  letter-spacing: 0.03em;
+}
+
+.textModalTitle {
+  font-size: 20.2px;
+  font-weight: bold;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.59;
+  letter-spacing: 0.61px;
+}
+
+.textModalDesc {
+  font-size: 16.8px;
+  font-weight: 300;
+  font-stretch: normal;
+  font-style: normal;
+  line-height: 1.43;
+  letter-spacing: 0.5px;
+  color: #002950;
+}

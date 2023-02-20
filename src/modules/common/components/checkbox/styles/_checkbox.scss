@@ -1,0 +1,11 @@
+.checkboxContainer {
+  display: flex;
+  margin-bottom: 30px;
+  align-items: flex-start;
+
+  input[type="checkbox"] {
+    accent-color: $primary_200;
+    margin-right: 16px;
+    margin-top: 6px;
+  }
+}

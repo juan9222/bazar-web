@@ -1,0 +1,68 @@
+// Settings
+@import 'settings';
+@import 'responsive';
+
+// //////////// COMMON
+// Styles
+@import '../../modules/common/styles/index';
+// Components
+/* Button */
+@import '../../modules/common/components/button/styles/index';
+/* InputText */
+@import '../../modules/common/components/inputText/styles/index';
+/* InputPhoneNumber */
+@import '../../modules/common/components/inputPhoneNumber/styles/index';
+/* Checkbox */
+@import '../../modules/common/components/checkbox/styles/index';
+/* InputRadio */
+@import '../../modules/common/components/inputRadio/styles/index';
+/* ProfilePhoto */
+@import '../../modules/common/components/profilePhoto/styles/index';
+/* InputFile */
+@import '../../modules/common/components/inputFile/styles/index';
+/* InputTextarea */
+@import '../../modules/common/components/inputTextarea/styles/index';
+/* Modal */
+@import '../../modules/common/components/modal/styles/index';
+/* Modal */
+@import '../../modules/common/components/modalFile/styles/index';
+/* Toggle */
+@import '../../modules/common/components/toggle/styles/index';
+/* TabGroup */
+@import '../../modules/common/components/tab/styles/index';
+/* Logo */
+@import '../../assets/svg/icons/iconLogo/styles/index';
+/* Card */
+@import '../../modules/common/components/card/styles/index';
+
+
+// //////////// modules/AUTH
+// Components
+@import '../../modules/auth/components/heroAuth/styles/index';
+// Pages
+@import '../../modules/auth/pages/login/styles/index';
+@import '../../modules/auth/pages/verify/styles/index';
+@import '../../modules/auth/pages/notFound/styles/index';
+
+// Layouts
+@import '../../modules/auth/layouts/authLayoutContent/styles/index';
+@import '../../modules/auth/layouts/authLayout/styles/index';
+
+
+// //////////// shared/DASHBOARD
+// Layouts
+@import '../../modules/dashboard/layouts/dashboardLayout/styles/index';
+@import '../../modules/dashboard/screens/companyCreation/styles/index';
+@import '../../modules/dashboard/screens/productCreation/styles/index';
+@import '../../modules/dashboard/screens/productList/styles/index';
+@import '../../modules/dashboard/screens/productListAdmin/styles/index';
+@import '../../modules/dashboard/screens/productDetails/styles/index';
+@import '../../modules/dashboard/screens/transactionStarted/styles/index';
+@import '../../modules/dashboard/screens/userApprovals/styles/index';
+@import '../../modules/dashboard/screens/paymentSummary/styles/index';
+
+// ////////// Bootstrap
+@import '~bootstrap/scss/bootstrap.scss';
+
+// ////////// Image Gallery
+@import '~react-image-gallery/styles/scss/image-gallery.scss';

@@ -1,0 +1,135 @@
+@mixin btn {
+  padding: 14px 50px;
+  font-family: 'SF Pro Display', sans-serif;
+  border-style: none;
+  border-radius: 8px;
+  color: $primary_200;
+  font-size: 16.8px;
+  display: flex;
+  transition: all 0.3s;
+  align-items: center;
+}
+
+@mixin btnDefaultSolid {
+  @include btn();
+  background: $primary_200;
+  color: $white;
+
+  &:disabled {
+    background-color: $neutral_100;
+    color: $neutral_400;
+
+    &:hover {
+      background-color: $neutral_100;
+    }
+  }
+
+  &:hover {
+    background-color: $primary_300;
+    cursor: pointer;
+  }
+}
+
+@mixin btnFullCenter {
+  width: 100%;
+  justify-content: center;
+}
+
+.btnSolid {
+  @include btnDefaultSolid();
+}
+
+.btnSolidFull {
+  @include btnFullCenter();
+  @include btnDefaultSolid();
+}
+
+@mixin btnDefaultOutline {
+  @include btn;
+  background: transparent;
+  color: $primary_300;
+  border: 1px solid $primary_300;
+  font-family: 'SF Pro Display', sans-serif;
+
+  &:disabled {
+    border: 1px solid $primary_100;
+    color: $neutral_400;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  &:hover {
+    background-color: rgba($neutral_200, 0.1);
+    cursor: pointer;
+  }
+
+}
+
+.btnOutline {
+  @include btnDefaultOutline();
+}
+
+.btnOutlineFull {
+  @include btnFullCenter();
+  @include btnDefaultOutline();
+}
+
+@mixin btnDefaultOutlineWhite {
+  @include btnDefaultOutline;
+  background: $white;
+  color: $primary_300;
+  margin: auto;
+  margin-top: 1rem;
+  width: 18rem;
+  justify-content: center;
+
+  &:hover {
+    background-color: $primary_200;
+    color: $white;
+    cursor: pointer;
+  }
+}
+
+.btnOutlineWhite {
+  @include btnDefaultOutlineWhite();
+}
+
+@mixin btnDefaultClear {
+  @include btn();
+  background: transparent;
+  color: $primary_300;
+  font-family: 'SF Pro Display', sans-serif;
+
+  &:disabled {
+    color: $neutral_300;
+
+    &:hover {
+      background-color: transparent;
+    }
+  }
+
+  &:hover {
+    background-color: rgba($neutral_200, 0.1);
+    cursor: pointer;
+  }
+
+}
+
+.btnClear {
+  @include btnDefaultClear();
+}
+
+.btnClearFull {
+  @include btnFullCenter();
+  @include btnDefaultClear();
+}
+
+.iconLeftContainer {
+  margin-right: 12px;
+}
+
+.iconRightContainer {
+  margin-left: 12px;
+}

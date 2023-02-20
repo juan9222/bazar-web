@@ -1,0 +1,33 @@
+.demo {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+
+  &__leftContent {
+    min-width: 719px;
+    height: 100vh;
+    padding: 77px 132px 0;
+
+    &--title {
+      font-size: 24.2px;
+      font-weight: bold;
+      font-stretch: normal;
+      font-style: normal;
+      line-height: 1.65;
+      letter-spacing: 0.73px;
+      text-align: left;
+      color: $primary_300;
+      margin-bottom: 12px;
+    }
+  }
+
+  &__rightContent {
+    width: 100%;
+
+    &--img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  }
+}
